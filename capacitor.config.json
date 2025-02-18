@@ -1,6 +1,6 @@
 {
   "appId": "com.example.app",
-  "appName": "TestTiger",
+  "appName": "Physik",
   "npmClient": "npm",
   "webDir": "out",
   "plugins": {
