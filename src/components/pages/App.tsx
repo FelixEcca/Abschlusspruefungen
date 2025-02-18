@@ -22,7 +22,7 @@ import {
   menuOutline,
 } from 'ionicons/icons'
 import { Route } from 'react-router'
-import { Focus } from './Focus'
+
 import { Home } from './tabs/Home'
 import { Superskills } from './tabs/Superskills'
 import { Search } from './tabs/Search'
