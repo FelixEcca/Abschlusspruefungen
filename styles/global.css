@@ -1,0 +1,228 @@
+:root {
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0);
+  --safe-area-left: env(safe-area-inset-left, 0);
+  --safe-area-right: env(safe-area-inset-right, 0);
+}
+body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background-color: #fef08a; /* placeholder color */
+}
+
+@media (min-width: 640px) {
+  ion-tab-bar {
+    width: 375px;
+    align-self: center;
+  }
+}
+
+:root,
+html {
+  --ion-default-font: var(--font-inter) !important;
+}
+
+.rounded-footer-shadow {
+  -webkit-box-shadow: 0px -10px 5px 0px rgba(100, 100, 100, 0.75);
+  -moz-box-shadow: 0px -10px 5px 0px rgba(100, 100, 100, 0.75);
+  box-shadow: 0px -10px 5px 0px rgba(100, 100, 100, 0.75);
+}
+
+/**
+ * Convert a font size to a dynamic font size.
+ * Fonts that participate in Dynamic Type should use
+ * dynamic font sizes.
+ * @param size - The initial font size including the unit (i.e. px or pt)
+ * @param unit (optional) - The unit to convert to. Use this if you want to
+ * convert to a unit other than $baselineUnit.
+ */
+/**
+ * Convert a font size to a dynamic font size but impose
+ * a maximum font size.
+ * @param size - The initial font size including the unit (i.e. px or pt)
+ * @param maxScale - The maximum scale of the font (i.e. 2.5 for a maximum 250% scale).
+ * @param unit (optional) - The unit to convert the initial font size to. Use this if you want to
+ * convert to a unit other than $baselineUnit.
+ */
+/**
+ * Convert a font size to a dynamic font size but impose
+ * a minimum font size.
+ * @param size - The initial font size including the unit (i.e. px or pt)
+ * @param minScale - The minimum scale of the font (i.e. 0.8 for a minimum 80% scale).
+ * @param unit (optional) - The unit to convert the initial font size to. Use this if you want to
+ * convert to a unit other than $baselineUnit.
+ */
+/**
+ * Convert a font size to a dynamic font size but impose
+ * maximum and minimum font sizes.
+ * @param size - The initial font size including the unit (i.e. px or pt)
+ * @param minScale - The minimum scale of the font (i.e. 0.8 for a minimum 80% scale).
+ * @param maxScale - The maximum scale of the font (i.e. 2.5 for a maximum 250% scale).
+ * @param unit (optional) - The unit to convert the initial font size to. Use this if you want to
+ * convert to a unit other than $baselineUnit.
+ */
+/**
+ * A heuristic that applies CSS to tablet
+ * viewports.
+ *
+ * Usage:
+ * @include tablet-viewport() {
+ *   :host {
+ *     background-color: green;
+ *   }
+ * }
+ */
+/**
+ * A heuristic that applies CSS to mobile
+ * viewports (i.e. phones, not tablets).
+ *
+ * Usage:
+ * @include mobile-viewport() {
+ *   :host {
+ *     background-color: blue;
+ *   }
+ * }
+ */
+/**
+ * A heuristic that applies CSS to tablet
+ * viewports.
+ *
+ * Usage:
+ * @include tablet-viewport() {
+ *   :host {
+ *     background-color: green;
+ *   }
+ * }
+ */
+/**
+ * A heuristic that applies CSS to mobile
+ * viewports (i.e. phones, not tablets).
+ *
+ * Usage:
+ * @include mobile-viewport() {
+ *   :host {
+ *     background-color: blue;
+ *   }
+ * }
+ */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html:not(.hydrated) body {
+  display: none;
+}
+
+html.ion-ce body {
+  display: block;
+}
+
+html.plt-pwa {
+  height: 100vh;
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  position: fixed;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  /**
+   * Because body has position: fixed,
+   * it should be promoted to its own
+   * layer.
+   *
+   * WebKit does not always promote
+   * the body to its own layer on page
+   * load in Ionic apps. Once scrolling on
+   * ion-content starts, WebKit will promote
+   * body. Unfortunately, this causes a re-paint
+   * which results in scrolling being halted
+   * until the next user gesture.
+   *
+   * This impacts the Custom Elements build.
+   * The lazy loaded build causes the browser to
+   * re-paint during hydration which causes WebKit
+   * to promote body to its own layer.
+   * In the CE Build, this hydration does not
+   * happen, so the additional re-paint does not occur.
+   */
+  transform: translateZ(0);
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-user-drag: none;
+  -ms-content-zooming: none;
+  word-wrap: break-word;
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+.dropdown {
+  @apply relative inline-block;
+}
+.dropdown > *:not(summary):focus {
+  @apply outline-none;
+}
+.dropdown .dropdown-content {
+  @apply absolute;
+}
+.dropdown:is(:not(details)) .dropdown-content {
+  @apply invisible opacity-0;
+}
+.dropdown-end .dropdown-content {
+  @apply end-0;
+}
+.dropdown-left .dropdown-content {
+  @apply bottom-auto end-full top-0;
+}
+.dropdown-right .dropdown-content {
+  @apply bottom-auto start-full top-0;
+}
+.dropdown-bottom .dropdown-content {
+  @apply bottom-auto top-full;
+}
+.dropdown-top .dropdown-content {
+  @apply bottom-full top-auto;
+}
+.dropdown-end.dropdown-right .dropdown-content {
+  @apply bottom-0 top-auto;
+}
+.dropdown-end.dropdown-left .dropdown-content {
+  @apply bottom-0 top-auto;
+}
+.dropdown.dropdown-open .dropdown-content,
+.dropdown:not(.dropdown-hover):focus .dropdown-content,
+.dropdown:focus-within .dropdown-content {
+  @apply visible opacity-100;
+}
+@media (hover: hover) {
+  .dropdown.dropdown-hover:hover .dropdown-content {
+    @apply visible opacity-100;
+  }
+}
+.dropdown:is(details) summary::-webkit-details-marker {
+  @apply hidden;
+}

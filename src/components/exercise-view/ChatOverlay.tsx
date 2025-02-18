@@ -1,0 +1,25 @@
+import clsx from 'clsx'
+import { ExerciseViewFooter } from './ExerciseViewFooter'
+import { ExerciseViewStore } from './state/exercise-view-store'
+
+export function ChatOverlay() {
+  const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
+  return (
+    <>
+      <div
+        className={clsx(
+          'fixed inset-0 z-[100] pointer-events-none',
+          chatOverlay == null ? 'hidden' : 'bg-gray-600/10 ',
+        )}
+        onClick={() => {
+          ExerciseViewStore.update(s => {
+            s.chatOverlay = null
+          })
+        }}
+      ></div>
+      <div className="fixed left-0 right-0 bottom-0 bg-white z-[101]">
+        <ExerciseViewFooter />
+      </div>
+    </>
+  )
+}
