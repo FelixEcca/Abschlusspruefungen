@@ -4,8 +4,6 @@ import { ExerciseViewContent } from './ExerciseViewContent'
 import { ExerciseViewFooter } from './ExerciseViewFooter'
 import { ChatOverlay } from './ChatOverlay'
 
-import { EndScreen } from './EndScreen'
-
 export function ExerciseViewLayout() {
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -19,8 +17,6 @@ export function ExerciseViewLayout() {
         <ExerciseViewFooter />
       </IonFooter>
       <ChatOverlay />
-
-      <EndScreen />
     </IonPage>
   )
 }

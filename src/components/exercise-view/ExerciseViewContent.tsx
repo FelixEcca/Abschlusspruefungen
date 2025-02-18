@@ -26,9 +26,6 @@ export function ExerciseViewContent() {
 
   const ref = useRef<HTMLDivElement>(null)
 
-  const examplePrescreen = ExerciseViewStore.useState(s => s.examplePrescreen)
-  const introText = ExerciseViewStore.useState(s => s.introText)
-
   useEffect(() => {
     if (
       navIndicatorExternalUpdate >= 0 &&
@@ -126,29 +123,26 @@ export function ExerciseViewContent() {
             const singleExercise = exercise as SingleExercise<any>
             return (
               <>
-                {!examplePrescreen &&
-                  renderContentCard(
-                    i,
-                    singleExercise.duration ?? '?',
-                    singleExercise.points ?? '?',
-                    <>
-                      {
-                        <>
-                          {renderContentElement(
-                            singleExercise.task({
-                              data:
-                                examplePrescreen && singleExercise.exampleData
-                                  ? singleExercise.exampleData
-                                  : data,
-                            }),
-                          )}
-                        </>
-                      }
-                    </>,
-                    page.displayIndex,
-                  )}
-                {examplePrescreen &&
-                  singleExercise.example &&
+                {renderContentCard(
+                  i,
+                  singleExercise.duration ?? '?',
+                  singleExercise.points ?? '?',
+                  <>
+                    {
+                      <>
+                        {renderContentElement(
+                          singleExercise.task({
+                            data: singleExercise.exampleData
+                              ? singleExercise.exampleData
+                              : data,
+                          }),
+                        )}
+                      </>
+                    }
+                  </>,
+                  page.displayIndex,
+                )}
+                {singleExercise.example &&
                   renderContentCard(
                     i,
                     singleExercise.duration ?? '?',
@@ -194,45 +188,40 @@ export function ExerciseViewContent() {
 
             return (
               <>
-                {introComps.length > 0 &&
-                  introComps.some(e => e) &&
-                  !examplePrescreen && (
-                    <>
-                      {page.context && page.displayIndex?.includes('a') && (
-                        <div className="ml-3 font-bold font-xl w-24 h-8 overflow-hidden -mb-3">
-                          <div className="text-center inset-0 h-24 w-24 rounded-full bg-gray-50">
-                            <span className="mt-2 inline-block">
-                              {page.context}
-                            </span>
-                          </div>
+                {introComps.length > 0 && introComps.some(e => e) && (
+                  <>
+                    {page.context && page.displayIndex?.includes('a') && (
+                      <div className="ml-3 font-bold font-xl w-24 h-8 overflow-hidden -mb-3">
+                        <div className="text-center inset-0 h-24 w-24 rounded-full bg-gray-50">
+                          <span className="mt-2 inline-block">
+                            {page.context}
+                          </span>
                         </div>
-                      )}
-                      <div className="px-5 bg-white mb-6">
-                        {renderContentElement(<>{introComps}</>, i.toString())}
                       </div>
-                    </>
-                  )}
-                {!examplePrescreen &&
-                  renderContentCard(
-                    i,
-                    task.duration ?? '?',
-                    task.points ?? '?',
-                    <>
-                      {renderContentElement(
-                        <div>
-                          {task.task({
-                            data:
-                              examplePrescreen && exercise.exampleData
-                                ? exercise.exampleData
-                                : data,
-                          })}
-                        </div>,
-                      )}
-                    </>,
-                    page.displayIndex,
-                  )}
-                {examplePrescreen &&
-                  task.example &&
+                    )}
+                    <div className="px-5 bg-white mb-6">
+                      {renderContentElement(<>{introComps}</>, i.toString())}
+                    </div>
+                  </>
+                )}
+                {renderContentCard(
+                  i,
+                  task.duration ?? '?',
+                  task.points ?? '?',
+                  <>
+                    {renderContentElement(
+                      <div>
+                        {task.task({
+                          data: exercise.exampleData
+                            ? exercise.exampleData
+                            : data,
+                        })}
+                      </div>,
+                    )}
+                  </>,
+                  page.displayIndex,
+                )}
+                {task.example &&
                   renderContentCard(
                     i,
                     task.duration ?? '?',
@@ -245,22 +234,20 @@ export function ExerciseViewContent() {
             )
           }
         })}
-        {examplePrescreen && (
+        {
           <>
             <div className="text-center -mt-4">
               <button
                 className="bg-green-200 hover:bg-green-300 px-4 py-2 rounded-lg"
                 onClick={() => {
-                  ExerciseViewStore.update(s => {
-                    s.examplePrescreen = false
-                  })
+                  ExerciseViewStore.update(s => {})
                 }}
               >
                 Weiter
               </button>
             </div>
           </>
-        )}
+        }
         <div className="h-12"></div>
       </div>
     </div>
@@ -301,12 +288,9 @@ export function ExerciseViewContent() {
         <div
           className={clsx(
             'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-12 mt-2 px-[1px] items-center border-2',
-            navIndicatorPosition == i && !examplePrescreen
+            navIndicatorPosition == i
               ? 'border-blue-500 cursor-pointer'
               : 'border-transparent',
-            ExerciseViewStore.getRawState().completed[i]
-              ? 'bg-green-100'
-              : 'bg-white',
           )}
         >
           <div

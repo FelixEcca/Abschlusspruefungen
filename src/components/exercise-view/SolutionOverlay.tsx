@@ -21,24 +21,12 @@ export function SolutionOverlay() {
   const navIndicatorPosition = ExerciseViewStore.useState(
     s => s.navIndicatorPosition,
   )
-  const completed = ExerciseViewStore.useState(
-    s => s.completed[s.navIndicatorPosition],
-  )
-  const chatHistory = ExerciseViewStore.useState(
-    s => s.chatHistory[s.navIndicatorPosition],
-  )
 
   const pages = ExerciseViewStore.useState(s => s.pages)
 
   const content = exercisesData[id]
 
   const solutionDiv = useRef<HTMLDivElement>(null)
-
-  const canContinue = chatHistory.entries.some(
-    entry =>
-      entry.type == 'response' &&
-      (entry.category == 'actionable-feedback' || entry.category == 'success'),
-  )
 
   useEffect(() => {
     if (solutionDiv.current) {
@@ -157,44 +145,7 @@ export function SolutionOverlay() {
               'px-6 py-2 rounded-xl mb-3 bg-green-200 hover:bg-green-300',
             )}
             onClick={() => {
-              ExerciseViewStore.update(s => {
-                const wasNotDone = s.completed[s.navIndicatorPosition] == false
-                s.completed[s.navIndicatorPosition] = true
-                if (s.completed.every(x => x)) {
-                  setTimeout(() => {
-                    ExerciseViewStore.update(s => {
-                      s.showEndScreen = true
-                    })
-                  }, 600)
-                } else {
-                  if (
-                    s.navIndicatorPosition + 1 < s.navIndicatorLength &&
-                    s.completed[s.navIndicatorPosition + 1] == false
-                  ) {
-                    if (wasNotDone) {
-                      setTimeout(() => {
-                        ExerciseViewStore.update(s => {
-                          s.navIndicatorExternalUpdate =
-                            s.navIndicatorPosition + 1
-                          s.chatOverlay = null
-                        })
-                      }, 500)
-                    }
-                  } else {
-                    for (let i = 0; i < s.navIndicatorLength; i++) {
-                      if (s.completed[i] == false) {
-                        setTimeout(() => {
-                          ExerciseViewStore.update(s => {
-                            s.navIndicatorExternalUpdate = i
-                            s.chatOverlay = null
-                          })
-                        }, 500)
-                        break
-                      }
-                    }
-                  }
-                }
-              })
+              ExerciseViewStore.update(s => {})
             }}
           >
             Als gelöst markieren

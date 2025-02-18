@@ -15,7 +15,6 @@ import {
   PlayerProfileStore,
   storageKey,
 } from '../../store/player-profile-store'
-import { CaptureOverlay } from './exercise-view/CaptureOverlay'
 
 setupIonicReact({})
 
@@ -54,7 +53,6 @@ export function AppShell() {
   return (
     <IonApp>
       <IonReactRouter>
-        <CaptureOverlay />
         <IonRouterOutlet id="main">
           <Route path="/app" render={() => <App />} />
 
