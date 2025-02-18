@@ -23,7 +23,6 @@ import {
 } from 'ionicons/icons'
 import { Route } from 'react-router'
 
-import { Home } from './tabs/Home'
 import { Superskills } from './tabs/Superskills'
 import { Search } from './tabs/Search'
 import { Participate } from './tabs/Participate'
@@ -33,7 +32,6 @@ export function App() {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/app/home" render={() => <Home />} exact={true} />
         <Route
           path="/app/superskills"
           render={() => <Superskills />}
@@ -48,10 +46,6 @@ export function App() {
         <Route path="/app/profile" render={() => <Profile />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="tab1" href="/app/home">
-          <IonIcon icon={analyticsOutline} />
-          <IonLabel>Lernpfad</IonLabel>
-        </IonTabButton>
         <IonTabButton tab="tab2" href="/app/participate">
           <IonIcon icon={gridOutline} />
           <IonLabel>Themen</IonLabel>
@@ -60,10 +54,7 @@ export function App() {
           <IonIcon icon={menuOutline} />
           <IonLabel>Liste</IonLabel>
         </IonTabButton>
-        {/*<IonTabButton tab="tab4" href="/app/superskills">
-          <IonIcon icon={copyOutline} />
-          <IonLabel>Meta</IonLabel>
-        </IonTabButton>*/}
+
         <IonTabButton tab="tab5" href="/app/profile">
           <img
             src="/profile-placeholder.jpg"
