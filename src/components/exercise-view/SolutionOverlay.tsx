@@ -11,8 +11,9 @@ import { createGesture } from '@ionic/react'
 import { useRef, useEffect } from 'react'
 import { countLetter } from '@/helper/count-letter'
 import clsx from 'clsx'
-import { markCurrentExerciseAsComplete, reseed } from './state/actions'
+
 import { updatePlayerProfileStore } from '../../../store/player-profile-store'
+import { reseed } from './state/actions'
 
 export function SolutionOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
@@ -194,7 +195,6 @@ export function SolutionOverlay() {
                   }
                 }
               })
-              markCurrentExerciseAsComplete()
             }}
           >
             Als gelöst markieren

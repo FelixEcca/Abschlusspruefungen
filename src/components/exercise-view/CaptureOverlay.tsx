@@ -66,7 +66,6 @@ export function CaptureOverlay() {
                 ExerciseViewStore.update(s => {
                   s.checks[s.navIndicatorPosition].uploadedImage = imageSrc!
                   s.takePhoto = false
-                  s.cropImage = true
                 })
                 setLoading(true)
               }

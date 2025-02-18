@@ -55,32 +55,6 @@ export function ExerciseViewFooter() {
     ExerciseViewStore.update(s => {
       s.takePhoto = true
     })
-
-    /*const image = await Camera.getPhoto({
-        // If we want to save some money on tokens, we can probably get away
-        // with choosing a lower quality
-        quality: 95,
-        width: 512,
-        height: 512,
-        allowEditing: false,
-        resultType: CameraResultType.Base64,
-        source: CameraSource.Camera,
-        direction: CameraDirection.Rear,
-        presentationStyle: 'fullscreen',
-        webUseInput: false,
-      })
-
-      ExerciseViewStore.update(s => {
-        s.checks[s.navIndicatorPosition].uploadedImage =
-          `data:image/jpeg;base64,${image.base64String}`
-      })
-    } catch (error) {
-      console.error('Error taking photo:', error)
-
-      ExerciseViewStore.update(s => {
-        s.cropImage = false
-      })
-    }*/
   }
 
   const insertSymbolAtCursor = (symbol: string) => {
@@ -257,25 +231,6 @@ export function ExerciseViewFooter() {
                   </div>
                 )
               }
-              if (el.type == 'image') {
-                return (
-                  <div
-                    className="flex justify-end items-center mx-3 my-4"
-                    key={i}
-                  >
-                    <img
-                      src={el.image}
-                      alt="Cropped Preview"
-                      className="max-w-full max-h-full"
-                      style={{
-                        maxWidth: '300px',
-                        maxHeight: '300px',
-                      }}
-                    />
-                  </div>
-                )
-              }
-              return null
             })}
             {chatHistory.resultPending ? (
               <div className="mb-6 text-center flex items-center justify-center space-x-2">
@@ -382,32 +337,6 @@ export function ExerciseViewFooter() {
                 </ul>
               </details>
             </div>
-            <input
-              id="file-upload"
-              type="file"
-              accept="image/*"
-              onChange={e => {
-                if (e.target.files) {
-                  const file = e.target.files[0]
-                  if (file) {
-                    const reader = new FileReader()
-                    reader.onload = e => {
-                      const t = e.target
-                      if (t) {
-                        // Speichern des Bildes als Base64-URL im Pullstate
-                        ExerciseViewStore.update(s => {
-                          s.checks[s.navIndicatorPosition].uploadedImage =
-                            t.result?.toString()!
-                          s.cropImage = true
-                        })
-                      }
-                    }
-                    reader.readAsDataURL(file)
-                  }
-                }
-              }}
-              className="sr-only"
-            />
           </div>
         </>
       )}
