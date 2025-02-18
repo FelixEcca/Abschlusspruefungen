@@ -9,13 +9,6 @@ const App = dynamic(() => import('../../components/AppShell'), {
 
 export async function generateStaticParams() {
   return [
-    { all: ['ki-test'] },
-    { all: ['onboarding'] },
-    { all: ['name'] },
-    { all: ['schoolform'] },
-    { all: ['federal'] },
-    { all: ['focus'] },
-    { all: ['ready'] },
     { all: ['app'] },
     { all: ['app', 'home'] },
     { all: ['app', 'superskills'] },
@@ -23,12 +16,7 @@ export async function generateStaticParams() {
     { all: ['app', 'participate'] },
     { all: ['app', 'profile'] },
     { all: ['feed'] },
-    { all: ['contact'] },
-    { all: ['privacy'] },
-    { all: ['feedback'] },
-    { all: ['video'] },
     { all: ['lists'] },
-    { all: ['survey'] },
     { all: ['exercise', '123456'] },
     ...lists.map(list => ({ all: ['lists', list.id] })),
     { all: ['settings'] },
