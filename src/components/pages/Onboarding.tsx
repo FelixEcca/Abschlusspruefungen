@@ -33,7 +33,7 @@ export function Onboarding() {
           </IonButton>
         </div>
         <div className="text-center text-5xl mt-20">🐯</div>
-        <div className="text-center text-4xl mt-6">TestTiger</div>
+        <div className="text-center text-4xl mt-6">physikprüfungen</div>
         <div className="text-center text-lg mt-6 italic text-blue-600">
           Freies lernen. Für immer
         </div>
