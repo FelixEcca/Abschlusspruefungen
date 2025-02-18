@@ -10,13 +10,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { IndicatorBar } from './IndicatorBar'
 import { SolutionOverlay } from './SolutionOverlay'
-import { FotoOverlay } from './FotoOverlay'
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import TextareaAutosize from 'react-textarea-autosize'
-import {
-  analyseLastInput,
-  markCurrentExerciseAsComplete,
-} from './state/actions'
+
 import { useRef, useEffect, Fragment } from 'react'
 import { buildInlineFrac } from '@/helper/math-builder'
 
@@ -120,7 +117,7 @@ export function ExerciseViewFooter() {
       </div>
       <IndicatorBar />
       <SolutionOverlay />
-      <FotoOverlay />
+
       <div className="h-1"></div>
       {chatOverlay == 'chat' && (
         <>
@@ -249,7 +246,6 @@ export function ExerciseViewFooter() {
                                     }
                                   }
                                 })
-                                markCurrentExerciseAsComplete()
                               }}
                             >
                               Fertig
@@ -297,74 +293,7 @@ export function ExerciseViewFooter() {
       {(!chatOverlay || chatOverlay == 'chat') && (
         <>
           <div className="flex justify-between">
-            <div className="ml-5">
-              <details
-                className="dropdown dropdown-top mr-5"
-                ref={formulaDropdownRef}
-                onFocus={() => {
-                  textareaRef.current?.focus()
-                }}
-              >
-                <summary className="list-none">
-                  <FaIcon
-                    icon={faSquareRootVariable}
-                    className="text-xl cursor-pointer"
-                  />
-                </summary>
-                <div className="dropdown-content flex flex-row space-x-2 bg-white rounded p-2 border">
-                  <button
-                    onClick={() => insertSymbolAtCursor('·')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    ·
-                  </button>
-                  <button
-                    onClick={() => insertSymbolAtCursor(' _ / _ ')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    {buildInlineFrac('□', '□')}
-                  </button>
-                  <button
-                    onClick={() => insertSymbolAtCursor('²')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    □²
-                  </button>
-                  <button
-                    onClick={() => insertSymbolAtCursor('³')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    □³
-                  </button>
-                  <button
-                    onClick={() => insertSymbolAtCursor('√')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    √
-                  </button>
-                  <button
-                    onClick={() => insertSymbolAtCursor('π')}
-                    className="p-2 hover:bg-gray-100"
-                  >
-                    π
-                  </button>
-                </div>
-              </details>
-              <button
-                className="mr-3 px-2 py-0.5 bg-gray-200 rounded"
-                disabled={chatHistory.resultPending}
-                onClick={() => {
-                  takePhoto()
-
-                  /*const fileInput = document.getElementById(
-                'file-upload',
-              ) as HTMLInputElement
-              fileInput.click()*/
-                }}
-              >
-                <FaIcon icon={faExpand} /> Scan
-              </button>
-            </div>
+            <div className="ml-5"></div>
             <div>
               {chatHistory.entries.length > 0 && (
                 <button
@@ -390,7 +319,7 @@ export function ExerciseViewFooter() {
                 ref={helpDropdownRef}
               >
                 <summary className="list-none cursor-pointer px-2 py-0.5 bg-gray-100 rounded">
-                  <FaIcon icon={faQuestionCircle} /> Hilfe
+                  <FaIcon icon={faQuestionCircle} /> Lösung
                 </summary>
                 <ul className="dropdown-content w-[200px] bg-white p-2 rounded border">
                   {hasExamplePrescreen && (
@@ -479,43 +408,6 @@ export function ExerciseViewFooter() {
               }}
               className="sr-only"
             />
-          </div>
-          <div className="flex items-end pb-6 mt-3 mx-2 sm:mx-3 gap-3">
-            {!needReset2 && (
-              <TextareaAutosize
-                ref={textareaRef}
-                value={chatHistory.answerInput}
-                onChange={e =>
-                  ExerciseViewStore.update(s => {
-                    s.chatHistory[s.navIndicatorPosition].answerInput =
-                      e.target.value
-                  })
-                }
-                placeholder="Gib deine Antwort oder Frage ein ..."
-                minRows={1}
-                maxRows={5}
-                className="flex-grow p-2 border rounded-md resize-none outline-gray-400"
-              />
-            )}
-            <button
-              className="flex-shrink-0 w-10 h-10 bg-gray-500 text-white rounded-full flex items-center justify-center hover:bg-gray-600"
-              onClick={() => {
-                ExerciseViewStore.update(s => {
-                  s.chatHistory[s.navIndicatorPosition].resultPending = true
-                  s.chatHistory[s.navIndicatorPosition].entries.push({
-                    type: 'text',
-                    content: s.chatHistory[s.navIndicatorPosition].answerInput,
-                    canEdit: true,
-                  })
-                  s.chatOverlay = 'chat'
-                  s.chatHistory[s.navIndicatorPosition].answerInput = ''
-                })
-                void analyseLastInput()
-              }}
-              disabled={chatHistory.resultPending}
-            >
-              <FaIcon icon={faPaperPlane} className="w-5 h-5" />
-            </button>
           </div>
         </>
       )}
