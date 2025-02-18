@@ -52,34 +52,6 @@ export function setupExercise(
         : 0
     s.navIndicatorPosition = 0
     s.navIndicatorExternalUpdate = 0
-    s.checks = Array.from({ length: Math.max(1, s.navIndicatorLength) }).map(
-      _ => {
-        return {
-          answerInput: '',
-          result: '',
-          resultPending: false,
-          fotoFeedback: '',
-          croppedImage: '',
-          uploadedImage: '',
-        }
-      },
-    )
-    s.chatHistory = Array.from({
-      length: Math.max(1, s.navIndicatorLength),
-    }).map(_ => {
-      return { entries: [], resultPending: false, answerInput: '' }
-    })
-    s.chatOverlay = null
-    s.skill = skill
-    s.cropImage = false
-    s.completed = s.checks.map(() => false)
-    s.showEndScreen = false
-    s.toHome = !!toHome
-    s.tag = ''
-    s.hasExamplePrescreen = false
-    s.examplePrescreen = false
-    s.isChallenge = false
-    s.introText = ''
   })
 }
 
