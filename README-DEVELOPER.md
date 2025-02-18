@@ -8,9 +8,9 @@ Dieses Repository enthält den Quellcode und die Inhalte für die nächste Gener
 
 Es wird [node.js v20](https://nodejs.org/en) oder höher benötigt. Führe nach dem Klonen des Repository im Hauptverzeichnis `npm start` aus. Dadurch werden alle Abhängigkeiten installiert und der Dev-Server auf http://localhost:3000/ gestartet. Du kannst auch `npm install` und `npm run dev` separat ausführen.
 
-Erstelle ein production-build mit `npm run build`. Das Repository ist mit dem Serlo-Account von [vercel.com](https://vercel.com) und dort wird der Prototyp unter https://testtiger-nine.vercel.app/ gehostet. Pushe auf `main` für ein neues Deployment.
+Erstelle ein production-build mit `npm run build`. Das Repository ist mit dem Serlo-Account von [vercel.com](https://vercel.com) und dort wird der Prototyp unter https://physik-nine.vercel.app/ gehostet. Pushe auf `main` für ein neues Deployment.
 
-Das Repo enthält in `/backend` auch eine Backend-Server-Komponente. Führe `npm install` separat in diesem Repo aus und dann `npm start`. Das Backend wird aktuell dem Asteroid `testtige` des Serlo-Uberspace gehostet. Dort ist ein Verzeichnis `backend-testtiger` angelegt. Mit dem `./deploy.sh`-Script lässt sich eine neue Version des Servers deployen.
+Das Repo enthält in `/backend` auch eine Backend-Server-Komponente. Führe `npm install` separat in diesem Repo aus und dann `npm start`. Das Backend wird aktuell dem Asteroid `testtige` des Serlo-Uberspace gehostet. Dort ist ein Verzeichnis `backend-physik` angelegt. Mit dem `./deploy.sh`-Script lässt sich eine neue Version des Servers deployen.
 
     Ordner- & Dateistruktur
         Verzeichnisaufbau: Erklärung der Hauptordner und deren Zweck (z.B. src, components, assets, styles, etc.).

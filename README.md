@@ -1,4 +1,4 @@
-# TestTiger Prototyp und dynamische Aufgaben
+# physikprüfungen Prototyp und dynamische Aufgaben
 
 ## Mitarbeit und Installation
 
@@ -10,7 +10,7 @@ Installiere drei Programme auf deinen Computer:
 2. [NodeJS](https://nodejs.org/en) als Laufzeitumgebung (empfohlene Version 20 LTS, du brauchst keine Tools für native Bibliotheken)
 3. [VS Code](https://code.visualstudio.com/) als Code-Editor
 
-Öffne nun GitHub Desktop, melde dich an und nutze "clone repository", um den TestTiger auf deinen Computer zu speichern. Wähle einen Ordner dafür aus.
+Öffne nun GitHub Desktop, melde dich an und nutze "clone repository", um den physikprüfungen auf deinen Computer zu speichern. Wähle einen Ordner dafür aus.
 
 Starte Code, klicke "open folder" und öffne den obigen Ordner. Klicke auf "trust", wenn danach gefragt wird.
 

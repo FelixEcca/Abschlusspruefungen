@@ -1,7 +1,7 @@
 import { backendHost } from '@/helper/make-post'
 import { Store } from 'pullstate'
 
-export const storageKey = 'testtiger_player_progress_v0_2'
+export const storageKey = 'physikprüfungen_player_progress_v0_2'
 export type PlayerProfileStoreProps = {
   name: string
   currentExam: number
