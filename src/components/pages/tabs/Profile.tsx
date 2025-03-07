@@ -40,44 +40,12 @@ export function Profile() {
               }}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {[2, 1, 3].map(n => (
+              {[2, 1, 3, 4].map(n => (
                 <option value={n} key={n}>
                   {navigationData[n].shortTitle}
                 </option>
               ))}
             </select>
-          </div>
-          <div className="mt-6 mb-4 select-text">
-            Dein Account-Code: <strong>{key}</strong>
-          </div>
-          <div>
-            <button
-              className="px-2 py-0.5 bg-red-200 hover:bg-red-300 ml-1 mt-3 rounded"
-              onClick={() => {
-                localStorage.removeItem(storageKey)
-                window.location.href = '/'
-              }}
-            >
-              Fortschritt zurücksetzen
-            </button>
-          </div>
-          <div className="mt-6">
-            <IonButton
-              routerLink="/contact"
-              fill="clear"
-              size="small"
-              className="text-gray-500"
-            >
-              Kontakt
-            </IonButton>
-            <IonButton
-              routerLink="/privacy"
-              fill="clear"
-              size="small"
-              className="text-gray-500"
-            >
-              Datenschutz
-            </IonButton>
           </div>
         </div>
       </IonContent>

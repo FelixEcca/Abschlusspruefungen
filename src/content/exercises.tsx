@@ -138,6 +138,7 @@ import { exercise267 } from './implementations/BW_Realschule/267-2021-B-4-Parabe
 import { exercise92 } from './implementations/NRW-MSA/9_2-2023-2-3-Zahlenpaare'
 import { exercise198 } from './implementations/NRW-EESA/198-intro-lineare-Gleichungen'
 import { exercise197 } from './implementations/NRW-EESA/197-intro-Füllgraphen'
+import { exercise300 } from './implementations/BW_2BFS/300-2024-1A-Ebene-Figur'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   1: exercise1,
@@ -278,6 +279,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   266: exercise266,
   267: exercise267,
   197: exercise197,
+  300: exercise300,
 }
 
 // symbols:

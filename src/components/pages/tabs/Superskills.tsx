@@ -29,25 +29,14 @@ export function Superskills() {
             <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
             <p
               className={clsx('my-3 top-0 bg-white py-2', original && 'sticky')}
-            >
-              <label className="cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={original}
-                  onChange={e => {
-                    PlayerProfileStore.update(s => {
-                      s.original = e.target.checked
-                    })
-                  }}
-                />{' '}
-                Original (keine dynamische Generierung)
-              </label>
-            </p>
+            ></p>
             {exercises.map(([id, content]) => {
               if (exam == 1 && parseInt(id) > 99) return null
               if (exam == 2 && (parseInt(id) < 100 || parseInt(id) >= 199))
                 return null
               if (exam == 3 && (parseInt(id) < 200 || parseInt(id) >= 299))
+                return null
+              if (exam == 4 && (parseInt(id) < 300 || parseInt(id) >= 399))
                 return null
               return (
                 <div
