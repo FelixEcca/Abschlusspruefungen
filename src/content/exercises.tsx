@@ -42,6 +42,9 @@ import { exercise266 } from './implementations/BW_Realschule/266-2021-B-3-Glück
 import { exercise267 } from './implementations/BW_Realschule/267-2021-B-4-Parabel+Figur'
 
 import { exercise300 } from './implementations/BW_2BFS/300-2024-1A-Ebene-Figur'
+import { exercise301 } from './implementations/BW_2BFS/301-2024-1B-Graphen'
+import { exercise302 } from './implementations/BW_2BFS/302-2024-1C-Kartenspiel'
+import { exercise303 } from './implementations/BW_2BFS/303-2024-1D-Gleichungen-und-Funktionen'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -86,6 +89,9 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   267: exercise267,
 
   300: exercise300,
+  301: exercise301,
+  302: exercise302,
+  303: exercise303,
 }
 
 // symbols:

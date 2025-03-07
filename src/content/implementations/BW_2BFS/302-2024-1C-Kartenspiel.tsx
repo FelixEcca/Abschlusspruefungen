@@ -2,8 +2,8 @@ import { Exercise } from '@/data/types'
 
 interface DATA {}
 
-export const exercise300: Exercise<DATA> = {
-  title: 'Ebene Figur',
+export const exercise302: Exercise<DATA> = {
+  title: 'Kartenspiel',
   source: '2024 Hauptprüfung Hauptteil Aufgabe 1',
   useCalculator: false,
   duration: 42,
@@ -17,16 +17,33 @@ export const exercise300: Exercise<DATA> = {
   intro({ data }) {
     return (
       <>
-        <p>Gegeben ist die symmetrische Figur.</p>
-        <svg viewBox="0 0 328 260">
-          <image href="/content/BW_2BFS/300.png" height="230" width="328" />
-        </svg>
+        <p>
+          Ein Kartenspiel besteht aus roten (R) und schwarzen (S) Karten. Es
+          werden zwei Karten nacheinander gezogen. Dabei ergibt sich folgendes
+          Baumdiagramm.
+        </p>
       </>
     )
   },
   tasks: [
     {
-      points: 2,
+      points: 42,
+      intro({ data }) {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>Ergänzen Sie die fehlenden Angaben im Baumdiagramm.</p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return <></>
+      },
+    },
+    {
+      points: 42,
       intro({ data }) {
         return null
       },
@@ -34,8 +51,8 @@ export const exercise300: Exercise<DATA> = {
         return (
           <>
             <p>
-              Der Umfang soll 22 cm betragen. Geben Sie dazu eine Gleichung an
-              und berechnen Sie x.
+              Geben Sie an, aus wie vielen Karten das Kartenspiel insgesamt
+              besteht.
             </p>
           </>
         )
@@ -45,7 +62,7 @@ export const exercise300: Exercise<DATA> = {
       },
     },
     {
-      points: 2,
+      points: 42,
       intro({ data }) {
         return null
       },
@@ -53,27 +70,8 @@ export const exercise300: Exercise<DATA> = {
         return (
           <>
             <p>
-              Nun soll x = 5 cm sein. Berechnen Sie die Höhe und geben Sie das
-              Ergebnis als Wurzel an.
-            </p>
-          </>
-        )
-      },
-      solution({ data }) {
-        return <></>
-      },
-    },
-    {
-      points: 1,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
-        return (
-          <>
-            <p>
-              Bestimmen Sie einen Term, der x und h enthält und mit dem die
-              Fläche dieser Figur berechnet werden kann.
+              Berechnen Sie die Wahrscheinlichkeit, dass zwei schwarze Karten
+              gezogen werden.
             </p>
           </>
         )
