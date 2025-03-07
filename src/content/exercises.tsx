@@ -1,4 +1,5 @@
 import { Exercise } from '@/data/types'
+
 import { exercise215 } from './implementations/BW_Realschule/215-2024-B-3-Angelspiel+Tennishalle'
 import { exercise200 } from './implementations/BW_Realschule/200-2024-A1-1-Pyramide'
 import { exercise201 } from './implementations/BW_Realschule/201-2024-A1-2-Kugeln-ziehen'
@@ -83,6 +84,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   265: exercise265,
   266: exercise266,
   267: exercise267,
+
   300: exercise300,
 }
 
