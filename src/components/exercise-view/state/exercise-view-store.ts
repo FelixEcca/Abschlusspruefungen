@@ -1,32 +1,8 @@
 import { SkillExercisePage } from '@/data/types'
 import { Store } from 'pullstate'
 
-interface TextChatMessage {
-  type: 'text'
-  content: string
-  canEdit?: boolean
-}
-
-interface ImageChatMeessage {
-  type: 'image'
-  image: string
-  description: string
-}
-
-export interface SystemResponse {
-  type: 'response'
-  content: string
-  category:
-    | 'not-relevant'
-    | 'actionable-feedback'
-    | 'success'
-    | 'none'
-    | 'question'
-}
-
-type ChatHistoryEntry = TextChatMessage | ImageChatMeessage | SystemResponse
-
 export type IExerciseViewStore = {
+  skill: any
   id: number
   _exerciseIDs: number[]
   seed: string
@@ -43,6 +19,7 @@ export type IExerciseViewStore = {
 }
 
 export const ExerciseViewStore = new Store<IExerciseViewStore>({
+  skill: [],
   id: -1,
   _exerciseIDs: [],
   needReset: false,

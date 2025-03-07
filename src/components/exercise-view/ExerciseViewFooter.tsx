@@ -74,64 +74,23 @@ export function ExerciseViewFooter() {
           <div className="flex justify-between">
             <div className="ml-5"></div>
             <div>
-              {
-                <button
-                  className="bg-gray-100 px-2 rounded mr-3"
-                  onClick={() => {
-                    ExerciseViewStore.update(s => {
-                      if (s.chatOverlay) {
-                        s.chatOverlay = null
-                      } else {
-                        s.chatOverlay = 'chat'
-                      }
-                    })
-                  }}
-                >
-                  <FaIcon
-                    icon={chatOverlay == 'chat' ? faCaretDown : faCaretUp}
-                    className="text-lg"
-                  />
-                </button>
-              }
               <details
                 className="dropdown dropdown-top dropdown-end mr-5"
                 ref={helpDropdownRef}
               >
-                <summary className="list-none cursor-pointer px-2 py-0.5 bg-gray-100 rounded">
+                <summary
+                  className="list-none cursor-pointer px-2 py-0.5 bg-gray-100 rounded"
+                  onClick={() => {
+                    ExerciseViewStore.update(s => {
+                      s.chatOverlay = 'solution'
+                    })
+                    if (helpDropdownRef.current) {
+                      helpDropdownRef.current.open = false
+                    }
+                  }}
+                >
                   <FaIcon icon={faQuestionCircle} /> Lösung
                 </summary>
-                <ul className="dropdown-content w-[200px] bg-white p-2 rounded border">
-                  <li
-                    className="py-2 cursor-pointer hover:underline"
-                    onClick={() => {
-                      ExerciseViewStore.update(s => {
-                        s.chatOverlay = 'solution'
-                      })
-                      if (helpDropdownRef.current) {
-                        helpDropdownRef.current.open = false
-                      }
-                    }}
-                  >
-                    Mit Lösung vergleichen
-                  </li>
-                  {!toHome && (
-                    <li
-                      className="py-2 cursor-pointer hover:underline"
-                      onClick={() => {
-                        ExerciseViewStore.update(s => {
-                          {
-                            s.chatOverlay = 'chat'
-                          }
-                        })
-                        if (helpDropdownRef.current) {
-                          helpDropdownRef.current.open = false
-                        }
-                      }}
-                    >
-                      Wie lerne ich?
-                    </li>
-                  )}
-                </ul>
               </details>
             </div>
           </div>

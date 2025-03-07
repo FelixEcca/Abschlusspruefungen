@@ -76,16 +76,6 @@ export function SolutionOverlay() {
     <>
       <div className="flex justify-between mx-3 pt-3">
         <button
-          onClick={() => {
-            ExerciseViewStore.update(s => {
-              s.chatOverlay = 'chat'
-            })
-          }}
-          className="text-gray-400"
-        >
-          zurück zum Chat
-        </button>
-        <button
           className="px-2 py-0.5 bg-gray-100 rounded"
           onClick={() => {
             ExerciseViewStore.update(s => {
@@ -140,16 +130,6 @@ export function SolutionOverlay() {
           )}
         </div>
         <div className="text-center mt-4 mb-4">
-          <button
-            className={clsx(
-              'px-6 py-2 rounded-xl mb-3 bg-green-200 hover:bg-green-300',
-            )}
-            onClick={() => {
-              ExerciseViewStore.update(s => {})
-            }}
-          >
-            Als gelöst markieren
-          </button>
           <button
             className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-xl ml-3"
             onClick={() => {

@@ -30,7 +30,7 @@ export function ExerciseViewHeader() {
       className="mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white"
       onClick={() => {
         if (toHome) {
-          history.push('/app/home')
+          history.push('/app/participate')
           return
         }
         const i1 = navigationData[1].topics.findIndex(t =>
@@ -63,7 +63,7 @@ export function ExerciseViewHeader() {
             <b>{skill}</b>{' '}
             {toHome ? null : (
               <>
-                - {content.source}: {content.title}
+                {content.source}: {content.title}
               </>
             )}
           </>

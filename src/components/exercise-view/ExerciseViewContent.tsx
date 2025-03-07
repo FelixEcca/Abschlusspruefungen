@@ -234,20 +234,7 @@ export function ExerciseViewContent() {
             )
           }
         })}
-        {
-          <>
-            <div className="text-center -mt-4">
-              <button
-                className="bg-green-200 hover:bg-green-300 px-4 py-2 rounded-lg"
-                onClick={() => {
-                  ExerciseViewStore.update(s => {})
-                }}
-              >
-                Weiter
-              </button>
-            </div>
-          </>
-        }
+
         <div className="h-12"></div>
       </div>
     </div>
