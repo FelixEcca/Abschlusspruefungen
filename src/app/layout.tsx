@@ -15,8 +15,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Physik',
-  description: 'technischer Prototyp',
+  title: 'Abschlussprüfungen',
+  description: 'Prototyp',
 }
 
 export default function RootLayout({

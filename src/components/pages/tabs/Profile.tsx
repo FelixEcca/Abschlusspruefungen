@@ -21,7 +21,7 @@ export function Profile() {
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Profil von {name}</IonTitle>
+          <IonTitle>Profil </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
