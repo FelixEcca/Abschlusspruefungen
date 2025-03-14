@@ -78,7 +78,7 @@ export const exercise302: Exercise<DATA> = {
         return (
           <>
             <p>
-              Ausgehend von einem Knoten ergeben die Wahrscheinlichkeiten
+              Tipp: Ausgehend von einem Knoten ergeben die Wahrscheinlichkeiten
               zusammen immer 1.
             </p>
             <p>

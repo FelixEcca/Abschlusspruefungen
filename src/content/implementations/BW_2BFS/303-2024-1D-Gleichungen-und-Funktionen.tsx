@@ -83,7 +83,7 @@ export const exercise303: Exercise<DATA> = {
             {pp(data.ys)}).
           </li>
           <li>
-            x = {pp(-data.num)} ist eine Lösung der Gleichung{' '}
+            x = {pp(-data.num)} ist eine Lösung der Gleichung<br></br>{' '}
             {buildInlineFrac(<>1</>, <>x {pp(-data.num)}</>)} +{' '}
             {buildInlineFrac(<>1</>, <>{data.num}</>)}x = 0
           </li>

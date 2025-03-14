@@ -65,7 +65,7 @@ export const exercise300: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
-            <p>Der Umfang ist die Summer aller einzelnen Seitenlängen:</p>
+            <p>Der Umfang ist die Summe aller einzelnen Seitenlängen:</p>
             {buildEquation([
               [
                 <>U</>,
@@ -119,6 +119,7 @@ export const exercise300: Exercise<DATA> = {
               ],
               [<>x</>, <>=</>, <>{pp((data.umfang - 2 * data.länge) / 4)}</>],
             ])}
+            <p>Die Länge beträgt x = {pp((data.umfang - 2 * data.länge) / 4)} cm.</p>
           </>
         )
       },

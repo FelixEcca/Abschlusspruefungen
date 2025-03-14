@@ -392,16 +392,16 @@ export const exercise301: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Gerade h soll parallel zur Gerade g verlaufen:<br></br>y ={' '}
-              {pp(data.m)}x + b
+              Die Gerade h soll parallel zur Gerade g verlaufen:<br></br>y<sub>h</sub> ={' '}
+              {ppPolynom([[data.m,'x',1]])} + b
             </p>
             <p>
               Wähle den y-Achsenabschnitt so klein, dass die Gerade unter der
               Parabel durchläuft:
             </p>
             <p>
-              Zum Beispiel: y = {pp(data.m)}x{' '}
-              {pp(-data.m * data.x_s - 1 + data.y_s, 'merge_op')}
+              Zum Beispiel: y<sub>h</sub> = {ppPolynom([[data.m,'x',1],[-data.m * data.x_s - 1 + data.y_s,'x',0]])}{' '}
+              
             </p>
 
             <p>Tipp: Das lässt sich mit einer Skizze auch überprüfen.</p>
