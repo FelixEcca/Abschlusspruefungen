@@ -121,7 +121,14 @@ export const exercise301: Exercise<DATA> = {
       },
       task({ data }) {
         return (
-          <>Beschriften und skalieren Sie die Achsen des Koordinatensystems.</>
+          <>
+            <p>
+              Übertragen Sie das Koordinatensystem und die Graphen auf Papier.
+            </p>
+            <p>
+              Beschriften und skalieren Sie die Achsen des Koordinatensystems.
+            </p>
+          </>
         )
       },
       solution({ data }) {
@@ -281,8 +288,10 @@ export const exercise301: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            Beschreiben Sie, wie die Parabel p aus der Normalparabel mit y = x²
-            entsteht.
+            <p>
+              Beschreiben Sie, wie die Parabel p aus der Normalparabel mit y =
+              x² entsteht.
+            </p>
           </>
         )
       },
@@ -320,8 +329,10 @@ export const exercise301: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            Geben Sie die Gleichung einer Geraden h an, die parallel zur Geraden
-            g verläuft und die Parabel nicht schneidet.
+            <p>
+              Geben Sie die Gleichung einer Geraden h an, die parallel zur
+              Geraden g verläuft und die Parabel nicht schneidet.
+            </p>
           </>
         )
       },

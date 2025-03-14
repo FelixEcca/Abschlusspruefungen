@@ -274,7 +274,7 @@ export function ExerciseViewContent() {
         )}
         <div
           className={clsx(
-            'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-12 mt-2 px-[1px] items-center border-2',
+            'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-8 mt-2 px-[1px] items-center border-2',
             navIndicatorPosition == i
               ? 'border-blue-500 cursor-pointer'
               : 'border-transparent',
@@ -289,7 +289,7 @@ export function ExerciseViewContent() {
             <div>
               <div
                 className={clsx(
-                  'px-2 py-0.5 bg-gray-100 inline-block rounded-md mr-2',
+                  'px-1 py-0.5 bg-gray-100 inline-block rounded-md mr-2',
                 )}
               >
                 Aufgabe
@@ -334,7 +334,10 @@ export function ExerciseViewContent() {
   function renderContentElement(c: JSX.Element | null, key?: string) {
     if (!c) return null
     return (
-      <div className="p-[3px] mt-3 mb-2 min-w-[300px] sm:w-[334px]" key={key}>
+      <div
+        className="p-[3px] mt-3 mb-2 ml-2 min-w-[300px] sm:w-[334px]"
+        key={key}
+      >
         {proseWrapper(c)}
       </div>
     )
