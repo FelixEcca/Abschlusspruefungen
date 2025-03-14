@@ -122,8 +122,8 @@ export const exercise302: Exercise<DATA> = {
               </foreignObject>
             </svg>
             <p>
-              Bestimme auf die gleiche Weise die Wahrscheinlichkeit für "Rot" im
-              zweiten Zug, wenn zuvor schwarz gezogen wurde:
+              Bestimme auf die gleiche Weise die Wahrscheinlichkeit für
+              &quot;Rot&quot; im zweiten Zug, wenn zuvor schwarz gezogen wurde:
             </p>
             <svg viewBox="0 0 328 180">
               <image href="/content/BW_2BFS/302.png" height="180" width="328" />
