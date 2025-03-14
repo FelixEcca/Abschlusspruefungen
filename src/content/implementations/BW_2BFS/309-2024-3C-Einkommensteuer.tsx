@@ -2,9 +2,9 @@ import { Exercise } from '@/data/types'
 
 interface DATA {}
 
-export const exercise305: Exercise<DATA> = {
-  title: 'Dreieck im Koordinatensystem',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 2',
+export const exercise309: Exercise<DATA> = {
+  title: 'Einkommensteuer',
+  source: '2024 Hauptprüfung Hauptteil Aufgabe 3',
   useCalculator: true,
   duration: 42,
   generator(rng) {
