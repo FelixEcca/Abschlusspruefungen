@@ -113,7 +113,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 }
 
 // symbols:
-
+// {buildEquation([[<></>,<></>,<></>],[<></>,<></>,<></>],[<></>,<></>,<></>]])}
 // ℚ
 // π ·
 // − ±
@@ -141,8 +141,8 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // intro({data}){return(<></>)},
 
 // Skalierungsfunktion für Koordinatensysteme:
-// function toX(n: number) {return 33 + n * 15.6}
-// function toY(n: number) {return 157 - n * 15.6}
+// function toX(n: number) {return 167 + n * ((94.5 * 2) / 10)}
+// function toY(n: number) {return 163 - n * ((94.5 * 2) / 10)}
 
 // Funktion, die Punkte von Graphen anlegt
 // function generateParabolaPoints(a: number,b: number,c: number,step: number,): string {
