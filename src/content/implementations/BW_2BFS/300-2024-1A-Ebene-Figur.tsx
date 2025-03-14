@@ -15,7 +15,7 @@ interface DATA {
 
 export const exercise300: Exercise<DATA> = {
   title: 'Ebene Figur',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 1',
+  source: '2024 Pflichtteil Aufgabe 1A',
   useCalculator: false,
   duration: 42,
   generator(rng) {

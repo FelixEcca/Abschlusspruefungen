@@ -4,7 +4,7 @@ interface DATA {}
 
 export const exercise305: Exercise<DATA> = {
   title: 'Dreieck im Koordinatensystem',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 2',
+  source: '2024 Wahlteil Aufgabe 2B',
   useCalculator: true,
   duration: 42,
   generator(rng) {

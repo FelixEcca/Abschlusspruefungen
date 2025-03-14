@@ -4,7 +4,7 @@ interface DATA {}
 
 export const exercise309: Exercise<DATA> = {
   title: 'Einkommensteuer',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 3',
+  source: '2024 Wahlteil Aufgabe 3C',
   useCalculator: true,
   duration: 42,
   generator(rng) {

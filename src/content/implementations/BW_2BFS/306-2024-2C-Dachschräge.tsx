@@ -4,7 +4,7 @@ interface DATA {}
 
 export const exercise306: Exercise<DATA> = {
   title: 'Dachschräge',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 2',
+  source: '2024 Wahlteil Aufgabe 2C',
   useCalculator: true,
   duration: 42,
   generator(rng) {

@@ -54,13 +54,6 @@ export function Superskills() {
                       </span>
                     )}
                     {content.title}{' '}
-                    <small className="text-gray-400">({id})</small>
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    {content.duration} min,{' '}
-                    {'tasks' in content ? (
-                      <>, {content.tasks.length} Teilaufgaben</>
-                    ) : null}
                   </div>
                 </div>
               )

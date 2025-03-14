@@ -18,7 +18,7 @@ interface DATA {
 
 export const exercise303: Exercise<DATA> = {
   title: 'Gleichungen und Funktionen',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 1',
+  source: '2024 Pflichtteil Aufgabe 1D',
   useCalculator: false,
   duration: 42,
   points: 42,

@@ -11,7 +11,7 @@ interface DATA {
 
 export const exercise302: Exercise<DATA> = {
   title: 'Kartenspiel',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 1',
+  source: '2024 Pflichtteil Aufgabe 1C',
   useCalculator: false,
   duration: 42,
   generator(rng) {

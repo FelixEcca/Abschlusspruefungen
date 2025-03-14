@@ -45,15 +45,6 @@ import { exercise300 } from './implementations/BW_2BFS/300-2024-1A-Ebene-Figur'
 import { exercise301 } from './implementations/BW_2BFS/301-2024-1B-Graphen'
 import { exercise302 } from './implementations/BW_2BFS/302-2024-1C-Kartenspiel'
 import { exercise303 } from './implementations/BW_2BFS/303-2024-1D-Gleichungen-und-Funktionen'
-import { exercise304 } from './implementations/BW_2BFS/304-2024-2A-Zahlenkugeln'
-import { exercise305 } from './implementations/BW_2BFS/305-2024-2B-Dreieck-im-Koordinatensystem'
-import { exercise306 } from './implementations/BW_2BFS/306-2024-2C-Dachschräge'
-import { exercise307 } from './implementations/BW_2BFS/307-2024-3A-Zusammengesetzter-Körper'
-import { exercise308 } from './implementations/BW_2BFS/308-2024-3B-Parabel'
-import { exercise309 } from './implementations/BW_2BFS/309-2024-3C-Einkommensteuer'
-import { exercise310 } from './implementations/BW_2BFS/310-2024-4A-Gerade-und-Parabel'
-import { exercise311 } from './implementations/BW_2BFS/311-2024-4B-LGS'
-import { exercise312 } from './implementations/BW_2BFS/312-2024-4C-Betonkörper'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -101,15 +92,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   301: exercise301,
   302: exercise302,
   303: exercise303,
-  304: exercise304,
-  305: exercise305,
-  306: exercise306,
-  307: exercise307,
-  308: exercise308,
-  309: exercise309,
-  310: exercise310,
-  311: exercise311,
-  312: exercise312,
 }
 
 // symbols:

@@ -13,7 +13,7 @@ interface DATA {
 
 export const exercise301: Exercise<DATA> = {
   title: 'Graphen',
-  source: '2024 Hauptprüfung Hauptteil Aufgabe 1',
+  source: '2024 Pflichtteil Aufgabe 1B',
   useCalculator: false,
   duration: 42,
   generator(rng) {
