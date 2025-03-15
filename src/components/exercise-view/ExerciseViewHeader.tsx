@@ -1,10 +1,15 @@
 import { exercisesData } from '@/content/exercises'
 import { ExerciseViewStore } from './state/exercise-view-store'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowLeft,
+  faWandMagicSparkles,
+} from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '../ui/FaIcon'
 import { useHistory } from 'react-router'
 import { navigationData } from '@/content/navigations'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
+import { reseed } from './state/actions'
+import { ExerciseViewLayout } from './ExerciseViewLayout'
 
 export function ExerciseViewHeader() {
   const id = ExerciseViewStore.useState(s => s.id)
@@ -26,53 +31,89 @@ export function ExerciseViewHeader() {
   const history = useHistory()
 
   return (
-    <div
-      className="mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white"
-      onClick={() => {
-        if (toHome) {
-          history.push('/app/participate')
-          return
-        }
-        const i1 = navigationData[1].topics.findIndex(t =>
-          t.skillGroups.some(g => g.name == skill),
-        )
-        const i2 = navigationData[2].topics.findIndex(t =>
-          t.skillGroups.some(g => g.name == skill),
-        )
-        const i3 = navigationData[3].topics.findIndex(t =>
-          t.skillGroups.some(g => g.name == skill),
-        )
-        // scroll restoration is buggy and will fix later
-        history.push(
-          skill && (i1 >= 0 || i2 >= 0 || i3 >= 0)
-            ? '/topic/' +
-                (exam == 1
-                  ? i1 + 1
-                  : exam == 2
-                    ? i2 + 101
-                    : i3 + 201
-                ).toString()
-            : '/app/superskills',
-        )
-      }}
-    >
-      <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-block">
-        <FaIcon icon={faArrowLeft} />{' '}
-        {skill ? (
-          <>
-            <b>{skill}</b>{' '}
-            {toHome ? null : (
-              <>
-                {content.source}: {content.title}
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            {content.source}: {content.title}
-          </>
-        )}
-      </button>
-    </div>
+    <>
+      <div
+        className="mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white"
+        onClick={() => {
+          if (toHome) {
+            history.push('/app/participate')
+            return
+          }
+          const i1 = navigationData[1].topics.findIndex(t =>
+            t.skillGroups.some(g => g.name == skill),
+          )
+          const i2 = navigationData[2].topics.findIndex(t =>
+            t.skillGroups.some(g => g.name == skill),
+          )
+          const i3 = navigationData[3].topics.findIndex(t =>
+            t.skillGroups.some(g => g.name == skill),
+          )
+          // scroll restoration is buggy and will fix later
+          history.push(
+            skill && (i1 >= 0 || i2 >= 0 || i3 >= 0)
+              ? '/topic/' +
+                  (exam == 1
+                    ? i1 + 1
+                    : exam == 2
+                      ? i2 + 101
+                      : i3 + 201
+                  ).toString()
+              : '/app/superskills',
+          )
+        }}
+      >
+        <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-block">
+          <FaIcon icon={faArrowLeft} />{' '}
+          {skill ? (
+            <>
+              <b>{skill}</b>{' '}
+              {toHome ? null : (
+                <>
+                  {content.source}: {content.title}
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {content.source}: {content.title}
+            </>
+          )}
+        </button>
+      </div>
+      <div className="text-left mt-2">
+        <button
+          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          onClick={() => {
+            ExerciseViewStore.update(s => {
+              s.chatOverlay = 'solution'
+            })
+            ExerciseViewStore.update(s => {
+              if (content.originalData) {
+                s.data = content.originalData
+              }
+
+              s.chatOverlay = null
+            })
+          }}
+        >
+          <FaIcon icon={faWandMagicSparkles} /> Original
+        </button>
+
+        <button
+          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          onClick={() => {
+            reseed()
+            ExerciseViewStore.update(s => {
+              s.chatOverlay = 'solution'
+            })
+            ExerciseViewStore.update(s => {
+              s.chatOverlay = null
+            })
+          }}
+        >
+          <FaIcon icon={faWandMagicSparkles} /> Nochmal
+        </button>
+      </div>
+    </>
   )
 }
