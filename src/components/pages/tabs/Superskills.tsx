@@ -27,9 +27,7 @@ export function Superskills() {
         <div className="mx-3">
           <div className="mt-8">
             <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
-            <p
-              className={clsx('my-3 top-0 bg-white py-2', original && 'sticky')}
-            ></p>
+
             {exercises.map(([id, content]) => {
               if (exam == 1 && parseInt(id) > 99) return null
               if (exam == 2 && (parseInt(id) < 100 || parseInt(id) >= 199))

@@ -46,6 +46,7 @@ import { exercise301 } from './implementations/BW_2BFS/301-2024-1B-Graphen'
 import { exercise302 } from './implementations/BW_2BFS/302-2024-1C-Kartenspiel'
 import { exercise303 } from './implementations/BW_2BFS/303-2024-1D-Gleichungen-und-Funktionen'
 import { exercise304 } from './implementations/BW_2BFS/304-2024-2A-Zahlenkugeln'
+import { exercise305 } from './implementations/BW_2BFS/305-2024-2B-Dreieck-im-Koordinatensystem'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -94,6 +95,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   302: exercise302,
   303: exercise303,
   304: exercise304,
+  305: exercise305,
 }
 
 // symbols:
