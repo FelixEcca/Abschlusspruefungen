@@ -2,6 +2,7 @@ import { exercisesData } from '@/content/exercises'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import {
   faArrowLeft,
+  faMedal,
   faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '../ui/FaIcon'
@@ -96,7 +97,7 @@ export function ExerciseViewHeader() {
             })
           }}
         >
-          <FaIcon icon={faWandMagicSparkles} /> Original
+          <FaIcon icon={faMedal} /> Original
         </button>
 
         <button
