@@ -87,6 +87,7 @@ export function reseed() {
       return !isDeepEqual(currentData, newData)
     },
   )
+
   ExerciseViewStore.update(s => {
     s.seed = newSeed
     if (context) {
@@ -97,6 +98,58 @@ export function reseed() {
       ) as object
     } else {
       s.data = generateData(id, newSeed, exercisesData[id]) as object
+    }
+  })
+}
+export function markExerciseAsCompleted(id: number) {
+  ExerciseViewStore.update(s => {
+    s.completedExercises[id] = true
+  })
+}
+export function markCurrentExerciseAsComplete() {
+  const state = ExerciseViewStore.getRawState()
+  updatePlayerProfileStore(s => {
+    s.eventLog.push({
+      type: 'kann-ich',
+      id: state.id,
+      ts: new Date().getTime(),
+      index:
+        state.pages[state.navIndicatorPosition].index.charCodeAt(0) -
+        'a'.charCodeAt(0),
+    })
+    if (ExerciseViewStore.getRawState().tag) {
+      s.progress[s.currentExam].learningPathTags.push(
+        ExerciseViewStore.getRawState().tag +
+          state.pages[state.navIndicatorPosition].index +
+          '#' +
+          (state.pages[state.navIndicatorPosition].context ?? ''),
+      )
+    }
+  })
+}
+export function markExerciseAsHighlighted(id: number) {
+  ExerciseViewStore.update(s => {
+    s.completedExercises[id] = true
+  })
+}
+export function markCurrentExerciseAsHighlighted() {
+  const state = ExerciseViewStore.getRawState()
+  updatePlayerProfileStore(s => {
+    s.eventLog.push({
+      type: 'kann-ich',
+      id: state.id,
+      ts: new Date().getTime(),
+      index:
+        state.pages[state.navIndicatorPosition].index.charCodeAt(0) -
+        'a'.charCodeAt(0),
+    })
+    if (ExerciseViewStore.getRawState().tag) {
+      s.progress[s.currentExam].learningPathTags.push(
+        ExerciseViewStore.getRawState().tag +
+          state.pages[state.navIndicatorPosition].index +
+          '#' +
+          (state.pages[state.navIndicatorPosition].context ?? ''),
+      )
     }
   })
 }
