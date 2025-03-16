@@ -2,8 +2,6 @@ import { exercisesData } from '@/content/exercises'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import {
   faArrowLeft,
-  faBoltLightning,
-  faCheck,
   faMedal,
   faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons'
@@ -11,7 +9,7 @@ import { FaIcon } from '../ui/FaIcon'
 import { useHistory } from 'react-router'
 import { navigationData } from '@/content/navigations'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
-import { markCurrentExerciseAsComplete, reseed } from './state/actions'
+import { reseed } from './state/actions'
 import { ExerciseViewLayout } from './ExerciseViewLayout'
 
 export function ExerciseViewHeader() {
@@ -33,39 +31,10 @@ export function ExerciseViewHeader() {
       : exercisesData[id]
   const history = useHistory()
 
-  // Abfrage der Zustände für completed und highlighted
-  const isCompleted = ExerciseViewStore.useState(s => s.completedExercises[id])
-  const isHighlighted = ExerciseViewStore.useState(
-    s => s.highlightedExercises[id],
-  )
-
-  // Funktion zum Umschalten der Zustände für "Erledigt" und "Blitz"
-  const toggleCompletedAndHighlighted = () => {
-    ExerciseViewStore.update(s => {
-      s.completedExercises[id] = !isCompleted
-      // Wenn "Erledigt" aktiviert wird, Blitz deaktivieren
-      if (!isCompleted) {
-        s.highlightedExercises[id] = false
-      }
-    })
-  }
-
-  const toggleHighlightedAndCompleted = () => {
-    ExerciseViewStore.update(s => {
-      s.highlightedExercises[id] = !isHighlighted
-      // Wenn Blitz aktiviert wird, "Erledigt" deaktivieren
-      if (!isHighlighted) {
-        s.completedExercises[id] = false
-      }
-    })
-  }
-
   return (
     <>
       <div
-        className={`mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg transition-colors duration-200 ${
-          isCompleted ? 'bg-green-500 text-white' : 'bg-white'
-        }`}
+        className="mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white"
         onClick={() => {
           if (toHome) {
             history.push('/app/participate')
@@ -80,6 +49,7 @@ export function ExerciseViewHeader() {
           const i3 = navigationData[3].topics.findIndex(t =>
             t.skillGroups.some(g => g.name == skill),
           )
+          // scroll restoration is buggy and will fix later
           history.push(
             skill && (i1 >= 0 || i2 >= 0 || i3 >= 0)
               ? '/topic/' +
@@ -143,26 +113,6 @@ export function ExerciseViewHeader() {
           }}
         >
           <FaIcon icon={faWandMagicSparkles} /> Nochmal
-        </button>
-        <button
-          className={`px-3 py-1 rounded-xl ml-3 transition-colors duration-200 ${
-            isCompleted
-              ? 'bg-green-500 text-white'
-              : 'bg-gray-200 hover:bg-gray-300'
-          }`}
-          onClick={toggleCompletedAndHighlighted}
-        >
-          <FaIcon icon={faCheck} /> Erledigt
-        </button>
-        <button
-          className={`px-3 py-1 rounded-xl ml-3 transition-colors duration-200 ${
-            isHighlighted
-              ? 'bg-yellow-500 text-white'
-              : 'bg-gray-200 hover:bg-gray-300'
-          }`}
-          onClick={toggleHighlightedAndCompleted}
-        >
-          <FaIcon icon={faBoltLightning} />
         </button>
       </div>
     </>

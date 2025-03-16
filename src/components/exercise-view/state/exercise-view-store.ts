@@ -7,7 +7,6 @@ export type IExerciseViewStore = {
   _exerciseIDs: number[]
   seed: string
   data: object
-  tag: string
   dataPerExercise: { [key: string]: object }
   navIndicatorLength: number
   navIndicatorPosition: number
@@ -17,8 +16,6 @@ export type IExerciseViewStore = {
   toHome: boolean
   needReset: boolean
   needReset2: boolean
-  completedExercises: { [key: number]: boolean }
-  highlightedExercises: { [key: number]: boolean }
 }
 
 export const ExerciseViewStore = new Store<IExerciseViewStore>({
@@ -31,12 +28,9 @@ export const ExerciseViewStore = new Store<IExerciseViewStore>({
   data: {},
   pages: [],
   dataPerExercise: {},
-  tag: '',
   navIndicatorLength: 0,
   navIndicatorPosition: 0,
   navIndicatorExternalUpdate: -1,
   chatOverlay: null,
   toHome: false,
-  completedExercises: {},
-  highlightedExercises: {},
 })
