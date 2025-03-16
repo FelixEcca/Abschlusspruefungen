@@ -56,7 +56,11 @@ export function AppShell() {
         <IonRouterOutlet id="main">
           <Route path="/app" render={() => <App />} />
 
-          <Route path="" render={() => <Redirect to="/app" />} exact={true} />
+          <Route
+            path=""
+            render={() => <Redirect to="/app/superskills/" />}
+            exact={true}
+          />
           {navigationData[1].topics.map((t, i) => (
             <Route
               key={i}
