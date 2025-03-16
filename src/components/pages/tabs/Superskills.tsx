@@ -1,19 +1,19 @@
-import { setupExercise } from '@/components/exercise-view/state/actions'
-import { exercisesData } from '@/content/exercises'
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from '@ionic/react'
+import { useEffect } from 'react'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
-import { ExerciseViewStore } from '@/components/exercise-view/state/exercise-view-store'
+import { exercisesData } from '@/content/exercises'
 import { useHistory } from 'react-router'
+import { ExerciseViewStore } from '@/components/exercise-view/state/exercise-view-store'
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react'
 import clsx from 'clsx'
-
-import { faBoltLightning } from '@fortawesome/free-solid-svg-icons'
+import { setupExercise } from '@/components/exercise-view/state/actions'
 import { FaIcon } from '@/components/ui/FaIcon'
+import { faBoltLightning } from '@fortawesome/free-solid-svg-icons'
 
 export function Superskills() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
@@ -25,6 +25,27 @@ export function Superskills() {
   const highlightedExercises = ExerciseViewStore.useState(
     s => (s.highlightedExercises ?? {}) as Record<string, boolean>,
   )
+
+  useEffect(() => {
+    // Laden des Fortschritts aus localStorage
+    const storedCompletedExercises = localStorage.getItem('completedExercises')
+    const storedHighlightedExercises = localStorage.getItem(
+      'highlightedExercises',
+    )
+
+    if (storedCompletedExercises) {
+      ExerciseViewStore.update(s => {
+        s.completedExercises = JSON.parse(storedCompletedExercises)
+      })
+    }
+
+    if (storedHighlightedExercises) {
+      ExerciseViewStore.update(s => {
+        s.highlightedExercises = JSON.parse(storedHighlightedExercises)
+      })
+    }
+  }, [])
+
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -36,7 +57,6 @@ export function Superskills() {
         <div className="mx-3">
           <div className="mt-8">
             <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
-
             {exercises.map(([id, content]) => {
               if (exam == 1 && parseInt(id) > 99) return null
               if (exam == 2 && (parseInt(id) < 100 || parseInt(id) >= 199))

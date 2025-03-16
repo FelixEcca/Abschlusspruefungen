@@ -3,11 +3,38 @@ import { Lesson } from '@/data/types'
 import { countLetter } from '@/helper/count-letter'
 import { UiStore } from '.'
 import { PlayerProfileStore } from './player-profile-store'
+import { ExerciseViewStore } from '@/components/exercise-view/state/exercise-view-store'
 
 export const setName = (name: string) => {
   UiStore.update(s => {
     s.name = name
   })
+}
+export function markExerciseAsCompleted(id: number) {
+  ExerciseViewStore.update(s => {
+    s.completedExercises[id] = true
+  })
+  saveProgressToLocalStorage()
+}
+
+export function markExerciseAsHighlighted(id: number) {
+  ExerciseViewStore.update(s => {
+    s.highlightedExercises[id] = true
+  })
+  saveProgressToLocalStorage()
+}
+
+// Funktion zum Speichern des Fortschritts in localStorage
+function saveProgressToLocalStorage() {
+  const progress = ExerciseViewStore.getRawState()
+  localStorage.setItem(
+    'completedExercises',
+    JSON.stringify(progress.completedExercises),
+  )
+  localStorage.setItem(
+    'highlightedExercises',
+    JSON.stringify(progress.highlightedExercises),
+  )
 }
 
 export function isWholeLessonDonePercentage(lesson: Lesson) {
