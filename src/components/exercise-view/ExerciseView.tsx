@@ -1,9 +1,6 @@
-import { useEffect } from 'react'
-import {
-  ExerciseViewStore,
-  restoreExerciseProgress,
-} from './state/exercise-view-store'
+import { ExerciseViewStore } from './state/exercise-view-store'
 import { ExerciseViewLayout } from './ExerciseViewLayout'
+import { useEffect } from 'react'
 import { setupExercise } from './state/actions'
 
 interface ExerciseViewProps {
@@ -11,25 +8,27 @@ interface ExerciseViewProps {
 }
 
 export function ExerciseView({ id }: ExerciseViewProps) {
-  console.log('ExerciseView geladen mit ID:', id)
-
   useEffect(() => {
-    console.log('Starte restoreExerciseProgress()...')
-    restoreExerciseProgress()
-
-    console.log('Aktueller Store-Zustand:', ExerciseViewStore.getRawState())
-
-    if (ExerciseViewStore.getRawState().id !== id) {
-      console.log('Setup Exercise wird ausgeführt für ID:', id)
-      setupExercise(id)
+    if (id == 123456 && ExerciseViewStore.getRawState().id !== 123456) {
+      window.location.href = '/app/home'
+      return
     }
-  }, [id])
+    if (ExerciseViewStore.getRawState().id !== id) {
+      const hash = window.location.hash
+      if (hash) {
+        const obj = JSON.parse(decodeURIComponent(hash.substring(1)))
+        console.log('parse it', obj)
+        setupExercise(id, obj.name, obj.pages, !!obj.toHome)
+      } else {
+        setupExercise(id)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const exId = ExerciseViewStore.useState(s => s.id)
-  console.log('Aktuelle ExerciseViewStore ID:', exId)
 
-  if (exId === -1) {
-    console.warn('ExerciseView wurde mit -1 ID geladen! Rückgabe: null')
+  if (exId == -1) {
     return null
   }
 

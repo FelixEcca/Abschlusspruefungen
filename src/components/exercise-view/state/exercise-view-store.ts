@@ -21,7 +21,6 @@ export type IExerciseViewStore = {
   highlightedExercises: { [key: number]: boolean }
 }
 
-// 🟢 Store mit bestehenden Werten + Persistenzmechanik
 export const ExerciseViewStore = new Store<IExerciseViewStore>({
   skill: [],
   id: -1,
@@ -38,57 +37,6 @@ export const ExerciseViewStore = new Store<IExerciseViewStore>({
   navIndicatorExternalUpdate: -1,
   chatOverlay: null,
   toHome: false,
-  completedExercises: JSON.parse(
-    localStorage.getItem('completedExercises') || '{}',
-  ),
-  highlightedExercises: JSON.parse(
-    localStorage.getItem('highlightedExercises') || '{}',
-  ),
+  completedExercises: {},
+  highlightedExercises: {},
 })
-
-export function restoreExerciseProgress() {
-  try {
-    const completed = JSON.parse(
-      localStorage.getItem('completedExercises') || '{}',
-    )
-    const highlighted = JSON.parse(
-      localStorage.getItem('highlightedExercises') || '{}',
-    )
-
-    ExerciseViewStore.update(s => {
-      s.completedExercises = completed
-      s.highlightedExercises = highlighted
-    })
-
-    console.log(
-      'restoreExerciseProgress geladen:',
-      ExerciseViewStore.getRawState(),
-    )
-  } catch (e) {
-    console.warn('Fehler beim Laden des Fortschritts:', e)
-  }
-}
-
-// 🟢 Fortschritt speichern
-export function markAsCompleted(id: number) {
-  ExerciseViewStore.update(s => {
-    s.completedExercises[id] = !s.completedExercises[id]
-    localStorage.setItem(
-      'completedExercises',
-      JSON.stringify(s.completedExercises),
-    )
-  })
-}
-
-export function toggleHighlighted(id: number) {
-  ExerciseViewStore.update(s => {
-    s.highlightedExercises[id] = !s.highlightedExercises[id]
-    localStorage.setItem(
-      'highlightedExercises',
-      JSON.stringify(s.highlightedExercises),
-    )
-  })
-}
-
-// 🟢 Direkt beim Start aufrufen
-restoreExerciseProgress()
