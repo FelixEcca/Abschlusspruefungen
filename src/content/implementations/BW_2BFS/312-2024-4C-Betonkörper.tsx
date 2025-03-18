@@ -22,8 +22,8 @@ export const exercise312: Exercise<DATA> = {
           quadratische Grundfläche mit der Seitenlänge 3,5 m.
         </p>
         <p>
-          Die weiteren Maße des Lörpers sind:h<sub>1</sub> = 1,4 m;&nbsp;&nbsp;
-          h<sub>2</sub> = 0,4 m;&nbsp;&nbsp; r = 0,7 m
+          Die weiteren Maße des Lörpers sind: <br></br>h<sub>1</sub> = 1,4
+          m;&nbsp;&nbsp; h<sub>2</sub> = 0,4 m;&nbsp;&nbsp; r = 0,7 m
         </p>
       </>
     )
