@@ -3237,4 +3237,28 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+  5: {
+    longTitle: 'Baden-Württemberg - 1BK2T',
+    shortTitle: 'BW - 1BK2T Physik',
+    topics: [
+      {
+        title: 'TestTopic',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'TestSkill',
+            skillExercises: [
+              {
+                id: 300,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }

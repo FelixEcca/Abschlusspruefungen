@@ -54,6 +54,7 @@ import { exercise309 } from './implementations/BW_2BFS/309-2024-3C-Einkommensteu
 import { exercise310 } from './implementations/BW_2BFS/310-2024-4A-Gerade-und-Parabel'
 import { exercise311 } from './implementations/BW_2BFS/311-2024-4B-LGS'
 import { exercise312 } from './implementations/BW_2BFS/312-2024-4C-Betonkörper'
+import { exercise400 } from './implementations/BW_1BK2T/400_2024_Mechnik_Windrad'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -110,6 +111,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   310: exercise310,
   311: exercise311,
   312: exercise312,
+  400: exercise400
 }
 
 // symbols:

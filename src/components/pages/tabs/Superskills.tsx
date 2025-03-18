@@ -36,6 +36,8 @@ export function Superskills() {
                 return null
               if (exam == 4 && (parseInt(id) < 300 || parseInt(id) >= 399))
                 return null
+              if (exam == 5 && (parseInt(id) < 400 || parseInt(id) >= 499))
+                return null
               return (
                 <div
                   key={id}

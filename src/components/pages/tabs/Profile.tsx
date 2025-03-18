@@ -40,7 +40,7 @@ export function Profile() {
               }}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {[3, 4].map(n => (
+              {[3, 4,5].map(n => (
                 <option value={n} key={n}>
                   {navigationData[n].shortTitle}
                 </option>
