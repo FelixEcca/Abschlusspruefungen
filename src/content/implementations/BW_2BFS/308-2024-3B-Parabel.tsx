@@ -28,7 +28,7 @@ export const exercise308: Exercise<DATA> = {
       delta_ay: rng.randomIntBetween(-1, 1),
     }
   },
-  originalData: { x_s: -1, y_s: -3, ax: 3, delta_ay: -1 },
+  originalData: { x_s: -1, y_s: -3, ax: -3, delta_ay: -1 },
   constraint({ data }) {
     return data.x_s != 0
   },

@@ -181,63 +181,58 @@ export const exercise312: Exercise<DATA> = {
         return (
           <>
             <p>
-              <b>Oberfläche der Zylinder</b>
-            </p>
-            <p>
-              Die Oberfläche der Zylinder besteht jeweils aus der Mantelfläche
-              und einem Deckel:
-            </p>
-            {buildEquation([
-              [
-                <>
-                  O<sub>Zylinder</sub>
-                </>,
-                <>=</>,
-                <>
-                  M<sub>Zylinder</sub> + D<sub>Zylinder</sub>
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  2 · π · r · h<sub>2</sub> + π · r²
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  2 · π · {pp(data.r)} · {pp(data.h2)} + π · {pp(data.r)}²
-                </>,
-              ],
-              [
-                <></>,
-                <>≈</>,
-                <>
-                  {pp(
-                    roundToDigits(
-                      2 * Math.PI * data.r * data.h2 +
-                        Math.PI * data.r * data.r,
-                      2,
-                    ),
-                  )}
-                </>,
-              ],
-            ])}
-            <p>
-              <b>Restliche Fläche des Quaders</b>
+              Die Oberfläche besteht aus den Seitenflächen des Quaders, der
+              Deckelfläche und den vier Mantelflächen der Zylinder.
             </p>
             <svg viewBox="0 0 328 80">
               <image
-                href="/content/BW_2BFS/312_2.png"
+                href="/content/BW_2BFS/312_3.png"
+                height="80"
+                width="328"
+              />
+            </svg>
+            <p>Von oben:</p>
+            <svg viewBox="0 0 328 80">
+              <image
+                href="/content/BW_2BFS/312_4.png"
                 height="80"
                 width="328"
               />
             </svg>
             <p>
+              <b>Mantelflächen der Zylinder</b>
+            </p>
+
+            {buildEquation([
+              [
+                <>
+                  M<sub>Zylinder</sub>
+                </>,
+                <>=</>,
+                <>
+                  2 · π · r · h<sub>2</sub>
+                </>,
+              ],
+              [
+                <></>,
+                <>=</>,
+                <>
+                  2 · π · {pp(data.r)} · {pp(data.h2)}
+                </>,
+              ],
+              [
+                <></>,
+                <>=</>,
+                <>{pp(roundToDigits(2 * Math.PI * data.r * data.h2, 2))}</>,
+              ],
+            ])}
+            <p>
+              <b>Fläche des Quaders</b>
+            </p>
+
+            <p>
               Die Oberfläche besteht aus den vier Seitenflächen und der
-              Deckelfläche um die Zylinder.
+              Deckelfläche.
             </p>
             <div>
               <span style={{ fontSize: '0.8em' }}>
@@ -263,8 +258,8 @@ export const exercise312: Exercise<DATA> = {
                       <div>
                         <span style={{ fontSize: '0.7em' }}>
                           <Color4>
-                            Die Deckelfläche des Quaders ist l · l, wobei man 4
-                            Kreisflächen abziehen muss
+                            Die 4 Seitenflächen haben jeweils die Fläche l · h
+                            <sub>1</sub>
                           </Color4>
                         </span>
                       </div>
@@ -274,7 +269,7 @@ export const exercise312: Exercise<DATA> = {
                     <></>,
                     <>=</>,
                     <>
-                      4 · l · h<sub>1</sub> + l · l - 4 · π · r²
+                      4 · l · h<sub>1</sub> + l · l
                     </>,
                   ],
                   [
@@ -282,7 +277,7 @@ export const exercise312: Exercise<DATA> = {
                     <>=</>,
                     <>
                       4 · {pp(data.länge)} · {pp(data.h1)} + {pp(data.länge)} ·{' '}
-                      {pp(data.länge)} - 4 · π · {pp(data.r)}²
+                      {pp(data.länge)}
                     </>,
                   ],
                   [
@@ -291,9 +286,7 @@ export const exercise312: Exercise<DATA> = {
                     <>
                       {pp(
                         roundToDigits(
-                          4 * data.länge * data.h1 +
-                            data.länge * data.länge -
-                            4 * Math.PI * data.r * data.r,
+                          4 * data.länge * data.h1 + data.länge * data.länge,
                           2,
                         ),
                       )}
@@ -310,34 +303,19 @@ export const exercise312: Exercise<DATA> = {
             <p>
               <div>
                 <span style={{ fontSize: '0.8em' }}>
-                  O = O<sub>Quader</sub> + O<sub>Quader</sub> ={' '}
+                  O = 4 · M<sub>Zylinder</sub> + O<sub>Quader</sub> ={' '}
+                  {pp(roundToDigits(4 * 2 * Math.PI * data.r * data.h2, 2))} +{' '}
                   {pp(
                     roundToDigits(
-                      2 * Math.PI * data.r * data.h2 +
-                        Math.PI * data.r * data.r,
-                      2,
-                    ),
-                  )}{' '}
-                  +{' '}
-                  {pp(
-                    roundToDigits(
-                      4 * data.länge * data.h1 +
-                        data.länge * data.länge -
-                        4 * Math.PI * data.r * data.r,
+                      4 * data.länge * data.h1 + data.länge * data.länge,
                       2,
                     ),
                   )}{' '}
                   ={' '}
                   {pp(
-                    roundToDigits(
-                      2 * Math.PI * data.r * data.h2 +
-                        Math.PI * data.r * data.r,
-                      2,
-                    ) +
+                    roundToDigits(4 * 2 * Math.PI * data.r * data.h2, 2) +
                       roundToDigits(
-                        4 * data.länge * data.h1 +
-                          data.länge * data.länge -
-                          4 * Math.PI * data.r * data.r,
+                        4 * data.länge * data.h1 + data.länge * data.länge,
                         2,
                       ),
                   )}

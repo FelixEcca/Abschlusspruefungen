@@ -109,6 +109,17 @@ export const exercise311: Exercise<DATA> = {
                 <>{pp(data.cons / (data.coeff1 - data.coeff2 * data.m_2))}</>,
               ],
             ])}
+            <p>
+              Um den Wert von y zu bestimmen, setze x in eine der Gleichungen
+              ein.{' '}
+            </p>
+            <p>
+              x in (II): y = {pp(data.m_2)} ·{' '}
+              {pp(data.cons / (data.coeff1 - data.coeff2 * data.m_2))} ={' '}
+              {pp(
+                (data.m_2 * data.cons) / (data.coeff1 - data.coeff2 * data.m_2),
+              )}
+            </p>
           </>
         )
       },

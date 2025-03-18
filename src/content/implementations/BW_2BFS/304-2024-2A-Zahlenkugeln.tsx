@@ -453,7 +453,10 @@ export const exercise304: Exercise<DATA> = {
                     <>=</>,
                     <>
                       {ppFrac(dreier / 8)} · {ppFrac(dreier / 8)} ={' '}
-                      {ppFrac([dreier * dreier, 64])}
+                      {ppFrac([dreier * dreier, 64])}{' '}
+                      {getGcd(dreier * dreier, 64) != 1 && (
+                        <>= {ppFrac((dreier * dreier) / 64)}</>
+                      )}
                     </>,
                   ],
                 ])}
