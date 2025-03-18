@@ -51,6 +51,9 @@ import { exercise306 } from './implementations/BW_2BFS/306-2024-2C-Dachschräge'
 import { exercise307 } from './implementations/BW_2BFS/307-2024-3A-Zusammengesetzter-Körper'
 import { exercise308 } from './implementations/BW_2BFS/308-2024-3B-Parabel'
 import { exercise309 } from './implementations/BW_2BFS/309-2024-3C-Einkommensteuer'
+import { exercise310 } from './implementations/BW_2BFS/310-2024-4A-Gerade-und-Parabel'
+import { exercise311 } from './implementations/BW_2BFS/311-2024-4B-LGS'
+import { exercise312 } from './implementations/BW_2BFS/312-2024-4C-Betonkörper'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -104,12 +107,15 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   307: exercise307,
   308: exercise308,
   309: exercise309,
+  310: exercise310,
+  311: exercise311,
+  312: exercise312,
 }
 
 // symbols:
 // {buildEquation([[<></>,<></>,<></>],[<></>,<></>,<></>],[<></>,<></>,<></>]])}
 // ℚ
-// π ·
+// π · ≤ ≥
 // − ±
 // ×
 // α β γ δ ε ϕ

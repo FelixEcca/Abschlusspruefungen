@@ -15,15 +15,7 @@ export const exercise311: Exercise<DATA> = {
     return true
   },
   intro({ data }) {
-    return (
-      <>
-        <p>
-          Ein Kartenspiel besteht aus roten (R) und schwarzen (S) Karten. Es
-          werden zwei Karten nacheinander gezogen. Dabei ergibt sich folgendes
-          Baumdiagramm.
-        </p>
-      </>
-    )
+    return <></>
   },
   tasks: [
     {
@@ -34,25 +26,12 @@ export const exercise311: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Ergänzen Sie die fehlenden Angaben im Baumdiagramm.</p>
-          </>
-        )
-      },
-      solution({ data }) {
-        return <></>
-      },
-    },
-    {
-      points: 42,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
-        return (
-          <>
             <p>
-              Geben Sie an, aus wie vielen Karten das Kartenspiel insgesamt
-              besteht.
+              Gegeben ist ein lineares Gleichungssystem (LGS).<br></br>Berechnen
+              Sie die Lösung.
+            </p>
+            <p>
+              (I) x = 2y - 3<br></br>(II) y = 2x
             </p>
           </>
         )
@@ -70,8 +49,67 @@ export const exercise311: Exercise<DATA> = {
         return (
           <>
             <p>
-              Berechnen Sie die Wahrscheinlichkeit, dass zwei schwarze Karten
-              gezogen werden.
+              Gegeben ist ein anderes, unvollständiges LGS mit:<br></br>
+            </p>
+            <p>
+              (I) x = 2y - 3<br></br>(II) &nbsp;&nbsp;=
+            </p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return <></>
+      },
+    },
+    {
+      points: 42,
+      intro({ data }) {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>
+              Stellen Sie Gleichung (I) aus (b) grafisch in einem
+              Koordinatensystem dar.
+            </p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return <></>
+      },
+    },
+    {
+      points: 42,
+      intro({ data }) {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>
+              Geben Sie eine zweite Gleichung (II) an, sodass das LGS aus (b)
+              keine Lösung hat.
+            </p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return <></>
+      },
+    },
+    {
+      points: 42,
+      intro({ data }) {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>
+              Stellen Sie eine mögliche Gleichung (II) grafisch in dem vorhanden
+              Koordinatensystem dar, sodass das LGS keine Lösung hat.
             </p>
           </>
         )

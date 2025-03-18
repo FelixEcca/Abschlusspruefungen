@@ -226,9 +226,11 @@ export const exercise308: Exercise<DATA> = {
             ])}
 
             <p>
-              x<sub>1</sub> ={' '}
+              x<sub>1</sub> = {pp(-p / 2)} +{' '}
+              {pp(roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))} ={' '}
               {pp(-p / 2 + roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))}
-              <br></br>x<sub>2</sub> ={' '}
+              <br></br>x<sub>2</sub> = {pp(-p / 2)} -{' '}
+              {pp(roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))} ={' '}
               {pp(-p / 2 - roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))}
             </p>
 

@@ -18,9 +18,12 @@ export const exercise312: Exercise<DATA> = {
     return (
       <>
         <p>
-          Ein Kartenspiel besteht aus roten (R) und schwarzen (S) Karten. Es
-          werden zwei Karten nacheinander gezogen. Dabei ergibt sich folgendes
-          Baumdiagramm.
+          Vor einem Museum steht der abgebildete Körper aus Beton. Er hat eine
+          quadratische Grundfläche mit der Seitenlänge 3,5 m.
+        </p>
+        <p>
+          Die weiteren Maße des Lörpers sind:h<sub>1</sub> = 1,4 m;&nbsp;&nbsp;
+          h<sub>2</sub> = 0,4 m;&nbsp;&nbsp; r = 0,7 m
         </p>
       </>
     )
@@ -34,25 +37,9 @@ export const exercise312: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Ergänzen Sie die fehlenden Angaben im Baumdiagramm.</p>
-          </>
-        )
-      },
-      solution({ data }) {
-        return <></>
-      },
-    },
-    {
-      points: 42,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
-        return (
-          <>
             <p>
-              Geben Sie an, aus wie vielen Karten das Kartenspiel insgesamt
-              besteht.
+              Berechnen Sie, wie schwer der Körper ist, wenn 1 m³ Beton 2600 kg
+              wiegt.
             </p>
           </>
         )
@@ -70,8 +57,9 @@ export const exercise312: Exercise<DATA> = {
         return (
           <>
             <p>
-              Berechnen Sie die Wahrscheinlichkeit, dass zwei schwarze Karten
-              gezogen werden.
+              Der Körper soll neu gestrichen werden. Berechnen Sie den
+              Flächeninhalt der sichtbaren Oberfläche, die angestrichen werden
+              muss.
             </p>
           </>
         )
