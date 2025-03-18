@@ -50,6 +50,7 @@ import { exercise305 } from './implementations/BW_2BFS/305-2024-2B-Dreieck-im-Ko
 import { exercise306 } from './implementations/BW_2BFS/306-2024-2C-Dachschräge'
 import { exercise307 } from './implementations/BW_2BFS/307-2024-3A-Zusammengesetzter-Körper'
 import { exercise308 } from './implementations/BW_2BFS/308-2024-3B-Parabel'
+import { exercise309 } from './implementations/BW_2BFS/309-2024-3C-Einkommensteuer'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -102,6 +103,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   306: exercise306,
   307: exercise307,
   308: exercise308,
+  309: exercise309,
 }
 
 // symbols:
