@@ -111,7 +111,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   310: exercise310,
   311: exercise311,
   312: exercise312,
-  400: exercise400
+  400: exercise400,
 }
 
 // symbols:
@@ -126,6 +126,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // ≙ ≠ ⇒ ∈ ∉
 // ['',<> <Color4><span className="inline-block  scale-y-[1.5]">↓</span></Color4></>,<><Color4><span style={{ fontSize: 'small' }}>Hier Erklärtext</span></Color4></>,]
 // π ≈ √
+// <> <Color4><span className="inline-block  scale-y-[2]">(</span></Color4></>
 
 // SVG-Umgebung:
 //<svg viewBox="0 0 328 190"></svg>
