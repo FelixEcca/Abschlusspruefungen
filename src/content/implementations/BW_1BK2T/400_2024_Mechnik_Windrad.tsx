@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
-import { buildInlineFrac } from '@/helper/math-builder'
+import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { roundToDigits } from '@/helper/round-to-digits'
 
 interface DATA {
   länge: number
@@ -54,6 +55,7 @@ export const exercise400: Exercise<DATA> = {
         </svg>
         </>)
   },
+  // {buildEquation([[<></>,<></>,<></>,],[<></>,<></>,<></>,],[<></>,<></>,<></>,]])}
   tasks: [
     {
       points: 42,
@@ -64,7 +66,15 @@ export const exercise400: Exercise<DATA> = {
         return <><p>Ermitteln Sie die Umlaufdauer der Drehung in Sekunden und die Winkelgeschwindigkeit.</p></>
       },
       solution({ data }) {
-        return <></>
+        return <><p>Für die Umlaufdauer gilt:</p>
+        {buildEquation([[<>T</>,<>=</>,<>{buildInlineFrac(1,'f')}</>,],[<></>,<>=</>,<>{buildInlineFrac(1,<>{pp(data.frequenz)} min<sup>-1</sup></>)}</>,],[<></>,<>≈</>,<>{pp(roundToDigits(1/data.frequenz,2))} min</>,]])}
+        <p>Rechne die Umlaufdauer in Sekunden um:</p>
+        <p>T = {pp(roundToDigits(1/data.frequenz,2))} min · {buildInlineFrac(<>60 s</>,<>min</>)} = {pp(60*roundToDigits(1/data.frequenz,2))} s</p>
+        <p>Berechne die Winkelgeschwindigkeit mit einer der beiden Formeln:</p>
+        <p>ω = {buildInlineFrac(<>2 · 𝜋</>,'T')} = 2 · 𝜋 · f</p>
+        <p>Beispielsweise über die Umlaufdauer (denn wir haben sie schon in der Einheit s):</p>
+        {buildEquation([[<>ω</>,<>=</>,<>{buildInlineFrac(<>2 · 𝜋</>,'T')}</>,],[<></>,<>=</>,<>{buildInlineFrac(<>2 · 𝜋</>,<>{pp(60*roundToDigits(1/data.frequenz,2))} s</>)}</>,],[<></>,<>≈</>,<>{pp(roundToDigits(2*Math.PI/(60*roundToDigits(1/data.frequenz,2)),2))} s<sup>-1</sup></>,]])}
+        </>
       },
     },
     {
