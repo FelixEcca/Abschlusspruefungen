@@ -68,7 +68,7 @@ export const exercise400: Exercise<DATA> = {
           vernachlässigt. Rechnen Sie mit g = 9,81 {buildInlineFrac('m', 's²')}.
         </p>
         <svg viewBox="0 0 328 260">
-          <image href="/content/BW_1BK2T/400.PNG" height="230" width="328" />
+          <image href="/content/BW_1BK2T/400.png" height="230" width="328" />
         </svg>
       </>
     )
@@ -295,7 +295,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 190">
               <image
-                href="/content/BW_1BK2T/400_2.PNG"
+                href="/content/BW_1BK2T/400_2.png"
                 height="190"
                 width="328"
               />
@@ -433,7 +433,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 260">
               <image
-                href="/content/BW_1BK2T/400_6.PNG"
+                href="/content/BW_1BK2T/400_6.png"
                 height="230"
                 width="328"
               />
@@ -446,7 +446,7 @@ export const exercise400: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 260">
               <image
-                href="/content/BW_1BK2T/400_6.PNG"
+                href="/content/BW_1BK2T/400_6.png"
                 height="230"
                 width="328"
               />
@@ -594,7 +594,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 120">
               <image
-                href="/content/BW_1BK2T/400_8.PNG"
+                href="/content/BW_1BK2T/400_8.png"
                 height="120"
                 width="328"
               />
