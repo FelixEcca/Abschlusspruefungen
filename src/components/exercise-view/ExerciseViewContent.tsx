@@ -319,9 +319,7 @@ export function ExerciseViewContent() {
                 )}
               </button>
 
-              <button className="cursor-default px-1 py-0.5 rounded-md bg-gray-100">
-                {points} BE
-              </button>
+              
             </div>
           </div>
 
