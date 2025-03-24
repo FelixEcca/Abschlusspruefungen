@@ -64,7 +64,7 @@ export const exercise400: Exercise<DATA> = {
           von {pp(data.länge)} m und drehen sich im Uhrzeigersinn mit einer
           Drehfrequenz von {pp(data.frequenz)} min<sup>-1</sup>. Die Nabenhöhe h
           des Turms beträgt {pp(data.höhe)} m, siehe Abbildung 1. Alle Vorgänge
-          werden idealisiert betrachtet. Lutwiderstand und Reibung werden
+          werden idealisiert betrachtet. Luftwiderstand und Reibung werden
           vernachlässigt. Rechnen Sie mit g = 9,81 {buildInlineFrac('m', 's²')}.
         </p>
         <svg viewBox="0 0 328 260">
@@ -429,7 +429,7 @@ export const exercise400: Exercise<DATA> = {
               Skizzieren Sie in Abbildung 3 die vier Bahnkurven, die der
               Eisblock beschreibt, wenn er sich in den Punkten A, B, C bzw. D
               von der Rotorspitze löst. Beachten Sie dabei die Abwurfrichtung
-              und nennen Sie die jeweilig Wurfart.
+              und nennen Sie die jeweilige Wurfart.
             </p>
             <svg viewBox="0 0 328 260">
               <image
