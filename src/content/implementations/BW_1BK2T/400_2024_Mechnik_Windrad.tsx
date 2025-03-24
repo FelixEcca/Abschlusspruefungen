@@ -433,7 +433,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 260">
               <image
-                href="/content/BW_1BK2T/400_3.PNG"
+                href="/content/BW_1BK2T/400_6.PNG"
                 height="230"
                 width="328"
               />
