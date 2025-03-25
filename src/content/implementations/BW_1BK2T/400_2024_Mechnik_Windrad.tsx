@@ -68,7 +68,7 @@ export const exercise400: Exercise<DATA> = {
           vernachlässigt. Rechnen Sie mit g = 9,81 {buildInlineFrac('m', 's²')}.
         </p>
         <svg viewBox="0 0 328 260">
-          <image href="/content/BW_1BK2T/400.png" height="230" width="328" />
+          <image href="/content/BW_1BK2T/400.PNG" height="230" width="328" />
         </svg>
       </>
     )
@@ -295,7 +295,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 190">
               <image
-                href="/content/BW_1BK2T/400_2.png"
+                href="/content/BW_1BK2T/400_2.PNG"
                 height="190"
                 width="328"
               />
@@ -433,7 +433,7 @@ export const exercise400: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 260">
               <image
-                href="/content/BW_1BK2T/400_6.png"
+                href="/content/BW_1BK2T/400_3.PNG"
                 height="230"
                 width="328"
               />
@@ -631,6 +631,7 @@ export const exercise400: Exercise<DATA> = {
                 </>,
               ],
             ])}
+
             <p>
               Berechne die Auftreffgeschwindigkeit v im rechtwinkligen Dreieck
               mit dem Satz des Pythagoras:
