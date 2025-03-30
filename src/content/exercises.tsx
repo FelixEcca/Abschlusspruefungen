@@ -55,6 +55,7 @@ import { exercise310 } from './implementations/BW_2BFS/310-2024-4A-Gerade-und-Pa
 import { exercise311 } from './implementations/BW_2BFS/311-2024-4B-LGS'
 import { exercise312 } from './implementations/BW_2BFS/312-2024-4C-Betonkörper'
 import { exercise400 } from './implementations/BW_1BK2T/400_2024_Mechnik_Windrad'
+import { exercise401 } from './implementations/BW_1BK2T/401_2024_Mechanik_Kugelbahn'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -112,6 +113,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   311: exercise311,
   312: exercise312,
   400: exercise400,
+  401: exercise401,
 }
 
 // symbols:
@@ -119,7 +121,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // ℚ
 // π · ≤ ≥
 // − ±
-// ×
+// × Δ
 // α β γ δ ε ϕ
 // ∠ ∡
 // ⊕
