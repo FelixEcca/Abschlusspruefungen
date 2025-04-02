@@ -3,13 +3,19 @@ import {
   buildEquation,
   buildFrac,
   buildInlineFrac,
+  buildSqrt,
 } from '@/helper/math-builder'
 import { pp, ppFrac } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
 
 interface DATA {
   hb: number
+  hc: number
   vb: number
+  mass: number
+  r1: number
+  r2: number
+  angle: number
 }
 
 export const exercise401: Exercise<DATA> = {
@@ -20,50 +26,60 @@ export const exercise401: Exercise<DATA> = {
   generator(rng) {
     return {
       hb: rng.randomIntBetween(100, 300) / 10,
+      hc: rng.randomIntBetween(200, 400) / 10,
       vb: (rng.randomIntBetween(5, 12) * 25) / 100,
+      mass: rng.randomIntBetween(1, 9) * 10,
+      r1: rng.randomIntBetween(2, 8),
+      r2: rng.randomIntBetween(4, 10),
+      angle: rng.randomIntBetween(10, 30),
     }
   },
-  originalData: { hb: 12, vb: 1.25 },
+  originalData: { hb: 12, vb: 1.25, mass: 30, r1: 2, r2: 5, hc: 18, angle: 15 },
   constraint({ data }) {
-    return true
+    const vcmax = roundToDigits(Math.sqrt(9.81 * (data.r2 / 100)), 2)
+    const vc = roundToDigits(
+      Math.sqrt(2 * 9.81 * (data.hb / 100 - data.hc / 100) + data.vb * data.vb),
+      2,
+    )
+    return data.r1 < data.r2 && data.hc > data.hb + 5 && vc < vcmax
   },
   intro({ data }) {
     return (
       <>
         <p>
-          Eine Eisenkugel mit der Masse m = 30 g wird im Punkt A auf eine
-          Kugelbahn gelegt und aus der Ruhe heraus losgelassen, siehe Abbildung
-          1. Die Kugel soll die gesamte Bahn durchlaufen, ohne den Kontakt zur
-          Bahn zu verlieren. In den Punkten B und C durchläuft die Eisenkugel
-          jeweils einen Kreisbogen mit den Radien r<sub>1</sub> und r
+          Eine Eisenkugel mit der Masse m = {data.mass} g wird im Punkt A auf
+          eine Kugelbahn gelegt und aus der Ruhe heraus losgelassen, siehe
+          Abbildung 1. Die Kugel soll die gesamte Bahn durchlaufen, ohne den
+          Kontakt zur Bahn zu verlieren. In den Punkten B und C durchläuft die
+          Eisenkugel jeweils einen Kreisbogen mit den Radien r<sub>1</sub> und r
           <sub>2</sub>. Die Kugel wird als Massepunkt betrachtet. Die
           Fallbeschleunigung beträgt g = 9,81 {buildInlineFrac(<>m</>, <>s²</>)}
           . Reibungseffekte werden vernachlässigt.
         </p>
         <svg viewBox="0 0 328 120">
           <image href="/content/BW_1BK2T/401.png" height="120" width="328" />
-          <text x={300} y={18} fontSize={10} textAnchor="middle" stroke="black">
+          <text x={265} y={18} fontSize={10} textAnchor="left" stroke="black">
             h &nbsp;&nbsp;= {pp(data.hb)} cm
           </text>
-          <text x={283} y={22} fontSize={8} textAnchor="middle" stroke="black">
+          <text x={273} y={22} fontSize={8} textAnchor="left" stroke="black">
             B
           </text>
-          <text x={300} y={28} fontSize={10} textAnchor="middle" stroke="black">
-            h &nbsp;&nbsp;= 12 cm
+          <text x={265} y={28} fontSize={10} textAnchor="left" stroke="black">
+            h &nbsp;&nbsp;= {pp(data.hc)} cm
           </text>
-          <text x={283} y={30} fontSize={8} textAnchor="middle" stroke="black">
+          <text x={273} y={30} fontSize={8} textAnchor="left" stroke="black">
             c
           </text>
-          <text x={300} y={38} fontSize={10} textAnchor="middle" stroke="black">
+          <text x={265} y={38} fontSize={10} textAnchor="left" stroke="black">
             r &nbsp;&nbsp;= 2 cm
           </text>
-          <text x={283} y={44} fontSize={8} textAnchor="middle" stroke="black">
+          <text x={273} y={44} fontSize={8} textAnchor="left" stroke="black">
             1
           </text>
-          <text x={300} y={48} fontSize={10} textAnchor="middle" stroke="black">
+          <text x={265} y={48} fontSize={10} textAnchor="left" stroke="black">
             r &nbsp;&nbsp;= 5 cm
           </text>
-          <text x={283} y={54} fontSize={8} textAnchor="middle" stroke="black">
+          <text x={273} y={54} fontSize={8} textAnchor="left" stroke="black">
             2
           </text>
         </svg>
@@ -201,7 +217,7 @@ export const exercise401: Exercise<DATA> = {
               />
             </svg>
             <p>
-              Die resultierende Kraft entspricht der Zentrifugalkraft, die die
+              Die resultierende Kraft entspricht der Zentripetalkraft, die die
               Kreisbewegung im Punkt B zustandebringt.
             </p>
           </>
@@ -224,9 +240,64 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const fu = roundToDigits(
+          (data.mass / 1000) * 9.81 +
+            ((data.mass / 1000) * data.vb * data.vb) / (data.r1 / 100),
+          2,
+        )
         return (
           <>
-            <p>Die Zentrifugalkraft </p>
+            <p>
+              Die Unterlage muss so viel Kraft ausüben, dass die Gewichtskraft
+              der Kugel kompensiert und die Zentripetalkraft für die
+              Kreisbewegung aufgebracht wird. Es gilt also:
+            </p>
+            <div>
+              <span style={{ fontSize: '0.8em' }}>
+                {buildEquation([
+                  [
+                    <>
+                      F<sub>U</sub>
+                    </>,
+                    <>=</>,
+                    <>
+                      F<sub>G</sub> + F<sub>Z</sub>
+                    </>,
+                  ],
+                  [
+                    <></>,
+                    <>=</>,
+                    <>
+                      m · g + m ·{' '}
+                      {buildInlineFrac(
+                        <>v²</>,
+                        <>
+                          r<sub>1</sub>
+                        </>,
+                      )}
+                    </>,
+                  ],
+                  [
+                    <></>,
+                    <>=</>,
+                    <>
+                      {pp(data.mass / 1000)} kg · 9,81{' '}
+                      {buildInlineFrac(<>m</>, <>s²</>)} +{' '}
+                      {pp(data.mass / 1000)} kg ·{' '}
+                      {buildInlineFrac(
+                        <>
+                          <span className="inline-block  scale-y-[2]">(</span>
+                          {pp(data.vb)} {buildInlineFrac(<>m</>, <>s</>)}
+                          <span className="inline-block  scale-y-[2]">)</span>²
+                        </>,
+                        <>{pp(data.r1 / 100)} m</>,
+                      )}
+                    </>,
+                  ],
+                  [<></>, <>≈</>, <>{pp(fu)} N</>],
+                ])}
+              </span>
+            </div>
           </>
         )
       },
@@ -247,7 +318,28 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        return (
+          <>
+            <p>Kräfteskizze:</p>
+            <svg viewBox="0 0 328 80">
+              <image
+                href="/content/BW_1BK2T/401_6.png"
+                height="80"
+                width="328"
+              />
+            </svg>
+            <p>
+              Um Punkt C befindet sich die Kugel auf einer Kreisbahn. Die
+              Zentripetalkraft wird durch einen Teil der Gewichtskraft
+              aufgebracht.
+            </p>
+            <p>
+              Die Gewichtskraft wird dann im Punkt C vollständig durch die
+              Unterlagskraft kompensiert. Die beiden Kräftepfeile sind gleich
+              lang.
+            </p>
+          </>
+        )
       },
     },
     {
@@ -268,7 +360,90 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const vcmax = roundToDigits(Math.sqrt(9.81 * (data.r2 / 100)), 2)
+        return (
+          <>
+            <p>
+              Damit die Eisenkugel gerade so nicht den Kontakt verliert, gilt F
+              <sub>U</sub> = 0 N.
+            </p>
+            <p>
+              Im Punkt C selbst ist dann die Zentripetalkraft der Kreisbewegung
+              durch die Gewichtskraft gegeben:
+            </p>
+            {buildEquation([
+              [
+                <>
+                  F<sub>Z</sub>
+                </>,
+                <>=</>,
+                <>
+                  F<sub>G</sub>
+                </>,
+              ],
+              [
+                <>
+                  m ·{' '}
+                  {buildInlineFrac(
+                    <>v²</>,
+                    <>
+                      r<sub>2</sub>
+                    </>,
+                  )}
+                </>,
+                <>=</>,
+                <>m · g</>,
+                <>| : m</>,
+              ],
+              [
+                <>
+                  {buildInlineFrac(
+                    <>v²</>,
+                    <>
+                      r<sub>2</sub>
+                    </>,
+                  )}
+                </>,
+                <>=</>,
+                <>g</>,
+                <>
+                  | · r<sub>2</sub>
+                </>,
+              ],
+              [
+                <>v²</>,
+                <>=</>,
+                <>
+                  g · r<sub>2</sub>
+                </>,
+                <>| √</>,
+              ],
+              [
+                <>
+                  v<sub>c, max</sub>
+                </>,
+                <>=</>,
+                <>
+                  {buildSqrt(
+                    <>
+                      9,81 {buildInlineFrac(<>m</>, <>s²</>)} ·{' '}
+                      {pp(data.r2 / 100)} m
+                    </>,
+                  )}
+                </>,
+              ],
+              [
+                <>
+                  v<sub>c, max</sub>
+                </>,
+                <>≈</>,
+                <>
+                  {pp(vcmax)} {buildInlineFrac(<>m</>, <>s</>)}
+                </>,
+              ],
+            ])}
+          </>
+        )
       },
     },
     {
@@ -287,7 +462,110 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const vcmax = roundToDigits(Math.sqrt(9.81 * (data.r2 / 100)), 2)
+        const vc = roundToDigits(
+          Math.sqrt(
+            2 * 9.81 * (data.hb / 100 - data.hc / 100) + data.vb * data.vb,
+          ),
+          2,
+        )
+        return (
+          <>
+            <p>
+              Berechne die Geschwindigkeit v<sub>c</sub> mithilfe des
+              Energieerhaltungssatzes:{' '}
+            </p>
+            <div>
+              <span style={{ fontSize: '0.6em' }}>
+                {buildEquation([
+                  [
+                    <>
+                      E<sub>pot,C</sub> + E<sub>kin,C</sub>
+                    </>,
+                    <>=</>,
+                    <>
+                      E<sub>pot,B</sub> + E<sub>kin,B</sub>
+                    </>,
+                  ],
+                  [
+                    <>
+                      m · g · h<sub>C</sub> + {ppFrac(1 / 2)} · m · v
+                      <sub>C</sub>²
+                    </>,
+                    <>=</>,
+                    <>
+                      m · g · h<sub>B</sub> + {ppFrac(1 / 2)} · m · v
+                      <sub>B</sub>²
+                    </>,
+                    <>| : m</>,
+                  ],
+                  [
+                    <>
+                      g · h<sub>C</sub> + {ppFrac(1 / 2)} · v<sub>C</sub>²
+                    </>,
+                    <>=</>,
+                    <>
+                      g · h<sub>B</sub> + {ppFrac(1 / 2)} · v<sub>B</sub>²
+                    </>,
+                    <>
+                      | - g · h<sub>C</sub>
+                    </>,
+                  ],
+                  [
+                    <>
+                      {ppFrac(1 / 2)} · v<sub>C</sub>²
+                    </>,
+                    <>=</>,
+                    <>
+                      g · h<sub>B</sub> - g · h<sub>C</sub> + {ppFrac(1 / 2)} ·
+                      v<sub>B</sub>²
+                    </>,
+                    <>| · 2</>,
+                  ],
+                  [
+                    <>
+                      v<sub>C</sub>²
+                    </>,
+                    <>=</>,
+                    <>
+                      2 · g · h<sub>B</sub> - 2 · g · h<sub>C</sub> + v
+                      <sub>B</sub>²
+                    </>,
+                    <>| √</>,
+                  ],
+                  [
+                    <>
+                      v<sub>C</sub>
+                    </>,
+                    <>=</>,
+                    <>
+                      {buildSqrt(
+                        <>
+                          2 · g · (h<sub>B</sub> - h<sub>C</sub>) + v
+                          <sub>B</sub>²
+                        </>,
+                      )}
+                    </>,
+                  ],
+                  [
+                    <>
+                      v<sub>C</sub>
+                    </>,
+                    <>≈</>,
+                    <>
+                      {pp(vc)} {buildInlineFrac(<>m</>, <>s</>)}
+                    </>,
+                  ],
+                ])}
+              </span>
+            </div>
+            <p>
+              Da {pp(vc)} {buildInlineFrac(<>m</>, <>s</>)} kleiner ist als v
+              <sub>c, max</sub> ≈ {pp(vcmax)} {buildInlineFrac(<>m</>, <>s</>)}{' '}
+              verliert die Kugel nicht den Kontakt.
+            </p>
+          </>
+        )
       },
     },
     {
@@ -326,7 +604,29 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        return (
+          <>
+            <p>
+              Die Kugel rollt eine schiefe Ebene hinauf, wodurch sie langsamer
+              wird.
+            </p>
+            <ul>
+              <li>
+                Das passende a-t-Digramm ist damit Nr. 4, da die Beschleunigung
+                negativ sein muss.
+              </li>
+              <li>
+                Da die anfänglich positive Geschwindigkeit im Lauf der Zeit
+                abnimmt, kommt für das v-t-Diagramm nur Nr. 1 infrage.
+              </li>
+              <li>
+                Das s-t-Diagramm muss einen abflachenden Verlauf darstellen, da
+                die langsamer werdende Kugel immer weniger Strecke in gleicher
+                Zeit zurücklegt. Das zeigt Diagramm Nr. 5.
+              </li>
+            </ul>
+          </>
+        )
       },
     },
     {
@@ -345,7 +645,24 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        return (
+          <>
+            <svg viewBox="0 0 328 120">
+              <image
+                href="/content/BW_1BK2T/401_7.png"
+                height="120"
+                width="328"
+              />
+            </svg>
+            <p>
+              Die Kräfteskizze beinhaltet die Gewichtskraft, welche in die
+              Komponente in Richtung der Ebene (F
+              <sub>H</sub>) und Komponente senkrecht zur Ebene (F<sub>N</sub>)
+              zerlegt wird. Die Kraft, die die Unterlage aufbringen muss (F
+              <sub>U</sub>) ist dabei genau so groß wie F<sub>N</sub>.
+            </p>
+          </>
+        )
       },
     },
     {
@@ -357,8 +674,8 @@ export const exercise401: Exercise<DATA> = {
         return (
           <>
             <p>
-              Berechnen Sie für einen Neigungswinkel von α = 15° die Verzögerung
-              der Eisenkugel auf der schiefen Ebene.
+              Berechnen Sie für einen Neigungswinkel von α = {data.angle}° die
+              Verzögerung der Eisenkugel auf der schiefen Ebene.
             </p>
           </>
         )
@@ -470,7 +787,7 @@ export const exercise401: Exercise<DATA> = {
         return (
           <>
             <p>
-              Zum Zeitpunkt t = s passiert die Kugel samt Prallplatte die
+              Zum Zeitpunkt t = 12 s passiert die Kugel samt Prallplatte die
               Gleichgewichtslage zum ersten Mal.
             </p>
             <p>
