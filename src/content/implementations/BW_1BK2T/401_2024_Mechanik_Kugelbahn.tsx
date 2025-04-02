@@ -1,4 +1,5 @@
 import { Exercise } from '@/data/types'
+import { Color4 } from '@/helper/colors'
 import {
   buildEquation,
   buildFrac,
@@ -16,6 +17,9 @@ interface DATA {
   r1: number
   r2: number
   angle: number
+  s: number
+  m2: number
+  D: number
 }
 
 export const exercise401: Exercise<DATA> = {
@@ -32,9 +36,23 @@ export const exercise401: Exercise<DATA> = {
       r1: rng.randomIntBetween(2, 8),
       r2: rng.randomIntBetween(4, 10),
       angle: rng.randomIntBetween(10, 30),
+      s: rng.randomIntBetween(2, 6),
+      m2: rng.randomIntBetween(10, 5) * 10,
+      D: rng.randomIntBetween(15, 50) / 10,
     }
   },
-  originalData: { hb: 12, vb: 1.25, mass: 30, r1: 2, r2: 5, hc: 18, angle: 15 },
+  originalData: {
+    hb: 12,
+    vb: 1.25,
+    mass: 30,
+    r1: 2,
+    r2: 5,
+    hc: 18,
+    angle: 15,
+    s: 3,
+    m2: 20,
+    D: 3.5,
+  },
   constraint({ data }) {
     const vcmax = roundToDigits(Math.sqrt(9.81 * (data.r2 / 100)), 2)
     const vc = roundToDigits(
@@ -681,7 +699,69 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const fh = roundToDigits(
+          (Math.cos((2 * Math.PI * data.angle) / 360) * 9.81 * data.mass) /
+            1000,
+          2,
+        )
+        return (
+          <>
+            <p>
+              Die Verzögerung wird berechnet mit dem Grundgesetz der Mechanik,
+              wobei die Verzögerung durch die Hangabtriebskraft verursacht wird:
+            </p>
+            <p>
+              F<sub>H</sub> = m · a
+            </p>
+            <p>
+              Die Kraft F<sub>H</sub> ist dabei eine Komponente der
+              Gewichtskraft, die im rechtwinkligen Dreieck mithilfe von α
+              berechnet werden kann.
+            </p>
+            <svg viewBox="0 0 328 150">
+              <image
+                href="/content/BW_1BK2T/401_8.png"
+                height="150"
+                width="328"
+              />
+            </svg>
+            {buildEquation([
+              [
+                <>
+                  F<sub>H</sub>
+                </>,
+                <>=</>,
+                <>
+                  F<sub>G</sub> · cos(α)
+                </>,
+              ],
+              [<></>, <>=</>, <>m · g · cos(α)</>],
+              [
+                <></>,
+                <>=</>,
+                <>
+                  {pp(data.mass / 1000)} kg · 9,81{' '}
+                  {buildInlineFrac(<>m</>, <>s²</>)} · cos({pp(data.angle)}°)
+                </>,
+              ],
+              [<></>, <>≈</>, <>{pp(fh)} N</>],
+            ])}
+            <p>Die Verzögerung beträgt damit:</p>
+            <p>
+              a ={' '}
+              {buildInlineFrac(
+                <>
+                  F<sub>H</sub>
+                </>,
+                <>m</>,
+              )}{' '}
+              ={' '}
+              {buildInlineFrac(<>{pp(fh)} N</>, <>{pp(data.mass / 1000)} kg</>)}{' '}
+              ≈ {pp(roundToDigits(fh / (data.mass / 1000), 2))}{' '}
+              {buildInlineFrac(<>m</>, <>s²</>)}
+            </p>
+          </>
+        )
       },
     },
     {
@@ -722,7 +802,7 @@ export const exercise401: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                s = 3 cm
+                s = {data.s} cm
               </text>
               <text
                 x={130}
@@ -731,7 +811,7 @@ export const exercise401: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                m&nbsp;&nbsp; = 30 g
+                m&nbsp;&nbsp; = {data.mass} g
               </text>
               <text
                 x={140}
@@ -749,7 +829,7 @@ export const exercise401: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                m&nbsp;&nbsp; = 20 g
+                m&nbsp;&nbsp; = {data.m2} g
               </text>
               <text
                 x={140}
@@ -767,7 +847,7 @@ export const exercise401: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                D = 3,5 N/m
+                D = {data.D} N/m
               </text>
             </svg>
             <p>Bestimmen Sie die Periodendauer der Schwingung.</p>
@@ -775,7 +855,56 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const T = roundToDigits(
+          2 * Math.PI * Math.sqrt((data.mass + data.m2) / 1000 / data.D),
+          2,
+        )
+        return (
+          <>
+            <p>Für die Periodendauer beim Federpendel gilt:</p>
+            {buildEquation([
+              [
+                <>T</>,
+                <>=</>,
+                <>2π{buildSqrt(<>{buildInlineFrac(<>m</>, <>D</>)}</>)}</>,
+              ],
+              [
+                '',
+                <>
+                  {' '}
+                  <Color4>
+                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                  </Color4>
+                </>,
+                <>
+                  <Color4>
+                    <span style={{ fontSize: 'small' }}>
+                      m bezeichnet die gesamte Masse aus Kugel und Platte
+                    </span>
+                  </Color4>
+                </>,
+              ],
+              [
+                <></>,
+                <>=</>,
+                <>
+                  2π
+                  {buildSqrt(
+                    <>
+                      {buildInlineFrac(
+                        <>{pp((data.mass + data.m2) / 1000)} kg</>,
+                        <>
+                          {pp(data.D)} {buildInlineFrac(<>N</>, <>m</>)}
+                        </>,
+                      )}
+                    </>,
+                  )}
+                </>,
+              ],
+              [<></>, <>≈</>, <>{pp(T)} s</>],
+            ])}
+          </>
+        )
       },
     },
     {
@@ -798,7 +927,34 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const omega = roundToDigits(
+          Math.sqrt(data.D / ((data.m2 + data.mass) / 1000)),
+          2,
+        )
+        return (
+          <>
+            <p>
+              Die Schwingung kann mithilfe der Winkelfunktionen Sinus und
+              Kosinus beschrieben werden. Befindet sich die Feder zum Beginn der
+              Betrachtung in der Gleichgewichtslage, beschreibt der Sinus die
+              Schwinung korrekt.
+            </p>
+            <p>
+              s(t) = s<sub>Amplitude</sub> · sin(ωt)
+            </p>
+            <p>
+              Dabei ist ω = {buildInlineFrac(<>2π</>, <>T</>)} ={' '}
+              {buildInlineFrac(<>D</>, <>m</>)}
+            </p>
+            <p>
+              Mit den Zahlenwerten ergibt sich: <br></br>ω = {pp(omega)} s
+              <sup>-1</sup>
+            </p>
+            <p>
+              s(t) = {pp(data.s / 100)} m · sin({pp(omega)} s<sup>-1</sup> · t)
+            </p>
+          </>
+        )
       },
     },
     {
@@ -818,7 +974,32 @@ export const exercise401: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        return <></>
+        const omega = roundToDigits(
+          Math.sqrt(data.D / ((data.m2 + data.mass) / 1000)),
+          2,
+        )
+        return (
+          <>
+            <p>
+              Die maximale Beschleunigung erfährt die Kugel in den Punkten, wo
+              sich die Feder maximal von der Gleichgewichtslage entfernt - an
+              den Umkehrpunkten der Schwingung.
+            </p>
+            <p>Für die Beschleunigung gilt nach Anwenden der Ableitung:</p>
+            <p>
+              a(t) = s&apos;&apos;(t) = - s<sub>Amplitude</sub> · sin(ωt) · ω²{' '}
+            </p>
+            <p>
+              Da sin(ωt) in den Umkehrpunkten den maximalen Wert (nämlich 1)
+              annimmt, gilt:
+            </p>
+            <p>
+              a<sub>max</sub> = s<sub>Amplitude</sub> · ω² ≈{' '}
+              {pp(roundToDigits((omega * omega * data.s) / 100, 2))}{' '}
+              {buildInlineFrac(<>m</>, <>s²</>)}
+            </p>
+          </>
+        )
       },
     },
   ],
