@@ -2,10 +2,10 @@ import { Exercise } from '@/data/types'
 
 interface DATA {}
 
-export const exerciseXXX: Exercise<DATA> = {
-  title: 'NEU',
-  source: '',
-  useCalculator: false,
+export const exercise3060: Exercise<DATA> = {
+  title: 'Kerzen',
+  source: '2022 Wahlteil Aufgabe 3C',
+  useCalculator: true,
   duration: 42,
   generator(rng) {
     return {}

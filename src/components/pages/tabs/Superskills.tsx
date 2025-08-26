@@ -34,7 +34,7 @@ export function Superskills() {
                 return null
               if (exam == 3 && (parseInt(id) < 200 || parseInt(id) >= 299))
                 return null
-              if (exam == 4 && (parseInt(id) < 300 || parseInt(id) >= 399))
+              if (exam == 4 && (parseInt(id) < 3000 || parseInt(id) >= 3999))
                 return null
               if (exam == 5 && (parseInt(id) < 400 || parseInt(id) >= 499))
                 return null

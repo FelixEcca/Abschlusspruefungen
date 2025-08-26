@@ -41,6 +41,57 @@ import { exercise265 } from './implementations/BW_Realschule/265-2021-B-2-Funkti
 import { exercise266 } from './implementations/BW_Realschule/266-2021-B-3-Glücksspiel+Parabel'
 import { exercise267 } from './implementations/BW_Realschule/267-2021-B-4-Parabel+Figur'
 
+import { exercise3000 } from './implementations/BW_2BFS/3000-2021-1A-Parabeln'
+import { exercise3001 } from './implementations/BW_2BFS/3001-2021-1B-Gleichung'
+import { exercise3002 } from './implementations/BW_2BFS/3002-2021-1C-Ebene-Figuren'
+import { exercise3003 } from './implementations/BW_2BFS/3003-2021-1D-Zusammengesetzte-Figuren'
+import { exercise3004 } from './implementations/BW_2BFS/3004-2021-1E-Zufallsexperiment'
+import { exercise3005 } from './implementations/BW_2BFS/3005-2021-2A-Funktionen'
+import { exercise3006 } from './implementations/BW_2BFS/3006-2021-2B-Strahlensatz'
+import { exercise3007 } from './implementations/BW_2BFS/3007-2021-2C-Kugel'
+import { exercise3008 } from './implementations/BW_2BFS/3008-2021-3A-LGS'
+import { exercise3009 } from './implementations/BW_2BFS/3009-2021-3B-Kerze'
+import { exercise3010 } from './implementations/BW_2BFS/3010-2021-3C-Parabeln'
+import { exercise3011 } from './implementations/BW_2BFS/3011-2021-4A-Wertetabellen'
+import { exercise3012 } from './implementations/BW_2BFS/3012-2021-4B-Darstellungen'
+import { exercise3013 } from './implementations/BW_2BFS/3013-2021-4C-Spielzeug'
+import { exercise3014 } from './implementations/BW_2BFS/3014-2021-5A-Blutgruppen'
+import { exercise3015 } from './implementations/BW_2BFS/3015-2021-5B-Koordinatensystem'
+import { exercise3016 } from './implementations/BW_2BFS/3016-2021-5C-Ebene-Figuren'
+import { exercise3050 } from './implementations/BW_2BFS/3050-2022-1A-Formeln'
+import { exercise3051 } from './implementations/BW_2BFS/3051-2022-1B-Aussagen'
+import { exercise3052 } from './implementations/BW_2BFS/3052-2022-1C-Zufallsexperiment'
+import { exercise3053 } from './implementations/BW_2BFS/3053-2022-1D-Koordinatensysteme'
+import { exercise3054 } from './implementations/BW_2BFS/3054-2022-1E-LGS'
+import { exercise3055 } from './implementations/BW_2BFS/3055-2022-2A-Überraschungsei'
+import { exercise3056 } from './implementations/BW_2BFS/3056-2022-2B-Wandregal'
+import { exercise3058 } from './implementations/BW_2BFS/3058-2022-3A-Körper'
+import { exercise3059 } from './implementations/BW_2BFS/3059-2022-3B-Parabeln'
+import { exercise3060 } from './implementations/BW_2BFS/3060-2022-3C-Kerzen'
+import { exercise3061 } from './implementations/BW_2BFS/3061-2022-4A-LGS'
+import { exercise3062 } from './implementations/BW_2BFS/3062-2022-4B-Parabeln'
+import { exercise3063 } from './implementations/BW_2BFS/3063-2022-4C-Strahlensatz'
+import { exercise3064 } from './implementations/BW_2BFS/3064-2022-5A-Figuren'
+import { exercise3065 } from './implementations/BW_2BFS/3065-2022-5B-Gleichung'
+import { exercise3066 } from './implementations/BW_2BFS/3066-2022-5C-Eiskugeln'
+import { exercise3100 } from './implementations/BW_2BFS/3100-2023-1A-Gleichungen'
+import { exercise3101 } from './implementations/BW_2BFS/3101-2023-1B-Ebene-Figuren'
+import { exercise3102 } from './implementations/BW_2BFS/3102-2023-1C-Glücksrad'
+import { exercise3103 } from './implementations/BW_2BFS/3103-2023-1D-Parabeln'
+import { exercise3104 } from './implementations/BW_2BFS/3104-2023-1E-Geraden'
+import { exercise3105 } from './implementations/BW_2BFS/3105-2023-2A-Fahrscheine'
+import { exercise3106 } from './implementations/BW_2BFS/3106-2023-2B-Strahlensatz'
+import { exercise3107 } from './implementations/BW_2BFS/3107-2023-2C-Figur'
+import { exercise3108 } from './implementations/BW_2BFS/3108-2023-3A-Papier'
+import { exercise3109 } from './implementations/BW_2BFS/3109-2023-3B-Parabel'
+import { exercise3110 } from './implementations/BW_2BFS/3110-2023-3C-Stromkosten'
+import { exercise3111 } from './implementations/BW_2BFS/3111-2023-4A-Funktionen-und-Graphen'
+import { exercise3112 } from './implementations/BW_2BFS/3112-2023-4B-LGS'
+import { exercise3113 } from './implementations/BW_2BFS/3113-2023-4C-Bruchgleichung'
+import { exercise3114 } from './implementations/BW_2BFS/3114-2023-5A-Rechtwinkliges-Dreieck'
+import { exercise3115 } from './implementations/BW_2BFS/3115-2023-5B-Parabeln'
+import { exercise3116 } from './implementations/BW_2BFS/3116-2023-5C-Praline'
+
 import { exercise3150 } from './implementations/BW_2BFS/3150-2024-1A-Ebene-Figur'
 import { exercise3151 } from './implementations/BW_2BFS/3151-2024-1B-Graphen'
 import { exercise3152 } from './implementations/BW_2BFS/3152-2024-1C-Kartenspiel'
@@ -56,6 +107,19 @@ import { exercise3161 } from './implementations/BW_2BFS/3161-2024-4B-LGS'
 import { exercise3162 } from './implementations/BW_2BFS/3162-2024-4C-Betonkörper'
 import { exercise400 } from './implementations/BW_1BK2T/400_2024_Mechnik_Windrad'
 import { exercise401 } from './implementations/BW_1BK2T/401_2024_Mechanik_Kugelbahn'
+import { exercise3200 } from './implementations/BW_2BFS/3200-2025-1A-Viereck'
+import { exercise3201 } from './implementations/BW_2BFS/3201-2025-1B-Quadrat'
+import { exercise3202 } from './implementations/BW_2BFS/3202-2025-1C-Glücksrad'
+import { exercise3203 } from './implementations/BW_2BFS/3203-2025-1D-Funktionen-und-Graphen'
+import { exercise3204 } from './implementations/BW_2BFS/3204-2025-2A-Lose'
+import { exercise3205 } from './implementations/BW_2BFS/3205-2025-2B-Turm'
+import { exercise3206 } from './implementations/BW_2BFS/3206-2025-2C-Strahlensatz'
+import { exercise3207 } from './implementations/BW_2BFS/3207-2025-3A-Figuren'
+import { exercise3208 } from './implementations/BW_2BFS/3208-2025-3B-Wertetabelle'
+import { exercise3209 } from './implementations/BW_2BFS/3209-2025-3C-Quadratische-Gleichung'
+import { exercise3210 } from './implementations/BW_2BFS/3210-2025-4A-LGS'
+import { exercise3211 } from './implementations/BW_2BFS/3211-2025-4B-Parabeln'
+import { exercise3212 } from './implementations/BW_2BFS/3212-2025-4C-Autokauf'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -99,6 +163,52 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   266: exercise266,
   267: exercise267,
 
+  3000: exercise3000,
+  3001: exercise3001,
+  3002: exercise3002,
+  3003: exercise3003,
+  3004: exercise3004,
+  3005: exercise3005,
+  3006: exercise3006,
+  3007: exercise3007,
+  3008: exercise3008,
+  3009: exercise3009,
+  3010: exercise3010, 
+  3011: exercise3011,
+  3012: exercise3012,
+  3013: exercise3013,
+  3014: exercise3014,
+  3015: exercise3015,
+  3016: exercise3016,
+  3050: exercise3050,
+  3051: exercise3051,
+  3052: exercise3052,
+  3053: exercise3053,
+  3054: exercise3054,
+  3055: exercise3055,
+  3060: exercise3060,
+  3061: exercise3061,
+  3062: exercise3062,
+  3063: exercise3063,
+  3064: exercise3064,
+  3065: exercise3065,
+  3100: exercise3100,
+  3101: exercise3101,
+  3102: exercise3102,
+  3103: exercise3103,
+  3104: exercise3104,
+  3105: exercise3105,
+  3106: exercise3106,
+  3107: exercise3107,
+  3108: exercise3108,
+  3109: exercise3109,
+  3110: exercise3110,
+  3111: exercise3111,
+  3112: exercise3112,
+  3113: exercise3113,
+  3114: exercise3114,
+  3115: exercise3115,
+  3116: exercise3116,
   3150: exercise3150,
   3151: exercise3151,
   3152: exercise3152,
@@ -112,6 +222,19 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   3160: exercise3160,
   3161: exercise3161,
   3162: exercise3162,
+  3200: exercise3200,
+  3201: exercise3201,
+  3202: exercise3202,
+  3203: exercise3203,
+  3204: exercise3204,
+  3205: exercise3205,
+  3206: exercise3206,
+  3207: exercise3207,
+  3208: exercise3208,
+  3209: exercise3209,
+  3210: exercise3210,
+  3211: exercise3211,
+  3212: exercise3212,
   400: exercise400,
   401: exercise401,
 }
