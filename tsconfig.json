@@ -16,6 +16,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
     "plugins": [
       {
         "name": "next"
