@@ -20,13 +20,23 @@ export const exercise3000: Exercise<DATA> = {
   },
   intro({ data }) {
     function toX(n: number) {return 167 + n * ((94.5 * 2) / 10)}
-function toY(n: number) {return 163 - n * ((94.5 * 2) / 10)}
-function generateParabolaPoints(a: number,b: number,c: number,step: number,): string {
-let points = ''
-for (let x = -4; x <= 11; x += step) {
-const y = a * (x - b) * (x - b) + c
-points += `${toX(x)},${toY(y)} `} return points.trim() }
-    return <><p>Gegeben ist die Gleichung der Parabel p mit y = (x {pp(data.x_s,'merge_op')})² {pp(data.y_s,'merge_op')}</p></>
+    function toY(n: number) {return 163 - n * ((94.5 * 2) / 10)}
+
+    function generateParabolaPoints1(b: number,c: number,step: number,): string {
+    let points = ''
+    for (let x = -4; x <= 11; x += step) {
+    const y = (x - b) * (x - b) + c
+    points += `${toX(x)},${toY(y)} `} return points.trim() }
+
+    const parabolaPoints = generateParabolaPoints1(data.x_s,data.y_s,0.1,)
+
+    return <><p>Gegeben ist die Gleichung der Parabel p mit y = (x {pp(data.x_s,'merge_op')})² {pp(data.y_s,'merge_op')}</p>
+    <svg viewBox="0 0 328 328">
+    <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" />
+    <polyline points={parabolaPoints} stroke="blue" strokeWidth="2" fill="none"/>
+    </svg><p>Schaubild 1</p><svg viewBox="0 0 328 328">
+    <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" /></svg><p>Schaubild 2</p><svg viewBox="0 0 328 328">
+    <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" /></svg><p>Schaubild 3</p></>
   },
   tasks: [
     {
