@@ -35,6 +35,7 @@ export const exercise3000: Exercise<DATA> = {
     <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" />
     <polyline points={parabolaPoints} stroke="blue" strokeWidth="2" fill="none"/>
     </svg><p>Schaubild 1</p><svg viewBox="0 0 328 328">
+      
     <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" /></svg><p>Schaubild 2</p><svg viewBox="0 0 328 328">
     <image href="/content/BW_2BFS/ksgroßmitachsen.png" height="328" width="328" /></svg><p>Schaubild 3</p></>
   },
