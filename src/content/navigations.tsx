@@ -3226,7 +3226,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'TestSkill',
             skillExercises: [
               {
-                id: 300,
+                id: 3150,
               },
             ],
           },
