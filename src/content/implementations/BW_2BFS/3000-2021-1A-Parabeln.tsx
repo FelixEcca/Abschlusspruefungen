@@ -503,6 +503,7 @@ export const exercise3000: Exercise<DATA> = {
                 fontSize={20}
                 textAnchor="right"
                 stroke="orange"
+                strokeDasharray="5,5"
               >
                 h
               </text>
