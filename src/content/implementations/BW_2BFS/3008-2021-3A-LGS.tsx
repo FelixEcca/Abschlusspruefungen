@@ -69,6 +69,13 @@ export const exercise3008: Exercise<DATA> = {
         return (
           <>
             <p>Bestimmen Sie die Lösung des linearen Gleichungssystems.</p>
+            <svg viewBox="0 0 328 328">
+              <image
+                href="/content/BW_2BFS/3009.png"
+                height="328"
+                width="328"
+              />
+            </svg>
           </>
         )
       },
