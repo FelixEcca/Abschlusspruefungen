@@ -48,7 +48,7 @@ import { exercise3003 } from './implementations/BW_2BFS/3003-2021-1D-Zusammenges
 import { exercise3004 } from './implementations/BW_2BFS/3004-2021-1E-Zufallsexperiment'
 import { exercise3005 } from './implementations/BW_2BFS/3005-2021-2A-Funktionen'
 import { exercise3006 } from './implementations/BW_2BFS/3006-2021-2B-Strahlensatz'
-import { exercise3007 } from './implementations/BW_2BFS/3007-2021-2C-Kugel'
+import { exercise3007 } from './implementations/BW_2BFS/3007-2021-2C-Formeln'
 import { exercise3008 } from './implementations/BW_2BFS/3008-2021-3A-LGS'
 import { exercise3009 } from './implementations/BW_2BFS/3009-2021-3B-Kerze'
 import { exercise3010 } from './implementations/BW_2BFS/3010-2021-3C-Parabeln'
@@ -173,7 +173,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   3007: exercise3007,
   3008: exercise3008,
   3009: exercise3009,
-  3010: exercise3010, 
+  3010: exercise3010,
   3011: exercise3011,
   3012: exercise3012,
   3013: exercise3013,
@@ -253,14 +253,23 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // π ≈ √
 // <> <Color4><span className="inline-block  scale-y-[2]">(</span></Color4></>
 
+// Wahr oder Falasch mit Randomisierung:
+// const richtig = []
+// const falsch = []
+// order: Array<number>
+// order: rng.shuffleArray([0, 1, 2]),
+// const listItems = [<li key="1"> </li>,<li key="2"></li>,<li key="3"></li>]
+// const shuffledItems = data.order.map(i => listItems[i])
+// <ol>{shuffledItems}</ol>
+
 // SVG-Umgebung:
-//<svg viewBox="0 0 328 190"></svg>
+//<svg viewBox="0 0 328 328"></svg>
 
 // Umgebung für Bild:
-// <image href="/content/BW_Realschule/" height="190" width="328" />
+// <image href="/content/BW_2BFS/" height="328" width="328" />
 
 // Umgebung für Text in SVG:
-// <text x={140} y={185} fontSize={20} textAnchor="right" stroke="black">Hier Text</text>
+// <text x={140} y={185} fontSize={20} textAnchor="middle" stroke="black">Hier Text</text>
 
 // Bildunterschrift:
 // <center><Color5><span style={{ fontSize: 'small' }}>Unterschrift</span></Color5></center>
