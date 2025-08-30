@@ -15,7 +15,18 @@ export const exercise3016: Exercise<DATA> = {
     return true
   },
   intro({ data }) {
-    return null
+    return (
+      <>
+        <p>
+          Im Dreieck ACD liegt der Punkt B in der Mitte der Seite zwischen A und
+          C. Die Strecke von A nach B ist der Durchmesser des Halbkreises, auf
+          dem der Punkt E liegt. x ist parallel zu y.
+        </p>
+        <svg viewBox="0 0 328 328">
+          <image href="/content/BW_2BFS/3016.png" height="328" width="328" />
+        </svg>
+      </>
+    )
   },
   tasks: [
     {
