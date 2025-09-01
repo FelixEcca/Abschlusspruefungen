@@ -263,7 +263,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // <ol>{shuffledItems}</ol>
 
 // SVG-Umgebung:
-//<svg viewBox="0 0 328 328"></svg>
+//<svg viewBox="0 0 328 328"><image href="/content/BW_2BFS/" height="328" width="328" /></svg>
 
 // Umgebung für Bild:
 // <image href="/content/BW_2BFS/" height="328" width="328" />
@@ -284,7 +284,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // Funktion, die Punkte von Graphen anlegt
 // function generateParabolaPoints(a: number,b: number,c: number,step: number,): string {
 // let points = ''
-// for (let x = -4; x <= 11; x += step) {
+// for (let x = 9; x <= 9; x += step) {
 // const y = a * (x - b) * (x - b) + c
 // points += `${toX(x)},${toY(y)} `} return points.trim() }
 
