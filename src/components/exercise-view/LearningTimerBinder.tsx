@@ -1,4 +1,6 @@
+// src/components/exercise-view/LearningTimerBinder.tsx
 import * as React from 'react'
+import { useLocation } from 'react-router'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import {
   startLearningTimer,
@@ -6,26 +8,42 @@ import {
 } from '../../../store/progress-store'
 
 export default function LearningTimerBinder() {
+  const location = useLocation()
   const id = ExerciseViewStore.useState(s => s.id)
 
+  const onExerciseRoute = React.useMemo(() => {
+    const p = location.pathname
+    // deckt /exercise/123 und /app/exercise/123 ab
+    return /^\/(app\/)?exercise\/\d+$/i.test(p)
+  }, [location.pathname])
+
   React.useEffect(() => {
-    if (typeof id === 'number') startLearningTimer(id)
+    if (onExerciseRoute && typeof id === 'number' && id !== -1) {
+      startLearningTimer(id)
+    } else {
+      stopLearningTimer('route')
+    }
 
     const onVisibility = () => {
-      if (document.hidden) stopLearningTimer('hidden')
-      else if (typeof id === 'number') startLearningTimer(id)
+      if (document.hidden) {
+        stopLearningTimer('hidden')
+      } else if (onExerciseRoute && typeof id === 'number' && id !== -1) {
+        startLearningTimer(id)
+      }
     }
+    const onPageHide = () => stopLearningTimer('unmount')
     const onBeforeUnload = () => stopLearningTimer('unmount')
 
-    window.addEventListener('visibilitychange', onVisibility)
+    document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('pagehide', onPageHide)
     window.addEventListener('beforeunload', onBeforeUnload)
-
     return () => {
-      window.removeEventListener('visibilitychange', onVisibility)
-      window.removeEventListener('beforeunload', onBeforeUnload) // ✅ richtiger Name
+      document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('pagehide', onPageHide)
+      window.removeEventListener('beforeunload', onBeforeUnload)
       stopLearningTimer('unmount')
     }
-  }, [id])
+  }, [onExerciseRoute, id])
 
   return null
 }

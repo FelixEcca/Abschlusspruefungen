@@ -1,3 +1,4 @@
+// src/components/pages/tabs/Profile.tsx
 import {
   IonPage,
   IonHeader,
@@ -7,13 +8,19 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonButton,
+  IonText,
 } from '@ionic/react'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
 } from '../../../../store/player-profile-store'
 import { navigationData } from '@/content/navigations'
-import { useProfile, formatMs } from '../../../../store/progress-store'
+import {
+  useProfile,
+  formatMs,
+  resetProfile, // ⬅️ neu: zum Löschen des Lernfortschritts
+} from '../../../../store/progress-store'
 
 export function Profile() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
@@ -30,8 +37,6 @@ export function Profile() {
   const total = entries.length
   const solved = entries.filter(e => e.solved).length
   const flagged = entries.filter(e => e.flagged).length
-  const attempts = entries.reduce((sum, e) => sum + (e.attempts ?? 0), 0)
-  const correct = entries.reduce((sum, e) => sum + (e.correct ?? 0), 0)
   const totalTimeMs = profile.totalTimeMs ?? 0
 
   return (
@@ -86,7 +91,6 @@ export function Profile() {
                   Markiert (Blitz, gelb): <b>{flagged}</b>
                 </IonLabel>
               </IonItem>
-
               <IonItem>
                 <IonLabel>
                   ⏱️ Lernzeit gesamt: <b>{formatMs(totalTimeMs)}</b>
@@ -94,6 +98,33 @@ export function Profile() {
               </IonItem>
             </IonList>
           </div>
+
+          {/* Fortschritt löschen */}
+          <div className="rounded-xl border p-3 space-y-3">
+            <div className="font-semibold">Fortschritt löschen</div>
+            <IonText color="medium" className="text-sm block">
+              Löscht alle lokal gespeicherten Lernstände auf diesem Gerät.
+            </IonText>
+            <IonButton
+              color="danger"
+              onClick={() => {
+                if (
+                  confirm(
+                    'Wirklich den gesamten Lernfortschritt löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.',
+                  )
+                ) {
+                  resetProfile()
+                  alert('Fortschritt gelöscht.')
+                }
+              }}
+            >
+              Löschen
+            </IonButton>
+          </div>
+
+          <p className="text-xs text-gray-500">
+            Hinweis: Alle Daten werden lokal in deinem Browser gespeichert.
+          </p>
         </div>
       </IonContent>
     </IonPage>

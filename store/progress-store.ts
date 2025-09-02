@@ -12,7 +12,7 @@ export interface ExerciseProgress {
   flagged?: boolean
   streak?: number
   mastery?: number
-  timeMs?: number           // ⬅️ neu: kumulierte Lernzeit für diese Aufgabe
+  timeMs?: number
 }
 
 export interface Profile {
@@ -20,8 +20,9 @@ export interface Profile {
   id: string
   createdAt: number
   exercises: Record<ExerciseId, ExerciseProgress>
-  totalTimeMs?: number      // ⬅️ neu: gesamte Lernzeit
-  // Timer-Session (nicht exportieren, nur intern)
+  totalTimeMs?: number
+
+  // Laufende Session (nur in-memory, NIE persistieren)
   _activeExerciseId?: number
   _sessionStartTs?: number
 }
@@ -40,17 +41,37 @@ export function loadProfile(): Profile {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return emptyProfile()
-    const p = JSON.parse(raw) as Profile
+    const p = JSON.parse(raw) as Partial<Profile>
     if (!p || p.version !== 1 || !p.exercises) return emptyProfile()
-    if (typeof p.totalTimeMs !== 'number') p.totalTimeMs = 0
-    return p
+
+    // Migrationsschutz / Sanitizing
+    const prof: Profile = {
+      version: 1,
+      id: typeof p.id === 'string' ? p.id : crypto.randomUUID(),
+      createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
+      exercises: p.exercises,
+      totalTimeMs: typeof p.totalTimeMs === 'number' ? p.totalTimeMs : 0,
+      // interne Felder NIEMALS aus Storage übernehmen
+      _activeExerciseId: undefined,
+      _sessionStartTs: undefined,
+    }
+
+    // timeMs-Feld sicherstellen
+    for (const k of Object.keys(prof.exercises)) {
+      const e = prof.exercises[Number(k)]
+      if (typeof e.timeMs !== 'number') e.timeMs = 0
+    }
+
+    return prof
   } catch {
     return emptyProfile()
   }
 }
 
+// WICHTIG: interne Felder NICHT persistieren
 export function saveProfile(p: Profile) {
-  localStorage.setItem(KEY, JSON.stringify(p))
+  const { _activeExerciseId, _sessionStartTs, ...persistable } = p
+  localStorage.setItem(KEY, JSON.stringify(persistable))
 }
 
 let cache = loadProfile()
@@ -81,54 +102,100 @@ export function subscribeProgress(fn: Listener) {
 }
 
 /* ---------- Mutationen (Status) ---------- */
+// ⚠️ immutabel schreiben (neue Referenzen!), damit useProgress sofort rendert
+
 export function markSolved(id: ExerciseId, solved = true) {
   ensureExercise(id)
   const e = cache.exercises[id]
-  e.solved = solved
-  e.solvedAt = solved ? Date.now() : undefined
-  if (solved) e.streak = (e.streak ?? 0) + 1
-  saveProfile(cache); notify()
+  const next: ExerciseProgress = {
+    ...e,
+    solved,
+    solvedAt: solved ? Date.now() : undefined,
+    streak: solved ? (e.streak ?? 0) + 1 : e.streak, // beim Rückgängig nicht erhöhen
+    // Regel: Beim Setzen auf "gelöst" fällt die Markierung weg.
+    // Beim Rückgängig (solved=false) belassen wir flagged wie es ist.
+    flagged: solved ? false : e.flagged,
+  }
+  cache.exercises[id] = next
+  saveProfile(cache)
+  notify()
 }
 
 export function toggleFlag(id: ExerciseId) {
   ensureExercise(id)
-  cache.exercises[id].flagged = !cache.exercises[id].flagged
-  saveProfile(cache); notify()
+  const e = cache.exercises[id]
+  const next: ExerciseProgress = {
+    ...e,
+    flagged: !e.flagged,
+    // wichtig: solved nicht ändern – Flag darf solved "überstimmen"
+    // (Header-Logik regelt die Priorität)
+  }
+  cache.exercises[id] = next
+  saveProfile(cache)
+  notify()
 }
+
 
 export function recordAttempt(id: ExerciseId, correct: boolean) {
   ensureExercise(id)
   const e = cache.exercises[id]
-  e.attempts += 1
-  if (correct) e.correct += 1
+  cache.exercises[id] = {
+    ...e,
+    attempts: (e.attempts ?? 0) + 1,
+    correct: (e.correct ?? 0) + (correct ? 1 : 0),
+  }                                                     // ⬅️ neue Referenz!
   saveProfile(cache); notify()
 }
 
-/* ---------- Lernzeit: Start/Stop ---------- */
-export function startLearningTimer(exerciseId: ExerciseId) {
-  // stoppe ggf. laufende Session zuerst
-  if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
-    stopLearningTimer('auto-switch')
-  }
-  cache._activeExerciseId = exerciseId
-  cache._sessionStartTs = Date.now()
-  // kein save/notify nötig – erst beim Stop wird geschrieben
-}
 
-export function stopLearningTimer(reason: 'unmount' | 'hidden' | 'auto-switch' | 'manual' = 'manual') {
+/* ---------- Lernzeit-Logik ---------- */
+let flushInterval: number | undefined
+
+function flushLearningTimer() {
   const start = cache._sessionStartTs
   const exId = cache._activeExerciseId
   if (!start || typeof exId !== 'number') return
-  const delta = Math.max(0, Date.now() - start)
+  const now = Date.now()
+  const delta = Math.max(0, now - start)
+  cache._sessionStartTs = now
 
   ensureExercise(exId)
   cache.exercises[exId].timeMs = (cache.exercises[exId].timeMs ?? 0) + delta
   cache.totalTimeMs = (cache.totalTimeMs ?? 0) + delta
 
+  saveProfile(cache)
+  notify()
+}
+
+export function startLearningTimer(exerciseId: ExerciseId) {
+  // Wenn derselbe Timer bereits läuft → nichts tun
+  if (cache._activeExerciseId === exerciseId && cache._sessionStartTs) return
+
+  // ggf. alte Session sauber flushen
+  if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
+    flushLearningTimer()
+  }
+
+  cache._activeExerciseId = exerciseId
+  cache._sessionStartTs = Date.now()
+
+  if (flushInterval) clearInterval(flushInterval)
+  flushInterval = window.setInterval(flushLearningTimer, 5000) // Live-Update ins Profil
+}
+
+export function stopLearningTimer(
+  _reason: 'unmount' | 'hidden' | 'switch' | 'manual' | 'route' = 'manual',
+) {
+  if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
+    flushLearningTimer()
+  }
+  if (flushInterval) {
+    clearInterval(flushInterval)
+    flushInterval = undefined
+  }
   cache._sessionStartTs = undefined
   cache._activeExerciseId = undefined
-
-  saveProfile(cache); notify()
+  // kein save/notify nötig – flushLearningTimer hat gespeichert
 }
 
 /* ---------- Selectors ---------- */
@@ -137,7 +204,7 @@ export function getProfile(): Profile { return cache }
 
 /* ---------- Export / Import ---------- */
 export function exportProfileAsJson(): string {
-  // interne Felder nicht mit exportieren
+  // interne Felder NICHT exportieren
   const { _activeExerciseId, _sessionStartTs, ...rest } = cache
   return JSON.stringify(rest, null, 2)
 }
@@ -156,7 +223,7 @@ export function mergeProfile(incoming: Profile) {
       flagged: Boolean(cur.flagged || v.flagged),
       streak: Math.max(cur.streak ?? 0, v.streak ?? 0),
       mastery: Math.max(cur.mastery ?? 0, v.mastery ?? 0),
-      timeMs: (cur.timeMs ?? 0) + (v.timeMs ?? 0),  // ⬅️ Zeit mergen
+      timeMs: (cur.timeMs ?? 0) + (v.timeMs ?? 0),
     }
   }
   cache.totalTimeMs = (cache.totalTimeMs ?? 0) + (incoming.totalTimeMs ?? 0)
@@ -169,18 +236,25 @@ export function importProfileFromJson(json: string) {
 }
 
 export function resetProfile() {
-  // Timer ggf. schließen, aber ohne Anrechnung
-  cache = { ...emptyProfile(), id: cache.id } // id beibehalten
+  if (flushInterval) clearInterval(flushInterval)
+  flushInterval = undefined
+  cache = { ...emptyProfile(), id: cache.id } // ID beibehalten
   saveProfile(cache); notify()
 }
 
-/* ---------- Hooks ---------- */
+/* ---------- Hooks & Utils ---------- */
 export function useProgress(id: ExerciseId) {
   const [state, setState] = React.useState(getStatus(id))
+
   React.useEffect(() => {
-    const unsubscribe = subscribeProgress(() => setState(getStatus(id)))
+    const unsubscribe = subscribeProgress(() => {
+      const s = getStatus(id)
+      // neue Referenz erzeugen → State ändert sich sicher
+      setState(s ? { ...s } : s)
+    })
     return () => { unsubscribe() }
   }, [id])
+
   return state
 }
 export function useProfile() {
@@ -191,8 +265,6 @@ export function useProfile() {
   }, [])
   return state
 }
-
-/* ---------- Utils ---------- */
 export function formatMs(ms = 0): string {
   const totalSec = Math.floor(ms / 1000)
   const h = Math.floor(totalSec / 3600)

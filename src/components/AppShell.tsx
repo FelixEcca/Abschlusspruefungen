@@ -9,7 +9,7 @@ import { exercisesData } from '@/content/exercises'
 import { ExerciseView } from './exercise-view/ExerciseView'
 import { useEffect } from 'react'
 import { ExerciseViewStore } from './exercise-view/state/exercise-view-store'
-
+import LearningTimerBinder from '@/components/exercise-view/LearningTimerBinder'
 import {
   defaultPlayerProfileStoreValue,
   PlayerProfileStore,
@@ -53,6 +53,7 @@ export function AppShell() {
   return (
     <IonApp>
       <IonReactRouter>
+        <LearningTimerBinder /> {/* ⬅️ hier einmal global einhängen */}
         <IonRouterOutlet id="main">
           <Route path="/app" render={() => <App />} />
 

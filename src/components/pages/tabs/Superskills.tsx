@@ -13,13 +13,13 @@ import {
 } from '@ionic/react'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { useHistory } from 'react-router'
-import { useProfile } from '../../../../store/progress-store'
+import { useProgress } from '../../../../store/progress-store'
 import * as React from 'react'
 
 type Entry = [string, (typeof exercisesData)[number]]
 
 function getYearFromSource(src?: string): number {
-  if (!src) return 0 // 0 = Sonstige
+  if (!src) return 0
   const m = src.match(/\b(20\d{2})\b/)
   return m ? parseInt(m[1], 10) : 0
 }
@@ -36,9 +36,7 @@ function passExamFilter(exam: number, idNum: number): boolean {
 export function Superskills() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const history = useHistory()
-  const profile = useProfile() // <-- EIN zentraler Hook, reagiert auf Fortschritts-Updates
 
-  // 1) Filtern wie bisher
   const filtered: Entry[] = React.useMemo(() => {
     return Object.entries(exercisesData).filter(([id]) => {
       const idNum = parseInt(id, 10)
@@ -46,7 +44,6 @@ export function Superskills() {
     }) as unknown as Entry[]
   }, [exam])
 
-  // 2) Gruppieren nach Jahr (aus source)
   const grouped = React.useMemo(() => {
     const map = new Map<number, Entry[]>()
     for (const e of filtered) {
@@ -54,15 +51,30 @@ export function Superskills() {
       if (!map.has(year)) map.set(year, [])
       map.get(year)!.push(e)
     }
-    // innerhalb jedes Jahres nach ID sortieren (aufsteigend)
     for (const [year, arr] of map) {
       arr.sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10))
       map.set(year, arr)
     }
-    // Jahre absteigend sortieren (neustes Jahr zuerst)
     const years = Array.from(map.keys()).sort((a, b) => b - a)
     return { map, years }
   }, [filtered])
+
+  // Alle IDs für alle Jahre einsammeln
+  const allIds = React.useMemo(() => {
+    return grouped.years.flatMap(year => {
+      const items = grouped.map.get(year)!
+      return items.map(([id]) => parseInt(id, 10))
+    })
+  }, [grouped])
+
+  // Reaktiver Fortschritt – einmal oben ermitteln
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const allProgresses = allIds.map(idNum => useProgress(idNum))
+
+  const getProgress = (idNum: number) => {
+    const idx = allIds.indexOf(idNum)
+    return allProgresses[idx]
+  }
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -94,12 +106,13 @@ export function Superskills() {
                   <div slot="content" className="p-2">
                     {items.map(([id, content]) => {
                       const idNum = parseInt(id, 10)
-                      // Fortschritt OHNE weiteren Hook lesen
-                      const st = profile.exercises[idNum]
-                      const cls = st?.solved
-                        ? 'bg-green-100 border-green-400'
-                        : st?.flagged
-                          ? 'bg-yellow-100 border-yellow-400'
+                      const st = getProgress(idNum)
+
+                      // ⚠️ Priorität: flagged > solved > default
+                      const cls = st?.flagged
+                        ? 'bg-yellow-100 border-yellow-400'
+                        : st?.solved
+                          ? 'bg-green-100 border-green-400'
                           : 'bg-white border-gray-200'
 
                       return (

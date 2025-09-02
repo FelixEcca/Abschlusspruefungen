@@ -1,18 +1,19 @@
+// src/components/exercise-view/ExerciseViewHeader.tsx
 import { exercisesData } from '@/content/exercises'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import {
   faArrowLeft,
   faMedal,
   faWandMagicSparkles,
+  faBolt,
+  faCheckCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '@/components/ui/FaIcon'
 import { useHistory } from 'react-router'
 import { navigationData } from '@/content/navigations'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { reseed } from './state/actions'
-import { ExerciseViewLayout } from './ExerciseViewLayout'
-import { getStatus, toggleFlag } from '../../../store/progress-store'
-import { faBolt } from '@fortawesome/free-solid-svg-icons'
+import { useProgress, toggleFlag } from '../../../store/progress-store'
 
 export function ExerciseViewHeader() {
   const id = ExerciseViewStore.useState(s => s.id)
@@ -23,6 +24,7 @@ export function ExerciseViewHeader() {
     s => s.navIndicatorPosition,
   )
   const pages = ExerciseViewStore.useState(s => s.pages)
+
   const content =
     pages && pages[navIndicatorPosition].context
       ? exercisesData[
@@ -31,12 +33,25 @@ export function ExerciseViewHeader() {
           ]
         ]
       : exercisesData[id]
+
   const history = useHistory()
-  const flagged = !!getStatus(id)?.flagged
+
+  // reaktiver Fortschritt
+  const progress = useProgress(id)
+  const flagged = !!progress?.flagged
+  const solved = !!progress?.solved
+
+  // ⚠️ Priorität: flagged > solved > default
+  const headerBoxCls = flagged
+    ? 'mt-3 mb-1 mx-3 border border-yellow-500 bg-yellow-50 shadow-md px-4 py-2 rounded-lg'
+    : solved
+      ? 'mt-3 mb-1 mx-3 border border-green-500 bg-green-50 shadow-md px-4 py-2 rounded-lg'
+      : 'mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white'
+
   return (
     <>
       <div
-        className="mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white"
+        className={headerBoxCls}
         onClick={() => {
           if (toHome) {
             history.push('/app/participate')
@@ -51,7 +66,6 @@ export function ExerciseViewHeader() {
           const i3 = navigationData[3].topics.findIndex(t =>
             t.skillGroups.some(g => g.name == skill),
           )
-          // scroll restoration is buggy and will fix later
           history.push(
             skill && (i1 >= 0 || i2 >= 0 || i3 >= 0)
               ? '/topic/' +
@@ -65,24 +79,40 @@ export function ExerciseViewHeader() {
           )
         }}
       >
-        <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-block">
-          <FaIcon icon={faArrowLeft} />{' '}
-          {skill ? (
-            <>
-              <b>{skill}</b>{' '}
-              {toHome ? null : (
+        <div className="flex items-center justify-between">
+          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
+            <FaIcon icon={faArrowLeft} />
+            <span>
+              {skill ? (
+                <>
+                  <b>{skill}</b>{' '}
+                  {toHome ? null : (
+                    <>
+                      {content.source}: {content.title}
+                    </>
+                  )}
+                </>
+              ) : (
                 <>
                   {content.source}: {content.title}
                 </>
               )}
-            </>
-          ) : (
-            <>
-              {content.source}: {content.title}
-            </>
-          )}
-        </button>
+            </span>
+          </button>
+
+          {/* Badge rechts */}
+          {flagged ? (
+            <span className="ml-3 inline-flex items-center gap-1 text-yellow-700 text-sm font-medium">
+              <FaIcon icon={faBolt} /> Markiert
+            </span>
+          ) : solved ? (
+            <span className="ml-3 inline-flex items-center gap-1 text-green-700 text-sm font-medium">
+              <FaIcon icon={faCheckCircle} /> Gelöst
+            </span>
+          ) : null}
+        </div>
       </div>
+
       <div className="text-left mt-2">
         <button
           className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
@@ -91,10 +121,7 @@ export function ExerciseViewHeader() {
               s.chatOverlay = 'solution'
             })
             ExerciseViewStore.update(s => {
-              if (content.originalData) {
-                s.data = content.originalData
-              }
-
+              if (content.originalData) s.data = content.originalData
               s.chatOverlay = null
             })
           }}
@@ -116,11 +143,15 @@ export function ExerciseViewHeader() {
         >
           <FaIcon icon={faWandMagicSparkles} /> Nochmal
         </button>
+
         <button
-          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          className={`px-3 py-1 rounded-xl ml-3 ${
+            flagged
+              ? 'bg-yellow-200 hover:bg-yellow-300'
+              : 'bg-gray-200 hover:bg-gray-300'
+          }`}
           onClick={() => {
-            toggleFlag(id)
-            ExerciseViewStore.update(s => s)
+            toggleFlag(id) // Header reagiert sofort über useProgress
           }}
           title="Als herausfordernd markieren"
         >
