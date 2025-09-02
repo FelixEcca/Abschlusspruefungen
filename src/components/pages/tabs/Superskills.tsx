@@ -10,6 +10,10 @@ import {
   IonAccordion,
   IonItem,
   IonLabel,
+  IonAccordionGroup,
+  IonAccordion,
+  IonItem,
+  IonLabel,
 } from '@ionic/react'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { useHistory } from 'react-router'
