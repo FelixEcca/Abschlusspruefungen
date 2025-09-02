@@ -59,7 +59,7 @@ export function AppShell() {
 
           <Route
             path=""
-            render={() => <Redirect to="/app/superskills/" />}
+            render={() => <Redirect to="/app/participate" />}
             exact={true}
           />
           {navigationData[1].topics.map((t, i) => (

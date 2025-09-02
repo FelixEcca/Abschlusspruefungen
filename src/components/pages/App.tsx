@@ -27,6 +27,7 @@ import { Superskills } from './tabs/Superskills'
 import { Search } from './tabs/Search'
 import { Participate } from './tabs/Participate'
 import { Profile } from './tabs/Profile'
+// import { faHouse } from '@fortawesome/free-solid-svg-icons'
 
 export function App() {
   return (
@@ -47,8 +48,8 @@ export function App() {
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="tab2" href="/app/participate">
-          <IonIcon icon={gridOutline} />
-          <IonLabel>Themen</IonLabel>
+          <IonIcon icon={homeOutline} />
+          <IonLabel>Start</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/app/superskills">
           <IonIcon icon={menuOutline} />

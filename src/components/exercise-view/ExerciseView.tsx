@@ -10,7 +10,7 @@ interface ExerciseViewProps {
 export function ExerciseView({ id }: ExerciseViewProps) {
   useEffect(() => {
     if (id == 123456 && ExerciseViewStore.getRawState().id !== 123456) {
-      window.location.href = '/app/home'
+      window.location.href = '/app/participate'
       return
     }
     if (ExerciseViewStore.getRawState().id !== id) {

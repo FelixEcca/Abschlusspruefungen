@@ -75,7 +75,7 @@ export function ExerciseViewHeader() {
                       ? i2 + 101
                       : i3 + 201
                   ).toString()
-              : '/app/superskills',
+              : '/app/participate',
           )
         }}
       >
