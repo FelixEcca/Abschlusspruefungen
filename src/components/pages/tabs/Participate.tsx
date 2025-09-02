@@ -135,7 +135,7 @@ export function Participate() {
                     👋 Hallo{name ? `, ${name}` : ''}!
                   </div>
                   <div className="text-sm text-gray-600">
-                    Viel Erfolg beim Üben!
+                    Schön dich wieder zu sehen. Viel Erfolg beim Üben!
                   </div>
                 </div>
                 <IonButton fill="clear" onClick={() => setEditingName(true)}>
@@ -144,12 +144,18 @@ export function Participate() {
               </div>
             )}
           </div>
+
           <div className="text-sm text-gray-600 rounded-xl border p-3">
             🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
             {currentStreak === 1 ? '' : 'e'}
+            <br></br>
+            <br></br>
+            <p>Sieh in deinem Profil nach, um deinen Fortschritt zu sehen.</p>
           </div>
           {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
+
           <div className="rounded-xl border p-3 bg-white">
+            <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
               <div className="font-semibold">Zufällige Aufgabe</div>
               <IonButton
@@ -196,28 +202,6 @@ export function Participate() {
                 Für die eingestellte Prüfung wurden keine Aufgaben gefunden.
               </div>
             )}
-          </div>
-          {/* Themenliste */}
-          <div className="mt-2">
-            <div className="font-bold mb-2">Aufgaben nach Themen</div>
-            <div className="space-y-2">
-              {navigationData[exam]?.topics?.map((topic, i) => (
-                <div
-                  key={i}
-                  className="rounded-lg border p-3 hover:bg-gray-50 cursor-pointer"
-                  onClick={() =>
-                    history.push('/topic/' + topicRouteIndex(exam, i))
-                  }
-                >
-                  <div className="font-medium">{topic.title}</div>
-                  {topic.skillGroups?.length ? (
-                    <div className="text-sm text-gray-600">
-                      {topic.skillGroups.length} Unterthemen
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </IonContent>

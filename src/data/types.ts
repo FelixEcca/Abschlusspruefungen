@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Rng } from '../helper/rng'
 import { CoreMessage } from 'ai'
 
@@ -47,6 +48,7 @@ export interface Navigation {
   longTitle: string
   shortTitle: string
   topics: {
+    name: ReactNode
     title: string
     headerColor: string
     twColor: string

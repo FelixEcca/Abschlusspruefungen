@@ -14,6 +14,7 @@ export async function generateStaticParams() {
     { all: ['app', 'superskills'] },
     { all: ['app', 'search'] },
     { all: ['app', 'participate'] },
+    { all: ['app', 'topics'] },
     { all: ['app', 'profile'] },
     { all: ['feed'] },
     { all: ['lists'] },

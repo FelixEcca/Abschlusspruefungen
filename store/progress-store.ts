@@ -10,7 +10,7 @@ export interface ExerciseProgress {
   solved: boolean
   solvedAt?: number
   flagged?: boolean
-  streak?: number
+  streak?: number     // per-Exercise optional (lassen wir unangetastet)
   mastery?: number
   timeMs?: number
 }
@@ -22,9 +22,35 @@ export interface Profile {
   exercises: Record<ExerciseId, ExerciseProgress>
   totalTimeMs?: number
 
+  // 🔥 Globaler Streak
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDate?: string          // 'YYYY-MM-DD' (lokale Zeit)
+  activityByDate?: Record<string, number> // Map Tag → #Solves
+
   // Laufende Session (nur in-memory, NIE persistieren)
   _activeExerciseId?: number
   _sessionStartTs?: number
+}
+
+function localDateKey(d = new Date()): string {
+  // lokales Datum → YYYY-MM-DD (keine UTC-Verschiebungen)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+function addDays(key: string, days: number): string {
+  const [y, m, d] = key.split('-').map(Number)
+  const dt = new Date(y, m - 1, d)
+  dt.setDate(dt.getDate() + days)
+  return localDateKey(dt)
+}
+
+function isConsecutive(prevKey?: string, todayKey?: string): boolean {
+  if (!prevKey || !todayKey) return false
+  return addDays(prevKey, 1) === todayKey
 }
 
 function emptyProfile(): Profile {
@@ -34,6 +60,10 @@ function emptyProfile(): Profile {
     createdAt: Date.now(),
     exercises: {},
     totalTimeMs: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    lastActiveDate: undefined,
+    activityByDate: {},
   }
 }
 
@@ -44,19 +74,21 @@ export function loadProfile(): Profile {
     const p = JSON.parse(raw) as Partial<Profile>
     if (!p || p.version !== 1 || !p.exercises) return emptyProfile()
 
-    // Migrationsschutz / Sanitizing
+    // Sanitizing & Defaults
     const prof: Profile = {
       version: 1,
       id: typeof p.id === 'string' ? p.id : crypto.randomUUID(),
       createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
       exercises: p.exercises,
       totalTimeMs: typeof p.totalTimeMs === 'number' ? p.totalTimeMs : 0,
-      // interne Felder NIEMALS aus Storage übernehmen
+      currentStreak: typeof p.currentStreak === 'number' ? p.currentStreak : 0,
+      longestStreak: typeof p.longestStreak === 'number' ? p.longestStreak : 0,
+      lastActiveDate: typeof p.lastActiveDate === 'string' ? p.lastActiveDate : undefined,
+      activityByDate: p.activityByDate ?? {},
       _activeExerciseId: undefined,
       _sessionStartTs: undefined,
     }
 
-    // timeMs-Feld sicherstellen
     for (const k of Object.keys(prof.exercises)) {
       const e = prof.exercises[Number(k)]
       if (typeof e.timeMs !== 'number') e.timeMs = 0
@@ -68,7 +100,7 @@ export function loadProfile(): Profile {
   }
 }
 
-// WICHTIG: interne Felder NICHT persistieren
+// interne Felder NIE persistieren
 export function saveProfile(p: Profile) {
   const { _activeExerciseId, _sessionStartTs, ...persistable } = p
   localStorage.setItem(KEY, JSON.stringify(persistable))
@@ -102,7 +134,30 @@ export function subscribeProgress(fn: Listener) {
 }
 
 /* ---------- Mutationen (Status) ---------- */
-// ⚠️ immutabel schreiben (neue Referenzen!), damit useProgress sofort rendert
+
+// 🔥 globalen Streak & Aktivität beim ersten Solve des Tages pflegen
+function updateDailyStreakOnSolved() {
+  const today = localDateKey()
+  const prev = cache.lastActiveDate
+  const alreadyToday = (cache.activityByDate?.[today] ?? 0) > 0
+
+  // Aktivität hochzählen
+  cache.activityByDate = { ...(cache.activityByDate ?? {}) }
+  cache.activityByDate[today] = (cache.activityByDate[today] ?? 0) + 1
+
+  // Streak nur erhöhen/setzen, wenn es der erste Solve des Tages ist
+  if (!alreadyToday) {
+    if (!prev) {
+      cache.currentStreak = 1
+    } else if (isConsecutive(prev, today)) {
+      cache.currentStreak = (cache.currentStreak ?? 0) + 1
+    } else if (prev !== today) {
+      cache.currentStreak = 1
+    }
+    cache.longestStreak = Math.max(cache.longestStreak ?? 0, cache.currentStreak ?? 0)
+    cache.lastActiveDate = today
+  }
+}
 
 export function markSolved(id: ExerciseId, solved = true) {
   ensureExercise(id)
@@ -111,12 +166,16 @@ export function markSolved(id: ExerciseId, solved = true) {
     ...e,
     solved,
     solvedAt: solved ? Date.now() : undefined,
-    streak: solved ? (e.streak ?? 0) + 1 : e.streak, // beim Rückgängig nicht erhöhen
-    // Regel: Beim Setzen auf "gelöst" fällt die Markierung weg.
-    // Beim Rückgängig (solved=false) belassen wir flagged wie es ist.
+    streak: solved ? (e.streak ?? 0) + 1 : e.streak,
+    // Regel: sobald gelöst → Markierung weg; beim Rückgängig bleibt flagged wie es war
     flagged: solved ? false : e.flagged,
   }
   cache.exercises[id] = next
+
+  if (solved) {
+    updateDailyStreakOnSolved()
+  }
+
   saveProfile(cache)
   notify()
 }
@@ -124,17 +183,10 @@ export function markSolved(id: ExerciseId, solved = true) {
 export function toggleFlag(id: ExerciseId) {
   ensureExercise(id)
   const e = cache.exercises[id]
-  const next: ExerciseProgress = {
-    ...e,
-    flagged: !e.flagged,
-    // wichtig: solved nicht ändern – Flag darf solved "überstimmen"
-    // (Header-Logik regelt die Priorität)
-  }
+  const next: ExerciseProgress = { ...e, flagged: !e.flagged }
   cache.exercises[id] = next
-  saveProfile(cache)
-  notify()
+  saveProfile(cache); notify()
 }
-
 
 export function recordAttempt(id: ExerciseId, correct: boolean) {
   ensureExercise(id)
@@ -143,12 +195,11 @@ export function recordAttempt(id: ExerciseId, correct: boolean) {
     ...e,
     attempts: (e.attempts ?? 0) + 1,
     correct: (e.correct ?? 0) + (correct ? 1 : 0),
-  }                                                     // ⬅️ neue Referenz!
+  }
   saveProfile(cache); notify()
 }
 
-
-/* ---------- Lernzeit-Logik ---------- */
+/* ---------- Lernzeit-Logik (wie zuvor) ---------- */
 let flushInterval: number | undefined
 
 function flushLearningTimer() {
@@ -163,29 +214,21 @@ function flushLearningTimer() {
   cache.exercises[exId].timeMs = (cache.exercises[exId].timeMs ?? 0) + delta
   cache.totalTimeMs = (cache.totalTimeMs ?? 0) + delta
 
-  saveProfile(cache)
-  notify()
+  saveProfile(cache); notify()
 }
 
 export function startLearningTimer(exerciseId: ExerciseId) {
-  // Wenn derselbe Timer bereits läuft → nichts tun
   if (cache._activeExerciseId === exerciseId && cache._sessionStartTs) return
-
-  // ggf. alte Session sauber flushen
   if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
     flushLearningTimer()
   }
-
   cache._activeExerciseId = exerciseId
   cache._sessionStartTs = Date.now()
-
   if (flushInterval) clearInterval(flushInterval)
-  flushInterval = window.setInterval(flushLearningTimer, 5000) // Live-Update ins Profil
+  flushInterval = window.setInterval(flushLearningTimer, 5000)
 }
 
-export function stopLearningTimer(
-  _reason: 'unmount' | 'hidden' | 'switch' | 'manual' | 'route' = 'manual',
-) {
+export function stopLearningTimer(p0: string) {
   if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
     flushLearningTimer()
   }
@@ -195,7 +238,6 @@ export function stopLearningTimer(
   }
   cache._sessionStartTs = undefined
   cache._activeExerciseId = undefined
-  // kein save/notify nötig – flushLearningTimer hat gespeichert
 }
 
 /* ---------- Selectors ---------- */
@@ -204,13 +246,14 @@ export function getProfile(): Profile { return cache }
 
 /* ---------- Export / Import ---------- */
 export function exportProfileAsJson(): string {
-  // interne Felder NICHT exportieren
   const { _activeExerciseId, _sessionStartTs, ...rest } = cache
   return JSON.stringify(rest, null, 2)
 }
 
 export function mergeProfile(incoming: Profile) {
   if (incoming?.version !== 1 || !incoming.exercises) return
+
+  // Aufgaben mergen
   for (const [k, v] of Object.entries(incoming.exercises)) {
     const id = Number(k) as ExerciseId
     ensureExercise(id)
@@ -226,7 +269,21 @@ export function mergeProfile(incoming: Profile) {
       timeMs: (cur.timeMs ?? 0) + (v.timeMs ?? 0),
     }
   }
+
+  // Zeiten
   cache.totalTimeMs = (cache.totalTimeMs ?? 0) + (incoming.totalTimeMs ?? 0)
+
+  // 🔥 Streak & Aktivität – sinnvoll mergen
+  cache.activityByDate = { ...(cache.activityByDate ?? {}) }
+  if (incoming.activityByDate) {
+    for (const [day, count] of Object.entries(incoming.activityByDate)) {
+      cache.activityByDate[day] = (cache.activityByDate[day] ?? 0) + (count ?? 0)
+    }
+  }
+  cache.longestStreak = Math.max(cache.longestStreak ?? 0, incoming.longestStreak ?? 0)
+
+  // currentStreak/lastActiveDate sind zeitpunktbezogen und schwer zu mergen → wir lassen unsere Werte bestehen
+
   saveProfile(cache); notify()
 }
 
@@ -245,26 +302,25 @@ export function resetProfile() {
 /* ---------- Hooks & Utils ---------- */
 export function useProgress(id: ExerciseId) {
   const [state, setState] = React.useState(getStatus(id))
-
   React.useEffect(() => {
     const unsubscribe = subscribeProgress(() => {
       const s = getStatus(id)
-      // neue Referenz erzeugen → State ändert sich sicher
-      setState(s ? { ...s } : s)
+      setState(s ? { ...s } : s) // neue Referenz → garantiertes Re-Render
     })
-    return () => { unsubscribe() }
+    return () => { unsubscribe(); }
   }, [id])
-
   return state
 }
+
 export function useProfile() {
   const [state, setState] = React.useState(getProfile())
   React.useEffect(() => {
     const unsubscribe = subscribeProgress(() => setState(getProfile()))
-    return () => { unsubscribe() }
+    return () => { unsubscribe(); }
   }, [])
   return state
 }
+
 export function formatMs(ms = 0): string {
   const totalSec = Math.floor(ms / 1000)
   const h = Math.floor(totalSec / 3600)

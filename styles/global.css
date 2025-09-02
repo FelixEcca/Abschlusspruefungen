@@ -8,7 +8,7 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
-  background-color: #fef08a; /* placeholder color */
+  background-color: #aed4ff; /* placeholder color */
 }
 
 @media (min-width: 640px) {
@@ -181,48 +181,62 @@ body {
 }
 
 .dropdown {
-  @apply relative inline-block;
+  position: relative;
+  display: inline-block;
 }
 .dropdown > *:not(summary):focus {
-  @apply outline-none;
+  outline: none;
 }
 .dropdown .dropdown-content {
-  @apply absolute;
+  position: absolute;
 }
 .dropdown:is(:not(details)) .dropdown-content {
-  @apply invisible opacity-0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
 }
 .dropdown-end .dropdown-content {
-  @apply end-0;
+  right: 0;
 }
 .dropdown-left .dropdown-content {
-  @apply bottom-auto end-full top-0;
+  bottom: auto;
+  right: 100%;
+  top: 0;
 }
 .dropdown-right .dropdown-content {
-  @apply bottom-auto start-full top-0;
+  bottom: auto;
+  left: 100%;
+  top: 0;
 }
 .dropdown-bottom .dropdown-content {
-  @apply bottom-auto top-full;
+  bottom: auto;
+  top: 100%;
 }
 .dropdown-top .dropdown-content {
-  @apply bottom-full top-auto;
+  bottom: 100%;
+  top: auto;
 }
 .dropdown-end.dropdown-right .dropdown-content {
-  @apply bottom-0 top-auto;
+  bottom: 0;
+  top: auto;
 }
 .dropdown-end.dropdown-left .dropdown-content {
-  @apply bottom-0 top-auto;
+  bottom: 0;
+  top: auto;
 }
 .dropdown.dropdown-open .dropdown-content,
 .dropdown:not(.dropdown-hover):focus .dropdown-content,
 .dropdown:focus-within .dropdown-content {
-  @apply visible opacity-100;
+  visibility: visible;
+  opacity: 1;
 }
 @media (hover: hover) {
   .dropdown.dropdown-hover:hover .dropdown-content {
-    @apply visible opacity-100;
+    visibility: visible;
+    opacity: 1;
   }
 }
 .dropdown:is(details) summary::-webkit-details-marker {
-  @apply hidden;
+  display: none;
 }
+
