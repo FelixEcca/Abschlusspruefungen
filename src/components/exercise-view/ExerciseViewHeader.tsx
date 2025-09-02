@@ -5,12 +5,14 @@ import {
   faMedal,
   faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons'
-import { FaIcon } from '../ui/FaIcon'
+import { FaIcon } from '@/components/ui/FaIcon'
 import { useHistory } from 'react-router'
 import { navigationData } from '@/content/navigations'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { reseed } from './state/actions'
 import { ExerciseViewLayout } from './ExerciseViewLayout'
+import { getStatus, toggleFlag } from '../../../store/progress-store'
+import { faBolt } from '@fortawesome/free-solid-svg-icons'
 
 export function ExerciseViewHeader() {
   const id = ExerciseViewStore.useState(s => s.id)
@@ -30,7 +32,7 @@ export function ExerciseViewHeader() {
         ]
       : exercisesData[id]
   const history = useHistory()
-
+  const flagged = !!getStatus(id)?.flagged
   return (
     <>
       <div
@@ -113,6 +115,16 @@ export function ExerciseViewHeader() {
           }}
         >
           <FaIcon icon={faWandMagicSparkles} /> Nochmal
+        </button>
+        <button
+          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          onClick={() => {
+            toggleFlag(id)
+            ExerciseViewStore.update(s => s)
+          }}
+          title="Als herausfordernd markieren"
+        >
+          <FaIcon icon={faBolt} /> {flagged ? 'Markiert' : 'Blitz'}
         </button>
       </div>
     </>

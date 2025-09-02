@@ -14,6 +14,7 @@ import clsx from 'clsx'
 
 import { updatePlayerProfileStore } from '../../../store/player-profile-store'
 import { reseed } from './state/actions'
+import { markSolved } from '../../../store/progress-store'
 
 export function SolutionOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
@@ -140,6 +141,19 @@ export function SolutionOverlay() {
             }}
           >
             <FaIcon icon={faWandMagicSparkles} /> Nochmal
+          </button>
+          <br />
+          <button
+            className="px-3 py-1 bg-green-100 hover:bg-green-200 rounded-xl"
+            onClick={() => {
+              const id = ExerciseViewStore.getRawState().id
+              markSolved(id, true)
+              ExerciseViewStore.update(s => {
+                s.chatOverlay = null
+              })
+            }}
+          >
+            ✅ Aufgabe gelöst
           </button>
           <br />
           <button

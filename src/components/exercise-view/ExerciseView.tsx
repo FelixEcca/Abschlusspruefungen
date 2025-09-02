@@ -2,7 +2,7 @@ import { ExerciseViewStore } from './state/exercise-view-store'
 import { ExerciseViewLayout } from './ExerciseViewLayout'
 import { useEffect } from 'react'
 import { setupExercise } from './state/actions'
-
+import LearningTimerBinder from './LearningTimerBinder'
 interface ExerciseViewProps {
   id: number
 }
@@ -32,5 +32,10 @@ export function ExerciseView({ id }: ExerciseViewProps) {
     return null
   }
 
-  return <ExerciseViewLayout />
+  return (
+    <>
+      <LearningTimerBinder />
+      <ExerciseViewLayout />
+    </>
+  )
 }
