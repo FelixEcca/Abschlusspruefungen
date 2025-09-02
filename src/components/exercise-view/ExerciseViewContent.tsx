@@ -32,9 +32,6 @@ export function ExerciseViewContent() {
       navIndicatorPosition != navIndicatorExternalUpdate &&
       ref.current
     ) {
-      /*const [distance, offset] = calculateSnapPoints()
-      ref.current.scrollLeft = offset + distance * navIndicatorExternalUpdate*/
-
       document
         .getElementById(`exercise-${navIndicatorExternalUpdate}`)
         ?.scrollIntoView({
@@ -73,10 +70,15 @@ export function ExerciseViewContent() {
         : ExerciseViewStore.getRawState().id
     ].useCalculator
 
+  // 👉 zentrale Farbe hier einstellen
+  const EX_BG = '#f5f7fb' // leichtes graublau
+
   return (
     <div
       ref={ref}
-      className={clsx('w-full h-full overflow-y-auto bg-gray-100')}
+      // früher: bg-gray-100 – jetzt direkt Farbe (überschreibt zuverlässig)
+      className={clsx('w-full h-full overflow-y-auto')}
+      style={{ background: EX_BG }}
       onClick={() => {
         if (chatOverlay) {
           ExerciseViewStore.update(s => {
@@ -86,6 +88,7 @@ export function ExerciseViewContent() {
       }}
     >
       <div
+        className="bg-blue-100"
         id="exercise-view-content"
         onScroll={e => {
           const [distance, offset] = calculateSnapPoints()
@@ -103,10 +106,9 @@ export function ExerciseViewContent() {
           })
         }}
       >
-        <div className="h-2"></div>
+        <div className="h-2 "></div>
 
         {pages.map((page, i) => {
-          // TODO: find appropriate content for this page
           const id = page.context
             ? ExerciseViewStore.getRawState()._exerciseIDs[
                 parseInt(page.context) - 1
@@ -119,7 +121,6 @@ export function ExerciseViewContent() {
             : ExerciseViewStore.getRawState().data
 
           if (page.index == 'single') {
-            // single page exercise
             const singleExercise = exercise as SingleExercise<any>
             return (
               <>
@@ -128,17 +129,13 @@ export function ExerciseViewContent() {
                   singleExercise.duration ?? '?',
                   singleExercise.points ?? '?',
                   <>
-                    {
-                      <>
-                        {renderContentElement(
-                          singleExercise.task({
-                            data: singleExercise.exampleData
-                              ? singleExercise.exampleData
-                              : data,
-                          }),
-                        )}
-                      </>
-                    }
+                    {renderContentElement(
+                      singleExercise.task({
+                        data: singleExercise.exampleData
+                          ? singleExercise.exampleData
+                          : data,
+                      }),
+                    )}
                   </>,
                   page.displayIndex,
                 )}
@@ -147,9 +144,7 @@ export function ExerciseViewContent() {
                     i,
                     singleExercise.duration ?? '?',
                     singleExercise.points ?? '?',
-                    <>
-                      {<>{renderContentElement(singleExercise.example())}</>}
-                    </>,
+                    <>{renderContentElement(singleExercise.example())}</>,
                     page.displayIndex,
                     `example-${i}`,
                   )}
@@ -157,13 +152,11 @@ export function ExerciseViewContent() {
             )
           } else {
             const subtasks = exercise as ExerciseWithSubtasks<any>
-
             const task = subtasks.tasks.find(
               (t, j) => countLetter('a', j) == page.index,
             )!
 
             const intros = (page.intro ?? []).slice()
-
             if (page.index == 'a' && !intros.includes('global')) {
               intros.push('global')
             }
@@ -172,17 +165,11 @@ export function ExerciseViewContent() {
             }
             const introComps = intros.map((intro, i) =>
               intro == 'global'
-                ? subtasks.intro({
-                    data,
-                  })
+                ? subtasks.intro({ data })
                 : intro == 'local' && task.intro
-                  ? task.intro({
-                      data,
-                    })
+                  ? task.intro({ data })
                   : intro == 'skill' && task.skillIntro
-                    ? task.skillIntro({
-                        data,
-                      })
+                    ? task.skillIntro({ data })
                     : null,
             )
 
@@ -199,7 +186,8 @@ export function ExerciseViewContent() {
                         </div>
                       </div>
                     )}
-                    <div className="px-5 bg-white mb-6">
+                    {/* Intro in Card-Optik: weiß + Schatten */}
+                    <div className="px-5 bg-white rounded-xl shadow-md mb-6">
                       {renderContentElement(<>{introComps}</>, i.toString())}
                     </div>
                   </>
@@ -212,9 +200,7 @@ export function ExerciseViewContent() {
                     {renderContentElement(
                       <div>
                         {task.task({
-                          data: exercise.exampleData
-                            ? exercise.exampleData
-                            : data,
+                          data: exercise.exampleData ? exercise.exampleData : data,
                         })}
                       </div>,
                     )}
@@ -251,8 +237,9 @@ export function ExerciseViewContent() {
     const showNumbering = toHome && numbering
     return (
       <div
+      
         className={clsx(
-          'w-[calc(100%-24px)] flex-shrink-0 mx-auto relative',
+          'w-[calc(100%-24px)] flex-shrink-0 mx-auto relative ',
           showNumbering && 'mt-20',
         )}
         style={{ scrollbarWidth: 'thin' }}
@@ -266,45 +253,41 @@ export function ExerciseViewContent() {
         id={`exercise-${i}`}
       >
         {toHome && numbering && (
-          <div className="absolute -top-8 left-7 font-bold font-xl w-24 h-8 overflow-hidden">
-            <div className="text-center inset-0 h-24 w-24 rounded-full bg-blue-100">
+          <div className="absolute -top-8 left-7 font-bold font-xl w-24 h-8 overflow-hidden ">
+            <div className="text-center inset-0 h-24 w-24 rounded-full ">
               <span className="mt-2 inline-block">{numbering}</span>
             </div>
           </div>
         )}
         <div
+        
           className={clsx(
-            'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-8 mt-2 px-[1px] items-center border-2',
+            // 👉 Card klar weiß + Schatten, hebt sich vom EX_BG ab
+            'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-8 mt-2 px-[1px] items-center border-2 bg-white',
             navIndicatorPosition == i
               ? 'border-blue-500 cursor-pointer'
               : 'border-transparent',
           )}
         >
           <div
+          
             className={clsx(
               'flex justify-between p-[3px] w-full top-0',
               toHome && 'hidden',
             )}
           >
             <div>
-              <div
-                className={clsx(
-                  'px-1 py-0.5 bg-gray-100 inline-block rounded-md mr-2',
-                )}
-              >
+              <div className="px-1 py-0.5  inline-block rounded-md mr-2">
                 Aufgabe
-                {
-                  <>
-                    {' '}
-                    {!pages[i].context && pages[i].index == 'single' ? null : (
-                      <>
-                        {pages[i].context}
-                        {(pages[i].index == 'single' ? '' : pages[i].index) +
-                          ')'}
-                      </>
-                    )}
-                  </>
-                }
+                <>
+                  {' '}
+                  {!pages[i].context && pages[i].index == 'single' ? null : (
+                    <>
+                      {pages[i].context}
+                      {(pages[i].index == 'single' ? '' : pages[i].index) + ')'}
+                    </>
+                  )}
+                </>
               </div>
             </div>
             <div>
@@ -318,8 +301,6 @@ export function ExerciseViewContent() {
                   </div>
                 )}
               </button>
-
-              
             </div>
           </div>
 
@@ -332,10 +313,7 @@ export function ExerciseViewContent() {
   function renderContentElement(c: JSX.Element | null, key?: string) {
     if (!c) return null
     return (
-      <div
-        className="p-[3px] mt-3 mb-2 ml-2 min-w-[300px] sm:w-[334px]"
-        key={key}
-      >
+      <div className="p-[3px] mt-3 mb-2 ml-2 min-w-[300px] sm:w-[334px]" key={key}>
         {proseWrapper(c)}
       </div>
     )

@@ -80,22 +80,21 @@ export function Superskills() {
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Liste aller Aufgaben</IonTitle>
+          <IonTitle>Aufgaben nach Jahren</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}>
         <div className="mx-3 mt-8">
-          <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
-          <IonAccordionGroup expand="inset">
+          <IonAccordionGroup expand="inset" >
             {grouped.years.map(year => {
               const items = grouped.map.get(year)!
               const label = year === 0 ? 'Sonstige' : String(year)
 
               return (
-                <IonAccordion key={year} value={String(year)}>
-                  <IonItem slot="header">
-                    <IonLabel>
+                <IonAccordion key={year} value={String(year)} >
+                  <IonItem slot="header" >
+                    <IonLabel >
                       {label}{' '}
                       <span className="text-sm text-gray-500">
                         ({items.length})

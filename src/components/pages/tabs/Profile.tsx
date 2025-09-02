@@ -47,7 +47,7 @@ export function Profile() {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen>
+      <IonContent fullscreen style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}>
         <div className="mx-3 space-y-6 mt-4">
           {/* Prüfungsauswahl */}
           <div className="flex flex-col space-y-2">
@@ -73,7 +73,7 @@ export function Profile() {
           </div>
 
           {/* Statistik */}
-          <div className="rounded-xl border p-3">
+          <div className="shadow-md bg-white rounded-xl border p-3">
             <div className="font-semibold mb-2">Dein Lernfortschritt</div>
             <IonList lines="none">
               <IonItem>
@@ -100,7 +100,7 @@ export function Profile() {
           </div>
 
           {/* Fortschritt löschen */}
-          <div className="rounded-xl border p-3 space-y-3">
+          <div className="shadow-md bg-white rounded-xl border p-3 space-y-3">
             <div className="font-semibold">Fortschritt löschen</div>
             <IonText color="medium" className="text-sm block">
               Löscht alle lokal gespeicherten Lernstände auf diesem Gerät.

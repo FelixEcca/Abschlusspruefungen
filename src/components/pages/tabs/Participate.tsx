@@ -85,14 +85,16 @@ export function Participate() {
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Start</IonTitle>
+          <IonTitle>Abschlussprüfungen</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen>
+      <IonContent fullscreen         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
+      >
+        
         <div className="mx-3 mt-4 space-y-6">
           {/* Begrüßung */}
-          <div className="rounded-xl border p-3 bg-white">
+          <div className="shadow-md rounded-xl border p-3 bg-white">
             {editingName ? (
               <>
                 <div className="font-semibold mb-1">Hallo! Wie heißt du?</div>
@@ -129,9 +131,9 @@ export function Participate() {
                 </p>
               </>
             ) : (
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-lg">
+              <div className="flex items-center justify-between" >
+                <div >
+                  <div className="text-lg" >
                     👋 Hallo{name ? `, ${name}` : ''}!
                   </div>
                   <div className="text-sm text-gray-600">
@@ -145,7 +147,7 @@ export function Participate() {
             )}
           </div>
 
-          <div className="text-sm text-gray-600 rounded-xl border p-3">
+          <div className="shadow-md text-sm text-gray-600 rounded-xl border p-3 bg-white">
             🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
             {currentStreak === 1 ? '' : 'e'}
             <br></br>
@@ -154,7 +156,7 @@ export function Participate() {
           </div>
           {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
 
-          <div className="rounded-xl border p-3 bg-white">
+          <div className="shadow-md rounded-xl border p-3 bg-white">
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
               <div className="font-semibold">Zufällige Aufgabe</div>

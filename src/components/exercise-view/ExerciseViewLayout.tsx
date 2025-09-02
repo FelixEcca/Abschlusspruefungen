@@ -7,10 +7,10 @@ import { ChatOverlay } from './ChatOverlay'
 export function ExerciseViewLayout() {
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
-      <IonHeader className="ion-no-border bg-gray-100">
+      <IonHeader className="ion-no-border bg-gray-100" >
         <ExerciseViewHeader />
       </IonHeader>
-      <IonContent>
+      <IonContent fullscreen >
         <ExerciseViewContent />
       </IonContent>
       <IonFooter className="ion-no-border">

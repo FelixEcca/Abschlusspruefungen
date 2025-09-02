@@ -45,10 +45,10 @@ export function Topic({ title, color, skillGroups }: TopicProps) {
           <IonTitle></IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <div className="mx-4">
-          <h1 className="font-bold text-2xl mt-4">{title}</h1>
-          <div className="w-full max-w-md mt-4 space-y-4">
+      <IonContent className="ion-padding" >
+        <div className="mx-4" >
+          <h1 className="font-bold text-2xl mt-4 ">{title}</h1>
+          <div className="w-full max-w-md mt-4 space-y-4" >
             {skillGroups.map((item, index) => (
               <div key={index} className="border border-gray-300 rounded-md">
                 {/* Accordion Header */}

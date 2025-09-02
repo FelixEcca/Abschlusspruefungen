@@ -79,8 +79,8 @@ export function ExerciseViewHeader() {
           )
         }}
       >
-        <div className="flex items-center justify-between">
-          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
+        <div className="flex items-center justify-between" >
+          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2" >
             <FaIcon icon={faArrowLeft} />
             <span>
               {skill ? (
@@ -113,7 +113,7 @@ export function ExerciseViewHeader() {
         </div>
       </div>
 
-      <div className="text-left mt-2">
+      <div className="text-left mt-2" >
         <button
           className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
           onClick={() => {
@@ -155,7 +155,7 @@ export function ExerciseViewHeader() {
           }}
           title="Als herausfordernd markieren"
         >
-          <FaIcon icon={faBolt} /> {flagged ? 'Markiert' : 'Blitz'}
+          <FaIcon icon={faBolt} /> {flagged ? 'Markiert' : 'Markieren'}
         </button>
       </div>
     </>
