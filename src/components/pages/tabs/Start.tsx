@@ -130,16 +130,18 @@ export function Start() {
           <IonTitle>Abschlussprüfungen</IonTitle>
         </IonToolbar>
       </IonHeader>
-
+      <div style={{ marginTop: '40px' }}>
+        <WelcomePopover />
+      </div>
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
         {/* 💬 Name-Popover nur wenn kein Name vorhanden ist */}
-        <WelcomePopover />
 
         <div className="mx-3 mt-4 space-y-6">
           {/* Begrüßung */}
+
           <div className="shadow-md rounded-xl border p-3 bg-white">
             {editingName ? (
               <>

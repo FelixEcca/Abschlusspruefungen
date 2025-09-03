@@ -50,7 +50,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
 
   return (
     // Der Container fängt KEINE Pointer-Events (Hintergrund bleibt klickbar)
-    <div className="fixed inset-0 z-50 pointer-events-none">
+    <div className="fixed inset-0 z-50 pointer-events-none mt-10">
       {/* PopUp: fängt Pointer-Events (klickbar) */}
       <div className="pointer-events-auto absolute left-1/2 top-6 -translate-x-1/2 w-[min(92vw,380px)]">
         <div className="rounded-2xl shadow-xl bg-white border border-gray-200 p-4">
