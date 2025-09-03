@@ -106,8 +106,11 @@ export function List() {
           <IonTitle>Liste aller Aufgaben</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <div className="mx-3 mt-8">
+      <IonContent
+        fullscreen
+        style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
+      >
+        <div className="mx-3 mt-8 bg-white rounded-md pt-2 px-2 pb-2">
           <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
           <IonAccordionGroup expand="inset">
