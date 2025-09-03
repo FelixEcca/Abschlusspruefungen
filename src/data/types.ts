@@ -48,7 +48,7 @@ export interface Navigation {
   longTitle: string
   shortTitle: string
   topics: {
-    name: ReactNode
+    name?: ReactNode
     title: string
     headerColor: string
     twColor: string
@@ -82,7 +82,7 @@ export interface Step {
 }
 
 export interface SkillGroup {
-  name: string
+  name?: string
   skillExercises: SkillExercise[]
 }
 
