@@ -4,6 +4,7 @@ import {
   buildInlineFrac,
   buildOverline,
 } from '@/helper/math-builder'
+import { BlockMath, InlineMath } from 'react-katex'
 
 interface DATA {
   auswahl: number[]
@@ -45,9 +46,12 @@ export const exercise3016: Exercise<DATA> = {
     return (
       <>
         <p>
-          Im Dreieck ACD liegt der Punkt B in der Mitte der Seite zwischen A und
-          C. Die Strecke von A nach B ist der Durchmesser des Halbkreises, auf
-          dem der Punkt E liegt. x ist parallel zu y.
+          Im Dreieck ACD liegt der Punkt <InlineMath math="B" /> in der Mitte
+          der Seite zwischen <InlineMath math="A" /> und <InlineMath math="C" />
+          . Die Strecke von <InlineMath math="A" /> nach <InlineMath math="B" />{' '}
+          ist der Durchmesser des Halbkreises, auf dem der Punkt{' '}
+          <InlineMath math="E" /> liegt. <InlineMath math="x" /> ist parallel zu{' '}
+          <InlineMath math="y" />.
         </p>
         <svg viewBox="0 0 328 280 ">
           <image href="/content/BW_2BFS/3016.png" height="280" width="328" />
@@ -83,8 +87,13 @@ export const exercise3016: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Berechnen Sie die Länge der Strecke x.</p>
-            <p>Kontrollergebnis: {data.auswahl[1]} cm</p>
+            <p>
+              Berechnen Sie die Länge der Strecke <InlineMath math="x" />.
+            </p>
+            <p>
+              Kontrollergebnis:{' '}
+              <InlineMath math={`${data.auswahl[1]} \\text{ cm}`} />
+            </p>
           </>
         )
       },
@@ -95,7 +104,13 @@ export const exercise3016: Exercise<DATA> = {
               Das Dreieck ABE ist rechtwinklig, weil die Ecken genau auf einem
               Thaleskreis liegen.
             </p>
-            <p>Zudem ist die Seite AB {data.auswahl[2]} cm lang.</p>
+            <p>
+              Zudem ist die Seite{' '}
+              <InlineMath
+                math={`\\overline{AB} = ${data.auswahl[2]} \\text{ cm}`}
+              />{' '}
+              lang.
+            </p>
             <svg viewBox="0 0 328 190 ">
               <image
                 href="/content/BW_2BFS/3016_2.png"
@@ -126,24 +141,59 @@ export const exercise3016: Exercise<DATA> = {
 
             {buildEquation([
               [
-                <>{data.auswahl[0]}² + x²</>,
-                <>=</>,
-                <>{data.auswahl[2]}²</>,
-                <>| - {data.auswahl[0]}²</>,
-              ],
-              [
-                <>x²</>,
-                <>=</>,
                 <>
-                  {data.auswahl[2]}² - {data.auswahl[0]}²
+                  <InlineMath math={`${data.auswahl[0]}² + x²`} />
                 </>,
-                <>| √</>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={`${data.auswahl[2]}²`} />
+                </>,
+                <>
+                  <InlineMath math={`- ${data.auswahl[0]}²`} />
+                </>,
               ],
               [
-                <>x</>,
-                <>=</>,
                 <>
-                  {Math.sqrt(data.auswahl[2] ** 2 - data.auswahl[0] ** 2)} cm
+                  <InlineMath math={`x²`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${data.auswahl[2]}² - ${data.auswahl[0]}²`}
+                  />
+                </>,
+                <>
+                  | <InlineMath math={`\\sqrt{}`} />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math={`x`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\sqrt{${data.auswahl[2] ** 2 - data.auswahl[0] ** 2}}`}
+                  />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math={`x`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${Math.sqrt(data.auswahl[2] ** 2 - data.auswahl[0] ** 2)} \\text{ cm}`}
+                  />
                 </>,
               ],
             ])}
@@ -159,7 +209,9 @@ export const exercise3016: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Berechnen Sie die Länge der Strecke y.</p>
+            <p>
+              Berechnen Sie die Länge der Strecke <InlineMath math="y" />.
+            </p>
           </>
         )
       },
@@ -167,13 +219,19 @@ export const exercise3016: Exercise<DATA> = {
         return (
           <>
             <p>
-              Da x und y parallel sind, sind die Dreiecke ACD und ABE ähnlich.
+              Da <InlineMath math="x" /> und <InlineMath math="y" /> parallel
+              sind, sind die Dreiecke <InlineMath math="ACD" /> und{' '}
+              <InlineMath math="ABE" /> ähnlich.
             </p>
             <p>
               Die Seitenlängen des größeren Dreiecks sind alle genau doppelt so
               groß, also ist:
             </p>
-            <p>y = 2 · x = {data.auswahl[1] * 2} cm</p>
+            <p>
+              <InlineMath
+                math={`y = 2 \\cdot x = ${data.auswahl[1] * 2} \\text{ cm}`}
+              />
+            </p>
           </>
         )
       },

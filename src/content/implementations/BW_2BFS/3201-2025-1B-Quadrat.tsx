@@ -1,7 +1,7 @@
 import { Exercise } from '@/data/types'
 import { buildSqrt } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
-import { BlockMath } from 'react-katex'
+import { BlockMath, InlineMath } from 'react-katex'
 
 interface DATA {
   x: number
@@ -45,9 +45,11 @@ export const exercise3201: Exercise<DATA> = {
     return (
       <>
         <p>
-          In der Abbildung ist eine quadratische Fläche A<sub>ges</sub> mit der
-          Seitenlänge x dargestellt. Sie besteht aus den vier Teilflächen A
-          <sub>1</sub>, A<sub>2</sub>, A<sub>3</sub> und A<sub>4</sub>.
+          In der Abbildung ist eine quadratische Fläche{' '}
+          <InlineMath math={`A_{ges}`} /> mit der Seitenlänge x dargestellt. Sie
+          besteht aus den vier Teilflächen <InlineMath math={`A_{1}`} />,
+          <InlineMath math={`A_{2}`} />, <InlineMath math={`A_{3}`} /> und{' '}
+          <InlineMath math={`A_{4}`} />.
         </p>
         <svg viewBox="-2 0 12 10" width="220" height="200">
           <defs>
@@ -152,10 +154,10 @@ export const exercise3201: Exercise<DATA> = {
           </text>
         </svg>
         <p>
-          Für die Gesamtfläche gilt: A<sub>ges</sub> = {pp(data.x * data.x)} m².{' '}
-          <br />
-          Für die Teilfläche A<sub>1</sub> gilt: A<sub>1</sub> = {pp(data.A1)}{' '}
-          m².
+          Für die Gesamtfläche gilt:{' '}
+          <InlineMath math={`A_{ges} = ${pp(data.x * data.x)} ~m²`} />. <br />
+          Für die Teilfläche <InlineMath math={`A_{1}`} /> gilt:{' '}
+          <InlineMath math={`A_{1} = ${pp(data.A1)} ~m²`} />.
         </p>
       </>
     )
@@ -170,11 +172,15 @@ export const exercise3201: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Gesamtfläche beträgt A<sub>ges</sub> = {pp(data.x * data.x)}{' '}
-              m². Da es sich um ein Quadrat handelt, gilt: A<sub>ges</sub> = x²
+              Die Gesamtfläche beträgt{' '}
+              <InlineMath math={`A_{ges} = ${pp(data.x * data.x)} ~m²`} />. Da
+              es sich um ein Quadrat handelt, gilt:
+              <InlineMath math={`A_{ges} = x^2`} />
             </p>
             <p>
-              x = {buildSqrt(pp(data.x * data.x))} = {pp(data.x)} m
+              <InlineMath
+                math={`x = \\sqrt{${pp(data.x * data.x)}} = ${pp(data.x)} ~m`}
+              />
             </p>
           </>
         )
@@ -193,12 +199,20 @@ export const exercise3201: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Seitenlänge von A<sub>1</sub> beträgt {pp(data.A1Side)} m.
-              Damit ist die Seitenlänge von A<sub>4</sub> = {pp(data.x)} −{' '}
-              {pp(data.A1Side)} = {pp(data.x - data.A1Side)} m.
+              Die Seitenlänge von <InlineMath math={`A_{1}`} /> beträgt{' '}
+              <InlineMath math={` ${pp(data.A1Side)} ~m`} />. Damit ist die
+              Seitenlänge von <InlineMath math={`A_{4}:`} />
+              <br></br>
+              <br></br>{' '}
+              <InlineMath
+                math={`A_{4} = ${pp(data.x)} −
+              ${pp(data.A1Side)} = ${pp(data.x - data.A1Side)} ~m.`}
+              />{' '}
             </p>
             <p>
-              A<sub>4</sub> = ({pp(data.x - data.A1Side)} m)² = {pp(data.A4)} m²
+              <InlineMath
+                math={`A_{4} = (${pp(data.x - data.A1Side)} ~m)² = ${pp(data.A4)} ~m²`}
+              />
             </p>
           </>
         )
@@ -217,9 +231,15 @@ export const exercise3201: Exercise<DATA> = {
       solution({ data }) {
         return (
           <p>
-            A<sub>2</sub> hat die Seitenlängen {pp(data.x - data.A1Side)} m und{' '}
-            {pp(data.A1Side)} m. <br />A<sub>3</sub> hat die Seitenlängen{' '}
-            {pp(data.A1Side)} m und {pp(data.x - data.A1Side)} m. <br />
+            <InlineMath math={`A_2`} /> hat die Seitenlängen{' '}
+            <InlineMath math={`${pp(data.x - data.A1Side)} ~m`} /> und{' '}
+            <InlineMath math={`${pp(data.A1Side)} ~m`} />. <br />
+            <InlineMath math={`A_3`} />
+            hat die Seitenlängen <InlineMath
+              math={`${pp(data.A1Side)} ~m`}
+            />{' '}
+            und <InlineMath math={`${pp(data.x - data.A1Side)} ~m`} />. <br />
+            <br />
             Beide Rechtecke haben dieselben Seitenlängen und sind daher
             kongruent.
           </p>

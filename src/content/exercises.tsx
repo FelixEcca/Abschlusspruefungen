@@ -239,8 +239,10 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   401: exercise401,
 }
 
+// import { BlockMath, InlineMath } from 'react-katex'
 //<BlockMath math={``}/>
 // <InlineMath math={``} />
+// {polyToLatex([[data.m, 'x', 1],[data.b, 'x', 0],])}`}
 
 // symbols:
 // {buildEquation([[<></>,<></>,<></>],[<></>,<></>,<></>],[<></>,<></>,<></>]])}

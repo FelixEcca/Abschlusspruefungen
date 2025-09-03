@@ -59,7 +59,9 @@ export const exercise3200: Exercise<DATA> = {
   intro() {
     return (
       <>
-        <p>Gegeben ist ein Viereck ABCD.</p>
+        <p>
+          Gegeben ist ein Viereck <InlineMath math={`ABCD`} />.
+        </p>
       </>
     )
   },
@@ -70,11 +72,16 @@ export const exercise3200: Exercise<DATA> = {
         return (
           <>
             <p>
-              Zeichnen Sie das Viereck ABCD mit den Eckpunkten A (
-              {pp(data.A[0])}|{pp(data.A[1])}), B({pp(data.B[0])}|
-              {pp(data.B[1])}), C({pp(data.C[0])}|{pp(data.C[1])}) und D(
-              {pp(data.D[0])}|{pp(data.D[1])}) in ein rechtwinkliges
-              Koordinatensystem.
+              Zeichnen Sie das Viereck <InlineMath math={`ABCD`} /> mit den
+              Eckpunkten{' '}
+              <InlineMath
+                math={`A(${pp(data.A[0])}|
+              ${pp(data.A[1])})`}
+              />{' '}
+              , <InlineMath math={`B(${pp(data.B[0])}|${pp(data.B[1])})`} />,{' '}
+              <InlineMath math={`C(${pp(data.C[0])}|${pp(data.C[1])})`} /> und{' '}
+              <InlineMath math={`D(${pp(data.D[0])}|${pp(data.D[1])})`} /> in
+              ein rechtwinkliges Koordinatensystem.
             </p>
           </>
         )
@@ -201,19 +208,37 @@ export const exercise3200: Exercise<DATA> = {
       task() {
         return (
           <p>
-            Das Viereck ABCD wird am Ursprung gespiegelt. Geben Sie die
-            Koordinaten der Bildpunkte A‘, B‘, C‘ und D‘ an.
+            Das Viereck <InlineMath math={`ABCD`} /> wird am Ursprung
+            gespiegelt. Geben Sie die Koordinaten der Bildpunkte{' '}
+            <InlineMath math={`A'`} />, <InlineMath math={`B'`} />,{' '}
+            <InlineMath math={`C'`} /> und <InlineMath math={`D'`} /> an.
           </p>
         )
       },
       solution({ data }) {
         return (
           <p>
-            Nach einer Spiegelung am Ursprung ergeben sich die Punkte: A′(
-            {pp(data.mirrored.A[0])}|{pp(data.mirrored.A[1])}), B′(
-            {pp(data.mirrored.B[0])}|{pp(data.mirrored.B[1])}), C′(
-            {pp(data.mirrored.C[0])}|{pp(data.mirrored.C[1])}), D′(
-            {pp(data.mirrored.D[0])}|{pp(data.mirrored.D[1])}).
+            Nach einer Spiegelung am Ursprung ergeben sich die Punkte:<br></br>{' '}
+            <InlineMath
+              math={`A′(
+              ${pp(data.mirrored.A[0])}|${pp(data.mirrored.A[1])})`}
+            />
+            ,{' '}
+            <InlineMath
+              math={`B′(
+              ${pp(data.mirrored.B[0])}|${pp(data.mirrored.B[1])})`}
+            />
+            ,{' '}
+            <InlineMath
+              math={`C′(
+              ${pp(data.mirrored.C[0])}|${pp(data.mirrored.C[1])})`}
+            />
+            ,{' '}
+            <InlineMath
+              math={`D′(
+              ${pp(data.mirrored.D[0])}|${pp(data.mirrored.D[1])})`}
+            />
+            .
           </p>
         )
       },

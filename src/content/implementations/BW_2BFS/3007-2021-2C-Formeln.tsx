@@ -1,5 +1,5 @@
 import { Exercise } from '@/data/types'
-import { buildInlineFrac, buildSqrt } from '@/helper/math-builder'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   order: Array<number>
@@ -7,30 +7,69 @@ interface DATA {
   item2: number
   item0: number
 }
+
 const prompts = [
   'Stellen Sie die Formel für den Oberflächeninhalt einer Kugel nach dem Radius um.',
   'Stellen Sie die Formel für die Fläche eines Kreises nach dem Radius um.',
   'Stellen Sie die Formel für das Volumen einer Kugel nach dem Radius um.',
 ]
+
+// Aussagen – mit LaTeX inlined
 const richtig = [
-  'Wird der Radius einer Kugel verdreifacht, verneunfacht sich ihr Oberflächeninhalt.',
-  'Wird der Radius einer Kugel verdoppelt, vervierfacht sich ihr Oberflächeninhalt.',
-  'Wird der Radius einer Kugel verdoppelt, verachtfacht sich ihr Volumen.',
+  <>
+    Wird der Radius einer Kugel verdreifacht, verneunfacht sich ihr
+    Oberflächeninhalt (<InlineMath math={'O=4\\pi r^2'} />
+    ).
+  </>,
+  <>
+    Wird der Radius einer Kugel verdoppelt, vervierfacht sich ihr
+    Oberflächeninhalt (<InlineMath math={'O=4\\pi r^2'} />
+    ).
+  </>,
+  <>
+    Wird der Radius einer Kugel verdoppelt, verachtfacht sich ihr Volumen (
+    <InlineMath math={'V=\\tfrac{4}{3}\\pi r^3'} />
+    ).
+  </>,
 ]
 const richtig2 = [
-  'Richtig. Setzt man den dreifachen Radius in O = 4 · π · r² ein, erhält man den Faktor (3r)² = 9r². Also das Neunfache.',
-  'Richtig. Setzt man den doppelten Radius in A = π · r² ein, erhält man den Faktor (2r)² = 4r². Also das Vierfache.',
-  'Richtig. Setzt man den doppelten Radius in V = 4/3 · π · r³ ein, erhält man den Faktor (2r)³ = 8r³. Also das Achtfache.',
+  <>
+    Richtig. Setzt man <InlineMath math={'3r'} /> in{' '}
+    <InlineMath math={'O=4\\pi r^2'} /> ein, ergibt sich{' '}
+    <InlineMath math={'(3r)^2=9r^2'} /> → das Neunfache.
+  </>,
+  <>
+    Richtig. Setzt man <InlineMath math={'2r'} /> in{' '}
+    <InlineMath math={'O=4\\pi r^2'} /> ein, ergibt sich{' '}
+    <InlineMath math={'(2r)^2=4r^2'} /> → das Vierfache.
+  </>,
+  <>
+    Richtig. Setzt man <InlineMath math={'2r'} /> in{' '}
+    <InlineMath math={'V=\\tfrac{4}{3}\\pi r^3'} /> ein, ergibt sich{' '}
+    <InlineMath math={'(2r)^3=8r^3'} /> → das Achtfache.
+  </>,
 ]
 const falsch = [
-  'Wird der Radius einer Kugel verdoppelt, vervierfacht sich ihr Volumen.',
-  'Wird der Radius einer Kugel verdoppelt, verdoppelt sich ihr Volumen.',
-  'Wird der Radius einer Kugel verdoppelt, verdoppelt sich ihr Oberflächeninhalt.',
+  <>Wird der Radius einer Kugel verdoppelt, vervierfacht sich ihr Volumen.</>,
+  <>Wird der Radius einer Kugel verdoppelt, verdoppelt sich ihr Volumen.</>,
+  <>
+    Wird der Radius einer Kugel verdoppelt, verdoppelt sich ihr
+    Oberflächeninhalt.
+  </>,
 ]
 const falsch2 = [
-  'Falsch. Setzt man den doppelten Radius in V = 4/3 · π · r³ ein, erhält man den Faktor (2r)³ = 8r³. Also das Achtfache.',
-  'Falsch. Setzt man den doppelten Radius in V = 4/3 · π · r³ ein, erhält man den Faktor (2r)³ = 8r³. Also das Achtfache.',
-  'Falsch. Setzt man den doppelten Radius in O = 4 · π · r² ein, erhält man den Faktor (2r)² = 4r². Also das Vierfache.',
+  <>
+    Falsch. In <InlineMath math={'V=\\tfrac{4}{3}\\pi r^3'} /> ergibt{' '}
+    <InlineMath math={'(2r)^3=8r^3'} /> → Achtfach, nicht Vierfach.
+  </>,
+  <>
+    Falsch. In <InlineMath math={'V=\\tfrac{4}{3}\\pi r^3'} /> ergibt{' '}
+    <InlineMath math={'(2r)^3=8r^3'} /> → Achtfach, nicht Doppelt.
+  </>,
+  <>
+    Falsch. In <InlineMath math={'O=4\\pi r^2'} /> ergibt{' '}
+    <InlineMath math={'(2r)^2=4r^2'} /> → Vierfach, nicht Doppelt.
+  </>,
 ]
 
 export const exercise3007: Exercise<DATA> = {
@@ -47,94 +86,95 @@ export const exercise3007: Exercise<DATA> = {
     }
   },
   originalData: { order: [0, 1], item1: 0, item2: 0, item0: 0 },
-  constraint({ data }) {
+  constraint() {
     return true
   },
-  intro({ data }) {
+  intro() {
     return null
   },
   tasks: [
+    // (1) Formel nach r umstellen
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
-        return (
-          <>
-            <p>{prompts[data.item0]}</p>
-          </>
-        )
+        return <p>{prompts[data.item0]}</p>
       },
       solution({ data }) {
-        const prompts = [
-          'Stellen Sie die Formel für den Oberflächeninhalt einer Kugel nach dem Radius um.',
-          'Stellen Sie die Formel für die Fläche eines Kreises nach dem Radius um.',
-          'Stellen Sie die Formel für das Volumen einer Kugel nach dem Radius um.',
-        ]
         return (
           <>
-            {data.item0 == 0 && (
+            {data.item0 === 0 && (
               <>
-                <p>
-                  Die Formel für den Oberflächeninhalt eines Kreises lautet:
-                </p>
-                <p>O = 4 · π · r²</p>
-                <p>Umgestellt nach r:</p>
-                <p>r = {buildSqrt(<>{buildInlineFrac('O', <>4 · π</>)}</>)}</p>
+                <p>Formel des Kugeloberflächeninhalts:</p>
+                <BlockMath math={'O=4\\pi r^{2}'} />
+                <p>Nach dem Radius umgestellt:</p>
+                <BlockMath
+                  math={String.raw`
+\begin{aligned}
+r^{2} &= \frac{O}{4\pi}\\
+r &= \sqrt{\frac{O}{4\pi}}
+\end{aligned}`}
+                />
               </>
             )}
-            {data.item0 == 1 && (
+
+            {data.item0 === 1 && (
               <>
-                <p>Die Formel für die Fläche eines Kreises lautet:</p>
-                <p>A = π · r²</p>
-                <p>Umgestellt nach r:</p>
-                <p>r = {buildSqrt(<>{buildInlineFrac('A', <>π</>)}</>)}</p>
+                <p>Formel der Kreisfläche:</p>
+                <BlockMath math={'A=\\pi r^{2}'} />
+                <p>Nach dem Radius umgestellt:</p>
+                <BlockMath
+                  math={String.raw`
+\begin{aligned}
+r^{2} &= \frac{A}{\pi}\\
+r &= \sqrt{\frac{A}{\pi}}
+\end{aligned}`}
+                />
               </>
             )}
-            {data.item0 == 2 && (
+
+            {data.item0 === 2 && (
               <>
-                <p> Die Formel für das Volumen einer Kugel lautet:</p>
-                <p>V = {buildInlineFrac(4, 3)} · π · r³</p>
-                <p>Umgestellt nach r:</p>
-                <p>
-                  r ={' '}
-                  {buildSqrt(<>{buildInlineFrac('3 · V', <>4 · π</>)}</>, 3)},
-                </p>
+                <p>Formel des Kugelvolumens:</p>
+                <BlockMath math={'V=\\tfrac{4}{3}\\,\\pi r^{3}'} />
+                <p>Nach dem Radius umgestellt:</p>
+                <BlockMath
+                  math={String.raw`
+\begin{aligned}
+r^{3} &= \frac{3V}{4\pi}\\
+r &= \sqrt[3]{\frac{3V}{4\pi}}
+\end{aligned}`}
+                />
               </>
             )}
           </>
         )
       },
     },
+
+    // (2) Aussagen zum Skalieren des Radius – richtig/falsch
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         const listItems = [
-          <li key="1">{richtig[data.item1]}</li>,
-          <li key="2">{falsch[data.item1]}</li>,
+          <li key="r1">{richtig[data.item1]}</li>,
+          <li key="f1">{falsch[data.item1]}</li>,
         ]
-        const shuffledItems = data.order.map(i => listItems[i])
-        return (
-          <>
-            <ol>{shuffledItems}</ol>
-          </>
-        )
+        const shuffled = data.order.map(i => listItems[i])
+        return <ol>{shuffled}</ol>
       },
       solution({ data }) {
         const listItems = [
-          <li key="1">{richtig2[data.item1]}</li>,
-          <li key="2">{falsch2[data.item1]}</li>,
+          <li key="r2">{richtig2[data.item1]}</li>,
+          <li key="f2">{falsch2[data.item1]}</li>,
         ]
-        const shuffledItems = data.order.map(i => listItems[i])
-        return (
-          <>
-            <ol>{shuffledItems}</ol>
-          </>
-        )
+        const shuffled = data.order.map(i => listItems[i])
+        return <ol>{shuffled}</ol>
       },
     },
   ],

@@ -1,4 +1,5 @@
 import { Exercise } from '@/data/types'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   order: number[]
@@ -204,8 +205,8 @@ export const exercise3012: Exercise<DATA> = {
         return (
           <>
             <p>
-              Geben Sie für eine Darstellung Ihrer Wahl an, welche Einheit x und
-              y haben.
+              Geben Sie für eine Darstellung Ihrer Wahl an, welche Einheit{' '}
+              <InlineMath math="x" /> und <InlineMath math="y" /> haben.
             </p>
           </>
         )
@@ -221,24 +222,38 @@ export const exercise3012: Exercise<DATA> = {
             {darstellungen_shuffled[0]}
             <p>Darstellung 1 hat die Einheiten:</p>
             <ul>
-              <li>x: {einheit_x_shuffled[0]}</li>
-              <li>y: {einheit_y_shuffled[0]}</li>
+              <li>
+                <InlineMath math={`x:`} /> {einheit_x_shuffled[0]}
+              </li>
+              <li>
+                <InlineMath math={`y:`} /> {einheit_y_shuffled[0]}
+              </li>
             </ul>
             <br></br>
             <br></br>
             {darstellungen_shuffled[1]}
             <p>Darstellung 2 hat die Einheiten:</p>
             <ul>
-              <li>x: {einheit_x_shuffled[1]}</li>
-              <li>y: {einheit_y_shuffled[1]}</li>
+              <li>
+                <InlineMath math={`x:`} />
+                {einheit_x_shuffled[1]}
+              </li>
+              <li>
+                <InlineMath math={`y:`} /> {einheit_y_shuffled[1]}
+              </li>
             </ul>
             <br></br>
             <br></br>
             {darstellungen_shuffled[2]}
             <p>Darstellung 3 hat die Einheiten:</p>
             <ul>
-              <li>x: {einheit_x_shuffled[2]}</li>
-              <li>y: {einheit_y_shuffled[2]}</li>
+              <li>
+                <InlineMath math={`x:`} />
+                {einheit_x_shuffled[2]}
+              </li>
+              <li>
+                <InlineMath math={`y:`} /> {einheit_y_shuffled[2]}
+              </li>
             </ul>
           </>
         )

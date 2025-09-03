@@ -2,6 +2,7 @@ import { Exercise } from '@/data/types'
 import { Color4 } from '@/helper/colors'
 import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   a: number
@@ -44,8 +45,11 @@ export const exercise3001: Exercise<DATA> = {
     return (
       <>
         <p>
-          Gegeben ist die Gleichung<br></br> {pp(data.a)}x{' '}
-          {pp(data.b, 'merge_op')} = {pp(d)} {pp(data.c, 'koeff')}x
+          Gegeben ist die Gleichung<br></br>{' '}
+          <InlineMath
+            math={`${pp(data.a)}x
+          ${pp(data.b, 'merge_op')} = ${pp(d)} ${pp(data.c, 'koeff')}x`}
+          />
         </p>
       </>
     )
@@ -60,7 +64,8 @@ export const exercise3001: Exercise<DATA> = {
         return (
           <>
             <p>
-              Zeigen Sie, dass x = {data.guess} keine Lösung der Gleichung ist.
+              Zeigen Sie, dass <InlineMath math={`x = ${data.guess}`} /> keine
+              Lösung der Gleichung ist.
             </p>
           </>
         )
@@ -69,24 +74,38 @@ export const exercise3001: Exercise<DATA> = {
         const d = (data.a - data.c) * data.x + data.b
         return (
           <>
-            <p>Setze {data.guess} für x ein:</p>
+            <p>
+              Setze <InlineMath math={`${data.guess}`} /> für{' '}
+              <InlineMath math={`x`} /> ein:
+            </p>
             {buildEquation([
               [
                 <>
-                  {pp(data.a)}x {pp(data.b, 'merge_op')}
+                  <InlineMath
+                    math={`${pp(data.a)}x ${pp(data.b, 'merge_op')}`}
+                  />
                 </>,
-                <>=</>,
                 <>
-                  {pp(d)} {pp(data.c, 'koeff')}x
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={`${pp(d)} ${pp(data.c, 'koeff')}x`} />
                 </>,
               ],
               [
                 <>
-                  {pp(data.a)} · {data.guess} {pp(data.b, 'merge_op')}
+                  <InlineMath
+                    math={`${pp(data.a)} \\cdot ${data.guess} ${pp(data.b, 'merge_op')}`}
+                  />
                 </>,
-                <>=</>,
+
                 <>
-                  {pp(d)} {pp(data.c, 'koeff')} · {data.guess}
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${pp(d)} ${pp(data.c, 'koeff')} \\cdot ${data.guess}`}
+                  />
                 </>,
               ],
               [
@@ -106,14 +125,21 @@ export const exercise3001: Exercise<DATA> = {
                 </>,
               ],
               [
-                <>{pp(data.a * data.guess + data.b)}</>,
-                <>≠</>,
-                <>{pp(data.c * data.guess + d)}</>,
+                <>
+                  <InlineMath math={pp(data.a * data.guess + data.b)} />
+                </>,
+                <>
+                  <InlineMath math={`\\neq`} />
+                </>,
+                <>
+                  <InlineMath math={pp(data.c * data.guess + d)} />
+                </>,
               ],
             ])}
             <p>
-              Die Gleichung ist nicht erfüllt. Das bedeutet, x = {data.guess}{' '}
-              ist keine Lösung der Gleichung.
+              Die Gleichung ist nicht erfüllt. Das bedeutet,{' '}
+              <InlineMath math={`x = ${data.guess}`} /> ist keine Lösung der
+              Gleichung.
             </p>
           </>
         )
@@ -142,38 +168,78 @@ export const exercise3001: Exercise<DATA> = {
             {buildEquation([
               [
                 <>
-                  {pp(data.a)}x {pp(data.b, 'merge_op')}
+                  <InlineMath
+                    math={`${pp(data.a)}x ${pp(data.b, 'merge_op')}`}
+                  />
                 </>,
-                <>=</>,
                 <>
-                  {pp(d)} {pp(data.c, 'koeff')}x
+                  <InlineMath math={`=`} />
                 </>,
-                <>| {pp(-data.c, 'koeff')}x</>,
+                <>
+                  <InlineMath math={`${pp(d)} ${pp(data.c, 'koeff')}x`} />
+                </>,
+                <>
+                  {' '}
+                  | <InlineMath math={pp(-data.c, 'koeff')} />x
+                </>,
               ],
 
               [
                 <>
-                  {pp(data.a + -data.c)}x {pp(data.b, 'merge_op')}
+                  <InlineMath
+                    math={`${pp(data.a + -data.c)}x ${pp(data.b, 'merge_op')}`}
+                  />
                 </>,
-                <>=</>,
-                <>{pp(d)}</>,
-                <> | {pp(-data.b, 'merge_op')}</>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={pp(d)} />
+                </>,
+                <>
+                  {' '}
+                  | <InlineMath math={pp(-data.b, 'merge_op')} />
+                </>,
               ],
             ])}
             {data.a + -data.c != 1 && (
               <>
                 {buildEquation([
                   [
-                    <>{pp(data.a + -data.c)}x</>,
-                    <>=</>,
-                    <>{pp(d - data.b)}</>,
-                    <> | : {pp(data.a + -data.c, 'embrace_neg')}</>,
+                    <>
+                      <InlineMath math={`${pp(data.a + -data.c)}x`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath math={pp(d - data.b)} />
+                    </>,
+                    <>
+                      {' '}
+                      | :{' '}
+                      <InlineMath math={pp(data.a + -data.c, 'embrace_neg')} />
+                    </>,
                   ],
                 ])}
               </>
             )}
-            {buildEquation([[<>x</>, <>=</>, <>{pp(data.x)}</>]])}
-            <p>Die Lösung ist x = {pp(data.x)}.</p>
+            {buildEquation([
+              [
+                <>
+                  <InlineMath math={`x`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={pp(data.x)} />
+                </>,
+              ],
+            ])}
+            <p>
+              Die Lösung ist <InlineMath math={`x = ${pp(data.x)}`} />
+            </p>
           </>
         )
       },
@@ -207,16 +273,20 @@ export const exercise3001: Exercise<DATA> = {
               Die Terme können jeweils als Geradengleichung verstanden werden:
             </p>
             <p>
-              y<sub>1</sub> = {pp(data.a)}x {pp(data.b, 'merge_op')}
+              <InlineMath
+                math={`y_1 = ${pp(data.a)}x ${pp(data.b, 'merge_op')}`}
+              />
             </p>
             {buildEquation([
               [
                 <>
-                  y<sub>2</sub>
+                  <InlineMath math={`y_2`} />
                 </>,
-                <>=</>,
                 <>
-                  {pp(d)} {pp(data.c, 'koeff')}x
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={`${pp(d)} ${pp(data.c, 'koeff')}x`} />
                 </>,
               ],
               [
@@ -237,11 +307,13 @@ export const exercise3001: Exercise<DATA> = {
               ],
               [
                 <>
-                  y<sub>2</sub>
+                  <InlineMath math={`y_2`} />
                 </>,
-                <>=</>,
                 <>
-                  {pp(data.c)}x {pp(d, 'merge_op')}{' '}
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={`${pp(data.c)}x ${pp(d, 'merge_op')}`} />
                 </>,
               ],
             ])}

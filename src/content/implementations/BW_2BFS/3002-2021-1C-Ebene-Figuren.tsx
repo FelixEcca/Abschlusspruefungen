@@ -1,4 +1,5 @@
 import { Exercise } from '@/data/types'
+import { InlineMath } from 'react-katex'
 
 /* ==================== Typen ==================== */
 type Pt = [number, number]
@@ -340,13 +341,19 @@ export const exercise3002: Exercise<DATA> = {
         return null
       },
       task() {
-        return <p>Begründen Sie, welche der Figuren A bis D kongruent sind.</p>
+        return (
+          <p>
+            Begründen Sie, welche der Figuren <InlineMath math={`A`} /> bis{' '}
+            <InlineMath math={`D`} /> kongruent sind.
+          </p>
+        )
       },
       solution({ data }) {
         const [p1, p2] = data.congruentPair
         return (
           <p>
-            Kongruent sind {p1} und {p2}. Wenn man sie aufeinanderlegt, passen
+            Kongruent sind <InlineMath math={`${p1}`} /> und{' '}
+            <InlineMath math={`${p2}`} />. Wenn man sie aufeinanderlegt, passen
             sie genau übereinander. (Beide haben die gleiche Form und Größe.)
           </p>
         )
@@ -382,14 +389,24 @@ export const exercise3002: Exercise<DATA> = {
         return (
           <>
             <p>
-              {id1} und {id2} sind{' '}
+              <InlineMath math={`${id1}`} /> und <InlineMath math={`${id2}`} />{' '}
+              sind{' '}
               {data.symType === 'axis'
                 ? 'achsensymmetrisch'
                 : 'punktsymmetrisch'}
               .{' '}
-              {data.symType === 'axis'
-                ? 'Die Grafik zeigt wie ein Spiegelpunkt P an der gestrichelten Achse gespiegelt wird.'
-                : 'Die Grafik zeigt wie ein Spiegelpunkt P punktsymmetrisch gespiegelt wird.'}
+              {data.symType === 'axis' ? (
+                <p>
+                  Die Grafik zeigt wie ein Spiegelpunkt{' '}
+                  <InlineMath math={`P`} /> an der gestrichelten Achse
+                  gespiegelt wird.
+                </p>
+              ) : (
+                <p>
+                  Die Grafik zeigt wie ein Spiegelpunkt{' '}
+                  <InlineMath math={`P`} /> punktsymmetrisch gespiegelt wird.
+                </p>
+              )}
             </p>
 
             <svg viewBox="0 0 328 328" width="328" height="328">

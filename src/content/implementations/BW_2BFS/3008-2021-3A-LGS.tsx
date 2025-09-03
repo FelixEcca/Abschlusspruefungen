@@ -1,8 +1,6 @@
 import { Exercise } from '@/data/types'
-import { Color1, Color4 } from '@/helper/colors'
-import { buildEquation } from '@/helper/math-builder'
 import { pp, ppFrac } from '@/helper/pretty-print'
-import { shuffle } from 'ionicons/icons'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   x: number
@@ -47,140 +45,100 @@ export const exercise3008: Exercise<DATA> = {
   intro({ data }) {
     const c = data.b * data.x + data.a * data.y
     const e = data.d * data.x - data.faktor * data.a * data.y
+
+    // Für die Anzeige
+    const b = data.b
+    const a = data.a
+    const d = data.d
+    const k = data.faktor
+
     return (
       <>
         <p>Gegeben ist das folgende lineare Gleichungssystem:</p>
-        <p>
-          I &nbsp;&nbsp; {data.b}x {pp(data.a, 'merge_op')}y = {pp(c)}
-        </p>
-        <p>
-          II &nbsp; {data.d}x {pp(-data.faktor * data.a, 'merge_op')}y = {pp(e)}
-        </p>
+        <BlockMath
+          math={String.raw`
+\begin{aligned}
+\text{(I)}\quad & ${b}\,x \;+\; ${a}\,y \;=\; ${pp(c)}\\
+\text{(II)}\quad & ${d}\,x \;-\; ${k * a}\,y \;=\; ${pp(e)}
+\end{aligned}
+`}
+        />
       </>
     )
   },
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Bestimmen Sie die Lösung des linearen Gleichungssystems.</p>
-            <svg viewBox="0 0 328 328">
-              <image
-                href="/content/BW_2BFS/3009.png"
-                height="328"
-                width="328"
-              />
-            </svg>
           </>
         )
       },
       solution({ data }) {
-        const c = data.b * data.x + data.a * data.y
-        const e = data.d * data.x - data.faktor * data.a * data.y
+        const b = data.b
+        const a = data.a
+        const d = data.d
+        const k = data.faktor
+
+        const c = b * data.x + a * data.y
+        const e = d * data.x - k * a * data.y
+
+        const lhsX = k * b + d // Koeffizient vor x nach Addition
+        const rhs = k * c + e
+
         return (
           <>
             <p>
-              Die Terme {'"'}
-              {pp(data.a)}y{'"'} und {'"'}
-              {-data.faktor * data.a}y{'"'} können eliminiert werden, wenn der
-              erste Term mit dem Faktor {data.faktor} multipliziert wird.
+              Addiere{' '}
+              <InlineMath math={`${k}\\cdot \\text{(I)} + \\text{(II)}`} />:
             </p>
 
-            <p>
-              {data.faktor} · I: &nbsp;&nbsp; {data.faktor * data.b}x +{' '}
-              <Color1>{data.faktor * data.a}y</Color1> = {pp(data.faktor * c)}
-            </p>
-            <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II: &nbsp;&nbsp;&nbsp; {data.d}x −{' '}
-              <Color1>{data.faktor * data.a}y</Color1> = {pp(e)}
-            </p>
-            <p>Addiere die Gleichungen {data.faktor} · I + II:</p>
-            {buildEquation([
-              [
-                <>
-                  {data.faktor * data.b}x + {data.d}x{' '}
-                  <Color1>
-                    − {data.faktor * data.a}y + {data.faktor * data.a}y
-                  </Color1>
-                </>,
-                <>=</>,
-                <>
-                  {pp(data.faktor * c)} + {pp(e, 'embrace_neg')}
-                </>,
-              ],
-              [
-                <>
-                  {data.faktor * data.b}x + {data.d}x{' '}
-                </>,
-                <>=</>,
-                <>
-                  {pp(data.faktor * c)} + {pp(e, 'embrace_neg')}
-                </>,
-              ],
-              [
-                <>{data.faktor * data.b + data.d}x </>,
-                <>=</>,
-                <>{pp(data.faktor * c + e)}</>,
+            <BlockMath
+              math={String.raw`
+\begin{aligned}
+${k}\cdot\text{(I)}&:\quad ${k * b}\,x \;+\; ${k * a}\,y \;=\; ${pp(k * c)}\\
+\text{(II)}&:\quad ${d}\,x \;-\; ${k * a}\,y \;=\; ${pp(e)}\\[4pt]
+\hline
+${k * b + d}\,x \;&=\; ${pp(k * c)} \;+\; ${pp(e, 'embrace_neg')}
+\end{aligned}
+`}
+            />
 
-                <>| : {data.faktor * data.b + data.d}</>,
-              ],
-              [<>x </>, <>=</>, <>{pp(data.x)}</>],
-            ])}
+            <BlockMath
+              math={String.raw`
+x \;=\; \frac{${pp(rhs)}}{${lhsX}} \;=\; ${pp(data.x)}
+`}
+            />
+
             <p>
-              Setze den Wert für x in die Gleichung I oder II ein. <br></br>x in
-              I eingesetzt liefert:
+              Einsetzen in (I) zur Bestimmung von <InlineMath math={'y'} />:
             </p>
 
-            {buildEquation([
-              [
-                <>
-                  {data.b} · {data.x} + {data.a} · y
-                </>,
-                <>=</>,
-                <>{pp(c)}</>,
-              ],
-              [
-                '',
-                <>
-                  {' '}
-                  <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
-                  </Color4>
-                </>,
-                <>
-                  <Color4>
-                    <span style={{ fontSize: 'small' }}>fasse zusammen</span>
-                  </Color4>
-                </>,
-              ],
-              [
-                <>
-                  {data.b * data.x} + {data.a} y
-                </>,
-                <>=</>,
-                <>{pp(c)}</>,
-
-                <>| − {data.b * data.x}</>,
-              ],
-              [<> {data.a} y</>, <>=</>, <>{pp(c - data.b * data.x)}</>],
-              [
-                <>y</>,
-                <>=</>,
-                <>{data.y % 1 == 0 ? data.y : ppFrac(data.y)}</>,
-              ],
-            ])}
+            <BlockMath
+              math={String.raw`
+\begin{aligned}
+${b}\cdot ${pp(data.x)} \;+\; ${a}\,y &= ${pp(c)}\\
+${a}\,y &= ${pp(c)} \;-\; ${pp(b * data.x)}\\
+y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
+                data.y % 1 == 0 ? data.y : ppFrac(data.y)
+              }
+\end{aligned}
+`}
+            />
 
             <p>
-              Die Lösungsmenge des Gleichungssystems ist{' '}
+              Die Lösungsmenge ist{' '}
               <b>
-                {'L={('}
-                {data.x}; {data.y % 1 == 0 ? data.y : ppFrac(data.y)}
-                {')}'}
+                <InlineMath
+                  math={`L=\\left\\{\\left(${pp(data.x)}\\,;\\,${
+                    data.y % 1 == 0 ? data.y : ppFrac(data.y)
+                  }\\right)\\right\\}`}
+                />
               </b>
             </p>
           </>
@@ -189,7 +147,7 @@ export const exercise3008: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -201,6 +159,8 @@ export const exercise3008: Exercise<DATA> = {
         }
         const c = data.b * data.x + data.a * data.y
         const e = data.d * data.x - data.faktor * data.a * data.y
+
+        // y = (b - a*x)/c
         function generatePoints(
           a: number,
           b: number,
@@ -215,16 +175,13 @@ export const exercise3008: Exercise<DATA> = {
           return points.trim()
         }
 
-        //  {data.b}x {pp(data.a, 'merge_op')}y = {pp(c)}
-
-        // {data.d}x {pp(-data.faktor * data.a, 'merge_op')}y = {pp(e)}
-
         const Points = generatePoints(-data.b, c, data.a, 1)
         const Points2 = generatePoints(-data.d, e, -data.faktor * data.a, 1)
         const Points3 = generatePoints(data.b, c, data.a, 1)
         const Points4 = generatePoints(data.d, e, -data.faktor * data.a, 1)
         const Points5 = generatePoints(-data.b, -c, data.a, 1)
         const Points6 = generatePoints(-data.d, -e, data.faktor * data.a, 1)
+
         const listItems = [
           <li key="1">
             <svg viewBox="0 0 328 328">
@@ -291,6 +248,7 @@ export const exercise3008: Exercise<DATA> = {
           </li>,
         ]
         const shuffledItems = data.order.map(i => listItems[i])
+
         return (
           <>
             <p>
@@ -298,14 +256,9 @@ export const exercise3008: Exercise<DATA> = {
               Begründen Sie, welche der folgenden Abbildungen zur Lösung des
               obigen Gleichungssystems passt.
             </p>
-            {shuffledItems[0]}
-            <p>Abbildung 1</p>
-            {shuffledItems[1]}
-
-            <p>Abbildung 2</p>
-            {shuffledItems[2]}
-
-            <p>Abbildung 3</p>
+            {shuffledItems[0]} <p>Abbildung 1</p>
+            {shuffledItems[1]} <p>Abbildung 2</p>
+            {shuffledItems[2]} <p>Abbildung 3</p>
           </>
         )
       },
@@ -318,6 +271,8 @@ export const exercise3008: Exercise<DATA> = {
         }
         const c = data.b * data.x + data.a * data.y
         const e = data.d * data.x - data.faktor * data.a * data.y
+
+        // y = (b + a*x)/c – hier wie in deinem Original für die Lösungsdarstellung
         function generatePoints(
           a: number,
           b: number,
@@ -338,6 +293,7 @@ export const exercise3008: Exercise<DATA> = {
         const Points4 = generatePoints(data.d, e, -data.faktor * data.a, 1)
         const Points5 = generatePoints(-data.b, -c, data.a, 1)
         const Points6 = generatePoints(-data.d, -e, data.faktor * data.a, 1)
+
         const listItems = [
           <li key="0">
             <svg viewBox="0 0 328 328">
@@ -405,9 +361,10 @@ export const exercise3008: Exercise<DATA> = {
         ]
         const shuffledItems = data.order.map(i => listItems[i])
         const correctIndex = data.order.indexOf(1)
+
         return (
           <>
-            <p>Richtig ist die Abbildung {correctIndex + 1}</p>
+            <p>Richtig ist die Abbildung {correctIndex + 1}.</p>
             <svg viewBox="0 0 328 328">
               <image
                 href="/content/BW_2BFS/ksgroßmitachsen.png"
@@ -427,10 +384,11 @@ export const exercise3008: Exercise<DATA> = {
                 fill="none"
               />
             </svg>
-
+            <p>Die Geraden stellen die Gleichungen dar aus der Aufgabe.</p>
             <p>
-              Der Schnittpunkt der Geraden ist gerade die Lösung des linearen
-              Gleichungssystems.
+              Der Schnittpunkt der beiden Geraden ist genau die Lösung des
+              Gleichungssystems{' '}
+              <InlineMath math={`\\left(${data.x}\\,|\\,${data.y}\\right)`} />.
             </p>
           </>
         )

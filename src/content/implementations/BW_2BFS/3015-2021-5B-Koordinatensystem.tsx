@@ -1,6 +1,8 @@
 import { Exercise } from '@/data/types'
 import { buildInlineFrac } from '@/helper/math-builder'
-import { pp, ppFrac, ppPolynom } from '@/helper/pretty-print'
+import { polyToLatex } from '@/helper/pp-latex'
+import { pp } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   offset: number
@@ -29,7 +31,7 @@ export const exercise3015: Exercise<DATA> = {
     }
   },
   originalData: { offset: 0, m1: 2, m2: -2 / 3, b1: 1, b2: 3, px: -1, qx: 3 },
-  constraint({ data }) {
+  constraint() {
     return true
   },
   intro({ data }) {
@@ -47,10 +49,12 @@ export const exercise3015: Exercise<DATA> = {
     }
     return (
       <>
-        <p>Gegeben sind die Geraden f und h.</p>
+        <p>
+          Gegeben sind die Geraden <InlineMath math="f" /> und{' '}
+          <InlineMath math="h" />.
+        </p>
         <svg viewBox="0 0 328 328">
           <image href="/content/BW_2BFS/3015.png" height="328" width="328" />
-
           <line
             x1={toX(-3)}
             y1={toY(f(-3))}
@@ -74,7 +78,7 @@ export const exercise3015: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -87,11 +91,16 @@ export const exercise3015: Exercise<DATA> = {
         return (
           <>
             <p>
-              Zeichnen Sie die fehlende Koordinatenachse so ein, dass die Gerade
-              f durch den Punkte P({data.px}|{pp(f(data.px) - data.offset)}) und
-              die Gerade h durch den Punkt Q({data.qx}|
-              {pp(h(data.qx) - data.offset)}) verläuft und skalieren Sie beide
-              Achsen.
+              Zeichnen Sie die fehlende Koordinatenachse so ein, dass die Gerade{' '}
+              <InlineMath math="f" /> durch den Punkt{' '}
+              <InlineMath
+                math={`P\\left(${data.px}\\,\\middle|\\,${pp(f(data.px) - data.offset)}\\right)`}
+              />{' '}
+              und die Gerade <InlineMath math="h" /> durch den Punkt{' '}
+              <InlineMath
+                math={`Q\\left(${data.qx}\\,\\middle|\\,${pp(h(data.qx) - data.offset)}\\right)`}
+              />{' '}
+              verläuft und skalieren Sie beide Achsen.
             </p>
           </>
         )
@@ -130,7 +139,6 @@ export const exercise3015: Exercise<DATA> = {
                 height="328"
                 width="328"
               />
-
               <line
                 x1={toX(-4)}
                 y1={toY(f(-4))}
@@ -177,9 +185,8 @@ export const exercise3015: Exercise<DATA> = {
                 />
               ))}
               {[-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
-                <>
+                <g key={n}>
                   <line
-                    key={n}
                     x1={toX(-0.2)}
                     y1={toY(n)}
                     x2={toX(0.2)}
@@ -205,7 +212,7 @@ export const exercise3015: Exercise<DATA> = {
                   >
                     {n}
                   </text>
-                </>
+                </g>
               ))}
               <text
                 x={toX(data.px) + 1}
@@ -223,7 +230,7 @@ export const exercise3015: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                P({data.px}|{pp(f(data.px) - data.offset)})
+                {`P(${data.px}|${pp(f(data.px) - data.offset)})`}
               </text>
               <text
                 x={toX(data.qx) + 1}
@@ -241,7 +248,7 @@ export const exercise3015: Exercise<DATA> = {
                 textAnchor="left"
                 stroke="black"
               >
-                Q({data.qx}|{pp(h(data.qx) - data.offset)})
+                {`Q(${data.qx}|${pp(h(data.qx) - data.offset)})`}
               </text>
             </svg>
           </>
@@ -250,48 +257,34 @@ export const exercise3015: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
-        return (
-          <>
-            <p>Geben Sie die Gleichungen der beiden Geraden an.</p>
-          </>
-        )
+      task() {
+        return <p>Geben Sie die Gleichungen der beiden Geraden an.</p>
       },
       solution({ data }) {
+        // y-Offsets werden durch die verschobene x-Achse um "offset" verändert
+        const b1s = data.b1 + data.offset
+        const b2s = data.b2 + data.offset
         return (
           <>
+            <p> Lies jeweils den y-Achsenabschnitt und die Steigung ab.</p>
             <p>
-              Lies jeweils den y-Achsenabschnitt und die Steigungen aus dem
-              Koordinatensystem ab.
+              <InlineMath
+                math={`f:~ y = ${polyToLatex([
+                  [data.m1, 'x', 1],
+                  [b1s, 'x', 0],
+                ])}`}
+              />
             </p>
             <p>
-              f: y ={' '}
-              {ppPolynom([
-                [data.m1, 'x', 1],
-                [data.b1 + data.offset, 'x', 0],
-              ])}{' '}
-            </p>
-            <p>
-              h: y ={' '}
-              {data.m2 == -2 / 3 ? (
-                <>
-                  {ppFrac(data.m2)}
-                  {ppPolynom([
-                    [1, 'x', 1],
-                    [data.b2 + data.offset, 'x', 0],
-                  ])}{' '}
-                </>
-              ) : (
-                <>
-                  {ppPolynom([
-                    [data.m2, 'x', 1],
-                    [data.b2 + data.offset, 'x', 0],
-                  ])}{' '}
-                </>
-              )}
+              <InlineMath
+                math={`h:~ y = ${polyToLatex([
+                  [data.m2, 'x', 1],
+                  [b2s, 'x', 0],
+                ])}`}
+              />
             </p>
           </>
         )
@@ -299,17 +292,15 @@ export const exercise3015: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>
-              Bestimmen Sie näherungsweise den Flächeninhalt des Dreicks, das
-              von der y-Achse und den beiden Geraden begrenz wird.
-            </p>
-          </>
+          <p>
+            Bestimmen Sie näherungsweise den Flächeninhalt des Dreiecks, das von
+            der y-Achse und den beiden Geraden begrenzt wird.
+          </p>
         )
       },
       solution({ data }) {
@@ -325,17 +316,26 @@ export const exercise3015: Exercise<DATA> = {
         function h(n: number) {
           return data.m2 * n + data.b2
         }
+
+        // y-Schnittpunkte (an y-Achse x=0) – vor Verschiebung
         const y1 = f(0)
         const y2 = h(0)
 
-        // Calculate intersection point of f and h
+        // Schnittpunkt der Geraden (vor Verschiebung)
         const xIntersect = (data.b2 - data.b1) / (data.m1 - data.m2)
         const yIntersect = f(xIntersect)
+
+        // Grundseite (an y-Achse): |y2 - y1| ; Höhe: |xIntersect|
+        const g = Math.abs(y2 - y1)
+        const hgt = Math.abs(xIntersect)
+        const A = (g * hgt) / 2
+
         return (
           <>
             <p>
-              Berechne den Flächeninhalt des Dreiecks aus der Länge der
-              Grundseite und der Höhe.
+              {' '}
+              Berechne den Flächeninhalt mit{' '}
+              <InlineMath math={'A=\\tfrac12\\,g\\,h'} />.
             </p>
             <svg viewBox="0 0 328 328">
               <image
@@ -343,7 +343,6 @@ export const exercise3015: Exercise<DATA> = {
                 height="328"
                 width="328"
               />
-
               <line
                 x1={toX(-3)}
                 y1={toY(f(-3))}
@@ -367,9 +366,7 @@ export const exercise3015: Exercise<DATA> = {
                 stroke="red"
                 strokeWidth={2}
               />
-              {/* Base length text (left of triangle) */}
-
-              {/* Dashed base line */}
+              {/* gestrichelte Grundseite */}
               <line
                 x1={toX(0)}
                 y1={toY(y1)}
@@ -379,7 +376,7 @@ export const exercise3015: Exercise<DATA> = {
                 strokeWidth={3}
                 strokeDasharray="6,4"
               />
-              {/* Dashed height line */}
+              {/* gestrichelte Höhe */}
               <line
                 x1={toX(0)}
                 y1={toY((y1 + y2) / 2)}
@@ -396,10 +393,8 @@ export const exercise3015: Exercise<DATA> = {
                 textAnchor="end"
                 stroke="black"
               >
-                g = {pp(Math.abs(y2 - y1))}
+                {`g = ${pp(g)}`}
               </text>
-              {/* Height text (middle of triangle) */}
-              {/* Height text (middle of triangle) */}
               <text
                 x={(toX(0) + toX(xIntersect)) / 2 - 5}
                 y={15 + (toY((y1 + y2) / 2) + toY(yIntersect)) / 2}
@@ -407,18 +402,19 @@ export const exercise3015: Exercise<DATA> = {
                 textAnchor="middle"
                 stroke="black"
               >
-                h = {pp(Math.abs(xIntersect))}
+                {`h = ${pp(hgt)}`}
               </text>
             </svg>
-            <p>
-              A = {buildInlineFrac(1, 2)} g · h<br></br>A ={' '}
-              {buildInlineFrac(1, 2)} {pp(Math.abs(y2 - y1))} ·{' '}
-              {pp(Math.abs(xIntersect))}
-              <br></br>{' '}
-              <b>
-                A = {pp((Math.abs(y2 - y1) * Math.abs(xIntersect)) / 2)} cm²
-              </b>
-            </p>
+
+            <BlockMath
+              math={String.raw`
+\begin{aligned}
+A &= \tfrac12\cdot g\cdot h \\
+  &= \tfrac12\cdot ${pp(g)} \cdot ${pp(hgt)} \\
+  &= ${pp(A)} ~FE
+\end{aligned}
+`}
+            />
           </>
         )
       },

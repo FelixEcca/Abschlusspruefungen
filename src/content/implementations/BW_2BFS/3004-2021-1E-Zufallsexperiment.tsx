@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
 import { buildInlineFrac } from '@/helper/math-builder'
 import { ppFrac } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   h: number
@@ -37,10 +38,11 @@ export const exercise3004: Exercise<DATA> = {
     return (
       <>
         <p>
-          Eine Tüte Fruchtbonbons enthält {data.h} Himbeer-Bonbons (H), {data.k}{' '}
-          Kirsch-Bonbons (K) und {data.z} Zitrone-Bonbons (Z). Es werden blind
-          zwei Bonbons entnommen. Die Grafik zeigt ein unvollständiges
-          Baumdiagramm:
+          Eine Tüte Fruchtbonbons enthält <InlineMath math={`${data.h}`} />{' '}
+          Himbeer-Bonbons (H), <InlineMath math={`${data.k}`} /> Kirsch-Bonbons
+          (K) und <InlineMath math={`${data.z}`} /> Zitrone-Bonbons (Z). Es
+          werden blind zwei Bonbons entnommen. Die Grafik zeigt ein
+          unvollständiges Baumdiagramm:
         </p>
         <svg viewBox="0 0 328 190">
           <image href="/content/BW_2BFS/3004.png" height="190" width="328" />
@@ -154,13 +156,15 @@ export const exercise3004: Exercise<DATA> = {
         return (
           <>
             <p>
-              Es gibt insgesamt {data.z} Zitronen-Bonbons. Die
-              Wahrscheinlichkeit diese zu ziehen liegt bei:{' '}
+              Es gibt insgesamt <InlineMath math={`${data.z}`} />{' '}
+              Zitronen-Bonbons. Die Wahrscheinlichkeit diese zu ziehen liegt
+              bei:{' '}
             </p>
 
             <p>
-              P(Z) = {buildInlineFrac(<>Anzahl Z</>, <>Bonbons insgesamt</>)} ={' '}
-              {ppFrac([data.z, summe])}
+              <InlineMath
+                math={`P(Z) = \\dfrac{\\text{Anzahl Z}}{\\text{Bonbons insgesamt}} = \\dfrac{${data.z}}{${summe}}`}
+              />
             </p>
             <svg viewBox="0 0 328 190">
               <image
@@ -432,40 +436,45 @@ export const exercise3004: Exercise<DATA> = {
               {data.case == 1 && (
                 <>
                   <p>
-                    P(A) = 1 - {buildInlineFrac(2, 5)} ·{' '}
-                    {buildInlineFrac(5, 14)}
+                    <InlineMath
+                      math={`P(A) = 1 - \\frac{2}{5}  \\cdot \\frac{5}{14}`}
+                    />
                   </p>
                 </>
               )}
               {data.case == 2 && (
                 <>
                   <p>
-                    P(A) = 1 - {ppFrac(data.k / summe)} ·{' '}
-                    {ppFrac((data.k - 1) / (summe - 1))}
+                    <InlineMath
+                      math={`P(A) = 1 - \\frac{${data.k}}{${summe}} \\cdot \\frac{${data.k - 1}}{${summe - 1}}`}
+                    />
                   </p>
                 </>
               )}
               {data.case == 3 && (
                 <>
                   <p>
-                    P(A) = 1 - {ppFrac(data.z / summe)} ·{' '}
-                    {ppFrac((data.z - 1) / (summe - 1))}
+                    <InlineMath
+                      math={`P(A) = 1 - \\frac{${data.z}}{${summe}}  \\cdot \\frac{${data.z - 1}}{${summe - 1}}`}
+                    />
                   </p>
                 </>
               )}
               {data.case == 4 && (
                 <>
                   <p>
-                    P(A) = {buildInlineFrac(data.k, summe)} +{' '}
-                    {buildInlineFrac(data.z, summe)}
+                    <InlineMath
+                      math={`P(A) = \\frac{${data.k}}{${summe}} + \\frac{${data.z}}{${summe}}`}
+                    />
                   </p>
                 </>
               )}
               {data.case == 5 && (
                 <>
                   <p>
-                    P(A) = {buildInlineFrac(data.h, summe)} +{' '}
-                    {buildInlineFrac(data.z, summe)}
+                    <InlineMath
+                      math={`P(A) = \\frac{${data.h}}{${summe}} + \\frac{${data.z}}{${summe}}`}
+                    />
                   </p>
                 </>
               )}
@@ -480,49 +489,76 @@ export const exercise3004: Exercise<DATA> = {
             {data.case == 1 && (
               <>
                 <p>
-                  Die Wahrscheinlichkeit {buildInlineFrac(2, 5)} ·{' '}
-                  {buildInlineFrac(5, 14)} beschreibt, dass zwei mal
-                  hintereinander ein Himbeer-Bonbons gezogen wird.
+                  Die Wahrscheinlichkeit{' '}
+                  <InlineMath math={`\\frac{2}{5}  \\cdot \\frac{5}{14}`} />{' '}
+                  beschreibt, dass zwei mal hintereinander ein Himbeer-Bonbons
+                  gezogen wird.
                 </p>
                 <p>
-                  Mit der Differenz 1 - {buildInlineFrac(2, 5)} ·{' '}
-                  {buildInlineFrac(5, 14)} wird das Gegenereignis berechnet.
+                  Mit der Differenz{' '}
+                  <InlineMath math={'1 - \\frac{2}{5} \\cdot \\frac{5}{14}'} />{' '}
+                  wird das Gegenereignis berechnet.
                 </p>
                 <p>
-                  A beschreibt also, dass <b>nicht</b> zwei mal hintereinander
-                  ein Himbeer-Bonbon gezogen wird.
+                  <InlineMath math={`A`} /> beschreibt also, dass <b>nicht</b>{' '}
+                  zwei mal hintereinander ein Himbeer-Bonbon gezogen wird.
                 </p>
               </>
             )}
             {data.case == 2 && (
               <>
                 <p>
-                  Die Wahrscheinlichkeit {ppFrac(data.k / summe)} ·{' '}
-                  {ppFrac((data.k - 1) / (summe - 1))} beschreibt, dass zwei mal
-                  hintereinander ein Kirsch-Bonbon gezogen wird.
+                  {' '}
+                  <InlineMath
+                    math={`\\frac{${data.k}}{${summe}} \\cdot \\frac{${data.k - 1}}{${summe - 1}}`}
+                  />{' '}
+                  beschreibt, dass zwei mal hintereinander ein Kirsch-Bonbon
+                  gezogen wird.
                 </p>
                 <p>
-                  Mit der Differenz 1 - {ppFrac(data.k / summe)} ·{' '}
-                  {ppFrac((data.k - 1) / (summe - 1))} wird das Gegenereignis
-                  berechnet.
+                  Mit der Differenz{' '}
+                  <InlineMath
+                    math={`1 - \\frac{${data.k}}{${summe}} \\cdot \\frac{${data.k - 1}}{${summe - 1}}`}
+                  />{' '}
+                  wird das Gegenereignis berechnet.
                 </p>
                 <p>
-                  A beschreibt also, dass <b>nicht</b> zwei mal hintereinander
-                  ein Kirsch-Bonbon gezogen wird.
+                  <InlineMath math={`A`} /> beschreibt also, dass <b>nicht</b>{' '}
+                  zwei mal hintereinander ein Kirsch-Bonbon gezogen wird.
+                </p>
+              </>
+            )}
+            {data.case == 2 && (
+              <>
+                <p>
+                  {' '}
+                  <InlineMath
+                    math={`\\frac{${data.k}}{${summe}} \\cdot \\frac{${data.k - 1}}{${summe - 1}}`}
+                  />{' '}
+                  wird das Gegenereignis berechnet.
+                </p>
+                <p>
+                  <InlineMath math={`A`} /> beschreibt also, dass <b>nicht</b>{' '}
+                  zwei mal hintereinander ein Kirsch-Bonbon gezogen wird.
                 </p>
               </>
             )}
             {data.case == 3 && (
               <>
                 <p>
-                  Die Wahrscheinlichkeit {ppFrac(data.z / summe)} ·{' '}
-                  {ppFrac((data.z - 1) / (summe - 1))} beschreibt, dass zwei mal
-                  hintereinander ein Zitronen-Bonbon gezogen wird.
+                  Die Wahrscheinlichkeit{' '}
+                  <InlineMath
+                    math={`\\frac{${data.z}}{${summe}} \\cdot \\frac{${data.z - 1}}{${summe - 1}}`}
+                  />{' '}
+                  beschreibt, dass zwei mal hintereinander ein Zitronen-Bonbon
+                  gezogen wird.
                 </p>
                 <p>
-                  Mit der Differenz 1 - {ppFrac(data.z / summe)} ·{' '}
-                  {ppFrac((data.z - 1) / (summe - 1))} wird das Gegenereignis
-                  berechnet.
+                  Mit der Differenz{' '}
+                  <InlineMath
+                    math={`1 - \\frac{${data.z}}{${summe}} \\cdot \\frac{${data.z - 1}}{${summe - 1}}`}
+                  />{' '}
+                  wird das Gegenereignis berechnet.
                 </p>
                 <p>
                   A beschreibt also, dass <b>nicht</b> zwei mal hintereinander
@@ -533,11 +569,12 @@ export const exercise3004: Exercise<DATA> = {
             {data.case == 4 && (
               <>
                 <p>
-                  {buildInlineFrac(data.k, summe)} ist die Wahrscheinlichkeit im
-                  ersten Zug ein Kirsch-Bonbon zu ziehen.
+                  <InlineMath math={`\\frac{${data.k}}{${summe}}`} /> ist die
+                  Wahrscheinlichkeit im ersten Zug ein Kirsch-Bonbon zu ziehen.
                   <br></br>
-                  {buildInlineFrac(data.z, summe)} ist die Wahrscheinlichkeit im
-                  ersten Zug ein Zitronen-Bonbon zu ziehen.
+                  <InlineMath math={`\\frac{${data.z}}{${summe}}`} /> ist die
+                  Wahrscheinlichkeit im ersten Zug ein Zitronen-Bonbon zu
+                  ziehen.
                 </p>
                 <p>
                   Die Summe ist also die Wahrscheinlichkeit ein Kirsch -{' '}
@@ -548,11 +585,12 @@ export const exercise3004: Exercise<DATA> = {
             {data.case == 5 && (
               <>
                 <p>
-                  {buildInlineFrac(data.h, summe)} ist die Wahrscheinlichkeit im
-                  ersten Zug ein Himbeer-Bonbon zu ziehen.
+                  <InlineMath math={`\\frac{${data.h}}{${summe}}`} /> ist die
+                  Wahrscheinlichkeit im ersten Zug ein Himbeer-Bonbon zu ziehen.
                   <br></br>
-                  {buildInlineFrac(data.z, summe)} ist die Wahrscheinlichkeit im
-                  ersten Zug ein Zitronen-Bonbon zu ziehen.
+                  <InlineMath math={`\\frac{${data.z}}{${summe}}`} /> ist die
+                  Wahrscheinlichkeit im ersten Zug ein Zitronen-Bonbon zu
+                  ziehen.
                 </p>
                 <p>
                   Die Summe ist also die Wahrscheinlichkeit ein Himbeer -{' '}

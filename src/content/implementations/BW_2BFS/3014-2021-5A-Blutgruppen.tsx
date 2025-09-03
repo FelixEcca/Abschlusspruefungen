@@ -1,6 +1,6 @@
 import { Exercise } from '@/data/types'
-import { buildOverline } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   A: number
@@ -58,6 +58,7 @@ export const exercise3014: Exercise<DATA> = {
           Das Schaubild zeigt, wie groß die relativen Häufigkeiten der
           Blutgruppen in der Bevölkerung sind.
         </p>
+        {/* SVG unverändert */}
         <svg viewBox="0 0 328 338">
           <line
             x1={50}
@@ -218,211 +219,214 @@ export const exercise3014: Exercise<DATA> = {
     )
   },
   tasks: [
+    // a)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Eine Person wird zufällig ausgewählt. Geben Sie mithilfe des
-              Diagramms die Wahrscheinlichkeit an, dass die Person die
-              Blutgruppe {data.case == 1 && 'A'} {data.case == 2 && 'B'}{' '}
-              {data.case == 3 && '0'} {data.case == 4 && 'AB'} hat.
-            </p>
-          </>
+          <p>
+            Eine Person wird zufällig ausgewählt. Geben Sie mithilfe des
+            Diagramms die Wahrscheinlichkeit an, dass die Person die Blutgruppe{' '}
+            {data.case == 1 && 'A'}
+            {data.case == 2 && 'B'}
+            {data.case == 3 && '0'}
+            {data.case == 4 && 'AB'} hat.
+          </p>
         )
       },
       solution({ data }) {
         const AB = 100 - (data.A + data.B + data.zero)
+        const num = [0, data.A, data.B, data.zero, AB][data.case]
         return (
           <>
-            <p>
-              Das Diagramm zeigt, dass die Wahrscheinlichkeit für Blutgruppe{' '}
-              {data.case == 1 && 'A'} {data.case == 2 && 'B'}{' '}
-              {data.case == 3 && '0'} {data.case == 4 && 'AB'} bei{' '}
-              {data.case == 1 && pp(data.A / 100)}{' '}
-              {data.case == 2 && pp(data.B / 100)}{' '}
-              {data.case == 3 && pp(data.zero / 100)}{' '}
-              {data.case == 4 && pp(AB / 100)}, also {data.case == 1 && data.A}{' '}
-              {data.case == 2 && data.B} {data.case == 3 && data.zero}{' '}
-              {data.case == 4 && AB} % liegt.
-            </p>
+            <p>Aus dem Diagramm ablesbar:</p>
+            <BlockMath
+              math={[
+                data.case === 1 &&
+                  `P(A)=\\tfrac{${num}}{100} = ${pp(num / 100)}\\,=\\,${pp(num)}\\%`,
+                data.case === 2 &&
+                  `P(B)=\\tfrac{${num}}{100} = ${pp(num / 100)}\\,=\\,${pp(num)}\\%`,
+                data.case === 3 &&
+                  `P(0)=\\tfrac{${num}}{100} = ${pp(num / 100)}\\,=\\,${pp(num)}\\%`,
+                data.case === 4 &&
+                  `P(AB)=\\tfrac{${num}}{100} = ${pp(num / 100)}\\,=\\,${pp(num)}\\%`,
+              ]
+                .filter(Boolean)
+                .join('')}
+            />
           </>
         )
       },
     },
+    // b)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Bestimmen Sie die Wahrscheinlichkeit dafür, dass eine andere
-              Person nicht Blutgruppe {data.case == 1 && 'A'}{' '}
-              {data.case == 2 && 'B'} {data.case == 3 && '0'}{' '}
-              {data.case == 4 && 'AB'} hat.
-            </p>
-          </>
+          <p>
+            Bestimmen Sie die Wahrscheinlichkeit dafür, dass eine andere Person
+            nicht Blutgruppe {data.case == 1 && 'A'}
+            {data.case == 2 && 'B'}
+            {data.case == 3 && '0'}
+            {data.case == 4 && 'AB'} hat.
+          </p>
         )
       },
       solution({ data }) {
         const AB = 100 - (data.A + data.B + data.zero)
+        const num = [0, data.A, data.B, data.zero, AB][data.case]
+        const comp = 100 - num
         return (
           <>
-            <p>Berechne die Wahrscheinlichkeit des Gegenereignisses: </p>
-            <p>
-              P({data.case == 1 && <>{buildOverline('A')}</>}{' '}
-              {data.case == 2 && <>{buildOverline('B')}</>}{' '}
-              {data.case == 3 && <>{buildOverline('0')}</>}{' '}
-              {data.case == 4 && <>{buildOverline('AB')}</>}) = 1 - P(
-              {data.case == 1 && 'A'} {data.case == 2 && 'B'}{' '}
-              {data.case == 3 && '0'} {data.case == 4 && 'AB'}){' '}
-            </p>
-            <p>
-              P({data.case == 1 && <>{buildOverline('A')}</>}{' '}
-              {data.case == 2 && <>{buildOverline('B')}</>}{' '}
-              {data.case == 3 && <>{buildOverline('0')}</>}{' '}
-              {data.case == 4 && <>{buildOverline('AB')}</>}) = 1 - P(
-              {data.case == 1 && pp(data.A / 100)}{' '}
-              {data.case == 2 && pp(data.B / 100)}{' '}
-              {data.case == 3 && pp(data.zero / 100)}{' '}
-              {data.case == 4 && pp(AB / 100)}){' '}
-            </p>
-            <p>
-              P({data.case == 1 && <>{buildOverline('A')}</>}{' '}
-              {data.case == 2 && <>{buildOverline('B')}</>}{' '}
-              {data.case == 3 && <>{buildOverline('0')}</>}{' '}
-              {data.case == 4 && <>{buildOverline('AB')}</>}) =
-              {data.case == 1 && pp(1 - data.A / 100)}{' '}
-              {data.case == 2 && pp(1 - data.B / 100)}{' '}
-              {data.case == 3 && pp(1 - data.zero / 100)}{' '}
-              {data.case == 4 && pp(1 - AB / 100)}{' '}
-            </p>
+            <p>Berechne mit dem Gegenereignis:</p>
+            <BlockMath
+              math={[
+                data.case === 1 &&
+                  `\\begin{aligned}
+          P(\\overline{A}) &= 1 - P(A) \\\\
+                           &= 1 - \\tfrac{${num}}{100} \\\\
+                           &= \\tfrac{${comp}}{100} \\\\
+                           &= ${pp(comp / 100)}
+          \\end{aligned}`,
+                data.case === 2 &&
+                  `\\begin{aligned}
+          P(\\overline{B}) &= 1 - P(B) \\\\
+                           &= 1 - \\tfrac{${num}}{100} \\\\
+                           &= \\tfrac{${comp}}{100} \\\\
+                           &= ${pp(comp / 100)}
+          \\end{aligned}`,
+                data.case === 3 &&
+                  `\\begin{aligned}
+          P(\\overline{0}) &= 1 - P(0) \\\\
+                           &= 1 - \\tfrac{${num}}{100} \\\\
+                           &= \\tfrac{${comp}}{100} \\\\
+                           &= ${pp(comp / 100)}
+          \\end{aligned}`,
+                data.case === 4 &&
+                  `\\begin{aligned}
+          P(\\overline{AB}) &= 1 - P(AB) \\\\
+                            &= 1 - \\tfrac{${num}}{100} \\\\
+                            &= \\tfrac{${comp}}{100} \\\\
+                            &= ${pp(comp / 100)}
+          \\end{aligned}`,
+              ]
+                .filter(Boolean)
+                .join('')}
+            />
           </>
         )
       },
     },
+    // c)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Zwei Personen werden zufällig ausgewählt. Bestimmen Sie die
-              Wahrscheinlichkeit dafür, dass beide Personen Blutgruppe{' '}
-              {data.case2 == 1 && 'A'} {data.case2 == 2 && 'B'}{' '}
-              {data.case2 == 3 && '0'} {data.case2 == 4 && 'AB'} haben.
-            </p>
-          </>
+          <p>
+            Zwei Personen werden zufällig ausgewählt. Bestimmen Sie die
+            Wahrscheinlichkeit dafür, dass beide Personen Blutgruppe{' '}
+            {data.case2 == 1 && 'A'}
+            {data.case2 == 2 && 'B'}
+            {data.case2 == 3 && '0'}
+            {data.case2 == 4 && 'AB'} haben.
+          </p>
         )
       },
       solution({ data }) {
+        const AB = 100 - (data.A + data.B + data.zero)
+        const num = [0, data.A, data.B, data.zero, AB][data.case2]
+        const pDec = num / 100
+        const p2Dec = pDec * pDec
         return (
           <>
-            <p>
-              Die Wahrscheinlichkeit dafür, dass eine Personen Blutgruppe{' '}
-              {data.case2 == 1 && 'A'} {data.case2 == 2 && 'B'}{' '}
-              {data.case2 == 3 && '0'} {data.case2 == 4 && 'AB'} hat, beträgt:
-            </p>
-            <p>
-              P({data.case2 == 1 && <>{'A'}</>} {data.case2 == 2 && <>{'B'}</>}{' '}
-              {data.case2 == 3 && <>{'0'}</>} {data.case2 == 4 && <>{'AB'}</>})
-              ={data.case2 == 1 && pp(data.A / 100)}{' '}
-              {data.case2 == 2 && pp(data.B / 100)}{' '}
-              {data.case2 == 3 && pp(data.zero / 100)}{' '}
-              {data.case2 == 4 &&
-                pp((100 - (data.A + data.B + data.zero)) / 100)}{' '}
-            </p>
-            <p>
-              Die Wahrscheinlichkeit, dass beide Personen Blutgruppe{' '}
-              {data.case2 == 1 && 'A'} {data.case2 == 2 && 'B'}{' '}
-              {data.case2 == 3 && '0'} {data.case2 == 4 && 'AB'} haben, beträgt:
-            </p>
-            <p>
-              P({data.case2 == 1 && <>{'A,A'}</>}{' '}
-              {data.case2 == 2 && <>{'B,B'}</>}{' '}
-              {data.case2 == 3 && <>{'0,0'}</>}{' '}
-              {data.case2 == 4 && <>{'AB,AB'}</>}) =
-              {data.case2 == 1 && (
-                <>
-                  {pp(data.A / 100)} · {pp(data.A / 100)} ={' '}
-                  {pp((data.A * data.A) / 10000)} ={' '}
-                  {pp((data.A * data.A) / 100)} %
-                </>
-              )}{' '}
-              {data.case2 == 2 && (
-                <>
-                  {pp(data.B / 100)} · {pp(data.B / 100)} ={' '}
-                  {pp((data.B * data.B) / 10000)} ={' '}
-                  {pp((data.B * data.B) / 100)} %
-                </>
-              )}{' '}
-              {data.case2 == 3 && (
-                <>
-                  {pp(data.zero / 100)} · {pp(data.zero / 100)} ={' '}
-                  {pp((data.zero * data.zero) / 10000)} ={' '}
-                  {pp((data.zero * data.zero) / 100)} %
-                </>
-              )}{' '}
-              {data.case2 == 4 && (
-                <>
-                  {pp((100 - (data.A + data.B + data.zero)) / 100)} ·{' '}
-                  {pp((100 - (data.A + data.B + data.zero)) / 100)} ={' '}
-                  {pp(
-                    (((100 - (data.A + data.B + data.zero)) / 100) *
-                      (100 - (data.A + data.B + data.zero))) /
-                      100,
-                  )}{' '}
-                  ={' '}
-                  {pp(
-                    ((100 - (data.A + data.B + data.zero)) / 100) *
-                      (100 - (data.A + data.B + data.zero)),
-                  )}{' '}
-                  %
-                </>
-              )}{' '}
-            </p>
+            <p>Unabhängige Ziehungen (mit Zurücklegen):</p>
+            <BlockMath
+              math={[
+                data.case2 === 1 &&
+                  `\\begin{aligned}
+          P(A\, A) &= \\Big(\\tfrac{${num}}{100}\\Big)^2 \\\\
+                    &= \\tfrac{${num * num}}{10000} \\\\
+                    &= ${pp(p2Dec)} \\\\
+                    &= ${pp(p2Dec * 100)}\\%
+          \\end{aligned}`,
+                data.case2 === 2 &&
+                  `\\begin{aligned}
+          P(B\, B) &= \\Big(\\tfrac{${num}}{100}\\Big)^2 \\\\
+                    &= \\tfrac{${num * num}}{10000} \\\\
+                    &= ${pp(p2Dec)} \\\\
+                    &= ${pp(p2Dec * 100)}\\%
+          \\end{aligned}`,
+                data.case2 === 3 &&
+                  `\\begin{aligned}
+          P(0\, 0) &= \\Big(\\tfrac{${num}}{100}\\Big)^2 \\\\
+                    &= \\tfrac{${num * num}}{10000} \\\\
+                    &= ${pp(p2Dec)} \\\\
+                    &= ${pp(p2Dec * 100)}\\%
+          \\end{aligned}`,
+                data.case2 === 4 &&
+                  `\\begin{aligned}
+          P(AB\, AB) &= \\Big(\\tfrac{${num}}{100}\\Big)^2 \\\\
+                      &= \\tfrac{${num * num}}{10000} \\\\
+                      &= ${pp(p2Dec)} \\\\
+                      &= ${pp(p2Dec * 100)}\\%
+          \\end{aligned}`,
+              ]
+                .filter(Boolean)
+                .join('')}
+            />
           </>
         )
       },
     },
+    // d)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Eine Schule hat {data.personen} Schülerinnen und Schülern. Wie
-              viele Personen mit Blutgruppe {data.case3 == 1 && 'A'}{' '}
-              {data.case3 == 2 && 'B'} {data.case3 == 3 && '0'}{' '}
-              {data.case3 == 4 && 'AB'} sind darunter zu erwarten?
-            </p>
-          </>
+          <p>
+            Eine Schule hat {data.personen} Schülerinnen und Schülern. Wie viele
+            Personen mit Blutgruppe {data.case3 == 1 && 'A'}
+            {data.case3 == 2 && 'B'}
+            {data.case3 == 3 && '0'}
+            {data.case3 == 4 && 'AB'} sind darunter zu erwarten?
+          </p>
         )
       },
       solution({ data }) {
+        const AB = 100 - (data.A + data.B + data.zero)
+        const num = [0, data.A, data.B, data.zero, AB][data.case3]
+        const expected = (num / 100) * data.personen
         return (
           <>
+            <p>Erwartungswert (Anzahl = Gesamt · Wahrscheinlichkeit):</p>
+            <BlockMath
+              math={[
+                data.case3 === 1 &&
+                  `E= ${data.personen}\\cdot \\tfrac{${num}}{100} = ${pp(expected)}`,
+                data.case3 === 2 &&
+                  `E= ${data.personen}\\cdot \\tfrac{${num}}{100} = ${pp(expected)}`,
+                data.case3 === 3 &&
+                  `E= ${data.personen}\\cdot \\tfrac{${num}}{100} = ${pp(expected)}`,
+                data.case3 === 4 &&
+                  `E= ${data.personen}\\cdot \\tfrac{${num}}{100} = ${pp(expected)}`,
+              ]
+                .filter(Boolean)
+                .join('')}
+            />
             <p>
-              Die Anzahl der Personen mit Blutgruppe {data.case3 == 1 && 'A'}{' '}
-              {data.case3 == 2 && 'B'} {data.case3 == 3 && '0'}{' '}
-              {data.case3 == 4 && 'AB'} in der Schule beträgt:
-            </p>
-            <p>
-              E = {data.personen} · {pp(data.zero / 100)} ={' '}
-              {pp((data.zero / 100) * data.personen)} Personen
+              Es sind also etwa <b>{pp(expected)}</b> Personen zu erwarten.
             </p>
           </>
         )

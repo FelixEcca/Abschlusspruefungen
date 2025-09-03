@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
 import { Color4 } from '@/helper/colors'
 import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   case: number
@@ -110,43 +111,50 @@ export const exercise3003: Exercise<DATA> = {
             {data.case == 1 && (
               <>
                 <p>
-                  x + x + x + x + y + z<br></br> oder zusammengefasst:<br></br>
-                  4x + y + z
+                  <InlineMath math={`x + x + x + x + y + z`} /> <br></br>oder
+                  zusammengefasst:
+                  <br />
+                  <InlineMath math={`4x + y + z`} />
                 </p>
               </>
             )}
             {data.case == 2 && (
               <>
                 <p>
-                  x + x + 2x + y + y + y + z + z<br></br> oder zusammengefasst:
-                  <br></br>
-                  4x + 3y + 2z
+                  <InlineMath math={`x + x + 2x + y + y + y + z + z`} />{' '}
+                  <br></br>oder zusammengefasst:
+                  <br />
+                  <InlineMath math={`4x + 3y + 2z`} />
                 </p>
               </>
             )}
             {data.case == 3 && (
               <>
                 <p>
-                  x + x + x + x + x + x + x + x + x + y<br></br> oder
-                  zusammengefasst:<br></br>
-                  9x + y
+                  <InlineMath math={`x + x + x + x + x + x + x + x + x + y`} />{' '}
+                  <br></br>oder zusammengefasst:
+                  <br />
+                  <InlineMath math={`9x + y`} />
                 </p>
               </>
             )}
             {data.case == 4 && (
               <>
                 <p>
-                  x + x + x + x + y + z + z<br></br> oder zusammengefasst:
-                  <br></br>
-                  4x + y + 2z
+                  <InlineMath math={`x + x + x + x + y + z + z`} /> <br></br>
+                  oder zusammengefasst:
+                  <br />
+                  <InlineMath math={`4x + y + 2z`} />
                 </p>
               </>
             )}
             {data.case == 5 && (
               <>
                 <p>
-                  x + x + x + y + y + z<br></br> oder zusammengefasst:<br></br>
-                  3x + 2y + z
+                  <InlineMath math={`x + x + x + y + y + z`} /> <br></br>oder
+                  zusammengefasst:
+                  <br />
+                  <InlineMath math={`3x + 2y + z`} />
                 </p>
               </>
             )}
@@ -164,33 +172,48 @@ export const exercise3003: Exercise<DATA> = {
           <>
             {data.case == 1 && (
               <>
-                <p>z ist doppelt so lang wie y.</p>
+                <p>
+                  <InlineMath math={`z`} /> ist doppelt so lang wie{' '}
+                  <InlineMath math={`y`} />.
+                </p>
               </>
             )}
             {data.case == 2 && (
               <>
-                <p>z ist dreimal so lang wie x.</p>
+                <p>
+                  <InlineMath math={`z`} /> ist dreimal so lang wie{' '}
+                  <InlineMath math={`x`} />.
+                </p>
               </>
             )}
             {data.case == 3 && (
               <>
-                <p></p>
+                <p>
+                  <InlineMath math={`z`} /> ist viermal so lang wie{' '}
+                  <InlineMath math={`y`} />.
+                </p>
               </>
             )}
             {data.case == 4 && (
               <>
-                <p>z ist dreimal so lang wie x.</p>
+                <p>
+                  <InlineMath math={`z`} /> ist dreimal so lang wie{' '}
+                  <InlineMath math={`x`} />.
+                </p>
               </>
             )}
             {data.case == 5 && (
               <>
-                <p>x ist doppelt so lang wie y.</p>
+                <p>
+                  <InlineMath math={`x`} /> ist doppelt so lang wie{' '}
+                  <InlineMath math={`y`} />.
+                </p>
               </>
             )}
 
             <p>
               Bestimmen Sie einen Term zur Berechnung des Flächeninhalts der
-              Figur, der nur die Variable x enthält.
+              Figur, der nur die Variable <InlineMath math={`x`} /> enthält.
             </p>
           </>
         )
@@ -202,7 +225,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 140">
                   <image
-                    href="/content/BW_2BFS/3003_1_sol.png"
+                    href="/content/BW_2BFS/3003_1_sol.JPG"
                     height="140"
                     width="328"
                   />
@@ -268,9 +291,18 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
                 {buildEquation([
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>x · z + x² + {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      {' '}
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`x \\cdot z + x² + \\frac{x \\cdot x}{2} `}
+                      />
+                    </>,
                   ],
                   [
                     '',
@@ -283,21 +315,34 @@ export const exercise3003: Exercise<DATA> = {
                     <>
                       <Color4>
                         <span style={{ fontSize: 'small' }}>
-                          z ist gleich 2x
+                          <InlineMath math={`z`} /> ist gleich{' '}
+                          <InlineMath math={`2x`} />
                         </span>
                       </Color4>
                     </>,
                   ],
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>x · 2x + x² + {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`x \\cdot 2x + x² + \\frac{x\\cdot x}{2} `}
+                      />
+                    </>,
                   ],
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      <b>2x² + x² + {buildInlineFrac(<>1</>, <>2</>)} x²</b>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <b>
+                        <InlineMath math={`2x² + x² + \\frac{x²}{2}`} />
+                      </b>
                     </>,
                   ],
                 ])}
@@ -314,9 +359,17 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
                 {buildEquation([
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>2x · z + 3 · {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`2x \\cdot z + 3 \\cdot \\frac{x \\cdot x}{2}`}
+                      />
+                    </>,
                   ],
                   [
                     '',
@@ -329,21 +382,34 @@ export const exercise3003: Exercise<DATA> = {
                     <>
                       <Color4>
                         <span style={{ fontSize: 'small' }}>
-                          z ist gleich 3x
+                          <InlineMath math={`z`} /> ist gleich{' '}
+                          <InlineMath math={`3x`} />
                         </span>
                       </Color4>
                     </>,
                   ],
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>x · 3x + 3 · {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`x \\cdot 3x + 3 \\cdot \\frac{x \\cdot x}{2}`}
+                      />
+                    </>,
                   ],
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      <b>3x² + {buildInlineFrac(<>3</>, <>2</>)} x²</b>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <b>
+                        <InlineMath math={`3x² + \\frac{3}{2} x²`} />
+                      </b>
                     </>,
                   ],
                 ])}
@@ -360,16 +426,26 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
                 {buildEquation([
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>5x² + {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath math={`5x² + \\frac{x \\cdot x}{2}`} />
+                    </>,
                   ],
 
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      <b>5x² + {buildInlineFrac(<>1</>, <>2</>)} x²</b>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <b>
+                        <InlineMath math={`5x² + \\frac{1}{2} x²`} />
+                      </b>
                     </>,
                   ],
                 ])}
@@ -386,16 +462,26 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
                 {buildEquation([
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>(2x)² + x² + {buildInlineFrac(<>x · x</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath math={`(2x)² + x² + \\frac{x \\cdot x}{2}`} />
+                    </>,
                   ],
 
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      <b>4x² + x² + {buildInlineFrac(<>1</>, <>2</>)} x²</b>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <b>
+                        <InlineMath math={`4x² + x² + \\frac{1}{2} x²`} />
+                      </b>
                     </>,
                   ],
                 ])}
@@ -412,9 +498,15 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
                 {buildEquation([
                   [
-                    <>A</>,
-                    <>=</>,
-                    <>x² + {buildInlineFrac(<>x · y</>, <>2</>)}</>,
+                    <>
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath math={`x² + \\frac{x \\cdot y}{2}`} />
+                    </>,
                   ],
                   [
                     '',
@@ -427,7 +519,8 @@ export const exercise3003: Exercise<DATA> = {
                     <>
                       <Color4>
                         <span style={{ fontSize: 'small' }}>
-                          y ist halb so groß wie x
+                          <InlineMath math={`y `} /> ist halb so groß wie{' '}
+                          <InlineMath math={`x`} />
                         </span>
                       </Color4>
                     </>,
@@ -436,18 +529,16 @@ export const exercise3003: Exercise<DATA> = {
                     <></>,
                     <>=</>,
                     <>
-                      x² +{' '}
-                      {buildInlineFrac(
-                        <>x · {buildInlineFrac(<>1</>, <>2</>)} x</>,
-                        <>2</>,
-                      )}
+                      <InlineMath math={`x² + x \\cdot \\frac{1}{2} x`} />
                     </>,
                   ],
                   [
                     <></>,
                     <>=</>,
                     <>
-                      <b>x² + {buildInlineFrac(<>1</>, <>4</>)} x²</b>
+                      <b>
+                        <InlineMath math={`x² + \\frac{1}{4} x²`} />
+                      </b>
                     </>,
                   ],
                 ])}

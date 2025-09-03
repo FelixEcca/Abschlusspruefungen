@@ -1,11 +1,18 @@
+// src/content/exercises/3005.tsx
 import { Exercise } from '@/data/types'
-import { Color4 } from '@/helper/colors'
-import {
-  buildEquation,
-  buildInlineFrac,
-  buildSqrt,
-} from '@/helper/math-builder'
-import { pp, ppPolynom } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
+import { polyToLatex } from '@/helper/pp-latex'
+
+/* ---------- kleine LaTeX-Helfer ---------- */
+const num = (n: number) => {
+  // 1 statt 1.0 usw.
+  if (Number.isInteger(n)) return String(n)
+  // KaTeX versteht Dezimalpunkt
+  return String(Number(n.toFixed(4)).valueOf())
+}
+const sign = (n: number) => (n >= 0 ? '+' : '−') // echtes Minus
+const withSign = (n: number) => `${sign(n)} ${num(Math.abs(n))}`
+const maybeCoeff = (k: number) => (k === 1 ? '' : k === -1 ? '−' : num(k))
 
 interface DATA {
   neg: boolean
@@ -19,6 +26,7 @@ export const exercise3005: Exercise<DATA> = {
   source: '2021 Wahlteil Aufgabe 2A',
   useCalculator: true,
   duration: 42,
+
   generator(rng) {
     return {
       neg: rng.randomBoolean(),
@@ -27,82 +35,89 @@ export const exercise3005: Exercise<DATA> = {
       b: rng.randomIntBetween(-5, 5),
     }
   },
+
   originalData: { neg: true, y_offset: 8, m: 1, b: 6 },
+
   constraint({ data }) {
     const p = data.neg ? data.m : -data.m
     const q = data.neg ? -data.y_offset + data.b : data.y_offset - data.b
-    const x_1 = -p / 2 + Math.sqrt((p / 2) * (p / 2) - q)
-    const x_2 = -p / 2 - Math.sqrt((p / 2) * (p / 2) - q)
+    const x1 = -p / 2 + Math.sqrt((p / 2) * (p / 2) - q)
+    const x2 = -p / 2 - Math.sqrt((p / 2) * (p / 2) - q)
     return (
       data.y_offset !== 0 &&
       data.b !== data.y_offset &&
       data.b !== 0 &&
       p % 1 == 0 &&
       q % 1 == 0 &&
-      x_1 % 1 == 0 &&
-      x_2 % 1 == 0 &&
-      x_1 !== x_2
+      x1 % 1 == 0 &&
+      x2 % 1 == 0 &&
+      x1 !== x2
     )
   },
+
   intro({ data }) {
+    const pLatex = data.neg
+      ? `p:\\;y = -x^{2} ${withSign(data.y_offset)}`
+      : `p:\\;y = x^{2} ${withSign(data.y_offset)}`
+    const gLatex = `g:\\;y = ${polyToLatex([
+      [data.m, 'x', 1],
+      [data.b, 'x', 0],
+    ])}`
+
     return (
       <>
         <p>
-          Gegeben sind die Parabel p und die Gerade g durch ihre Gleichungen:
+          Gegeben sind die Parabel <InlineMath math="p" /> und die Gerade{' '}
+          <InlineMath math="g" /> durch ihre Gleichungen:
         </p>
-        <p>
-          p: y = {data.neg && '-'}x² {pp(data.y_offset, 'merge_op')}
-        </p>
-        <p>
-          g: y ={' '}
-          {ppPolynom([
-            [data.m, 'x', 1],
-            [data.b, 'x', 0],
-          ])}
-        </p>
+
+        <BlockMath math={pLatex} />
+        <BlockMath math={gLatex} />
       </>
     )
   },
+
   tasks: [
+    /* a) Scheitelpunkt */
     {
       points: 42,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>Geben Sie die Koordinaten des Scheitelpunkts von p an.</p>
-          </>
+          <p>
+            Geben Sie die Koordinaten des Scheitelpunkts von{' '}
+            <InlineMath math="p" /> an.
+          </p>
         )
       },
       solution({ data }) {
+        const a = data.neg ? -1 : 1
+        const sLatex = `S\\,(0\\mid ${num(data.y_offset)})`
         return (
           <>
+            <BlockMath
+              math={`p:\\; y = ${a === -1 ? '-' : ''}x^{2} ${withSign(
+                data.y_offset,
+              )}`}
+            />
+
             <p>
-              p: y = {data.neg && '-'}x² <b>{pp(data.y_offset, 'merge_op')}</b>
-            </p>
-            <p>
-              Die Parabel schneidet die y-Achse an der Stelle{' '}
-              <b>{pp(data.y_offset)}</b>.
-            </p>
-            <p>
-              Damit ist der Scheitel: <b>S(0|{pp(data.y_offset)})</b>
+              Der Scheitelpunkt lautet:&nbsp;
+              <InlineMath math={sLatex} />
             </p>
           </>
         )
       },
     },
+
+    /* b) Zeichnung */
     {
       points: 42,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>Zeichnen Sie p und g in ein Koordinatensystem.</p>
-          </>
+          <p>
+            Zeichnen Sie <InlineMath math="p" /> und <InlineMath math="g" /> in
+            ein Koordinatensystem.
+          </p>
         )
       },
       solution({ data }) {
@@ -112,42 +127,34 @@ export const exercise3005: Exercise<DATA> = {
         function toY(n: number) {
           return 163 - n * ((94.5 * 2) / 10)
         }
-        function generateParabolaPoints(
-          a: number,
-          b: number,
-          c: number,
-          step: number,
-        ): string {
-          let points = ''
+        function parabolaPoints(a: number, b: number, c: number, step: number) {
+          let pts = ''
           for (let x = -9; x <= 9; x += step) {
             const y = a * (x - b) * (x - b) + c
-            points += `${toX(x)},${toY(y)} `
+            pts += `${toX(x)},${toY(y)} `
           }
-          return points.trim()
+          return pts.trim()
         }
-        function linearPoints(
-          m: number,
-          b: number,
-
-          step: number,
-        ): string {
-          let points = ''
+        function linearPoints(m: number, b: number, step: number) {
+          let pts = ''
           for (let x = -9; x <= 9; x += step) {
             const y = m * x + b
-            points += `${toX(x)},${toY(y)} `
+            pts += `${toX(x)},${toY(y)} `
           }
-          return points.trim()
+          return pts.trim()
         }
-        const linearPoints123 = linearPoints(data.m, data.b, 0.1)
-        const parabolaPoints1 = generateParabolaPoints(1, 0, data.y_offset, 0.1)
-        const parabolaPoints2 = generateParabolaPoints(
-          -1,
+
+        const linePts = linearPoints(data.m, data.b, 0.1)
+        const parabPts = parabolaPoints(
+          data.neg ? -1 : 1,
           0,
           data.y_offset,
           0.1,
         )
+
         return (
           <>
+            <p>Eine mögliche Skizze:</p>
             <svg viewBox="0 0 328 328">
               <image
                 href="/content/BW_2BFS/ksgroßmitachsen.png"
@@ -155,243 +162,100 @@ export const exercise3005: Exercise<DATA> = {
                 width="328"
               />
               <polyline
-                points={linearPoints123}
+                points={linePts}
                 stroke="darkgreen"
                 strokeWidth="2"
                 fill="none"
               />
-              {!data.neg ? (
-                <>
-                  <polyline
-                    points={parabolaPoints1}
-                    stroke="blue"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                </>
-              ) : (
-                <>
-                  <polyline
-                    points={parabolaPoints2}
-                    stroke="blue"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                </>
-              )}
+              <polyline
+                points={parabPts}
+                stroke="blue"
+                strokeWidth="2"
+                fill="none"
+              />
             </svg>
           </>
         )
       },
     },
+
+    /* c) Schnittpunkte */
     {
       points: 42,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>Berechnen Sie die Koordinaten der Schnittpunkte von p und g.</p>
-          </>
+          <p>
+            Berechnen Sie die Koordinaten der Schnittpunkte von{' '}
+            <InlineMath math="p" /> und <InlineMath math="g" />.
+          </p>
         )
       },
       solution({ data }) {
+        // a = +1 (nach oben) oder -1 (nach unten)
+        const a = data.neg ? -1 : 1
+
+        // Auf Normalform x^2 + p x + q = 0 bringen
         const p = data.neg ? data.m : -data.m
         const q = data.neg ? -data.y_offset + data.b : data.y_offset - data.b
-        const x_1 = -p / 2 + Math.sqrt((p / 2) * (p / 2) - q)
-        const x_2 = -p / 2 - Math.sqrt((p / 2) * (p / 2) - q)
+        const disc = (p / 2) * (p / 2) - q
+        const x1 = -p / 2 + Math.sqrt(disc)
+        const x2 = -p / 2 - Math.sqrt(disc)
+        const y1 = data.m * x1 + data.b
+        const y2 = data.m * x2 + data.b
+
+        // zwei getrennte aligned-Umgebungen für die Umstellung
+        const alignPlus = String.raw`
+\begin{aligned}
+\text{Setze } y_p = y_g:\quad
+& x^{2} ${withSign(data.y_offset)} = ${polyToLatex([
+          [data.m, 'x', 1],
+          [data.b, 'x', 0],
+        ])}\\[4pt]
+\Rightarrow\;& 0 = x^{2} ${withSign(-data.m)}x ${withSign(data.y_offset - data.b)}
+\end{aligned}`
+
+        const alignMinus = String.raw`
+\begin{aligned}
+\text{Setze } y_p = y_g:\quad
+& -x^{2} ${withSign(data.y_offset)} = ${polyToLatex([
+          [data.m, 'x', 1],
+          [data.b, 'x', 0],
+        ])}\\[4pt]
+\Rightarrow\;& 0 = x^{2} ${withSign(data.m)}x ${withSign(-data.y_offset + data.b)}
+\end{aligned}`
+
+        const alignPQ = String.raw`
+\begin{aligned}
+x_{1,2} &= -\frac{p}{2}\ \pm\ \sqrt{\left(\frac{p}{2}\right)^2 - q}\\[2pt]
+&= -\frac{${num(p)}}{2}\ \pm\ \sqrt{\left(\frac{${num(p)}}{2}\right)^2 - (${num(q)})}\\[2pt]
+&= ${num(-p / 2)}\ \pm\ \sqrt{${num(disc)}}\\[2pt]
+x_1&= ${num(x1)}\\
+x_2&= ${num(x2)}
+\end{aligned}`
+
+        const alignY = String.raw`
+\begin{aligned}
+y_1 &= ${maybeCoeff(data.m)}x_1 ${withSign(data.b)} = ${num(y1)}\\
+y_2 &= ${maybeCoeff(data.m)}x_2 ${withSign(data.b)} = ${num(y2)}
+\end{aligned}`
+
         return (
           <>
-            <p>
-              Es reicht nicht die Schnittpunkte aus dem Schaubild von b)
-              abzulesen. Sie müssen berechnet werden.
-            </p>
-            <p>Setze die Geradengleichung mit dem Term der Parabel gleich:</p>
-            {buildEquation([
-              [
-                <>
-                  y<sub>p</sub>
-                </>,
-                <>=</>,
-                <>
-                  y<sub>g</sub>
-                </>,
-              ],
-              [
-                <>
-                  {data.neg && '-'}x² {pp(data.y_offset, 'merge_op')}
-                </>,
-                <>=</>,
-                <>
-                  {ppPolynom([
-                    [data.m, 'x', 1],
-                    [data.b, 'x', 0],
-                  ])}
-                </>,
-                <>
-                  {' '}
-                  | {data.neg ? '+ x²' : <>{pp(-data.m, 'merge_op')}x</>} &nbsp;
-                  |{' '}
-                  {data.neg ? (
-                    <>{pp(-data.y_offset, 'merge_op')}</>
-                  ) : (
-                    <>{pp(-data.b, 'merge_op')}</>
-                  )}
-                </>,
-              ],
-              [
-                '',
-                <>
-                  {' '}
-                  <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
-                  </Color4>
-                </>,
-                <>
-                  <Color4>
-                    <span style={{ fontSize: 'small' }}>Umstellen</span>
-                  </Color4>
-                </>,
-              ],
-              [
-                <>0</>,
-                <>=</>,
-                <>
-                  {!data.neg ? (
-                    <>
-                      x² {pp(-data.m, 'merge_op')}x{' '}
-                      {pp(data.y_offset - data.b, 'merge_op')}
-                    </>
-                  ) : (
-                    <>
-                      x² {pp(data.m, 'merge_op')}x{' '}
-                      {pp(-data.y_offset + data.b, 'merge_op')}
-                    </>
-                  )}
-                </>,
-              ],
-            ])}
-            <p>Löse die Gleichung mithilfe der pq-Formel:</p>
-            {buildEquation([
-              [
-                <>
-                  x<sub>1/2</sub>
-                </>,
-                <>=</>,
-                <>
-                  −{buildInlineFrac('p', 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac('p', 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −
-                      q
-                    </>,
-                  )}
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  −{buildInlineFrac(pp(p, 'embrace_neg'), 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac(pp(p, 'embrace_neg'), 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −{' '}
-                      {q < 0 && <>(</>}
-                      {pp(q)}
-                      {q < 0 && <>)</>}
-                    </>,
-                  )}
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {buildSqrt(pp((p / 2) * (p / 2) - q))}
-                  </>
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {pp(Math.sqrt((p / 2) * (p / 2) - q))}
-                  </>
-                </>,
-              ],
-            ])}
+            <p>Gleichsetzen und auf die Normalform bringen:</p>
+            <BlockMath math={a === 1 ? alignPlus : alignMinus} />
 
-            <strong>
-              <p>
-                x<sub>1</sub> = {pp(x_1)}
-              </p>
-              <p>
-                x<sub>2</sub> = {pp(x_2)}
-              </p>
-            </strong>
-            <p>Berechne die y-Werte mit der Geradengleichung:</p>
-            {buildEquation([
-              [
-                <>
-                  y<sub>1</sub>
-                </>,
-                <>=</>,
-                <>
-                  {pp(data.m, 'embrace_neg')}·{pp(x_1, 'embrace_neg')}{' '}
-                  {pp(data.b, 'merge_op')}
-                </>,
-              ],
-              [
-                <>
-                  y<sub>1</sub>
-                </>,
-                <>=</>,
-                <>
-                  <strong>{pp(data.m * x_1 + data.b)}</strong>
-                </>,
-              ],
-              [
-                <>
-                  y<sub>2</sub>
-                </>,
-                <>=</>,
-                <>
-                  {pp(data.m, 'embrace_neg')}·{pp(x_2, 'embrace_neg')}{' '}
-                  {pp(data.b, 'merge_op')}
-                </>,
-              ],
-              [
-                <>
-                  y<sub>2</sub>
-                </>,
-                <>=</>,
-                <>
-                  <strong>{pp(data.m * x_2 + data.b)}</strong>
-                </>,
-              ],
-            ])}
-            <p>Damit sind die Schnittpunkte:</p>
-            <strong>
-              <p>
-                S<sub>1</sub>({pp(x_1)}|{pp(data.m * x_1 + data.b)})
-              </p>
-              <p>
-                S<sub>2</sub>({pp(x_2)}|{pp(data.m * x_2 + data.b)})
-              </p>
-            </strong>
+            <p>Lösen mit der pq-Formel:</p>
+            <BlockMath math={alignPQ} />
+
+            <p>y-Werte über die Geradengleichung:</p>
+            <BlockMath math={alignY} />
+
+            <p>
+              <strong>Damit sind die Schnittpunkte:</strong>
+            </p>
+            <BlockMath
+              math={`S_1\\,(${num(x1)}\\mid ${num(y1)})\\quad\\text{und}\\quad S_2\\,(${num(x2)}\\mid ${num(y2)})`}
+            />
           </>
         )
       },

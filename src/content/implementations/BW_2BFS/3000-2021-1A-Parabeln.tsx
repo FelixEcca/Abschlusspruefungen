@@ -1,5 +1,6 @@
 import { Exercise } from '@/data/types'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   x_s: number
@@ -124,8 +125,10 @@ export const exercise3000: Exercise<DATA> = {
     return (
       <>
         <p>
-          Gegeben ist die Gleichung der Parabel p mit y = (x{' '}
-          {pp(-data.x_s, 'merge_op')})² {pp(data.y_s, 'merge_op')}
+          Gegeben ist die Gleichung der Parabel p mit{' '}
+          <InlineMath
+            math={`y = (x ${pp(-data.x_s, 'merge_op')})^2 ${pp(data.y_s, 'merge_op')}`}
+          />
         </p>
         {shuffledItems[0]}
         <p>Schaubild 1</p>
@@ -155,18 +158,22 @@ export const exercise3000: Exercise<DATA> = {
       solution({ data }) {
         const listItems = [
           <li key="1">
-            Die Parabel ist nach unten geöffnet. Die Parabel p hat aber den
-            Öffnungsfaktor a {'>'} 0 und ist somit nach oben geöffnet.
+            Die Parabel ist nach unten geöffnet. Die Parabel{' '}
+            <InlineMath math={`p`} /> hat aber den Öffnungsfaktor{' '}
+            <InlineMath math={`a> 0`} /> und ist somit nach oben geöffnet.
           </li>,
           <li key="2">
-            Der Scheitel der Parabel p liegt bei <br></br>({pp(data.x_s)}|
-            {pp(data.y_s)}
-            ). Im Koordinatensystem ist er aber im Punkt ({pp(-data.x_s)}|
-            {pp(-data.y_s)}) eingezeichnet.
+            Der Scheitel der Parabel <InlineMath math={`p`} /> liegt bei{' '}
+            <br></br>
+            <InlineMath math={`S(${pp(data.x_s)}|${pp(data.y_s)})`} />. Im
+            Koordinatensystem ist er aber im Punkt{' '}
+            <InlineMath math={`S(${pp(-data.x_s)}|${pp(-data.y_s)})`} />{' '}
+            eingezeichnet.
           </li>,
           <li key="3">
-            Die Parabel p hat den Öffnungsfaktor <br></br>a = 1. Die
-            eingezeichnete Parabel ist gestaucht, also ist a kleiner als 1.
+            Die Parabel <InlineMath math={`p`} /> hat den Öffnungsfaktor{' '}
+            <br></br> <InlineMath math={`a=1`} />. Die eingezeichnete Parabel
+            ist gestaucht, also ist <InlineMath math={`a`} /> kleiner als 1.
           </li>,
         ]
 

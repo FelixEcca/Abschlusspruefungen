@@ -1,6 +1,6 @@
 import { Exercise } from '@/data/types'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   x_s: number
@@ -19,12 +19,17 @@ export const exercise3010: Exercise<DATA> = {
     return data.x_s != 0
   },
   intro({ data }) {
+    const b = -2 * data.x_s
+    const c = data.x_s * data.x_s
     return (
       <>
         <p>
-          Gegeben ist die Parabel p<sub>1</sub> mit der Gleichung y = x²{' '}
-          {pp(-2 * data.x_s, 'koeff')}x {pp(data.x_s * data.x_s, 'merge_op')},
-          sowie die Normalparabel p<sub>2</sub> mit y = x².
+          Gegeben ist die Parabel <InlineMath math="p_1" /> mit der Gleichung{' '}
+          <InlineMath
+            math={`y = x^2 ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')}`}
+          />
+          , sowie die Normalparabel <InlineMath math="p_2" /> mit{' '}
+          <InlineMath math="y = x^2" />.
         </p>
       </>
     )
@@ -32,100 +37,74 @@ export const exercise3010: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>
-              Zeigen Sie, dass der Scheitelpunkt der Parabel von p<sub>1</sub>{' '}
-              auf der x-Achse liegt und geben Sie die Gleichung von p
-              <sub>1</sub> in der Scheitelform an.
-            </p>
-          </>
+          <p>
+            Zeigen Sie, dass der Scheitelpunkt der Parabel von{' '}
+            <InlineMath math="p_1" /> auf der x-Achse liegt, und geben Sie die
+            Gleichung von <InlineMath math="p_1" /> in Scheitelform an.
+          </p>
         )
       },
       solution({ data }) {
         const b = -2 * data.x_s
-
+        const c = data.x_s * data.x_s
         return (
           <>
             <p>Für die x-Koordinate des Scheitels gilt:</p>
-            {buildEquation([
-              [
-                <>
-                  x<sub>s</sub>
-                </>,
-                <>=</>,
-                <>{buildInlineFrac(<>-b</>, <>2a</>)}</>,
-              ],
-              [
-                <>
-                  x<sub>s</sub>
-                </>,
-                <>=</>,
-                <>
-                  {buildInlineFrac(<>-{pp(b, 'embrace_neg')}</>, <>2 · 1</>)}
-                </>,
-              ],
-              [
-                <>
-                  x<sub>s</sub>
-                </>,
-                <>=</>,
-                <>{pp(data.x_s)}</>,
-              ],
-            ])}
+            <BlockMath
+              math={[
+                '\\begin{aligned}',
+                'x_s &= -\\frac{b}{2a}\\\\',
+                `&= -\\frac{${pp(b, 'embrace_neg')}}{2\\cdot 1}\\\\`,
+                `&= ${pp(data.x_s)}`,
+                '\\end{aligned}',
+              ].join('')}
+            />
+
             <p>
-              Setze die Koordinate in die Gleichung von p<sub>1</sub> ein:
+              Setze <InlineMath math="x=x_s" /> in die Funktionsgleichung ein:
             </p>
-            {buildEquation([
-              [
-                <>y</>,
-                <>=</>,
-                <>
-                  x² {pp(data.x_s, 'merge_op')}x{' '}
-                  {pp(data.x_s * data.x_s, 'merge_op')}
-                </>,
-              ],
-              [
-                <>y</>,
-                <>=</>,
-                <>
-                  {pp(data.x_s, 'embrace_neg')} · {pp(data.x_s, 'embrace_neg')}{' '}
-                  {pp(b, 'merge_op')} · {pp(data.x_s, 'embrace_neg')}{' '}
-                  {pp(data.x_s * data.x_s, 'merge_op')}
-                </>,
-              ],
-              [<>y</>, <>=</>, <>0</>],
-            ])}
+            <BlockMath
+              math={[
+                '\\begin{aligned}',
+                'y(x_s) &= x_s^2 + b\\,x_s + c\\\\',
+                `&= ${pp(data.x_s)}^2 ${pp(b, 'merge_op')}${pp(
+                  data.x_s,
+                  'embrace_neg',
+                )} ${pp(c, 'merge_op')}\\\\`,
+                '&= 0',
+                '\\end{aligned}',
+              ].join('')}
+            />
             <p>
-              Der Scheitelpunkt von p<sub>1</sub> liegt also auf der x-Achse.
+              Der Scheitelpunkt liegt also auf der x-Achse. Die Scheitelform
+              lautet:
             </p>
-            <p>Setze die x-Koordinate noch in die Scheitelform ein:</p>
-            <p> y = (x {pp(-data.x_s, 'merge_op')})² </p>
+            <BlockMath math={`y=(x\\,${pp(-data.x_s, 'merge_op')})^{2}`} />
           </>
         )
       },
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>
-              Die Parabel p<sub>2</sub> kann mit einer weiteren Parabel q
-              keinen, einen oder zwei Schnittpunkte haben. Geben Sie für jeden
-              dieser drei Fälle eine mögliche Parabelgleichung von q an.
-            </p>
-          </>
+          <p>
+            Die Parabel <InlineMath math="p_2" /> kann mit einer weiteren
+            Parabel <InlineMath math="q" /> keinen, einen oder zwei
+            Schnittpunkte haben. Geben Sie für jeden Fall eine mögliche
+            Parabelgleichung von <InlineMath math="q" /> an.
+          </p>
         )
       },
-      solution({ data }) {
+      solution() {
         function toX(n: number) {
           return 167 + n * ((94.5 * 2) / 10)
         }
@@ -144,14 +123,18 @@ export const exercise3010: Exercise<DATA> = {
           }
           return points.trim()
         }
+
         return (
           <>
             <p>Beispiel für zwei Schnittpunkte:</p>
-            <p>q: y = -x² + 1</p>
-            <p>Beispiel für einen Schnittpunkt:</p>
-            <p>q: y = -x²</p>
+            <InlineMath math="q:\; y=-x^2+1" />
+
+            <p>Beispiel für einen Schnittpunkt (Tangente an p₂):</p>
+            <InlineMath math="q:\; y=-x^2" />
+
             <p>Beispiel für keinen Schnittpunkt:</p>
-            <p>q: y = x² + 1</p>
+            <InlineMath math="q:\; y=x^2+1" />
+
             <p>Dargestellt im Koordinatensystem:</p>
             <svg viewBox="0 0 328 328">
               <image
@@ -159,30 +142,35 @@ export const exercise3010: Exercise<DATA> = {
                 height="328"
                 width="328"
               />
+              {/* zwei Schnittpunkte */}
               <polyline
                 points={generateParabolaPoints(-1, 1, 0.1)}
                 stroke="green"
                 strokeWidth="2"
                 fill="none"
               />
+              {/* ein Schnittpunkt (Tangente an 0|0) */}
               <polyline
                 points={generateParabolaPoints(-1, 0, 0.1)}
                 stroke="blue"
                 strokeWidth="2"
                 fill="none"
               />
+              {/* kein Schnittpunkt */}
               <polyline
                 points={generateParabolaPoints(1, 1, 0.1)}
                 stroke="orange"
                 strokeWidth="2"
                 fill="none"
               />
+              {/* p2: y=x^2 als Referenz */}
               <polyline
                 points={generateParabolaPoints(1, 0, 0.1)}
                 stroke="black"
                 strokeWidth="2"
                 fill="none"
               />
+              {/* Labels (unverändert belassen) */}
               <text
                 x={210}
                 y={140}

@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
 import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   r2: number
@@ -24,8 +25,9 @@ export const exercise3013: Exercise<DATA> = {
       <>
         <p>
           Ein Spielgerät zum Balancieren besteht aus einer kreisrunden Scheibe,
-          einer darunter angesetzten Halbkugel H<sub>1</sub> und einer
-          kleineren, oberhalb angesetzten Halbkugel H<sub>2</sub>.
+          einer darunter angesetzten Halbkugel <InlineMath math={`H_{1}`} /> und
+          einer kleineren, oberhalb angesetzten Halbkugel{' '}
+          <InlineMath math={`H_{2}`} />.
         </p>
         <svg viewBox="0 0 328 100">
           <image href="/content/BW_2BFS/3013.png" height="100" width="328" />
@@ -43,8 +45,9 @@ export const exercise3013: Exercise<DATA> = {
         return (
           <>
             <p>
-              Berechnen Sie den Oberflächeninhalt der Halbkugel H<sub>2</sub>,
-              wenn deren Radius {data.r2} cm beträgt.
+              Berechnen Sie den Oberflächeninhalt der Halbkugel{' '}
+              <InlineMath math={`H_{2}`} />, wenn deren Radius{' '}
+              <InlineMath math={`${data.r2} \\, \\text{cm}`} /> beträgt.
             </p>
           </>
         )
@@ -55,16 +58,49 @@ export const exercise3013: Exercise<DATA> = {
           <>
             <p>Berechne die Oberfläche mit der Formel für die Kugelfläche:</p>
             {buildEquation([
-              [<>O</>, <>=</>, <> 4πr²</>],
-              [<>O</>, <>=</>, <>4· π · ({data.r2} cm)²</>],
-              [<>O</>, <>≈</>, <>{pp(surfaceArea)} cm²</>],
+              [
+                <>
+                  <InlineMath math={`O`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  {' '}
+                  <InlineMath math={`4\\cdot π \\cdot r_{2}^{2}`} />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math={`O`} />
+                </>,
+                <>
+                  <InlineMath math={`=`} />
+                </>,
+                <>
+                  <InlineMath math={`4\\cdot π \\cdot (${data.r2} ~cm)²`} />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math={`O`} />
+                </>,
+                <>
+                  <InlineMath math={`\\approx`} />
+                </>,
+                <>
+                  <InlineMath math={`${pp(surfaceArea)} ~cm²`} />
+                </>,
+              ],
             ])}
             <p>
               {' '}
               Damit ist die Oberfläche der <b>Halbkugel</b>:
             </p>
             <p>
-              {pp(surfaceArea)} cm² : 2 = {pp(surfaceArea / 2)} cm²
+              <InlineMath
+                math={`${pp(surfaceArea)} ~cm² : 2 = ${pp(surfaceArea / 2)} ~cm²`}
+              />
             </p>
           </>
         )
@@ -79,9 +115,11 @@ export const exercise3013: Exercise<DATA> = {
         return (
           <>
             <p>
-              Geben Sie das Verhältnis des Volumens der Halbkugel H<sub>1</sub>{' '}
-              zum Volumen der Halbkugel H<sub>2</sub> an. Es ist r<sub>1</sub> ={' '}
-              {data.r1} cm und r<sub>2</sub> = {data.r2} cm
+              Geben Sie das Verhältnis des Volumens der Halbkugel{' '}
+              <InlineMath math={`H_{1}`} />
+              zum Volumen der Halbkugel <InlineMath math={`H_{2}`} /> an. Es ist{' '}
+              <InlineMath math={`r_{1} = ${data.r1} ~cm`} /> und{' '}
+              <InlineMath math={`r_{2} = ${data.r2} ~cm`} />.
             </p>
           </>
         )
@@ -93,35 +131,43 @@ export const exercise3013: Exercise<DATA> = {
             <p>
               {buildInlineFrac(
                 <>
-                  V<sub>1</sub>
+                  <InlineMath math={`V_{1}`} />
                 </>,
                 <>
-                  V<sub>2</sub>
+                  <InlineMath math={`V_{2}`} />
                 </>,
               )}{' '}
-              ={' '}
+              <InlineMath math={`=`} />{' '}
               {buildInlineFrac(
                 <>
-                  {buildInlineFrac(2, 3)} · π · r<sub>1</sub>
-                  <sup>3</sup>
+                  <InlineMath math={`\\frac{2}{3} · π · r_{1}^{3}`} />
                 </>,
                 <>
-                  {buildInlineFrac(2, 3)} · π · r<sub>2</sub>
-                  <sup>3</sup>
+                  <InlineMath math={`\\frac{2}{3} · π · r_{2}^{3}`} />
                 </>,
               )}{' '}
-              ={' '}
+              <InlineMath math={`=`} />{' '}
               {buildInlineFrac(
                 <>
-                  r<sub>1</sub>
-                  <sup>3</sup>
+                  <InlineMath math={`r_{1}^{3}`} />
                 </>,
                 <>
-                  r<sub>2</sub>
-                  <sup>3</sup>
+                  <InlineMath math={`r_{2}^{3}`} />
                 </>,
               )}{' '}
-              = {pp(Math.round((100 * data.r1 ** 3) / data.r2 ** 3) / 100)}{' '}
+              <InlineMath math={`=`} />{' '}
+              {buildInlineFrac(
+                <>
+                  <InlineMath math={`${data.r1}^{3}`} />
+                </>,
+                <>
+                  <InlineMath math={`${data.r2}^{3}`} />
+                </>,
+              )}{' '}
+              <InlineMath math={`=`} />{' '}
+              <InlineMath
+                math={`${pp(Math.round((100 * data.r1 ** 3) / data.r2 ** 3) / 100)}`}
+              />
             </p>
           </>
         )
