@@ -141,43 +141,43 @@ export const exercise3202: Exercise<DATA> = {
                 width="328"
               />
               {/* Level 1 Äste: nach oben (1) und nach unten (2) */}
-              <foreignObject x="78" y="98" width="50" height="26">
+              <foreignObject x="78" y="68" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac1} />
                 </div>
               </foreignObject>
-              <foreignObject x="78" y="190" width="50" height="26">
+              <foreignObject x="78" y="160" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac2} />
                 </div>
               </foreignObject>
 
               {/* Level 2 vom oberen Knoten: erst 1-Zweig, dann 2-Zweig */}
-              <foreignObject x="175" y="72" width="50" height="26">
+              <foreignObject x="175" y="2" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac1} />
                 </div>
               </foreignObject>
-              <foreignObject x="175" y="112" width="50" height="26">
+              <foreignObject x="175" y="82" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac2} />
                 </div>
               </foreignObject>
 
               {/* Level 2 vom unteren Knoten: erst 1-Zweig, dann 2-Zweig */}
-              <foreignObject x="175" y="162" width="50" height="26">
+              <foreignObject x="175" y="132" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac1} />
                 </div>
               </foreignObject>
-              <foreignObject x="175" y="202" width="50" height="26">
+              <foreignObject x="175" y="207" width="50" height="30">
                 <div style={{ textAlign: 'center' }}>
                   <InlineMath math={frac2} />
                 </div>
               </foreignObject>
             </svg>
 
-            <p>Ergebnisse (verkettete Pfadwahrscheinlichkeiten):</p>
+            <p>Ergebnisse:</p>
             <BlockMath
               math={String.raw`
 \begin{aligned}
