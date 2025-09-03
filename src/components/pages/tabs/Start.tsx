@@ -20,6 +20,7 @@ import { useHistory } from 'react-router'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { useProgress, getStatus } from '../../../../store/progress-store'
 import { shuffleOutline } from 'ionicons/icons'
+// import { profile } from 'console'
 
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false
@@ -80,7 +81,32 @@ export function Start() {
         ? 'bg-green-100 border-green-400'
         : 'bg-white border-gray-200'
     : 'bg-white border-gray-200'
+  const allIds = React.useMemo(
+    () =>
+      Object.keys(exercisesData)
+        .map(k => parseInt(k, 10))
+        .filter(id => passExamFilter(exam, id)),
+    [exam],
+  )
+  const userProfile = useProfile()
 
+  const solvedSet = React.useMemo(() => {
+    const set = new Set<number>()
+    for (const [k, v] of Object.entries(userProfile.exercises ?? {})) {
+      if (v?.solved) set.add(parseInt(k, 10))
+    }
+    return set
+  }, [userProfile.exercises])
+  const flaggedCount = React.useMemo(() => {
+    let c = 0
+    for (const v of Object.values(userProfile.exercises ?? {})) {
+      if (v?.flagged) c++
+    }
+    return c
+  }, [userProfile.exercises])
+  const total = allIds.length
+  const solved = allIds.filter(id => solvedSet.has(id)).length
+  const percent = total > 0 ? Math.round((solved / total) * 100) : 0
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -148,12 +174,37 @@ export function Start() {
             )}
           </div>
 
-          <div className="shadow-md text-sm text-gray-600 rounded-xl border p-3 bg-white">
+          <div className="bg-white shadow-md rounded-xl border p-3">
+            <div className="font-semibold mb-2 ">
+              Dein Fortschritt ({percent}%)
+            </div>
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
+              <div
+                className="h-3 bg-green-500"
+                style={{ width: `${percent}%` }}
+              />
+            </div>
+            <div className="flex justify-between mb-1">
+              <span>Aufgaben insgesamt:</span>
+              <span className="text-right">
+                <b>{total}</b>
+              </span>
+            </div>
+            <div className="flex justify-between mb-1">
+              <span>Gelöste Aufgaben:</span>
+              <span className="text-right">
+                <b> 👏🏻 {solved}</b>
+              </span>
+            </div>
+            <br></br>
             🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
             {currentStreak === 1 ? '' : 'e'}
             <br></br>
             <br></br>
-            <p>Sieh in deinem Profil nach, um deinen Fortschritt zu sehen.</p>
+            <p>
+              Sieh in deinem Profil nach, um mehr Details über deinen
+              Fortschritt zu sehen.
+            </p>
           </div>
           {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
 

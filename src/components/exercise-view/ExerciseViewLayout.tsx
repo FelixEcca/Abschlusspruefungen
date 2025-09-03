@@ -7,12 +7,20 @@ import { ChatOverlay } from './ChatOverlay'
 export function ExerciseViewLayout() {
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
-      <IonHeader className="ion-no-border bg-gray-100" >
-        <ExerciseViewHeader />
+      {/* BG des Headers sauber setzen + padding statt margin */}
+      <IonHeader className="ion-no-border bg-gray-100">
+        <div className=" pb-2">
+          <ExerciseViewHeader />
+        </div>
       </IonHeader>
-      <IonContent fullscreen >
+
+      <IonContent
+        fullscreen
+        style={{ '--background': '#d7e6f8' } as React.CSSProperties}
+      >
         <ExerciseViewContent />
       </IonContent>
+
       <IonFooter className="ion-no-border">
         <ExerciseViewFooter />
       </IonFooter>
