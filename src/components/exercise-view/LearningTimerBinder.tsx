@@ -21,18 +21,18 @@ export default function LearningTimerBinder() {
     if (onExerciseRoute && typeof id === 'number' && id !== -1) {
       startLearningTimer(id)
     } else {
-      stopLearningTimer('route')
+      stopLearningTimer()
     }
 
     const onVisibility = () => {
       if (document.hidden) {
-        stopLearningTimer('hidden')
+        stopLearningTimer()
       } else if (onExerciseRoute && typeof id === 'number' && id !== -1) {
         startLearningTimer(id)
       }
     }
-    const onPageHide = () => stopLearningTimer('unmount')
-    const onBeforeUnload = () => stopLearningTimer('unmount')
+    const onPageHide = () => stopLearningTimer()
+    const onBeforeUnload = () => stopLearningTimer()
 
     document.addEventListener('visibilitychange', onVisibility)
     window.addEventListener('pagehide', onPageHide)
@@ -41,7 +41,7 @@ export default function LearningTimerBinder() {
       document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('pagehide', onPageHide)
       window.removeEventListener('beforeunload', onBeforeUnload)
-      stopLearningTimer('unmount')
+      stopLearningTimer()
     }
   }, [onExerciseRoute, id])
 
