@@ -1,5 +1,6 @@
 import { Exercise } from '@/data/types'
 import { pp } from '@/helper/pretty-print'
+import { BlockMath, InlineMath } from 'react-katex'
 
 interface DATA {
   A: [number, number]
@@ -46,9 +47,9 @@ export const exercise3200: Exercise<DATA> = {
     C: [-1, 4],
     D: [-3, 4],
     mirrored: {
-      A: [3, -5],
-      B: [-1, -5],
-      C: [-1, -4],
+      A: [3, -1.5],
+      B: [-1, -1.5],
+      C: [1, -4],
       D: [3, -4],
     },
   },

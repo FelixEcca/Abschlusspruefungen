@@ -239,6 +239,9 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   401: exercise401,
 }
 
+//<BlockMath math={``}/>
+// <InlineMath math={``} />
+
 // symbols:
 // {buildEquation([[<></>,<></>,<></>],[<></>,<></>,<></>],[<></>,<></>,<></>]])}
 // ℚ

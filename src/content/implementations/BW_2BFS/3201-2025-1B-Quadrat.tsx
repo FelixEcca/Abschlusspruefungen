@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
 import { buildSqrt } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { BlockMath } from 'react-katex'
 
 interface DATA {
   x: number

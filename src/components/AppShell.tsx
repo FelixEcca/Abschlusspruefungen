@@ -15,6 +15,8 @@ import {
   PlayerProfileStore,
   storageKey,
 } from '../../store/player-profile-store'
+import { BlockMath, InlineMath } from 'react-katex'
+import 'katex/dist/katex.min.css'
 
 setupIonicReact({})
 
