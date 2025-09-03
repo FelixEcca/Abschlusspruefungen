@@ -34,7 +34,7 @@ function topicRouteIndex(exam: number, i: number) {
   return exam == 1 ? i + 1 : exam == 2 ? i + 101 : i + 201
 }
 
-export function Participate() {
+export function Start() {
   const history = useHistory()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const name = PlayerProfileStore.useState(s => s.name)
@@ -89,9 +89,10 @@ export function Participate() {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
+      <IonContent
+        fullscreen
+        style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
-        
         <div className="mx-3 mt-4 space-y-6">
           {/* Begrüßung */}
           <div className="shadow-md rounded-xl border p-3 bg-white">
@@ -131,9 +132,9 @@ export function Participate() {
                 </p>
               </>
             ) : (
-              <div className="flex items-center justify-between" >
-                <div >
-                  <div className="text-lg" >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-lg">
                     👋 Hallo{name ? `, ${name}` : ''}!
                   </div>
                   <div className="text-sm text-gray-600">

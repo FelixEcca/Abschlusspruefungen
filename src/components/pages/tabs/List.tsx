@@ -13,8 +13,8 @@ import {
 } from '@ionic/react'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { useHistory } from 'react-router'
-import { useProgress } from '../../../../store/progress-store'
 import * as React from 'react'
+import { useProgress } from '../../../../store/progress-store'
 
 type Entry = [string, (typeof exercisesData)[number]]
 
@@ -33,7 +33,42 @@ function passExamFilter(exam: number, idNum: number): boolean {
   return true
 }
 
-export function Superskills() {
+/** Child-Komponente — hier ist der Hook-Aufruf sicher */
+function ExerciseRow({
+  idNum,
+  id,
+  content,
+  onOpen,
+}: {
+  idNum: number
+  id: string
+  content: (typeof exercisesData)[number]
+  onOpen: (idNum: number, id: string) => void
+}) {
+  const st = useProgress(idNum)
+  // gelb hat Vorrang (flagged überschreibt solved)
+  const cls = st?.flagged
+    ? 'bg-yellow-100 border-yellow-400'
+    : st?.solved
+      ? 'bg-green-100 border-green-400'
+      : 'bg-white border-gray-200'
+
+  return (
+    <div
+      className={`my-2 cursor-pointer rounded-lg p-2 border hover:bg-gray-50 ${cls}`}
+      onClick={() => onOpen(idNum, id)}
+    >
+      <div>
+        {content.source && (
+          <span className="text-fuchsia-900">[{content.source}] </span>
+        )}
+        {content.title}
+      </div>
+    </div>
+  )
+}
+
+export function List() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const history = useHistory()
 
@@ -59,42 +94,30 @@ export function Superskills() {
     return { map, years }
   }, [filtered])
 
-  // Alle IDs für alle Jahre einsammeln
-  const allIds = React.useMemo(() => {
-    return grouped.years.flatMap(year => {
-      const items = grouped.map.get(year)!
-      return items.map(([id]) => parseInt(id, 10))
-    })
-  }, [grouped])
-
-  // Reaktiver Fortschritt – einmal oben ermitteln
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const allProgresses = allIds.map(idNum => useProgress(idNum))
-
-  const getProgress = (idNum: number) => {
-    const idx = allIds.indexOf(idNum)
-    return allProgresses[idx]
+  const openExercise = (idNum: number, id: string) => {
+    setupExercise(idNum)
+    history.push('/exercise/' + id)
   }
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Aufgaben nach Jahren</IonTitle>
+          <IonTitle>Liste aller Aufgaben</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}>
+      <IonContent fullscreen>
         <div className="mx-3 mt-8">
+          <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
-          <IonAccordionGroup expand="inset" >
+          <IonAccordionGroup expand="inset">
             {grouped.years.map(year => {
               const items = grouped.map.get(year)!
               const label = year === 0 ? 'Sonstige' : String(year)
-
               return (
-                <IonAccordion key={year} value={String(year)} >
-                  <IonItem slot="header" >
-                    <IonLabel >
+                <IonAccordion key={year} value={String(year)}>
+                  <IonItem slot="header">
+                    <IonLabel>
                       {label}{' '}
                       <span className="text-sm text-gray-500">
                         ({items.length})
@@ -105,33 +128,14 @@ export function Superskills() {
                   <div slot="content" className="p-2">
                     {items.map(([id, content]) => {
                       const idNum = parseInt(id, 10)
-                      const st = getProgress(idNum)
-
-                      // ⚠️ Priorität: flagged > solved > default
-                      const cls = st?.flagged
-                        ? 'bg-yellow-100 border-yellow-400'
-                        : st?.solved
-                          ? 'bg-green-100 border-green-400'
-                          : 'bg-white border-gray-200'
-
                       return (
-                        <div
+                        <ExerciseRow
                           key={id}
-                          className={`my-2 cursor-pointer rounded-lg p-2 border hover:bg-gray-50 ${cls}`}
-                          onClick={() => {
-                            setupExercise(idNum)
-                            history.push('/exercise/' + id)
-                          }}
-                        >
-                          <div>
-                            {content.source && (
-                              <span className="text-fuchsia-900">
-                                [{content.source}]{' '}
-                              </span>
-                            )}
-                            {content.title}
-                          </div>
-                        </div>
+                          idNum={idNum}
+                          id={id}
+                          content={content}
+                          onOpen={openExercise}
+                        />
                       )
                     })}
                   </div>

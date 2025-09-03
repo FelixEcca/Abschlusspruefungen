@@ -17,9 +17,9 @@ import {
   personOutline,
 } from 'ionicons/icons'
 
-import { Superskills } from './tabs/Superskills'
+import { List } from './tabs/List'
 import { Search } from './tabs/Search'
-import { Participate } from './tabs/Participate'
+import { Start } from './tabs/Start'
 import { Profile } from './tabs/Profile'
 import { Topics } from './tabs/Topics' // neuer Tab
 import { faSmile } from '@fortawesome/free-solid-svg-icons'
@@ -32,19 +32,19 @@ export function App() {
       <IonRouterOutlet>
         {/* Standard-Redirect */}
         <Route exact path="/app">
-          <Redirect to="/app/participate" />
+          <Redirect to="/app/start" />
         </Route>
 
         {/* Tabs-Routen – immer mit component={...} */}
-        <Route exact path="/app/participate" component={Participate} />
+        <Route exact path="/app/start" component={Start} />
         <Route exact path="/app/topics" component={Topics} />
-        <Route exact path="/app/superskills" component={Superskills} />
+        <Route exact path="/app/list" component={List} />
         <Route exact path="/app/search" component={Search} />
         <Route exact path="/app/profile" component={Profile} />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">
-        <IonTabButton tab="tab-start" href="/app/participate">
+        <IonTabButton tab="tab-start" href="/app/start">
           <IonIcon icon={homeOutline} />
           <IonLabel>Start</IonLabel>
         </IonTabButton>
@@ -54,7 +54,7 @@ export function App() {
           <IonLabel>Themen</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="tab-superskills" href="/app/superskills">
+        <IonTabButton tab="tab-list" href="/app/list">
           <IonIcon icon={menuOutline} />
           <IonLabel>Liste</IonLabel>
         </IonTabButton>

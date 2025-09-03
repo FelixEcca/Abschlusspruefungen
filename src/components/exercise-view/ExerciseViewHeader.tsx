@@ -54,7 +54,7 @@ export function ExerciseViewHeader() {
         className={headerBoxCls}
         onClick={() => {
           if (toHome) {
-            history.push('/app/participate')
+            history.push('/app/start')
             return
           }
           const i1 = navigationData[1].topics.findIndex(t =>
@@ -75,12 +75,12 @@ export function ExerciseViewHeader() {
                       ? i2 + 101
                       : i3 + 201
                   ).toString()
-              : '/app/participate',
+              : '/app/start',
           )
         }}
       >
-        <div className="flex items-center justify-between" >
-          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2" >
+        <div className="flex items-center justify-between">
+          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
             <FaIcon icon={faArrowLeft} />
             <span>
               {skill ? (
@@ -113,7 +113,7 @@ export function ExerciseViewHeader() {
         </div>
       </div>
 
-      <div className="text-left mt-2" >
+      <div className="text-left mt-2">
         <button
           className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
           onClick={() => {
