@@ -38,7 +38,7 @@ export const exercise3203: Exercise<DATA> = {
 
   generator(rng) {
     // gut unterscheidbare Kurven wählen
-    const c1 = rng.randomIntBetween(2, 5) // nach unten geöffnete Parabel nach oben verschoben
+    const c1 = rng.randomIntBetween(2, 4) // nach unten geöffnete Parabel nach oben verschoben
     const m2 = rng.randomIntBetween(-3, -1) // fallende Gerade
     const b2 = rng.randomIntBetween(2, 4)
     const s3 = rng.randomIntBetween(-4, -1) // Scheitel links der y-Achse
@@ -169,9 +169,9 @@ export const exercise3203: Exercise<DATA> = {
 /* ========= Darstellung mit deinem PNG-Hintergrund ========= */
 
 function GraphKS({ data }: { data: DATA }) {
-  // Das bekannte Mapping für ksgroßmitachsen.png
-  const toX = (n: number) => 167 + n * ((94.5 * 2) / 10)
-  const toY = (n: number) => 163 - n * ((94.5 * 2) / 10)
+  // Das bekannte Mapping für kskleinmitachsen.png
+  const toX = (n: number) => 165 + n * ((312 - 18) / 8)
+  const toY = (n: number) => 163 - n * ((312 - 18) / 8)
 
   const poly = (f: (x: number) => number, step = 0.05) => {
     let s = ''
@@ -200,10 +200,13 @@ function GraphKS({ data }: { data: DATA }) {
   return (
     <svg viewBox="0 0 328 328" width="328" height="328" className="my-2">
       <image
-        href="/content/BW_2BFS/ksgroßmitachsen.png"
+        href="/content/BW_2BFS/kskleinmitachsen.png"
         height="328"
         width="328"
       />
+      <text x={312} y={163} fontSize={20} textAnchor="middle" stroke="black">
+        .
+      </text>
       {curves.map((f, i) => (
         <g key={i}>
           <polyline
