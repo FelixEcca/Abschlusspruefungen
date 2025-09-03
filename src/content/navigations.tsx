@@ -2197,14 +2197,6 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         lessons: [
           {
-            type: 'video',
-            title: 'Video 1',
-            videoUrl:
-              'https://testtige.uber.space/physikprüfungen/Zahlen_vergleichen_MINI.mp4',
-            position: { x: 80, y: 170 },
-            steps: [],
-          },
-          {
             type: 'new-skill',
             title: 'Intro: Zahlen vergleichen',
             icon: '/learning-path/NRW_EESA_icons/zahlen-vergleichen.svg',
@@ -2212,14 +2204,7 @@ export const navigationData: { [key: number]: Navigation } = {
             position: { x: 190, y: 210 },
             steps: [{ exercise: { id: 199 } }],
           },
-          {
-            type: 'video',
-            title: 'Video 2',
-            videoUrl:
-              'https://testtige.uber.space/physikprüfungen/bruechevergleichen_MINI.mp4',
-            position: { x: 150, y: 320 },
-            steps: [],
-          },
+
           {
             type: 'new-skill',
             title: 'Zahlen vergleichen',
@@ -2243,14 +2228,7 @@ export const navigationData: { [key: number]: Navigation } = {
             position: { x: 90, y: 500 },
             steps: [{ exercise: { id: 123 } }],
           },
-          {
-            type: 'video',
-            title: 'Video 3',
-            videoUrl:
-              'https://testtige.uber.space/physikprüfungen/schaetzen_MINI.mp4',
-            position: { x: 200, y: 575 },
-            steps: [],
-          },
+
           {
             type: 'new-skill',
             title: 'Schätzen & Überschlagen',

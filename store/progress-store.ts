@@ -18,17 +18,14 @@ export interface ExerciseProgress {
 export interface Profile {
   version: 1
   id: string
+  name: string            // <-- NEU
   createdAt: number
-  exercises: Record<ExerciseId, ExerciseProgress>
-  totalTimeMs?: number
-
-  // 🔥 Globaler Streak
-  currentStreak?: number
-  longestStreak?: number
-  lastActiveDate?: string          // 'YYYY-MM-DD' (lokale Zeit)
-  activityByDate?: Record<string, number> // Map Tag → #Solves
-
-  // Laufende Session (nur in-memory, NIE persistieren)
+  exercises: Record<number, ExerciseProgress>
+  totalTimeMs: number
+  currentStreak: number
+  longestStreak: number
+  lastActiveDate?: string
+  activityByDate: Record<string, number>
   _activeExerciseId?: number
   _sessionStartTs?: number
 }
@@ -53,10 +50,11 @@ function isConsecutive(prevKey?: string, todayKey?: string): boolean {
   return addDays(prevKey, 1) === todayKey
 }
 
-function emptyProfile(): Profile {
+export function emptyProfile(): Profile {
   return {
     version: 1,
     id: crypto.randomUUID(),
+    name: '',              // <-- NEU
     createdAt: Date.now(),
     exercises: {},
     totalTimeMs: 0,
@@ -64,6 +62,8 @@ function emptyProfile(): Profile {
     longestStreak: 0,
     lastActiveDate: undefined,
     activityByDate: {},
+    _activeExerciseId: undefined,
+    _sessionStartTs: undefined,
   }
 }
 
@@ -74,10 +74,10 @@ export function loadProfile(): Profile {
     const p = JSON.parse(raw) as Partial<Profile>
     if (!p || p.version !== 1 || !p.exercises) return emptyProfile()
 
-    // Sanitizing & Defaults
     const prof: Profile = {
       version: 1,
       id: typeof p.id === 'string' ? p.id : crypto.randomUUID(),
+      name: typeof p.name === 'string' ? p.name : '',  // <-- NEU
       createdAt: typeof p.createdAt === 'number' ? p.createdAt : Date.now(),
       exercises: p.exercises,
       totalTimeMs: typeof p.totalTimeMs === 'number' ? p.totalTimeMs : 0,
@@ -105,7 +105,11 @@ export function saveProfile(p: Profile) {
   const { _activeExerciseId, _sessionStartTs, ...persistable } = p
   localStorage.setItem(KEY, JSON.stringify(persistable))
 }
-
+export function setName(name: string) {
+  cache.name = name.trim()
+  saveProfile(cache)
+  notify()
+}
 let cache = loadProfile()
 
 function ensureExercise(id: ExerciseId) {
@@ -228,7 +232,7 @@ export function startLearningTimer(exerciseId: ExerciseId) {
   flushInterval = window.setInterval(flushLearningTimer, 5000)
 }
 
-export function stopLearningTimer(p0: string) {
+export function stopLearningTimer() {
   if (cache._sessionStartTs && typeof cache._activeExerciseId === 'number') {
     flushLearningTimer()
   }
@@ -295,8 +299,9 @@ export function importProfileFromJson(json: string) {
 export function resetProfile() {
   if (flushInterval) clearInterval(flushInterval)
   flushInterval = undefined
-  cache = { ...emptyProfile(), id: cache.id } // ID beibehalten
-  saveProfile(cache); notify()
+  cache = { ...emptyProfile(), id: cache.id } // ID behalten
+  saveProfile(cache)
+  notify()
 }
 
 /* ---------- Hooks & Utils ---------- */
