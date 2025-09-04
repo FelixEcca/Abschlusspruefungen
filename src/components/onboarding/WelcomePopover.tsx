@@ -1,4 +1,3 @@
-// src/components/onboarding/WelcomePopover.tsx
 import * as React from 'react'
 import { IonButton, IonInput, IonSelect, IonSelectOption } from '@ionic/react'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
@@ -14,7 +13,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const currentExam = PlayerProfileStore.useState(s => s.currentExam)
 
   const [open, setOpen] = React.useState(false)
-  const [name, setName] = React.useState(currentName ?? '')
+  const [inputName, setInputName] = React.useState(currentName ?? '')
   const [exam, setExam] = React.useState<number | undefined>(
     currentExam || undefined,
   )
@@ -37,12 +36,12 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const labelFor = (ex: number) =>
     navigationData[ex]?.shortTitle ?? `Prüfung ${ex}`
 
-  const valid = (name?.trim().length ?? 0) >= 2 && !!exam
+  const valid = (inputName?.trim().length ?? 0) >= 2 && !!exam
 
   function save() {
     if (!valid) return
     PlayerProfileStore.update(s => {
-      s.name = name.trim()
+      s.name = inputName.trim()
       s.currentExam = exam!
     })
     setOpen(false)
@@ -77,8 +76,8 @@ export function WelcomePopover({ forceOpen = false }: Props) {
               label="Dein Name"
               labelPlacement="stacked"
               placeholder="..."
-              value={name}
-              onIonInput={e => setName(String(e.detail.value ?? ''))}
+              value={inputName}
+              onIonChange={e => setInputName(e.detail.value as string)}
             />
 
             <div>
