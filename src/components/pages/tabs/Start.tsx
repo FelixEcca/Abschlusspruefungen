@@ -82,7 +82,8 @@ export function Start() {
       pick = pool[Math.floor(Math.random() * pool.length)]
     }
     return { id: pick, content: exercisesData[pick] }
-  }, [exam, lastId]) // nonce triggert Neuwahl
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exam, lastId, nonce]) // nonce triggert Neuwahl
 
   // Fortschritts-Färbung für die vorgeschlagene Aufgabe (flagged > solved > default)
   const sugProgress = useProgress(suggestion?.id ?? -1)
@@ -130,9 +131,7 @@ export function Start() {
           <IonTitle>Abschlussprüfungen</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <div style={{ marginTop: '40px' }}>
-        <WelcomePopover />
-      </div>
+      <WelcomePopover />
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
