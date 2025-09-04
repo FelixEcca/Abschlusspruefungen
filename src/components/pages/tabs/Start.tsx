@@ -26,6 +26,7 @@ import {
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
 import { setNonce } from 'ionicons/dist/types/stencil-public-runtime'
+import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
 // 👉 leichter Popover statt blockierendem Modal
 
@@ -198,26 +199,18 @@ export function Start() {
           </div>
 
           <div className="bg-white shadow-md rounded-xl border p-3">
-            <div className="font-semibold mb-2 ">
-              Dein Fortschritt ({percent}%)
+            <div className="font-semibold mb-2 ">Dein Fortschritt</div>
+            <div className="mx-3 mt-4">
+              <LevelPanel />
             </div>
-            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
-              <div
-                className="h-3 bg-green-500"
-                style={{ width: `${percent}%` }}
-              />
-            </div>
-            <div className="flex justify-between mb-1">
-              <span>Aufgaben insgesamt:</span>
-              <span className="text-right">
-                <b>{total}</b>
-              </span>
-            </div>
-            <div className="flex justify-between mb-1">
-              <span>Gelöste Aufgaben:</span>
-              <span className="text-right">
-                <b>👏🏻 {solved}</b>
-              </span>
+            <div className="flex justify-between mb-3"></div>
+            <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
+              <div className="max-w-md flex justify-between mb-1">
+                <span>Gelöste Aufgaben insgesamt:</span>
+                <span className="text-right">
+                  <b>👏🏻 {solved}</b>
+                </span>
+              </div>
             </div>
             <br />
             🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
