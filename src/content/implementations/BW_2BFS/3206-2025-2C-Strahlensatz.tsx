@@ -333,7 +333,7 @@ export const exercise3206: Exercise<DATA> = {
         return (
           <div className="space-y-2">
             <p>Das ist falsch. Der Flächeninhalt berechnet sich mit:</p>
-            <BlockMath math="A = \frac{1}{2}\text{g} \cdot \text{h}" />
+            <BlockMath math="A = \frac{1}{2}\cdot\text{g} \cdot \text{h}" />
             <p>
               Da die Längen von <InlineMath math="g" /> und{' '}
               <InlineMath math="h" /> jeweils {k} mal so lang werden, ist der
