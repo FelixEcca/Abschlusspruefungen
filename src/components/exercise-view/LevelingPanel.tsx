@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useProfile } from '../../../store/progress-store'
 import { computeLevelProgress } from './leveling'
 
-export default function LevelPanel() {
+export default function LevelingPanel() {
   const profile = useProfile()
   // solvedCount: Anzahl gelöster Aufgaben (nur true-Flags zählen)
   const solvedCount = React.useMemo(() => {
@@ -14,15 +14,22 @@ export default function LevelPanel() {
     computeLevelProgress(solvedCount)
 
   return (
-    <div className="w-full  max-w-md mx-auto rounded-xl border bg-sky-100 shadow-xl p-6">
-      <div className="text-m font-semibold mb-1">Level {level} ✨</div>
-      <div className="h-3 w-full bg-gray-200 rounded">
+    <div className="w-full rounded-xl border bg-sky-100/70 shadow-xl p-5">
+      <div className="text-base font-semibold mb-2">Level {level} ✨</div>
+
+      <div
+        className="h-3 w-full rounded border border-gray-400 bg-gradient-to-b from-gray-100 to-gray-200 shadow-inner overflow-hidden"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round((pctWithin ?? 0) * 100)}
+      >
         <div
-          className="h-3 bg-blue-500 rounded"
-          style={{ width: `${Math.round(pctWithin * 100)}%` }}
+          className="h-full rounded bg-gradient-to-r from-sky-500 to-blue-500 transition-[width] duration-700 ease-out"
+          style={{ width: `${Math.round((pctWithin ?? 0) * 100)}%` }}
         />
       </div>
-      <div className="text-xs text-gray-600 mt-2">
+      <div className="text-xs text-gray-700 mt-2 tabular-nums">
         {level < 6 ? (
           <>
             Löse <b>{remainingToNext}</b> Aufgaben, um in Level{' '}

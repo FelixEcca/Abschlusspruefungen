@@ -191,33 +191,35 @@ export function Start() {
                     Schön, dich wiederzusehen. Viel Erfolg beim Üben!
                   </div>
                 </div>
-                <IonButton fill="clear" onClick={() => setEditingName(true)}>
+                <IonButton fill="clear" className="!text-sky-600 !font-medium">
                   Bearbeiten
                 </IonButton>
               </div>
             )}
           </div>
 
-          <div className="bg-white shadow-md rounded-xl border p-3">
-            <div className="font-semibold mb-2 ">Dein Fortschritt</div>
-            <div className="mx-3 mt-4">
+          {/* Fortschritt */}
+          <div className="bg-white shadow-md rounded-xl border p-3 mt-6">
+            <div className="font-semibold mb-2">Dein Fortschritt</div>
+            <div className="mt-4">
               <LevelPanel />
             </div>
             <div className="flex justify-between mb-3"></div>
             <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
-              <div className="max-w-md flex justify-between mb-1">
+              <div className="flex justify-between mb-1">
                 <span>Gelöste Aufgaben insgesamt:</span>
                 <span className="text-right">
                   <b>👏🏻 {solved}</b>
                 </span>
               </div>
             </div>
-            <br />
-            🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
-            {currentStreak === 1 ? '' : 'e'}
-            <br />
-            <br />
-            <p>Sieh in deinem Profil nach, um mehr Details zu sehen.</p>
+            <div className="h-4" />
+            <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
+              <div>
+                🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
+                {currentStreak === 1 ? '' : 'e'}
+              </div>
+            </div>
           </div>
 
           {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
