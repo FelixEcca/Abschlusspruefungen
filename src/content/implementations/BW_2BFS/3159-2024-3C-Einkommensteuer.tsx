@@ -2,6 +2,7 @@ import { Exercise } from '@/data/types'
 import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   untergrenze: number
@@ -72,7 +73,6 @@ export const exercise3159: Exercise<DATA> = {
             stroke="blue"
             strokeWidth={2}
           />
-
           <line
             x1={toX(data.untergrenze)}
             y1={toY(0)}
@@ -96,10 +96,10 @@ export const exercise3159: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -113,16 +113,19 @@ export const exercise3159: Exercise<DATA> = {
         return (
           <>
             <p>
-              Bis zu einem Einkommen von {data.untergrenze * 10000} Euro beträgt
-              der Steuersatz 0 %.
+              Bis zu einem Einkommen von{' '}
+              <InlineMath math={`${data.untergrenze * 10000}\\,\\text{€}`} />{' '}
+              beträgt der Steuersatz <InlineMath math={`0\\,\\%`} />.
             </p>
             <p>
-              Ab {data.untergrenze * 10000} Euro steigt der Steuersatz linear
-              mit dem Einkommen an.
+              Ab <InlineMath math={`${data.untergrenze * 10000}\\,\\text{€}`} />{' '}
+              steigt der Steuersatz linear mit dem Einkommen an.
             </p>
             <p>
-              Ab einem Einkommen von {data.obergrenze * 10000} Euro bezahlt man
-              den Höchststeuersatz mit {data.höchststeuer * 10} %.
+              Ab einem Einkommen von{' '}
+              <InlineMath math={`${data.obergrenze * 10000}\\,\\text{€}`} />{' '}
+              bezahlt man den Höchststeuersatz{' '}
+              <InlineMath math={`${data.höchststeuer * 10}\\,\\%`} />.
             </p>
           </>
         )
@@ -130,7 +133,7 @@ export const exercise3159: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -143,15 +146,18 @@ export const exercise3159: Exercise<DATA> = {
         return (
           <>
             <p>
-              Alex behauptet: &quot;Bei einem Einkommen von {data.einkommen} EUR
-              muss man an den Staat Futura{' '}
+              Alex behauptet: „Bei einem Einkommen von{' '}
+              <InlineMath math={`${data.einkommen}\\,\\text{€}`} /> muss man an
+              den Staat Futura{' '}
               {data.bool ? (
-                <>{pp((data.einkommen * steuer) / 100)}</>
+                <InlineMath
+                  math={`${pp((data.einkommen * steuer) / 100)}\\,\\text{€}`}
+                />
               ) : (
-                <>{data.guess}</>
+                <InlineMath math={`${data.guess}\\,\\text{€}`} />
               )}{' '}
-              EUR Steuern bezahlen.&quot;<br></br> Beurteilen Sie, ob Alex recht
-              hat.
+              Steuern bezahlen.“
+              <br /> B€teilen Sie, ob Alex recht hat.
             </p>
           </>
         )
@@ -173,8 +179,8 @@ export const exercise3159: Exercise<DATA> = {
         return (
           <>
             <p>
-              Bestimme den Steuersatz bei einem Einkommen von {data.einkommen}{' '}
-              €.
+              Bestimme den Steuersatz bei einem Einkommen von{' '}
+              <InlineMath math={`${data.einkommen}\\,\\text{€}`} />.
             </p>
             <svg viewBox="0 0 328 210">
               <image href="/content/BW_2BFS/309.png" height="210" width="328" />
@@ -186,7 +192,6 @@ export const exercise3159: Exercise<DATA> = {
                 stroke="blue"
                 strokeWidth={2}
               />
-
               <line
                 x1={toX(data.untergrenze)}
                 y1={toY(0)}
@@ -210,28 +215,58 @@ export const exercise3159: Exercise<DATA> = {
                 y2={toY(7)}
                 stroke="orange"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
             </svg>
-            <p>Der Steuersatz beträgt etwa {steuer} %.</p>
+
             <p>
-              Berechne, wie viel Steuern mit diesem Steuersatz bezahlt werden
-              müssen:
+              Der Steuersatz beträgt etwa{' '}
+              <InlineMath math={`${steuer}\\,\\%`} />.
             </p>
+
+            <p>Berechne die fälligen Steuern mit dem Dreisatz:</p>
             {buildEquation([
-              [<>P</>, <>=</>, <>G · p</>],
               [
-                <></>,
-                <>=</>,
                 <>
-                  {data.einkommen} · {pp(steuer / 100)}
+                  <InlineMath math={'\\text{Steuerbetrag } S'} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={'\\text{Einkommen } E\\;\\cdot\\;p'} />
                 </>,
               ],
-              [<></>, <>=</>, <>{pp((data.einkommen * steuer) / 100)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\frac{${data.einkommen}\\cdot ${steuer}}{100}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${pp((data.einkommen * steuer) / 100)}\\,\\text{€}`}
+                  />
+                </>,
+              ],
             ])}
+
             <p>
-              Man müsste {pp((data.einkommen * steuer) / 100)} € Steuern
-              bezahlen. Damit hat Alex{' '}
+              Man müsste{' '}
+              <InlineMath
+                math={`${pp((data.einkommen * steuer) / 100)}\\,\\text{€}`}
+              />{' '}
+              Steuern bezahlen. Damit hat Alex{' '}
               {data.bool ? <>recht.</> : <>nicht recht.</>}
             </p>
           </>

@@ -1,7 +1,6 @@
 import { Exercise } from '@/data/types'
 import { Color2, Color3 } from '@/helper/colors'
-import { buildInlineFrac } from '@/helper/math-builder'
-import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   bool1: boolean
@@ -48,44 +47,48 @@ export const exercise3153: Exercise<DATA> = {
     num: 5,
     m: 2,
   },
-  constraint({ data }) {
-    return true
-  },
   task({ data }) {
     return (
       <>
-        <p>
-          Entscheiden Sie jeweils, ob die folgenden Aussagen wahr oder falsch
-          sind.
-        </p>
+        <p>Entscheiden Sie, ob die Aussagen wahr oder falsch sind.</p>
         <ul>
           <li>
-            Die Parabel mit der Gleichung y = x² verläuft durch den Punkt Q(
-            {pp(data.x1)}|
-            {data.bool1 ? data.x1 * data.x1 : data.x1 * data.x1 + data.random}).
+            Die Parabel <InlineMath math="y=x^2" /> verläuft durch
+            <InlineMath
+              math={`Q(${data.x1}|${
+                data.bool1 ? data.x1 * data.x1 : data.x1 * data.x1 + data.random
+              }).`}
+            />
           </li>
           <li>
-            {data.case == 1 ? (
+            {data.case === 1 ? (
               <>Jede Parabel schneidet die y-Achse.</>
             ) : (
               <>Jede Parabel schneidet die x-Achse.</>
             )}
           </li>
           <li>
-            Das Schaubild von y ={' '}
-            {data.random == 1 ? <>{pp(-data.m)}</> : <>{pp(-data.m)}x</>} ist
-            eine Gerade mit negativer Steigung.
+            <InlineMath
+              math={`y=${data.random == 1 ? -data.m : -data.m + 'x'}`}
+            />{' '}
+            ist eine Gerade mit negativer Steigung.
           </li>
           <li>
-            Die Parabel p mit y = (x {pp(data.xs, 'merge_op')})²{' '}
-            {pp(data.ys, 'merge_op')} hat ihren Scheitel bei S(
-            {data.bool2 ? <>{pp(data.xs)}</> : <>{pp(-data.xs)}</>}|
-            {pp(data.ys)}).
+            Die Parabel{' '}
+            <InlineMath
+              math={`y=(x${data.xs >= 0 ? '-' : '+'}${Math.abs(data.xs)})^2${data.ys >= 0 ? '+' : ''}${data.ys}`}
+            />{' '}
+            hat den Scheitel bei{' '}
+            <InlineMath
+              math={`S(${data.bool2 ? data.xs : -data.xs}|${data.ys})`}
+            />
+            .
           </li>
           <li>
-            x = {pp(-data.num)} ist eine Lösung der Gleichung<br></br>{' '}
-            {buildInlineFrac(<>1</>, <>x {pp(-data.num)}</>)} +{' '}
-            {buildInlineFrac(<>1</>, <>{data.num}</>)}x = 0
+            <InlineMath math={`x=${-data.num}`} /> ist eine Lösung von<br></br>{' '}
+            <InlineMath
+              math={`\\frac{1}{x-${data.num}}+\\frac{1}{${data.num}}x=0`}
+            />
           </li>
         </ul>
       </>
@@ -93,70 +96,36 @@ export const exercise3153: Exercise<DATA> = {
   },
   solution({ data }) {
     return (
-      <>
-        <ul>
-          <li>
-            Aussage 1:{' '}
-            {data.bool1 ? (
-              <>
-                <Color2>Richtig</Color2>
-              </>
-            ) : (
-              <>
-                <Color3>Falsch</Color3>
-              </>
-            )}
-          </li>
-          <li>
-            Aussage 2:{' '}
-            {data.case == 1 ? (
-              <>
-                <Color2>Richtig</Color2>
-              </>
-            ) : (
-              <>
-                <Color3>Falsch</Color3>
-              </>
-            )}
-          </li>
-          <li>
-            Aussage 3:{' '}
-            {data.random != 1 ? (
-              <>
-                <Color2>Richtig</Color2>
-              </>
-            ) : (
-              <>
-                <Color3>Falsch</Color3>
-              </>
-            )}
-          </li>
-          <li>
-            Aussage 4:{' '}
-            {!data.bool2 ? (
-              <>
-                <Color2>Richtig</Color2>
-              </>
-            ) : (
-              <>
-                <Color3>Falsch</Color3>
-              </>
-            )}
-          </li>
-          <li>
-            Aussage 5:{' '}
-            {1 / (-2 * data.num) + 1 != 0 ? (
-              <>
-                <Color3>Falsch</Color3>
-              </>
-            ) : (
-              <>
-                <Color2>Richtig</Color2>
-              </>
-            )}
-          </li>
-        </ul>
-      </>
+      <ul>
+        <li>
+          Aussage 1:{' '}
+          {data.bool1 ? <Color2>Richtig</Color2> : <Color3>Falsch</Color3>}
+        </li>
+        <li>
+          Aussage 2:{' '}
+          {data.case === 1 ? <Color2>Richtig</Color2> : <Color3>Falsch</Color3>}
+        </li>
+        <li>
+          Aussage 3:{' '}
+          {data.random !== 1 ? (
+            <Color2>Richtig</Color2>
+          ) : (
+            <Color3>Falsch</Color3>
+          )}
+        </li>
+        <li>
+          Aussage 4:{' '}
+          {!data.bool2 ? <Color2>Richtig</Color2> : <Color3>Falsch</Color3>}
+        </li>
+        <li>
+          Aussage 5:{' '}
+          {1 / (-2 * data.num) + 1 !== 0 ? (
+            <Color3>Falsch</Color3>
+          ) : (
+            <Color2>Richtig</Color2>
+          )}
+        </li>
+      </ul>
     )
   },
 }

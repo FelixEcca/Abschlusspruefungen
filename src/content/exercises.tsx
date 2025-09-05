@@ -243,6 +243,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 //<BlockMath math={``}/>
 // <InlineMath math={``} />
 // {polyToLatex([[data.m, 'x', 1],[data.b, 'x', 0],])}`}
+// <span style={{ fontSize: 12 }}></span>
 
 // symbols:
 // {buildEquation([[<></>,<></>,<></>],[<></>,<></>,<></>],[<></>,<></>,<></>]])}

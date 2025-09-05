@@ -1,7 +1,7 @@
 import { Exercise } from '@/data/types'
 import { getGcd } from '@/helper/get-gcd'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
-import { ppFrac } from '@/helper/pretty-print'
+import { buildEquation } from '@/helper/math-builder'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   zahl1: number
@@ -98,10 +98,10 @@ export const exercise3154: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -124,6 +124,9 @@ export const exercise3154: Exercise<DATA> = {
         const einser = array.filter(num => num === 1).length
         const zweier = array.filter(num => num === 2).length
         const dreier = array.filter(num => num === 3).length
+
+        const frac = (a: number, b: number) => `\\tfrac{${a}}{${b}}`
+
         return (
           <>
             <p>
@@ -132,44 +135,52 @@ export const exercise3154: Exercise<DATA> = {
             </p>
             {buildEquation([
               [
-                <>P(1)</>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(
-                    <>Anzahl günstiger Ergebnisse</>,
-                    <>Anzahl möglicher Ergebnisse</>,
-                  )}
+                  <InlineMath math="P(1)" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\dfrac{\\text{Anzahl günstiger Ergebnisse}}{\\text{Anzahl möglicher Ergebnisse}}`}
+                  />
                 </>,
               ],
-
               [
                 <></>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(<>{einser}</>, <>8</>)}{' '}
-                  {getGcd(einser, 8) != 1 && <>= {ppFrac(einser / 8)}</>}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={frac(einser, 8)} />
+                  {/* ggf. bereits gekürzt */}
                 </>,
               ],
             ])}
             {buildEquation([
               [
-                <>P(2)</>,
-
-                <>=</>,
                 <>
-                  {buildInlineFrac(<>{zweier}</>, <>8</>)}{' '}
-                  {getGcd(zweier, 8) != 1 && <>= {ppFrac(zweier / 8)}</>}
+                  <InlineMath math="P(2)" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={frac(zweier, 8)} />
                 </>,
               ],
             ])}
             {buildEquation([
               [
-                <>P(3)</>,
-
-                <>=</>,
                 <>
-                  {buildInlineFrac(<>{dreier}</>, <>8</>)}{' '}
-                  {getGcd(dreier, 8) != 1 && <>= {ppFrac(dreier / 8)}</>}
+                  <InlineMath math="P(3)" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={frac(dreier, 8)} />
                 </>,
               ],
             ])}
@@ -182,6 +193,7 @@ export const exercise3154: Exercise<DATA> = {
                 height="190"
                 width="328"
               />
+              {/* Erste Stufe */}
               <foreignObject x={105} y={7} width={25} height={45}>
                 <div
                   style={{
@@ -196,58 +208,7 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(einser / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={30} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(einser / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={130} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(einser / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={230} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(einser / 8)}
+                  <InlineMath math={frac(einser, 8)} />
                 </div>
               </foreignObject>
               <foreignObject x={147} y={7} width={25} height={45}>
@@ -264,58 +225,7 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(zweier / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={50} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(zweier / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={150} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(zweier / 8)}
-                </div>
-              </foreignObject>
-              <foreignObject x={253} y={90} width={25} height={45}>
-                <div
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    transform: 'scale(0.6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'lightblue',
-                  }}
-                >
-                  {ppFrac(zweier / 8)}
+                  <InlineMath math={frac(zweier, 8)} />
                 </div>
               </foreignObject>
               <foreignObject x={195} y={7} width={25} height={45}>
@@ -332,7 +242,43 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(dreier / 8)}
+                  <InlineMath math={frac(dreier, 8)} />
+                </div>
+              </foreignObject>
+
+              {/* Zweite Stufe – unter „1“ */}
+              <foreignObject x={30} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(einser, 8)} />
+                </div>
+              </foreignObject>
+              <foreignObject x={50} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(zweier, 8)} />
                 </div>
               </foreignObject>
               <foreignObject x={70} y={90} width={25} height={45}>
@@ -349,7 +295,43 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(dreier / 8)}
+                  <InlineMath math={frac(dreier, 8)} />
+                </div>
+              </foreignObject>
+
+              {/* Zweite Stufe – unter „2“ */}
+              <foreignObject x={130} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(einser, 8)} />
+                </div>
+              </foreignObject>
+              <foreignObject x={150} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(zweier, 8)} />
                 </div>
               </foreignObject>
               <foreignObject x={170} y={90} width={25} height={45}>
@@ -366,7 +348,43 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(dreier / 8)}
+                  <InlineMath math={frac(dreier, 8)} />
+                </div>
+              </foreignObject>
+
+              {/* Zweite Stufe – unter „3“ */}
+              <foreignObject x={230} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(einser, 8)} />
+                </div>
+              </foreignObject>
+              <foreignObject x={253} y={90} width={25} height={45}>
+                <div
+                  style={{
+                    fontSize: '16px',
+                    color: 'black',
+                    transform: 'scale(0.6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'lightblue',
+                  }}
+                >
+                  <InlineMath math={frac(zweier, 8)} />
                 </div>
               </foreignObject>
               <foreignObject x={275} y={90} width={25} height={45}>
@@ -383,7 +401,7 @@ export const exercise3154: Exercise<DATA> = {
                     backgroundColor: 'lightblue',
                   }}
                 >
-                  {ppFrac(dreier / 8)}
+                  <InlineMath math={frac(dreier, 8)} />
                 </div>
               </foreignObject>
             </svg>
@@ -393,7 +411,7 @@ export const exercise3154: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -438,6 +456,25 @@ export const exercise3154: Exercise<DATA> = {
         const einser = array.filter(num => num === 1).length
         const zweier = array.filter(num => num === 2).length
         const dreier = array.filter(num => num === 3).length
+
+        const numA = dreier * dreier
+        const denA = 64
+        const gA = getGcd(numA, denA)
+        const numAk = numA / gA
+        const denAk = denA / gA
+
+        const numB = einser * einser + zweier * zweier + dreier * dreier
+        const denB = 64
+        const gB = getGcd(numB, denB)
+        const numBk = numB / gB
+        const denBk = denB / gB
+
+        const numC = 64 - numA
+        const denC = 64
+        const gC = getGcd(numC, denC)
+        const numCk = numC / gC
+        const denCk = denC / gC
+
         return (
           <>
             <p>
@@ -449,61 +486,114 @@ export const exercise3154: Exercise<DATA> = {
                 A:{' '}
                 {buildEquation([
                   [
-                    <>P(3,3)</>,
-                    <>=</>,
                     <>
-                      {ppFrac(dreier / 8)} · {ppFrac(dreier / 8)} ={' '}
-                      {ppFrac([dreier * dreier, 64])}{' '}
-                      {getGcd(dreier * dreier, 64) != 1 && (
-                        <>= {ppFrac((dreier * dreier) / 64)}</>
+                      <InlineMath math="P(3,3)" />
+                    </>,
+                    <>
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`\\tfrac{${dreier}}{8} \\cdot \\tfrac{${dreier}}{8} = \\tfrac{${numA}}{64}`}
+                      />{' '}
+                      {gA !== 1 && (
+                        <>
+                          {' '}
+                          = <InlineMath math={`\\tfrac{${numAk}}{${denAk}}`} />
+                        </>
                       )}
                     </>,
                   ],
                 ])}
               </li>
+
               <li>
                 B:{' '}
                 <div>
                   <span style={{ fontSize: '0.8em' }}>
                     {buildEquation([
                       [
-                        <>P(2 gleiche)</>,
-                        <>=</>,
-                        <>P(1,1) + P(2,2) + P(3,3)</>,
-                      ],
-                      [
-                        <></>,
-                        <>=</>,
                         <>
-                          {ppFrac([einser * einser, 64])} +{' '}
-                          {ppFrac([zweier * zweier, 64])} +{' '}
-                          {ppFrac((dreier * dreier) / 64)}
+                          <InlineMath math="P(2~\text{gleiche})" />
+                        </>,
+                        <>
+                          <InlineMath math="=" />
+                        </>,
+                        <>
+                          <span style={{ fontSize: 12 }}>
+                            <InlineMath math="P(1,1)+P(2,2)+P(3,3)" />
+                          </span>
                         </>,
                       ],
                       [
                         <></>,
-                        <>=</>,
                         <>
-                          {ppFrac(
-                            (einser * einser +
-                              zweier * zweier +
-                              dreier * dreier) /
-                              64,
-                          )}{' '}
+                          <InlineMath math="=" />
+                        </>,
+                        <>
+                          <InlineMath
+                            math={`\\frac{${einser}\\cdot${einser}}{64} + \\frac{${zweier}\\cdot${zweier}}{64} + \\frac{${dreier}\\cdot${dreier}}{64}`}
+                          />
+                        </>,
+                      ],
+                      [
+                        <></>,
+                        <>
+                          <InlineMath math="=" />
+                        </>,
+                        <>
+                          <InlineMath math={`\\tfrac{${numB}}{64}`} />{' '}
+                          {gB !== 1 && (
+                            <>
+                              {' '}
+                              ={' '}
+                              <InlineMath
+                                math={`\\tfrac{${numBk}}{${denBk}}`}
+                              />
+                            </>
+                          )}
                         </>,
                       ],
                     ])}
                   </span>
                 </div>
               </li>
+
               <li>
                 C: Dieses Ereignis ist genau das Gegenereignis von &quot;Sven
                 zieht zwei mal die 3.&quot; Berechne mit der Formel für das
                 Gegenereignis:
                 {buildEquation([
-                  [<>P(höchstens eine 3)</>, <>=</>, <>1 - P(3,3)</>],
-                  [<></>, <>=</>, <>1 - {ppFrac((dreier * dreier) / 64)}</>],
-                  [<></>, <>=</>, <>{ppFrac((64 - dreier * dreier) / 64)} </>],
+                  [
+                    <>
+                      <span style={{ fontSize: 15 }}>
+                        <InlineMath math="P(\text{höchstens eine }3)" />
+                      </span>
+                    </>,
+                    <>
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath math="1 - P(3,3)" />
+                    </>,
+                  ],
+                  [
+                    <></>,
+                    <>
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`1 - \\frac{${numA}}{64} = \\frac{${numC}}{64}`}
+                      />{' '}
+                      {gC !== 1 && (
+                        <>
+                          {' '}
+                          = <InlineMath math={`\\frac{${numCk}}{${denCk}}`} />
+                        </>
+                      )}
+                    </>,
+                  ],
                 ])}
               </li>
             </ul>

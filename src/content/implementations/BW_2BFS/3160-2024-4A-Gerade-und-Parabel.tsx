@@ -4,13 +4,27 @@ import {
   buildInlineFrac,
   buildSqrt,
 } from '@/helper/math-builder'
-import { pp, ppPolynom } from '@/helper/pretty-print'
+import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   m: number
   b: number
   b_p: number
   c: number
+}
+
+function linLatex(m: number, b: number) {
+  const mPart = m === 1 ? 'x' : m === -1 ? '-x' : `${m}x`
+  const bPart = b === 0 ? '' : b > 0 ? `+ ${b}` : `- ${Math.abs(b)}`
+  return `y = ${mPart}${bPart}`
+}
+
+function quadLatex(b_p: number, c: number) {
+  const bx =
+    b_p === 0 ? '' : b_p > 0 ? `+ ${b_p}\\,x` : `- ${Math.abs(b_p)}\\,x`
+  const cPart = c === 0 ? '' : c > 0 ? `+ ${c}` : `- ${Math.abs(c)}`
+  return `y = x^{2} ${bx} ${cPart}`
 }
 
 export const exercise3160: Exercise<DATA> = {
@@ -32,23 +46,19 @@ export const exercise3160: Exercise<DATA> = {
     const q = data.c - data.b
     const x1 = -p / 2 + Math.sqrt((p / 2) * (p / 2) - q)
     const x2 = -p / 2 - Math.sqrt((p / 2) * (p / 2) - q)
-    return x1 % 1 == 0 && x2 % 1 == 0 && x1 > -1 && x2 < 5
+    return x1 % 1 == 0 && x2 % 1 == 0 && x1 > -1 && x2 < 5 && data.b !== 0
   },
   intro({ data }) {
     return (
       <>
-        <p>Gegeben sind die Gerade g und die Parabel p.</p>
         <p>
-          g: y ={' '}
-          {ppPolynom([
-            [data.m, 'x', 1],
-            [data.b, 'x', 0],
-          ])}
-          <br></br>p: y = x² {data.b_p > 0 && <>+</>}{' '}
-          {ppPolynom([
-            [data.b_p, 'x', 1],
-            [data.c, 'x', 0],
-          ])}
+          Gegeben sind die Gerade <InlineMath math={'g'} /> und die Parabel{' '}
+          <InlineMath math={'p'} />.
+        </p>
+        <p>
+          <InlineMath math={'g:\\; ' + linLatex(data.m, data.b)} />
+          <br />
+          <InlineMath math={'p:\\; ' + quadLatex(data.b_p, data.c)} />
         </p>
       </>
     )
@@ -56,15 +66,21 @@ export const exercise3160: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Zeichnen Sie die Schaubilder von g und p in ein Koordinatensystem.
-              <br></br>(1 cm ≙ 1 LE; -1 ≤ x ≤ 6; -3 ≤ y ≤ 4)
+              Zeichnen Sie die Schaubilder von <InlineMath math={'g'} /> und{' '}
+              <InlineMath math={'p'} /> in ein Koordinatensystem.
+              <br />
+              <InlineMath
+                math={
+                  '(1\\,\\text{cm}\\,\\widehat{=}\\,1\\,\\text{LE};\\;-1\\le x\\le 6;\\;-3\\le y\\le 4)'
+                }
+              />
             </p>
           </>
         )
@@ -106,7 +122,6 @@ export const exercise3160: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 260">
               <image href="/content/BW_2BFS/310.png" height="230" width="328" />
-
               <polyline
                 points={parabolaPoints}
                 stroke="blue"
@@ -126,13 +141,17 @@ export const exercise3160: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
-            <p>Bestimmen Sie den Schnittpunkt der Geraden g mit der y-Achse.</p>
+            <p>
+              Bestimmen Sie den Schnittpunkt der Geraden{' '}
+              <InlineMath math={'g'} /> mit der <InlineMath math={'y'} />
+              -Achse.
+            </p>
           </>
         )
       },
@@ -202,13 +221,16 @@ export const exercise3160: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
-            <p>Berechnen Sie die Schnittpunkte von Gerade g und Parabel p.</p>
+            <p>
+              Berechnen Sie die Schnittpunkte von Gerade{' '}
+              <InlineMath math={'g'} /> und Parabel <InlineMath math={'p'} />.
+            </p>
           </>
         )
       },
@@ -217,147 +239,169 @@ export const exercise3160: Exercise<DATA> = {
         const q = data.c - data.b
         const x1 = -p / 2 + Math.sqrt((p / 2) * (p / 2) - q)
         const x2 = -p / 2 - Math.sqrt((p / 2) * (p / 2) - q)
+
         return (
           <>
-            <p>Setze die Funktionsterme gleich und löse die Gleichung:</p>
-            {buildEquation([
-              [
-                <>
-                  y<sub>g</sub>
-                </>,
-                <>=</>,
-                <>
-                  y<sub>p</sub>
-                </>,
-              ],
-              [
-                <>
-                  {ppPolynom([
-                    [data.m, 'x', 1],
-                    [data.b, 'x', 0],
-                  ])}
-                </>,
-                <>=</>,
-                <>
-                  x² {data.b_p > 0 && <>+</>}{' '}
-                  {ppPolynom([
-                    [data.b_p, 'x', 1],
-                    [data.c, 'x', 0],
-                  ])}
-                </>,
-                <>| {data.m == 1 ? <>-</> : <>+</>} x</>,
-              ],
-              [
-                <>{pp(data.b)}</>,
-                <>=</>,
-                <>
-                  x² {data.b_p > 0 && <>+</>}{' '}
-                  {ppPolynom([
-                    [data.b_p - data.m, 'x', 1],
-                    [data.c, 'x', 0],
-                  ])}
-                </>,
-                <>| {pp(-data.b, 'merge_op')} </>,
-              ],
-              [
-                <>0</>,
-                <>=</>,
-                <>
-                  x² {data.b_p > 0 && <>+</>}{' '}
-                  {ppPolynom([
-                    [data.b_p - data.m, 'x', 1],
-                    [data.c - data.b, 'x', 0],
-                  ])}
-                </>,
-              ],
-            ])}
             <p>
-              Löse diese quadratische Gleichung mit der pq-Formel. Bestimme dazu
-              p und q: <br></br>p = {pp(p)}, q = {pp(q)}
+              Setze die Geradengleichung mit der Parabelgleichung gleich und
+              löse nach x:
             </p>
             {buildEquation([
               [
                 <>
-                  x<sub>1/2</sub>
+                  <InlineMath math={'y_g'} />
                 </>,
-                <>=</>,
                 <>
-                  −{buildInlineFrac('p', 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac('p', 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −
-                      q
-                    </>,
-                  )}
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath math={'y_p'} />
                 </>,
               ],
               [
-                <></>,
-                <>=</>,
                 <>
-                  −{buildInlineFrac(p, 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac(p, 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −{' '}
-                      {q < 0 && <>(</>}
-                      {pp(q)}
-                      {q < 0 && <>)</>}
-                    </>,
-                  )}
+                  <InlineMath
+                    math={linLatex(data.m, data.b).replace('y = ', '')}
+                  />
+                </>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={quadLatex(data.b_p, data.c).replace('y = ', '')}
+                  />
+                </>,
+                <>
+                  <InlineMath
+                    math={data.m === 1 ? '\\;|\\;-x' : '\\;|\\;+\\,x'}
+                  />
                 </>,
               ],
               [
-                <></>,
-                <>=</>,
                 <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {buildSqrt(pp((p / 2) * (p / 2) - q))}
-                  </>
+                  <InlineMath math={`${data.b}`} />
+                </>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`x^{2} ${data.b_p - data.m}\\,x + ${data.c}`}
+                  />
+                </>,
+                <>
+                  <InlineMath math={`\\;|\\;${pp(-data.b)}`} />
                 </>,
               ],
               [
-                <></>,
-                <>=</>,
                 <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {pp(Math.sqrt((p / 2) * (p / 2) - q))}
-                  </>
+                  <InlineMath math={'0'} />
+                </>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath math={`x^{2} ${p}\\,x + ${q}`} />
                 </>,
               ],
             ])}
 
             <p>
-              x<sub>1</sub> = {pp(-p / 2)} +{' '}
-              {pp(Math.sqrt((p / 2) * (p / 2) - q))} = {pp(x1)}
+              Löse diese quadratische Gleichung mit der pq-Formel. Bestimme dazu{' '}
+              <InlineMath math={'p'} /> und <InlineMath math={'q'} />:
+              <br />
+              <InlineMath math={`p = ${p},\\; q = ${q}`} />
+            </p>
+
+            {buildEquation([
+              [
+                <>
+                  <InlineMath math={'x_{1/2}'} />
+                </>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={
+                      '-\\frac{p}{2} \\;\\pm\\; \\sqrt{\\left(\\frac{p}{2}\\right)^2 - q}'
+                    }
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`-\\frac{${p}}{2} \\;\\pm\\; \\sqrt{\\left(\\frac{${p}}{2}\\right)^2 - (${pp(q)})}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${pp(-p / 2)}\\;\\pm\\;\\sqrt{${pp(
+                      (p / 2) * (p / 2) - q,
+                    )}}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math={'='} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${pp(-p / 2)}\\;\\pm\\;${pp(Math.sqrt((p / 2) * (p / 2) - q))}`}
+                  />
+                </>,
+              ],
+            ])}
+
+            <p>
+              <InlineMath
+                math={`x_1 = ${pp(-p / 2)} + ${pp(Math.sqrt((p / 2) * (p / 2) - q))} = ${pp(x1)}`}
+              />
             </p>
             <p>
-              x<sub>2</sub> = {pp(-p / 2)} -{' '}
-              {pp(Math.sqrt((p / 2) * (p / 2) - q))} = {pp(x2)}
+              <InlineMath
+                math={`x_2 = ${pp(-p / 2)} - ${pp(Math.sqrt((p / 2) * (p / 2) - q))} = ${pp(x2)}`}
+              />
+            </p>
+
+            <p>
+              Berechne die <InlineMath math={'y'} />
+              -Werte der Schnittpunkte. (Mit beiden Gleichungen erhältst du die
+              gleichen <InlineMath math={'y'} />
+              -Werte.)
             </p>
             <p>
-              Berechne die y-Werte der Schnittpunkte. Tipp: Mit beiden
-              Funktionen erhältst du die gleichen y-Werte.
+              <InlineMath
+                math={`y_1 = ${data.m}\\,\\cdot\\,${pp(x1)} + ${data.b} = ${pp(data.m * x1 + data.b)}`}
+              />
+              <br />
+              <InlineMath
+                math={`y_2 = ${data.m}\\,\\cdot\\,${pp(x2)} + ${data.b} = ${pp(data.m * x2 + data.b)}`}
+              />
             </p>
+
             <p>
-              y<sub>1</sub> = {pp(data.m * x1)} + {data.b} ={' '}
-              {pp(data.m * x1 + data.b)}
-              <br></br>y<sub>2</sub> = {pp(data.m * x2)} + {data.b} ={' '}
-              {pp(data.m * x2 + data.b)}
-            </p>
-            <p>
-              Damit sind die Schnittpunkte: <br></br>P<sub>1</sub>({pp(x1)}|
-              {pp(data.m * x1 + data.b)}) P<sub>2</sub>({pp(x2)}|
-              {pp(data.m * x2 + data.b)})
+              Damit sind die Schnittpunkte:
+              <br />
+              <InlineMath
+                math={`P_1\\big(${pp(x1)}\\mid ${pp(data.m * x1 + data.b)}\\big)\\;\\;P_2\\big(${pp(
+                  x2,
+                )}\\mid ${pp(data.m * x2 + data.b)}\\big)`}
+              />
             </p>
           </>
         )

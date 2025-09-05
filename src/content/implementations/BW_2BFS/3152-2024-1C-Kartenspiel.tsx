@@ -1,8 +1,8 @@
 import { Exercise } from '@/data/types'
 import { Color4 } from '@/helper/colors'
 import { getGcd } from '@/helper/get-gcd'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
-import { ppFrac } from '@/helper/pretty-print'
+import { buildEquation } from '@/helper/math-builder'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   gesamt: number
@@ -35,7 +35,9 @@ export const exercise3152: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 180">
           <image href="/content/BW_2BFS/302.png" height="180" width="328" />
-          <foreignObject x={105} y={8} width={20} height={45}>
+
+          {/* P(R) */}
+          <foreignObject x={105} y={20} width={20} height={45}>
             <div
               style={{
                 fontSize: '16px',
@@ -43,10 +45,12 @@ export const exercise3152: Exercise<DATA> = {
                 transform: 'scale(1)',
               }}
             >
-              {ppFrac(data.rot / data.gesamt)}
+              <InlineMath math={`\\tfrac{${data.rot}}{${data.gesamt}}`} />
             </div>
           </foreignObject>
-          <foreignObject x={266} y={90} width={25} height={45}>
+
+          {/* P(S|S) */}
+          <foreignObject x={266} y={97} width={25} height={45}>
             <div
               style={{
                 fontSize: '16px',
@@ -54,7 +58,9 @@ export const exercise3152: Exercise<DATA> = {
                 transform: 'scale(1)',
               }}
             >
-              {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+              <InlineMath
+                math={`\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+              />
             </div>
           </foreignObject>
         </svg>
@@ -64,10 +70,10 @@ export const exercise3152: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Ergänzen Sie die fehlenden Angaben im Baumdiagramm.</p>
@@ -85,9 +91,13 @@ export const exercise3152: Exercise<DATA> = {
               Bestimme damit zuerst die Wahrscheinlichkeit für das Ziehen einer
               schwarzen Karte:
             </p>
+
+            {/* Schritt 1: P(S) ergänzen */}
             <svg viewBox="0 0 328 180">
               <image href="/content/BW_2BFS/302.png" height="180" width="328" />
-              <foreignObject x={105} y={8} width={20} height={45}>
+
+              {/* P(R) – markiert */}
+              <foreignObject x={105} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -95,10 +105,12 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac(data.rot / data.gesamt)}
+                  <InlineMath math={`\\tfrac{${data.rot}}{${data.gesamt}}`} />
                 </div>
               </foreignObject>
-              <foreignObject x={230} y={10} width={20} height={45}>
+
+              {/* P(S) – neu */}
+              <foreignObject x={230} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -106,10 +118,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac((data.gesamt - data.rot) / data.gesamt)}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={266} y={90} width={25} height={45}>
+
+              {/* P(S|S) gegeben */}
+              <foreignObject x={266} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -117,17 +133,24 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
             </svg>
+
             <p>
-              Bestimme auf die gleiche Weise die Wahrscheinlichkeit für
-              &quot;Rot&quot; im zweiten Zug, wenn zuvor schwarz gezogen wurde:
+              Bestimme auf die gleiche Weise die Wahrscheinlichkeit für „Rot“ im
+              zweiten Zug, wenn zuvor schwarz gezogen wurde:
             </p>
+
+            {/* Schritt 2: P(R|S) ergänzen */}
             <svg viewBox="0 0 328 180">
               <image href="/content/BW_2BFS/302.png" height="180" width="328" />
-              <foreignObject x={105} y={8} width={20} height={45}>
+
+              {/* P(R) */}
+              <foreignObject x={105} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -135,10 +158,12 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac(data.rot / data.gesamt)}
+                  <InlineMath math={`\\tfrac{${data.rot}}{${data.gesamt}}`} />
                 </div>
               </foreignObject>
-              <foreignObject x={230} y={10} width={20} height={45}>
+
+              {/* P(S) */}
+              <foreignObject x={230} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -146,10 +171,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac((data.gesamt - data.rot) / data.gesamt)}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={266} y={90} width={25} height={45}>
+
+              {/* P(S|S) – markiert */}
+              <foreignObject x={266} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -157,10 +186,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={179} y={88} width={25} height={45}>
+
+              {/* P(R|S) – neu */}
+              <foreignObject x={179} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -168,18 +201,25 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.rot, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.rot}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
             </svg>
+
             <p>
               Stell dir vor, im ersten Zug wäre rot gezogen worden. Dann wäre
               eine rote Karte weniger verfügbar, eine schwarze Karte mehr und
               die Wahrscheinlichkeiten ergeben sich zu:
             </p>
+
+            {/* Schritt 3: zweiter Ast nach Rot im 1. Zug */}
             <svg viewBox="0 0 328 180">
               <image href="/content/BW_2BFS/302.png" height="180" width="328" />
-              <foreignObject x={105} y={8} width={20} height={45}>
+
+              {/* P(R) */}
+              <foreignObject x={105} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -187,10 +227,12 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac(data.rot / data.gesamt)}
+                  <InlineMath math={`\\tfrac{${data.rot}}{${data.gesamt}}`} />
                 </div>
               </foreignObject>
-              <foreignObject x={230} y={10} width={20} height={45}>
+
+              {/* P(S) */}
+              <foreignObject x={230} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -198,10 +240,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac((data.gesamt - data.rot) / data.gesamt)}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={266} y={90} width={25} height={45}>
+
+              {/* P(S|S) */}
+              <foreignObject x={266} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -209,10 +255,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={179} y={88} width={25} height={45}>
+
+              {/* P(R|S) */}
+              <foreignObject x={179} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -220,10 +270,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.rot, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.rot}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={33} y={88} width={25} height={45}>
+
+              {/* P(R|R) – markiert */}
+              <foreignObject x={33} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -231,10 +285,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={136} y={88} width={25} height={45}>
+
+              {/* P(S|R) – markiert */}
+              <foreignObject x={136} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -242,7 +300,9 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
             </svg>
@@ -250,12 +310,13 @@ export const exercise3152: Exercise<DATA> = {
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -268,18 +329,19 @@ export const exercise3152: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
-            <p>An der zweiten Stufe im Baumdiagramm kann man erkennen: </p>
+            <p>An den Brüchen kann man erkennen: </p>
             <p>Das Kartenspiel besteht aus {data.gesamt} Karten.</p>
           </>
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -290,15 +352,26 @@ export const exercise3152: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        // gekürzte Produkt-Bruchform
+        const numUnred = (data.gesamt - data.rot) * (data.gesamt - data.rot - 1)
+        const denUnred = (data.gesamt - 1) * data.gesamt
+        const g = getGcd(numUnred, denUnred)
+        const num = numUnred / g
+        const den = denUnred / g
+
         return (
           <>
             <p>
               Die Wahrscheinlichkeit ist gegeben durch den rechten Ast im
               Baumdiagramm:
             </p>
+
+            {/* Markierung der relevanten Äste */}
             <svg viewBox="0 0 328 180">
               <image href="/content/BW_2BFS/302.png" height="180" width="328" />
-              <foreignObject x={105} y={8} width={20} height={45}>
+
+              {/* P(R) */}
+              <foreignObject x={105} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -306,10 +379,12 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac(data.rot / data.gesamt)}
+                  <InlineMath math={`\\tfrac{${data.rot}}{${data.gesamt}}`} />
                 </div>
               </foreignObject>
-              <foreignObject x={230} y={10} width={20} height={45}>
+
+              {/* P(S) – markiert */}
+              <foreignObject x={230} y={20} width={20} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -317,10 +392,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac((data.gesamt - data.rot) / data.gesamt)}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={266} y={90} width={25} height={45}>
+
+              {/* P(S|S) – markiert */}
+              <foreignObject x={266} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -328,10 +407,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(1)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={179} y={88} width={25} height={45}>
+
+              {/* P(R|S) */}
+              <foreignObject x={179} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -339,10 +422,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.rot, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.rot}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={33} y={88} width={25} height={45}>
+
+              {/* P(R|R) */}
+              <foreignObject x={33} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -350,10 +437,14 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.rot - 1, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
-              <foreignObject x={136} y={88} width={25} height={45}>
+
+              {/* P(S|R) */}
+              <foreignObject x={136} y={97} width={25} height={45}>
                 <div
                   style={{
                     fontSize: '16px',
@@ -361,27 +452,34 @@ export const exercise3152: Exercise<DATA> = {
                     transform: 'scale(0.8)',
                   }}
                 >
-                  {ppFrac([data.gesamt - data.rot, data.gesamt - 1])}
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt - 1}}`}
+                  />
                 </div>
               </foreignObject>
             </svg>
+
             <p>
-              Berechne die Wahrscheinlichkeit P(s;s) aus den einzelnen
+              Berechne die Wahrscheinlichkeit P(s,s) aus den einzelnen
               Wahrscheinlichkeiten:
             </p>
             {buildEquation([
               [
-                <>P(s;s)</>,
-                <>=</>,
                 <>
-                  {ppFrac((data.gesamt - data.rot) / data.gesamt)} ·{' '}
-                  {ppFrac([data.gesamt - data.rot - 1, data.gesamt - 1])}
+                  <InlineMath math="P(s,s)" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\tfrac{${data.gesamt - data.rot}}{${data.gesamt}}\\,\\cdot\\,\\tfrac{${data.gesamt - data.rot - 1}}{${data.gesamt - 1}}`}
+                  />
                 </>,
               ],
               [
-                '',
+                <></>,
                 <>
-                  {' '}
                   <Color4>
                     <span className="inline-block  scale-y-[1.5]">↓</span>
                   </Color4>
@@ -396,20 +494,11 @@ export const exercise3152: Exercise<DATA> = {
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  {ppFrac([
-                    ((data.gesamt - data.rot) * (data.gesamt - data.rot - 1)) /
-                      getGcd(
-                        (data.gesamt - data.rot) * (data.gesamt - data.rot - 1),
-                        (data.gesamt - 1) * data.gesamt,
-                      ),
-                    ((data.gesamt - 1) * data.gesamt) /
-                      getGcd(
-                        (data.gesamt - data.rot) * (data.gesamt - data.rot - 1),
-                        (data.gesamt - 1) * data.gesamt,
-                      ),
-                  ])}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`\\tfrac{${num}}{${den}}`} />
                 </>,
               ],
             ])}

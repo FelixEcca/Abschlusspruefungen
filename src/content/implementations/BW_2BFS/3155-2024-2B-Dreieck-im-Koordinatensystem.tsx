@@ -3,6 +3,7 @@ import { Color4 } from '@/helper/colors'
 import { getGcd } from '@/helper/get-gcd'
 import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
 import { pp, ppFrac } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   ax: number
@@ -36,8 +37,8 @@ export const exercise3155: Exercise<DATA> = {
     return (
       <>
         <p>
-          Ein Dreieck ABC hat die Eckpunkte <br></br>A({data.ax}|{data.ay}),
-          B(0|0) und C({data.cx}|{pp(data.cy)}).
+          Ein Dreieck ABC hat die Eckpunkte <br></br>
+          A({data.ax}|{data.ay}), B(0|0) und C({data.cx}|{pp(data.cy)}).
         </p>
       </>
     )
@@ -45,7 +46,7 @@ export const exercise3155: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -205,14 +206,7 @@ export const exercise3155: Exercise<DATA> = {
               >
                 Z ×
               </text>
-              <line
-                x1={toX(data.cx)}
-                y1={toY(data.cy)}
-                x2={toX(0)}
-                y2={toY(0)}
-                stroke="green"
-                strokeWidth={2}
-              />
+              {/* Hilfsgeraden für Spiegelung */}
               <line
                 x1={toX(data.cx)}
                 y1={toY(data.cy)}
@@ -220,7 +214,7 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.cy - (data.cy - data.zy) * 2)}
                 stroke="orange"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
               <line
                 x1={toX(data.ax)}
@@ -229,7 +223,7 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.ay - (data.ay - data.zy) * 2)}
                 stroke="orange"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
               <line
                 x1={toX(0)}
@@ -238,8 +232,10 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.zy * 2)}
                 stroke="orange"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
+
+              {/* Beschriftung der Bildpunkte */}
               <text
                 x={toX(data.ax - (data.ax - data.zx) * 2) - 9}
                 y={toY(data.ay - (data.ay - data.zy) * 2) + 5}
@@ -267,6 +263,8 @@ export const exercise3155: Exercise<DATA> = {
               >
                 C&apos;×
               </text>
+
+              {/* Bilddreieck */}
               <line
                 x1={toX(data.zx * 2)}
                 y1={toY(data.zy * 2)}
@@ -274,7 +272,7 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.cy - (data.cy - data.zy) * 2)}
                 stroke="blue"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
               <line
                 x1={toX(data.zx * 2)}
@@ -283,7 +281,7 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.ay - (data.ay - data.zy) * 2)}
                 stroke="blue"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
               <line
                 x1={toX(data.ax - (data.ax - data.zx) * 2)}
@@ -292,7 +290,7 @@ export const exercise3155: Exercise<DATA> = {
                 y2={toY(data.cy - (data.cy - data.zy) * 2)}
                 stroke="blue"
                 strokeWidth={2}
-                strokeDasharray="5,5" // Fügt gestrichelte Linie hinzu
+                strokeDasharray="5,5"
               />
             </svg>
           </>
@@ -301,10 +299,10 @@ export const exercise3155: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -320,11 +318,17 @@ export const exercise3155: Exercise<DATA> = {
         function toY(n: number) {
           return 163 - n * ((94.5 * 2) / 10)
         }
+
+        const g = getGcd(data.ay, data.ax)
+        const num = data.ay / g
+        const den = data.ax / g
+
         return (
           <>
             <p>
-              Die Geradengleichung hat die Form <br></br>y = mx, weil sie durch
-              den Ursprung verläuft.
+              Die Geradengleichung hat die Form <br></br>
+              <InlineMath math="y = m x" />, weil sie durch den Ursprung
+              verläuft.
             </p>
             <p>
               Um vom Punkt B zum Punkt A zu gelangen, verläuft die Gerade in
@@ -397,28 +401,36 @@ export const exercise3155: Exercise<DATA> = {
                 {data.ay}
               </text>
             </svg>
+
+            <BlockMath
+              math={`m = \\tfrac{${data.ay}}{${data.ax}}${
+                g !== 1 ? ` = \\tfrac{${num}}{${den}}` : ''
+              }`}
+            />
             <p>
-              Die Steigung beträgt m = {ppFrac([data.ay, data.ax])}{' '}
-              {getGcd(data.ay, data.ax) != 1 && (
-                <>= {ppFrac(data.ay / data.ax)}</>
-              )}
+              Damit ist die Gleichung:{' '}
+              <InlineMath
+                math={`y = \\tfrac{${data.ay}}{${data.ax}}\\,x${
+                  g !== 1 ? ` = \\tfrac{${num}}{${den}}\\,x` : ''
+                }`}
+              />
             </p>
-            <p>Damit ist die Gleichung: y = {ppFrac(data.ay / data.ax)}x</p>
           </>
         )
       },
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Eine parallele zur x-Achse verläuft durch den Punkt C. Geben Sie
-              die Gleichung dieser Geraden an.
+              Eine parallele zur x-Achse verläuft durch den Punkt{' '}
+              <InlineMath math="C" />. Geben Sie die Gleichung dieser Geraden
+              an.
             </p>
           </>
         )
@@ -433,7 +445,8 @@ export const exercise3155: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Gerade verläuft waagerecht durch C({data.cx}|{pp(data.cy)}):
+              Die Gerade verläuft waagerecht durch{' '}
+              <InlineMath math={`C(${data.cx}|${pp(data.cy)})`} />:
             </p>
             <svg viewBox="0 0 328 328">
               <image
@@ -459,7 +472,10 @@ export const exercise3155: Exercise<DATA> = {
                 × C
               </text>
             </svg>
-            <p>Die Funktionsgleichung ist: y = {pp(data.cy)}</p>
+            <p>
+              Die Funktionsgleichung ist:{' '}
+              <InlineMath math={`y = ${pp(data.cy)}`} />
+            </p>
           </>
         )
       },

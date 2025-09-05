@@ -1,6 +1,21 @@
 import { Exercise } from '@/data/types'
 import { buildEquation } from '@/helper/math-builder'
-import { pp, ppPolynom } from '@/helper/pretty-print'
+import { pp } from '@/helper/pretty-print'
+import { InlineMath } from 'react-katex'
+
+// Hilfsfunktionen für LaTeX-Strings
+function mono(coeff: number, v = 'x') {
+  if (coeff === 0) return '0'
+  if (coeff === 1) return v
+  if (coeff === -1) return `-${v}`
+  return `${coeff}\\,${v}`
+}
+function lin(m: number, b: number, v = 'x') {
+  const mPart = m === 0 ? '' : mono(m, v)
+  const bPart =
+    b === 0 ? '' : b > 0 ? (mPart ? `+ ${b}` : `${b}`) : `- ${Math.abs(b)}`
+  return mPart || bPart ? `${mPart}${mPart && bPart ? ' ' : ''}${bPart}` : '0'
+}
 
 interface DATA {
   coeff1: number
@@ -36,116 +51,142 @@ export const exercise3161: Exercise<DATA> = {
       data.m_2 != 0
     )
   },
-  intro({ data }) {
+  intro() {
     return <></>
   },
   tasks: [
+    // (a)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
           <>
             <p>
-              Gegeben ist ein lineares Gleichungssystem (LGS).<br></br>Berechnen
-              Sie die Lösung.
+              Gegeben ist ein lineares Gleichungssystem.
+              <br />
+              Berechnen Sie die Lösung.
             </p>
             <p>
-              (I) {ppPolynom([[data.coeff1, 'x', 1]])} ={' '}
-              {ppPolynom([
-                [data.coeff2, 'y', 1],
-                [data.cons, 'y', 0],
-              ])}
-              <br></br>(II) y = {ppPolynom([[data.m_2, 'x', 1]])}
+              <InlineMath
+                math={`(I)\\; ${mono(data.coeff1)} = ${mono(data.coeff2, 'y')}\\; ${data.cons >= 0 ? '+\\,' + data.cons : '-\\,' + Math.abs(data.cons)}`}
+              />
+              <br />
+              <InlineMath math={`(II)\\; y = ${lin(data.m_2, 0)}`} />
             </p>
           </>
         )
       },
       solution({ data }) {
+        const a = data.coeff1
+        const b = data.coeff2
+        const c = data.cons
+        const m = data.m_2
+        const lhsAfterMove = a - b * m
+        const xVal = c / lhsAfterMove
+        const yVal = m * xVal
+
         return (
           <>
             <p>
-              Setze {ppPolynom([[data.m_2, 'x', 1]])} für y in der ersten
-              Gleichung ein:
+              Setze <InlineMath math={`y = ${lin(m, 0)}`} /> in{' '}
+              <InlineMath math="(I)" /> ein und löse nach{' '}
+              <InlineMath math="x" /> auf.
             </p>
-            <p>
-              (I) {ppPolynom([[data.coeff1, 'x', 1]])} = {pp(data.coeff2)} ·{' '}
-              {ppPolynom([[data.m_2, 'x', 1]])} {pp(data.cons, 'merge_op')}{' '}
-            </p>
-            <p>Löse diese Gleichung:</p>
+
             {buildEquation([
               [
-                <>{ppPolynom([[data.coeff1, 'x', 1]])}</>,
-                <>=</>,
                 <>
-                  {pp(data.coeff2)} · {ppPolynom([[data.m_2, 'x', 1]])}{' '}
-                  {pp(data.cons, 'merge_op')}
+                  <InlineMath math={mono(a)} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${b}\\,\\cdot\\,(${lin(m, 0)})\\; ${c >= 0 ? '+\\,' + c : '-\\,' + Math.abs(c)}`}
+                  />
                 </>,
               ],
               [
-                <>{ppPolynom([[data.coeff1, 'x', 1]])}</>,
-                <>=</>,
                 <>
-                  {ppPolynom([[data.coeff2 * data.m_2, 'x', 1]])}{' '}
-                  {pp(data.cons, 'merge_op')}
+                  <InlineMath math={mono(a)} />
                 </>,
-                <>| {ppPolynom([[-data.coeff2 * data.m_2, 'x', 1]])}</>,
-              ],
-              [
                 <>
-                  {ppPolynom([[data.coeff1 - data.coeff2 * data.m_2, 'x', 1]])}
+                  <InlineMath math="=" />
                 </>,
-                <>=</>,
-                <>{pp(data.cons, 'merge_op')}</>,
                 <>
-                  | : {pp(data.coeff1 - data.coeff2 * data.m_2, 'embrace_neg')}
+                  <InlineMath
+                    math={`${mono(b * m)}\\; ${c >= 0 ? '+\\,' + c : '-\\,' + Math.abs(c)}`}
+                  />
+                </>,
+                <>
+                  <InlineMath math={`\\;|\\;${mono(-b * m)}`} />
                 </>,
               ],
               [
-                <>x</>,
-                <>=</>,
-                <>{pp(data.cons / (data.coeff1 - data.coeff2 * data.m_2))}</>,
+                <>
+                  <InlineMath math={mono(lhsAfterMove)} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${c}`} />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\;|\\;:\\,${lhsAfterMove < 0 ? `(${lhsAfterMove})` : lhsAfterMove}`}
+                  />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math={'x'} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${xVal}`} />
+                </>,
               ],
             ])}
+
             <p>
-              Um den Wert von y zu bestimmen, setze x in eine der Gleichungen
-              ein.{' '}
-            </p>
-            <p>
-              x in (II): y = {pp(data.m_2)} ·{' '}
-              {pp(data.cons / (data.coeff1 - data.coeff2 * data.m_2))} ={' '}
-              {pp(
-                (data.m_2 * data.cons) / (data.coeff1 - data.coeff2 * data.m_2),
-              )}
+              Bestimme <InlineMath math="y" /> durch Einsetzen in{' '}
+              <InlineMath math="(II)" />:
+              <br />
+              <InlineMath math={`y = ${m}\\cdot ${xVal} = ${yVal}`} />
             </p>
           </>
         )
       },
     },
 
+    // (b)
     {
       points: 42,
       intro({ data }) {
-        return null
+        return (
+          <>
+            <p>Gegeben ist ein anderes, unvollständiges LGS mit:</p>
+            <p>
+              <InlineMath math={`(I)\\; y = ${lin(data.m_3, data.cons_2)}`} />
+              <br />
+              <InlineMath math="(II)" />
+            </p>
+          </>
+        )
       },
       task({ data }) {
         return (
           <>
             <p>
-              Gegeben ist ein anderes, unvollständiges LGS mit:<br></br>
-            </p>
-            <p>
-              (I) y ={' '}
-              {ppPolynom([
-                [data.m_3, 'x', 1],
-                [data.cons_2, 'x', 0],
-              ])}
-              <br></br>(II) &nbsp;&nbsp;=
-            </p>
-            <p>
-              Stellen Sie Gleichung (I) grafisch in einem Koordinatensystem dar.
+              Stellen Sie Gleichung <InlineMath math="(I)" /> grafisch in einem
+              Koordinatensystem dar.
             </p>
           </>
         )
@@ -172,7 +213,10 @@ export const exercise3161: Exercise<DATA> = {
         const LinePoints = generateLinePoints(data.m_3, data.cons_2, 0.1)
         return (
           <>
-            <p>Zeichne die Gerade in ein Koordinatensystem ein.</p>
+            <p>
+              Zeichne die Gerade{' '}
+              <InlineMath math={`y = ${lin(data.m_3, data.cons_2)}`} /> ein.
+            </p>
             <svg viewBox="0 0 328 310">
               <image
                 href="/content/BW_2BFS/ksgroßmitachsen.png"
@@ -190,57 +234,62 @@ export const exercise3161: Exercise<DATA> = {
         )
       },
     },
+
+    // (c)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Geben Sie eine zweite Gleichung (II) an, sodass das LGS aus (b)
-              keine Lösung hat.
+              Geben Sie eine zweite Gleichung <InlineMath math="(II)" /> an,
+              sodass das LGS aus (b) keine Lösung hat.
             </p>
           </>
         )
       },
       solution({ data }) {
+        const m = data.m_3
+        const b1 = data.cons_2
+        const b2 = b1 + 1
         return (
           <>
-            <p>Eine mögliche Lösung ist:</p>
             <p>
-              <p>
-                (I) y ={' '}
-                {ppPolynom([
-                  [data.m_3, 'x', 1],
-                  [data.cons_2, 'x', 0],
-                ])}
-                <br></br>(II) y ={' '}
-                {ppPolynom([
-                  [data.m_3, 'x', 1],
-                  [data.cons_2 + 1, 'x', 0],
-                ])}
-              </p>
+              Eine mögliche Wahl sind zwei parallele Geraden (gleiche Steigung,
+              verschiedene Achsenabschnitte):
             </p>
-            <p>Subtrahiert man die Gleichungen, erhält man:</p>
-            <p>(II) - (I): 0 = 1</p>
-            <p>Das LGS hat also keine Lösung.</p>
+            <p>
+              <InlineMath math={`(I)\\; y = ${lin(m, b1)}`} />
+              <br />
+              <InlineMath math={`(II)\\; y = ${lin(m, b2)}`} />
+            </p>
+            <p>
+              Subtrahiert man <InlineMath math="(I)" /> von{' '}
+              <InlineMath math="(II)" />, erhält man{' '}
+              <InlineMath math={'0 = 1'} />, also ein Widerspruch. Das LGS hat
+              keine Lösung.
+            </p>
           </>
         )
       },
     },
+
+    // (d)
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Stellen Sie eine mögliche Gleichung (II) grafisch in dem vorhanden
-              Koordinatensystem dar, sodass das LGS keine Lösung hat.
+              Stellen Sie eine mögliche Gleichung <InlineMath math="(II)" />{' '}
+              grafisch in dem vorhandenen Koordinatensystem dar, sodass das LGS
+              keine Lösung hat.
             </p>
           </>
         )
@@ -264,11 +313,21 @@ export const exercise3161: Exercise<DATA> = {
           }
           return points.trim()
         }
-        const LinePoints = generateLinePoints(data.m_3, data.cons_2, 0.1)
-        const LinePoints2 = generateLinePoints(data.m_3, data.cons_2 + 1, 0.1)
+        const m = data.m_3
+        const b1 = data.cons_2
+        const b2 = b1 + 1
+
+        const LinePoints = generateLinePoints(m, b1, 0.1)
+        const LinePoints2 = generateLinePoints(m, b2, 0.1)
+
         return (
           <>
-            <p>Die Gleichungen stellen 2 parallele Geraden dar:</p>
+            <p>
+              Zwei parallele Geraden (gleiche Steigung{' '}
+              <InlineMath math={`${m}`} />, verschiedene Achsenabschnitte{' '}
+              <InlineMath math={`${b1}`} /> und <InlineMath math={`${b2}`} />)
+              schneiden sich nicht.
+            </p>
             <svg viewBox="0 0 328 310">
               <image
                 href="/content/BW_2BFS/ksgroßmitachsen.png"
@@ -289,7 +348,7 @@ export const exercise3161: Exercise<DATA> = {
               />
               <text
                 x={toX(0)}
-                y={toY(data.cons_2 + 1)}
+                y={toY(b2)}
                 fontSize={20}
                 textAnchor="middle"
                 stroke="orange"
@@ -298,7 +357,7 @@ export const exercise3161: Exercise<DATA> = {
               </text>
               <text
                 x={toX(0)}
-                y={toY(data.cons_2 - 1)}
+                y={toY(b1)}
                 fontSize={20}
                 textAnchor="middle"
                 stroke="blue"

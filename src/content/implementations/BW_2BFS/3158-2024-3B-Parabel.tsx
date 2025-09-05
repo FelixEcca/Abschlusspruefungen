@@ -7,6 +7,7 @@ import {
 } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   x_s: number
@@ -33,20 +34,24 @@ export const exercise3158: Exercise<DATA> = {
     return data.x_s != 0
   },
   intro({ data }) {
+    const eq = `p:\\; y = x^{2} ${pp(2 * data.x_s, 'merge_op')}x ${pp(
+      data.x_s * data.x_s + data.y_s,
+      'merge_op',
+    )}`
     return (
       <>
         <p>
-          Gegeben ist die Parabelgleichung <br></br>p: y = x²{' '}
-          {pp(data.x_s * 2, 'merge_op')}x{' '}
-          {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}.
+          Gegeben ist die Parabelgleichung <br></br>
+          <InlineMath math={eq} />.
         </p>
       </>
     )
   },
   tasks: [
+    /* a) Punktlage */
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -56,9 +61,14 @@ export const exercise3158: Exercise<DATA> = {
         return (
           <>
             <p>
-              Untersuchen Sie, ob der Punkt A({pp(data.ax)}|
-              {parabel(data.ax) + data.delta_ay}) auf der Parabel, oberhalb der
-              Parabel oder unterhalb der Parabel liegt.
+              Untersuchen Sie, ob der Punkt <br></br>
+              <InlineMath
+                math={`A\\big(${pp(data.ax)}\\mid ${
+                  parabel(data.ax) + data.delta_ay
+                }\\big)`}
+              />{' '}
+              auf der Parabel, oberhalb der Parabel oder unterhalb der Parabel
+              liegt.
             </p>
           </>
         )
@@ -67,68 +77,122 @@ export const exercise3158: Exercise<DATA> = {
         function parabel(n: number) {
           return n * n + data.x_s * 2 * n + data.x_s * data.x_s + data.y_s
         }
+        const p1 = `y`
+        const p2 = `x^{2} ${pp(2 * data.x_s, 'merge_op')}x ${pp(
+          data.x_s * data.x_s + data.y_s,
+          'merge_op',
+        )}`
+        const p3 = `${pp(data.ax, 'embrace_neg')}^{2} ${pp(
+          2 * data.x_s,
+          'merge_op',
+        )}\\cdot ${pp(data.ax, 'embrace_neg')} ${pp(
+          data.x_s * data.x_s + data.y_s,
+          'merge_op',
+        )}`
+        const p4 = `${pp(data.ax * data.ax)} ${pp(
+          2 * data.x_s * data.ax,
+          'merge_op',
+        )} ${pp(data.x_s * data.x_s + data.y_s, 'merge_op')}`
+        const p5 = `${parabel(data.ax)}`
+        const Acoord = `A\\big(${pp(data.ax)}\\mid ${
+          parabel(data.ax) + data.delta_ay
+        }\\big)`
         return (
           <>
-            <p>Setze den x-Wert in die Funktion ein und berechne:</p>
+            <p>
+              Setze den <InlineMath math="x" />
+              -Wert in die Funktionsgleichung ein und berechne den zugehörigen{' '}
+              <InlineMath math="y" />
+              -Wert:
+            </p>
+
             {buildEquation([
               [
-                <>y</>,
-                <>=</>,
                 <>
-                  x² {pp(data.x_s * 2, 'merge_op')}x{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}
+                  <InlineMath math={p1} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={p2} />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  {pp(data.ax, 'embrace_neg')}² {pp(data.x_s * 2, 'merge_op')} ·{' '}
-                  {pp(data.ax, 'embrace_neg')}{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={p3} />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  {pp(data.ax * data.ax)}{' '}
-                  {pp(data.x_s * 2 * data.ax, 'merge_op')}{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={p4} />
                 </>,
               ],
-              [<></>, <>=</>, <>{parabel(data.ax)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={p5} />
+                </>,
+              ],
             ])}
+
             <p>
               Die Parabel hat{' '}
-              {data.delta_ay == 0 && <>den gleichen y-Wert wie der Punkt.</>}
+              {data.delta_ay == 0 && (
+                <>
+                  den gleichen <InlineMath math="y" />
+                  -Wert wie der Punkt.
+                </>
+              )}
               {data.delta_ay == 1 && (
-                <>einen niedrigeren y-Wert als der Punkt.</>
-              )}{' '}
-              {data.delta_ay == -1 && <>einen größeren y-Wert als der Punkt.</>}{' '}
+                <>
+                  einen niedrigeren <InlineMath math="y" />
+                  -Wert als der Punkt.
+                </>
+              )}
+              {data.delta_ay == -1 && (
+                <>
+                  einen größeren <InlineMath math="y" />
+                  -Wert als der Punkt.
+                </>
+              )}
             </p>
+
             <p>
-              Damit liegt der Punkt A({pp(data.ax)}|
-              {parabel(data.ax) + data.delta_ay}){' '}
+              Damit liegt der Punkt <InlineMath math={Acoord} />{' '}
               {data.delta_ay == 0 && <>auf</>}
-              {data.delta_ay == -1 && <>unter</>}{' '}
+              {data.delta_ay == -1 && <>unter</>}
               {data.delta_ay == 1 && <>über</>} der Parabel.
             </p>
           </>
         )
       },
     },
+
+    /* b) Nullstellen */
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Berechnen Sie die gemeinsamen Punkte der Parabel p mit der
-              x-Achse. Runden Sie falls nötig auf zwei Nachkommastellen.
+              Berechnen Sie die gemeinsamen Punkte der Parabel{' '}
+              <InlineMath math="p" /> mit der <InlineMath math="x" />
+              -Achse. Runden Sie falls nötig auf zwei Nachkommastellen.
             </p>
           </>
         )
@@ -139,128 +203,147 @@ export const exercise3158: Exercise<DATA> = {
         return (
           <>
             <p>
-              Berechne die Nullstellen der Parabel <br></br>y = x²{' '}
-              {pp(data.x_s * 2, 'merge_op')}x{' '}
-              {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}.
+              Berechne die Nullstellen der Parabel <br></br>
+              <InlineMath
+                math={`y = x^{2} ${pp(2 * data.x_s, 'merge_op')}x ${pp(
+                  data.x_s * data.x_s + data.y_s,
+                  'merge_op',
+                )}`}
+              />
+              .
             </p>
             <p>
-              {' '}
-              Bestimme p und q: p = {pp(p)}, q = {pp(q)}
+              Bestimme <InlineMath math="p" /> und <InlineMath math="q" />:{' '}
+              <InlineMath math={`p=${pp(p)}`} />,{' '}
+              <InlineMath math={`q=${pp(q)}`} />
             </p>
-            <p>Setze in die pq-Formel ein und berechne:</p>
+            <p>
+              Setze in die pq-Formel ein und berechne{' '}
+              <InlineMath math="x_{1,2}" />.
+            </p>
+            <p>
+              Bestimme <InlineMath math="p" /> und <InlineMath math="q" />:{' '}
+              <InlineMath math={`p=${pp(p)}`} />,{' '}
+              <InlineMath math={`q=${pp(q)}`} />
+            </p>
+
             {buildEquation([
               [
                 <>
-                  x<sub>1/2</sub>
+                  <InlineMath math="x_{1,2}" />
                 </>,
-                <>=</>,
                 <>
-                  −{buildInlineFrac('p', 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac('p', 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −
-                      q
-                    </>,
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="-\frac{p}{2} \pm \sqrt{\left(\frac{p}{2}\right)^2 - q}" />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`-\\frac{${pp(p, 'embrace_neg')}}{2} \\pm \\sqrt{\\left(\\frac{${p}}{2}\\right)^2 - ${q}}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`-\\frac{${pp(p, 'embrace_neg')}}{2} \\pm \\sqrt{${(p * p) / 4} - ${q}}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`{${pp(-p / 2)}} \\pm \\sqrt{${pp((p / 2) * (p / 2) - q)}}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  {Math.sqrt((p / 2) * (p / 2) - q) % 1 !== 0 ? (
+                    <InlineMath math="\approx" />
+                  ) : (
+                    <InlineMath math="=" />
                   )}
                 </>,
-              ],
-              [
-                <></>,
-                <>=</>,
                 <>
-                  −{buildInlineFrac(p, 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac(p, 2)}
-                      <span className="inline-block  scale-y-[2.6]">)</span>² −{' '}
-                      {q < 0 && <>(</>}
-                      {pp(q)}
-                      {q < 0 && <>)</>}
-                    </>,
-                  )}
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  −{buildInlineFrac(p, 2)} ±{' '}
-                  {buildSqrt(
-                    <>
-                      {p / 2}² − {q < 0 && <>(</>}
-                      {pp(q)}
-                      {q < 0 && <>)</>}
-                    </>,
-                  )}
-                </>,
-              ],
-              [
-                <></>,
-                <>=</>,
-                <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {buildSqrt(pp((p / 2) * (p / 2) - q))}
-                  </>
-                </>,
-              ],
-              [
-                <></>,
-                <>
-                  {Math.sqrt((p / 2) * (p / 2) - q) % 1 != 0 ? <>≈</> : <>=</>}
-                </>,
-                <>
-                  <>
-                    <span style={{ verticalAlign: 'middle' }}>
-                      {pp(-p / 2)} ±{' '}
-                    </span>
-                    {pp(roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))}
-                  </>
+                  <InlineMath
+                    math={`{${pp(-p / 2)}} \\pm ${pp(
+                      roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                    )}`}
+                  />
                 </>,
               ],
             ])}
 
             <p>
-              x<sub>1</sub> = {pp(-p / 2)} +{' '}
-              {pp(roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))} ={' '}
-              {pp(-p / 2 + roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))}
-              <br></br>x<sub>2</sub> = {pp(-p / 2)} -{' '}
-              {pp(roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))} ={' '}
-              {pp(-p / 2 - roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2))}
+              <InlineMath math="x_1" /> ={' '}
+              <InlineMath
+                math={`${pp(-p / 2)} + ${pp(
+                  roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                )} = ${pp(
+                  -p / 2 + roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                )}`}
+              />
+              <br />
+              <InlineMath math="x_2" /> ={' '}
+              <InlineMath
+                math={`${pp(-p / 2)} - ${pp(
+                  roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                )} = ${pp(
+                  -p / 2 - roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                )}`}
+              />
             </p>
 
-            <p>Damit sind die gemeinsamen Punkte mit der x-Achse:</p>
+            <p>
+              Damit sind die gemeinsamen Punkte mit der <InlineMath math="x" />
+              -Achse:
+            </p>
             <p>
               <b>
-                N<sub>1</sub>(
-                {pp(
-                  -p / 2 + roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
-                )}
-                |0) N<sub>2</sub>(
-                {pp(
-                  -p / 2 - roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
-                )}
-                |0)
+                <InlineMath
+                  math={`N_1\\Big(${pp(
+                    -p / 2 + roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                  )}\\mid 0\\Big)\\;\\;N_2\\Big(${pp(
+                    -p / 2 - roundToDigits(Math.sqrt((p / 2) * (p / 2) - q), 2),
+                  )}\\mid 0\\Big)`}
+                />
               </b>
             </p>
           </>
         )
       },
     },
+
+    /* c) Scheitelform */
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
-            <p>Bestimmen Sie die Scheitlform der Parabel p.</p>
+            <p>
+              Bestimmen Sie die Scheitelform der Parabel <InlineMath math="p" />
+              .
+            </p>
           </>
         )
       },
@@ -271,19 +354,27 @@ export const exercise3158: Exercise<DATA> = {
               Bestimme die Scheitelform der Parabel mit einer quadratischen
               Ergänzung:
             </p>
+
             {buildEquation([
               [
-                <>y</>,
-                <>=</>,
                 <>
-                  x² <b>{pp(data.x_s * 2, 'merge_op')}</b>x{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}
+                  <InlineMath math="y" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`x^{2}\\;\\mathbf{${pp(
+                      2 * data.x_s,
+                      'merge_op',
+                    )}}x\\;${pp(data.x_s * data.x_s + data.y_s, 'merge_op')}`}
+                  />
                 </>,
               ],
               [
                 '',
                 <>
-                  {' '}
                   <Color4>
                     <span className="inline-block  scale-y-[1.5]">↓</span>
                   </Color4>
@@ -291,41 +382,34 @@ export const exercise3158: Exercise<DATA> = {
                 <>
                   <Color4>
                     <span style={{ fontSize: 'small' }}>
-                      Egänze mit dem Term{' '}
-                      <span className="inline-block  scale-y-[2.6]">(</span>
-                      {buildInlineFrac(
-                        <>
-                          <b>{pp(data.x_s * 2)}</b>
-                        </>,
-                        2,
-                      )}
-                      <span className="inline-block  scale-y-[2.6]">)</span>²
+                      Ergänze mit dem Term{' '}
+                      <InlineMath
+                        math={`\\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2}`}
+                      />
                     </span>
                   </Color4>
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  x² {pp(data.x_s * 2, 'merge_op')}x{' '}
-                  <Color2>
-                    + <span className="inline-block  scale-y-[2.6]">(</span>
-                    {buildInlineFrac(<>{pp(data.x_s * 2)}</>, 2)}
-                    <span className="inline-block  scale-y-[2.6]">)</span>²
-                  </Color2>{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')}{' '}
-                  <Color2>
-                    - <span className="inline-block  scale-y-[2.6]">(</span>
-                    {buildInlineFrac(<>{pp(data.x_s * 2)}</>, 2)}
-                    <span className="inline-block  scale-y-[2.6]">)</span>²
-                  </Color2>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`x^{2} ${pp(
+                      2 * data.x_s,
+                      'merge_op',
+                    )}x + \\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2} ${pp(
+                      data.x_s * data.x_s + data.y_s,
+                      'merge_op',
+                    )} - \\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2}`}
+                  />
                 </>,
               ],
               [
                 '',
                 <>
-                  {' '}
                   <Color4>
                     <span className="inline-block  scale-y-[1.5]">↓</span>
                   </Color4>
@@ -340,17 +424,21 @@ export const exercise3158: Exercise<DATA> = {
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  (x {pp(data.x_s, 'merge_op')})²{' '}
-                  {pp(data.x_s * data.x_s + data.y_s, 'merge_op')} -{' '}
-                  {pp(data.x_s)}²
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\big(x ${pp(data.x_s, 'merge_op')}\\big)^{2} ${pp(
+                      data.x_s * data.x_s + data.y_s,
+                      'merge_op',
+                    )} - ${pp(data.x_s)}^{2}`}
+                  />
                 </>,
               ],
               [
                 '',
                 <>
-                  {' '}
                   <Color4>
                     <span className="inline-block  scale-y-[1.5]">↓</span>
                   </Color4>
@@ -365,9 +453,16 @@ export const exercise3158: Exercise<DATA> = {
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  (x {pp(data.x_s, 'merge_op')})² {pp(data.y_s, 'merge_op')}{' '}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\big(x ${pp(data.x_s, 'merge_op')}\\big)^{2} ${pp(
+                      data.y_s,
+                      'merge_op',
+                    )}`}
+                  />
                 </>,
               ],
             ])}

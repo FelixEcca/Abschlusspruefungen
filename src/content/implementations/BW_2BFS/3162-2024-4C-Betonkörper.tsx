@@ -1,8 +1,9 @@
 import { Exercise } from '@/data/types'
 import { Color4 } from '@/helper/colors'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
+import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   länge: number
@@ -35,15 +36,17 @@ export const exercise3162: Exercise<DATA> = {
       <>
         <p>
           Vor einem Museum steht der abgebildete Körper aus Beton. Er hat eine
-          quadratische Grundfläche mit der Seitenlänge {pp(data.länge)} m.
+          quadratische Grundfläche mit der Seitenlänge{' '}
+          <InlineMath math={`${pp(data.länge)}\\,\\text{m}`} />.
         </p>
         <svg viewBox="0 0 328 80">
           <image href="/content/BW_2BFS/312.png" height="80" width="328" />
         </svg>
         <p>
-          Die weiteren Maße des Körpers sind: <br></br>h<sub>1</sub> ={' '}
-          {pp(data.h1)} m;&nbsp;&nbsp; h<sub>2</sub> = {pp(data.h2)}{' '}
-          m;&nbsp;&nbsp; r = {pp(data.r)} m
+          Die weiteren Maße des Körpers sind: <br />
+          <InlineMath math={`h_1 = ${pp(data.h1)}\\,\\text{m}`} />
+          &nbsp;&nbsp; <InlineMath math={`h_2 = ${pp(data.h2)}\\,\\text{m}`} />
+          &nbsp;&nbsp; <InlineMath math={`r = ${pp(data.r)}\\,\\text{m}`} />
         </p>
       </>
     )
@@ -51,122 +54,143 @@ export const exercise3162: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
           <>
             <p>
-              Berechnen Sie, wie schwer der Körper ist, wenn 1 m³ Beton{' '}
-              {data.weight} kg wiegt.
+              Berechnen Sie, wie schwer der Körper ist, wenn{' '}
+              <InlineMath math={`1\\,\\text{m}^3`} /> Beton{' '}
+              <InlineMath math={`${data.weight}\\,\\text{kg}`} /> wiegt.
             </p>
           </>
         )
       },
       solution({ data }) {
+        const vZylEinz = roundToDigits(Math.PI * data.r * data.r * data.h2, 2)
+        const vZylAlle = roundToDigits(
+          4 * Math.PI * data.r * data.r * data.h2,
+          2,
+        )
+        const vQuader = data.länge * data.länge * data.h1
+        const vGes = vQuader + vZylAlle
+        const gewicht = data.weight * vGes
+
         return (
           <>
             <p>
               <b>Volumen des Körpers</b>
             </p>
             <p>Berechne das Volumen der kleinen Zylinder:</p>
+
             {buildEquation([
               [
                 <>
-                  V<sub>Zylinder</sub>
+                  <InlineMath math={`V_{\\text{Zylinder}}`} />
                 </>,
-                <>=</>,
                 <>
-                  π · r² · h<sub>2</sub>
+                  <InlineMath math="=" />
                 </>,
-              ],
-              [
-                <></>,
-                <>=</>,
                 <>
-                  π · {pp(data.r)}² · {pp(data.h2)}
+                  <InlineMath math={`\\pi\\, r^{2}\\, h_{2}`} />
                 </>,
               ],
               [
                 <></>,
-                <>≈</>,
                 <>
-                  {pp(roundToDigits(Math.PI * data.r * data.r * data.h2, 2))}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\pi\\,\\cdot\\, ${pp(data.r)}^{2}\\,\\cdot\\, ${pp(data.h2)}`}
+                  />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(vZylEinz)}~\\text{m³}`} />
                 </>,
               ],
             ])}
-            <p>Das Volumen aller vier Zylinder beträgt:</p>
+
             <p>
-              4 · {pp(roundToDigits(Math.PI * data.r * data.r * data.h2, 2))} ={' '}
-              {pp(roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2))}
+              Das Volumen aller vier Zylinder beträgt:{' '}
+              <InlineMath
+                math={`4\\,\\cdot\\,${pp(vZylEinz)}\\;=\\;${pp(vZylAlle)} ~\\text{m³}`}
+              />
             </p>
 
             <p>Das Volumen des Quaders ist:</p>
+
             {buildEquation([
               [
                 <>
-                  V<sub>Quader</sub>
+                  <InlineMath math={`V_{\\text{Quader}}`} />
                 </>,
-                <>=</>,
                 <>
-                  l · b · h<sub>1</sub>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`l\\,\\cdot\\,b\\,\\cdot\\,h_{1}`} />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  {pp(data.länge)} · {pp(data.länge)} · {pp(data.h1)}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${pp(data.länge)}\\,\\cdot\\,${pp(data.länge)}\\,\\cdot\\,${pp(data.h1)}`}
+                  />
                 </>,
               ],
-              [<></>, <>=</>, <>{pp(data.länge * data.länge * data.h1)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(vQuader)}~\\text{m³}`} />
+                </>,
+              ],
             ])}
+
             <p>Das gesamte Volumen ist damit:</p>
             <p>
-              {pp(roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2))} +{' '}
-              {pp(data.länge * data.länge * data.h1)} ≈{' '}
-              {pp(
-                data.länge * data.länge * data.h1 +
-                  roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2),
-              )}
+              <InlineMath
+                math={`${pp(vZylAlle)}\\;+\\;${pp(vQuader)}\\;\\approx\\;${pp(vGes)}~\\text{m³}`}
+              />
             </p>
-            <p>
-              Das Volumen beträgt:{' '}
-              {pp(
-                data.länge * data.länge * data.h1 +
-                  roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2),
-              )}{' '}
-              m³
-            </p>
+
             <p>
               <b>Gewicht des Körpers</b>
             </p>
             <p>Der Körper wiegt damit insgesamt:</p>
             <p>
-              {pp(
-                data.länge * data.länge * data.h1 +
-                  roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2),
-              )}{' '}
-              m³ · {data.weight}
-              {buildInlineFrac(<>kg</>, <>m³</>)} ={' '}
-              {pp(
-                data.weight *
-                  (data.länge * data.länge * data.h1 +
-                    roundToDigits(4 * Math.PI * data.r * data.r * data.h2, 2)),
-              )}{' '}
-              kg
+              <InlineMath
+                math={`${pp(vGes)}\\,\\text{m}^3\\;\\cdot\\;${data.weight}\\,\\frac{\\text{kg}}{\\text{m}^3}\\;=\\;${pp(
+                  gewicht,
+                )}\\,\\text{kg}`}
+              />
             </p>
           </>
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -178,6 +202,13 @@ export const exercise3162: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const mZyl = roundToDigits(2 * Math.PI * data.r * data.h2, 2)
+        const oQuader = roundToDigits(
+          4 * data.länge * data.h1 + data.länge * data.länge,
+          2,
+        )
+        const oGes = mZyl * 4 + oQuader
+
         return (
           <>
             <p>
@@ -199,6 +230,7 @@ export const exercise3162: Exercise<DATA> = {
                 width="328"
               />
             </svg>
+
             <p>
               <b>Mantelflächen der Zylinder</b>
             </p>
@@ -206,44 +238,59 @@ export const exercise3162: Exercise<DATA> = {
             {buildEquation([
               [
                 <>
-                  M<sub>Zylinder</sub>
+                  <InlineMath math={`M_{\\text{Zylinder}}`} />
                 </>,
-                <>=</>,
                 <>
-                  2 · π · r · h<sub>2</sub>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`2\\,\\pi\\, r\\, h_{2}`} />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  2 · π · {pp(data.r)} · {pp(data.h2)}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`2\\,\\pi\\,\\cdot\\,${pp(data.r)}\\,\\cdot\\,${pp(data.h2)}`}
+                  />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
-                <>{pp(roundToDigits(2 * Math.PI * data.r * data.h2, 2))}</>,
+                <>
+                  <InlineMath math="\\approx" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(mZyl)}`} />
+                </>,
               ],
             ])}
+
             <p>
               <b>Fläche des Quaders</b>
             </p>
-
             <p>
               Die Oberfläche besteht aus den vier Seitenflächen und der
               Deckelfläche.
             </p>
+
             <div>
               <span style={{ fontSize: '0.8em' }}>
                 {buildEquation([
                   [
                     <>
-                      O<sub>Quader</sub>
+                      <InlineMath math={`O_{\\text{Quader}}`} />
                     </>,
-                    <>=</>,
                     <>
-                      M<sub>Quader</sub> + D<sub>Quader</sub>
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`M_{\\text{Quader}}\\;+\\;D_{\\text{Quader}}`}
+                      />
                     </>,
                   ],
                   [
@@ -258,8 +305,8 @@ export const exercise3162: Exercise<DATA> = {
                       <div>
                         <span style={{ fontSize: '0.7em' }}>
                           <Color4>
-                            Die 4 Seitenflächen haben jeweils die Fläche l · h
-                            <sub>1</sub>
+                            Die 4 Seitenflächen haben jeweils die Fläche{' '}
+                            <InlineMath math={`l\\,\\cdot\\,h_{1}`} />.
                           </Color4>
                         </span>
                       </div>
@@ -267,29 +314,35 @@ export const exercise3162: Exercise<DATA> = {
                   ],
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      4 · l · h<sub>1</sub> + l · l
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`4\\,\\cdot\\,l\\,\\cdot\\,h_{1}\\; +\\; l\\,\\cdot\\,l`}
+                      />
                     </>,
                   ],
                   [
                     <></>,
-                    <>=</>,
                     <>
-                      4 · {pp(data.länge)} · {pp(data.h1)} + {pp(data.länge)} ·{' '}
-                      {pp(data.länge)}
+                      <InlineMath math="=" />
+                    </>,
+                    <>
+                      <InlineMath
+                        math={`4\\,\\cdot\\,${pp(data.länge)}\\,\\cdot\\,${pp(
+                          data.h1,
+                        )}\\; +\\; ${pp(data.länge)}\\,\\cdot\\,${pp(data.länge)}`}
+                      />
                     </>,
                   ],
                   [
                     <></>,
-                    <>≈</>,
                     <>
-                      {pp(
-                        roundToDigits(
-                          4 * data.länge * data.h1 + data.länge * data.länge,
-                          2,
-                        ),
-                      )}
+                      <InlineMath math="\\approx" />
+                    </>,
+                    <>
+                      <InlineMath math={`${pp(oQuader)}`} />
                     </>,
                   ],
                 ])}
@@ -301,26 +354,13 @@ export const exercise3162: Exercise<DATA> = {
             </p>
             <p>Die gesamte Fläche beträgt:</p>
             <p>
-              <div>
-                <span style={{ fontSize: '0.8em' }}>
-                  O = 4 · M<sub>Zylinder</sub> + O<sub>Quader</sub> ={' '}
-                  {pp(roundToDigits(4 * 2 * Math.PI * data.r * data.h2, 2))} +{' '}
-                  {pp(
-                    roundToDigits(
-                      4 * data.länge * data.h1 + data.länge * data.länge,
-                      2,
-                    ),
-                  )}{' '}
-                  ={' '}
-                  {pp(
-                    roundToDigits(4 * 2 * Math.PI * data.r * data.h2, 2) +
-                      roundToDigits(
-                        4 * data.länge * data.h1 + data.länge * data.länge,
-                        2,
-                      ),
-                  )}
-                </span>
-              </div>
+              <span style={{ fontSize: '0.8em' }}>
+                <InlineMath
+                  math={`O\\;=\\;4\\,\\cdot\\,M_{\\text{Zylinder}}\\; +\\; O_{\\text{Quader}}\\;=\\;${pp(
+                    4 * mZyl,
+                  )}\\; +\\; ${pp(oQuader)}\\; =\\; ${pp(oGes)}`}
+                />
+              </span>
             </p>
           </>
         )

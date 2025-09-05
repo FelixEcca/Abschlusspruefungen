@@ -1,11 +1,8 @@
 import { Exercise } from '@/data/types'
-import {
-  buildEquation,
-  buildInlineFrac,
-  buildSqrt,
-} from '@/helper/math-builder'
+import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   radius: number
@@ -34,8 +31,10 @@ export const exercise3157: Exercise<DATA> = {
       <>
         <p>
           Ein Turm besteht aus einem Zylinder und einer aufgesetzten Halbkugel
-          als Kuppe. Die Höhe des Zylinders beträgt {data.höhe} m, der Radius
-          von Halbkugel und Zylinder beträgt jeweils {data.radius} m.
+          als Kuppe. Die Höhe des Zylinders beträgt{' '}
+          <InlineMath math={`{${data.höhe}}  ~\\text{m}`} />, der Radius von
+          Halbkugel und Zylinder beträgt jeweils{' '}
+          <InlineMath math={`{${data.radius}} ~\\text{m}`} /> .
         </p>
       </>
     )
@@ -43,10 +42,10 @@ export const exercise3157: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -89,68 +88,105 @@ export const exercise3157: Exercise<DATA> = {
                 {data.radius} m
               </text>
             </svg>
+
             <p>Berechne jeweils das Volumen mit der Formel:</p>
+
             {buildEquation([
               [
                 <>
                   V<sub>Zylinder</sub>
                 </>,
-                <>=</>,
-                <>π · r² · h</>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="\pi\cdot r^{2}\cdot h" />
+                </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  π · {data.radius}² · {data.höhe}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\pi\\cdot ${data.radius}^{2}\\cdot ${data.höhe}`}
+                  />
                 </>,
               ],
-              [<></>, <>≈</>, <>{pp(zylinder)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <InlineMath math={pp(zylinder)} />
+                </>,
+              ],
             ])}
-            <p>Das Volumen des Zylinders beträgt {pp(zylinder)} m³.</p>
+
+            <p>
+              Das Volumen des Zylinders beträgt{' '}
+              <InlineMath math={`${pp(zylinder)}~\\text{m³}`} /> .
+            </p>
+
             {buildEquation([
               [
                 <>
                   V<sub>Halbkugel</sub>
                 </>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(
-                    <>{buildInlineFrac(<>4</>, <>3</>)}π · r³</>,
-                    <>2</>,
-                  )}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="\dfrac{\frac{4}{3}\pi r^{3}}{2}" />
                 </>,
               ],
               [
                 <></>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(
-                    <>
-                      {buildInlineFrac(<>4</>, <>3</>)}π · {data.radius}³
-                    </>,
-                    <>2</>,
-                  )}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\dfrac{\\frac{4}{3}\\pi ${data.radius}^{3}}{2}`}
+                  />
                 </>,
               ],
-              [<></>, <>≈</>, <>{pp(halbkugel)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <InlineMath math={pp(halbkugel)} />
+                </>,
+              ],
             ])}
-            <p>Das Volumen der Halbkugel beträgt {pp(halbkugel)} m³.</p>
+
+            <p>
+              Das Volumen der Halbkugel beträgt{' '}
+              <InlineMath math={`${pp(halbkugel)}~\\text{m³}`} /> .
+            </p>
+
             <p>Zusammen ist das Volumen des Turms:</p>
             <p>
-              {pp(zylinder)} m³ + {pp(halbkugel)} m³ ={' '}
-              <b>{pp(zylinder + halbkugel)} m³</b>
+              <InlineMath
+                math={`${pp(zylinder)}~\\text{m³} + ${pp(halbkugel)}~\\text{m³} =
+                ${pp(zylinder + halbkugel)}~\\text{m³}`}
+              />
             </p>
           </>
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Berechnen Sie den Oberflächeninhalt der Kuppel.</p>
@@ -168,37 +204,61 @@ export const exercise3157: Exercise<DATA> = {
               Die Kuppel stellt eine halbe Kugeloberfläche dar. Berechne den
               Flächeninhalt mit der Formel:
             </p>
+
             {buildEquation([
               [
                 <>
                   O<sub>Halbkugel</sub>
                 </>,
-                <>=</>,
-                <>{buildInlineFrac(<>4 · π · r²</>, <>2</>)}</>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="\dfrac{4\cdot\pi\cdot r^{2}}{2}" />
+                </>,
               ],
               [
                 <></>,
-                <>=</>,
-                <>{buildInlineFrac(<>4 · π · {data.radius}²</>, <>2</>)}</>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\dfrac{4\\cdot\\pi\\cdot ${data.radius}^{2}}{2}`}
+                  />
+                </>,
               ],
-              [<></>, <>≈</>, <>{pp(halbkugel)}</>],
+              [
+                <></>,
+                <>
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <InlineMath math={pp(halbkugel)} />
+                </>,
+              ],
             ])}
-            <p>Die Oberfläche beträgt {pp(halbkugel)} m².</p>
+
+            <p>
+              Die Oberfläche beträgt{' '}
+              <InlineMath math={`${pp(halbkugel)}~\\text{m²}`} />.
+            </p>
           </>
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
           <>
             <p>
-              Die Kuppel hat in {data.ring} m Höhe einen Befestigungsring für
-              Lampen. Siehe Abbildung.
+              Die Kuppel hat in <InlineMath math={`${data.ring} ~\\text{m}`} />{' '}
+              Höhe einen Befestigungsring für Lampen. Siehe Abbildung.
             </p>
             <svg viewBox="0 0 328 110">
               <image
@@ -206,7 +266,6 @@ export const exercise3157: Exercise<DATA> = {
                 height="110"
                 width="328"
               />
-
               <text
                 x={164}
                 y={68}
@@ -248,7 +307,6 @@ export const exercise3157: Exercise<DATA> = {
                 height="110"
                 width="328"
               />
-
               <text
                 x={166}
                 y={74}
@@ -268,56 +326,86 @@ export const exercise3157: Exercise<DATA> = {
                 {data.radius} m
               </text>
             </svg>
+
             <p>
               Dabei ist die längste Seite des Dreiecks gerade der Radius der
               Halbkugel.
             </p>
             <p>Rechne mit dem Satz des Pythagoras:</p>
+
             {buildEquation([
               [
-                <>{data.radius}²</>,
-                <>=</>,
                 <>
-                  r<sub>B</sub>² + {data.ring}²
+                  <InlineMath math={`${data.radius}^{2}`} />
                 </>,
-              ],
-              [
-                <>{data.radius * data.radius}</>,
-                <>=</>,
                 <>
-                  r<sub>B</sub>² + {data.ring * data.ring}
+                  <InlineMath math="=" />
                 </>,
-                <>| - {data.ring * data.ring}</>,
-              ],
-              [
                 <>
-                  r<sub>B</sub>²
-                </>,
-                <>=</>,
-                <>
-                  {data.radius * data.radius} - {data.ring * data.ring}
-                </>,
-                <>| √</>,
-              ],
-              [
-                <>
-                  r<sub>B</sub>
-                </>,
-                <>=</>,
-                <>
-                  {buildSqrt(data.radius * data.radius - data.ring * data.ring)}
+                  <InlineMath math={`r_{B}^{2} + ${data.ring}^{2}`} />
                 </>,
               ],
               [
                 <>
-                  r<sub>B</sub>
+                  <InlineMath math={`${data.radius * data.radius}`} />
                 </>,
-                <>{ergebnis % 1 == 0 ? <>=</> : <>≈</>}</>,
-                <>{pp(ergebnis)}</>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`r_{B}^{2} + ${data.ring * data.ring}`} />
+                </>,
+                <>| − {data.ring * data.ring}</>,
+              ],
+              [
+                <>
+                  <InlineMath math="r_{B}^{2}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`${data.radius * data.radius} - ${data.ring * data.ring}`}
+                  />
+                </>,
+                <>
+                  | <InlineMath math="\sqrt{\\ }" />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math="r_{B}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\sqrt{${data.radius * data.radius - data.ring * data.ring}}`}
+                  />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math="r_{B}" />
+                </>,
+                <>
+                  {ergebnis % 1 === 0 ? (
+                    <InlineMath math="=" />
+                  ) : (
+                    <InlineMath math="\approx" />
+                  )}
+                </>,
+                <>
+                  <InlineMath math={pp(ergebnis)} />
+                </>,
               ],
             ])}
+
             <p>
-              Der Radius in {data.ring} m Höhe beträgt {pp(ergebnis)} m.
+              Der Radius in <InlineMath math={`${data.ring}~\\text{m}`} /> Höhe
+              beträgt <InlineMath math={`${pp(ergebnis)}~\\text{m}`} /> .
             </p>
           </>
         )

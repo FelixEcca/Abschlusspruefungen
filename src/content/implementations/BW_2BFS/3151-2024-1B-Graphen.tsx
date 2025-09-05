@@ -1,7 +1,8 @@
 import { Exercise } from '@/data/types'
 import { Color2, Color3 } from '@/helper/colors'
-import { buildInlineFrac } from '@/helper/math-builder'
+import { InlineMath } from 'react-katex'
 import { pp, ppFrac, ppPolynom } from '@/helper/pretty-print'
+import { polyToLatex } from '@/helper/pp-latex'
 
 interface DATA {
   x_s: number
@@ -37,7 +38,7 @@ export const exercise3151: Exercise<DATA> = {
       (p / 2) * (p / 2) - q > 0
     )
   },
-  intro({ data }) {
+  intro() {
     return null
   },
   tasks: [
@@ -77,25 +78,27 @@ export const exercise3151: Exercise<DATA> = {
         const parabolaPoints = generateParabolaPoints(data.x_s, data.y_s, 0.1)
         const linePoints = generateLinePoints(data.m, data.b, 0.1)
 
+        // Text unverändert, nur Formeln via KaTeX
+        const parabLatex = `y = (x ${pp(-data.x_s, 'merge_op')})^{2} ${pp(
+          data.y_s,
+          'merge_op',
+        )}`
+        const lineLatex =
+          data.m % 1 == 0
+            ? String(
+                polyToLatex([
+                  [data.m, 'x', 1],
+                  [data.b, 'x', 0],
+                ]),
+              )
+            : `${ppFrac(data.m)}x ${pp(data.b, 'merge_op')}`
+
         return (
           <>
             <p>
-              Gegeben sind die Parabel p mit <br></br> y = (x{' '}
-              {pp(-data.x_s, 'merge_op')})² {pp(data.y_s, 'merge_op')} und die
-              Gerade g mit <br></br>y ={' '}
-              {data.m % 1 == 0 ? (
-                <>
-                  {ppPolynom([
-                    [data.m, 'x', 1],
-                    [data.b, 'x', 0],
-                  ])}
-                </>
-              ) : (
-                <>
-                  {ppFrac(data.m)}x {pp(data.b, 'merge_op')}
-                </>
-              )}{' '}
-              sowie deren Schaubilder.
+              Gegeben sind die Parabel p mit <br />
+              <InlineMath math={parabLatex} /> und die Gerade g mit <br />
+              <InlineMath math={`y = ${lineLatex}`} /> sowie deren Schaubilder.
             </p>
             <svg viewBox="0 0 328 328">
               <image
@@ -119,7 +122,7 @@ export const exercise3151: Exercise<DATA> = {
           </>
         )
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -164,11 +167,13 @@ export const exercise3151: Exercise<DATA> = {
         }
         const parabolaPoints = generateParabolaPoints(data.x_s, data.y_s, 0.1)
         const linePoints = generateLinePoints(data.m, data.b, 0.1)
+
         return (
           <>
             <p>
-              Es hilft den Scheitelpunkt der Parabel <br></br>S({pp(data.x_s)}|
-              {pp(data.y_s)}) zu bestimmen, um die Skalierung herauszufinden.
+              Es hilft den Scheitelpunkt der Parabel <br />
+              <InlineMath math={`S(${pp(data.x_s)}\\mid ${pp(data.y_s)})`} /> zu
+              bestimmen, um die Skalierung herauszufinden.
             </p>
             <svg viewBox="0 0 328 328">
               <image
@@ -213,7 +218,7 @@ export const exercise3151: Exercise<DATA> = {
                 return (
                   <>
                     <text
-                      key={i}
+                      key={`tick-x-${i}`}
                       x={toX(i)}
                       y={toY(0)}
                       fontSize={5}
@@ -223,7 +228,7 @@ export const exercise3151: Exercise<DATA> = {
                       |
                     </text>
                     <text
-                      key={i}
+                      key={`label-x-${i}`}
                       x={toX(i)}
                       y={toY(0) + 17}
                       fontSize={15}
@@ -233,7 +238,7 @@ export const exercise3151: Exercise<DATA> = {
                       {i}
                     </text>
                     <text
-                      key={i}
+                      key={`label-y-top-${i}`}
                       x={toX(0) + 15}
                       y={toY(itop)}
                       fontSize={15}
@@ -243,7 +248,7 @@ export const exercise3151: Exercise<DATA> = {
                       {itop}
                     </text>
                     <text
-                      key={i}
+                      key={`label-y-bot-${i}`}
                       x={toX(0) + 15}
                       y={toY(ibot)}
                       fontSize={15}
@@ -253,7 +258,7 @@ export const exercise3151: Exercise<DATA> = {
                       {ibot}
                     </text>
                     <text
-                      key={i}
+                      key={`dash-y-top-${i}`}
                       x={toX(0)}
                       y={toY(itop) + 2}
                       fontSize={10}
@@ -263,7 +268,7 @@ export const exercise3151: Exercise<DATA> = {
                       -
                     </text>
                     <text
-                      key={i}
+                      key={`dash-y-bot-${i}`}
                       x={toX(0)}
                       y={toY(ibot) + 2}
                       fontSize={10}
@@ -282,15 +287,15 @@ export const exercise3151: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
-              Beschreiben Sie, wie die Parabel p aus der Normalparabel mit y =
-              x² entsteht.
+              Beschreiben Sie, wie die Parabel p aus der Normalparabel mit{' '}
+              <InlineMath math="y=x^{2}" /> entsteht.
             </p>
           </>
         )
@@ -303,18 +308,27 @@ export const exercise3151: Exercise<DATA> = {
               <li>
                 um <Color2>{Math.abs(data.x_s)}</Color2>{' '}
                 {Math.abs(data.x_s) == 1 ? <>Einheit</> : <>Einheiten</>} nach{' '}
-                {data.x_s < 0 ? <>links</> : <>rechts</>} verschoben: <br></br>y
-                = x² wird zu y = (x <Color2>{pp(-data.x_s, 'merge_op')}</Color2>
-                )²
+                {data.x_s < 0 ? <>links</> : <>rechts</>} verschoben: <br />
+                <InlineMath math="y=x^{2}" /> wird zu<br></br>{' '}
+                <InlineMath
+                  math={`y=(x \\color{green}${pp(-data.x_s, 'merge_op')}\\color{black})^{2}`}
+                />
               </li>
               <li>
                 um <Color3>{Math.abs(data.y_s)}</Color3>{' '}
                 {Math.abs(data.y_s) == 1 ? <>Einheit</> : <>Einheiten</>} nach{' '}
-                {data.y_s < 0 ? <>unten</> : <>oben</>} verschoben:<br></br>y =
-                (x <Color2>{pp(-data.x_s, 'merge_op')}</Color2>
-                )² wird zu y = (x <Color2>
-                  {pp(-data.x_s, 'merge_op')}
-                </Color2>)² <Color3>{pp(data.y_s, 'merge_op')}</Color3>
+                {data.y_s < 0 ? <>unten</> : <>oben</>} verschoben:
+                <br />
+                <InlineMath
+                  math={`y=(x ${pp(-data.x_s, 'merge_op')})^{2}`}
+                />{' '}
+                wird zu<br></br>{' '}
+                <InlineMath
+                  math={`y=(x ${pp(-data.x_s, 'merge_op')})^{2} \\color{orange}${pp(
+                    data.y_s,
+                    'merge_op',
+                  )}`}
+                />
               </li>
             </ol>
           </>
@@ -323,10 +337,10 @@ export const exercise3151: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>
@@ -386,22 +400,33 @@ export const exercise3151: Exercise<DATA> = {
           -data.m * data.x_s - 1 + data.y_s,
           0.1,
         )
+
+        // (p,q,dis) bleiben wie im Original berechnet (nicht weiter verwendet)
         const p = 2 * data.x_s - data.m
         const q = data.x_s * data.x_s + data.y_s - data.b
         const dis = (p / 2) * (p / 2) - q
+        void dis
+
         return (
           <>
             <p>
-              Die Gerade h soll parallel zur Gerade g verlaufen:<br></br>y<sub>h</sub> ={' '}
-              {ppPolynom([[data.m,'x',1]])} + b
+              Die Gerade h soll parallel zur Gerade g verlaufen:
+              <br />
+              <InlineMath
+                math={`y_{h} = ${String(polyToLatex([[data.m, 'x', 1]]))} + b`}
+              />
             </p>
             <p>
               Wähle den y-Achsenabschnitt so klein, dass die Gerade unter der
               Parabel durchläuft:
             </p>
             <p>
-              Zum Beispiel: y<sub>h</sub> = {ppPolynom([[data.m,'x',1],[-data.m * data.x_s - 1 + data.y_s,'x',0]])}{' '}
-              
+              Zum Beispiel:{' '}
+              <InlineMath
+                math={`y_{h} = ${String(
+                  polyToLatex([[data.m, 'x', 1]]),
+                )} ${pp(-data.m * data.x_s - 1 + data.y_s, 'merge_op')}`}
+              />
             </p>
 
             <p>Tipp: Das lässt sich mit einer Skizze auch überprüfen.</p>
@@ -455,7 +480,7 @@ export const exercise3151: Exercise<DATA> = {
                 return (
                   <>
                     <text
-                      key={i}
+                      key={`tick-x-${i}`}
                       x={toX(i)}
                       y={toY(0)}
                       fontSize={5}
@@ -465,7 +490,7 @@ export const exercise3151: Exercise<DATA> = {
                       |
                     </text>
                     <text
-                      key={i}
+                      key={`label-x-${i}`}
                       x={toX(i)}
                       y={toY(0) + 17}
                       fontSize={15}
@@ -475,7 +500,7 @@ export const exercise3151: Exercise<DATA> = {
                       {i}
                     </text>
                     <text
-                      key={i}
+                      key={`label-y-top-${i}`}
                       x={toX(0) + 15}
                       y={toY(itop)}
                       fontSize={15}
@@ -485,7 +510,7 @@ export const exercise3151: Exercise<DATA> = {
                       {itop}
                     </text>
                     <text
-                      key={i}
+                      key={`label-y-bot-${i}`}
                       x={toX(0) + 15}
                       y={toY(ibot)}
                       fontSize={15}
@@ -495,7 +520,7 @@ export const exercise3151: Exercise<DATA> = {
                       {ibot}
                     </text>
                     <text
-                      key={i}
+                      key={`dash-y-top-${i}`}
                       x={toX(0)}
                       y={toY(itop) + 2}
                       fontSize={10}
@@ -505,7 +530,7 @@ export const exercise3151: Exercise<DATA> = {
                       -
                     </text>
                     <text
-                      key={i}
+                      key={`dash-y-bot-${i}`}
                       x={toX(0)}
                       y={toY(ibot) + 2}
                       fontSize={10}

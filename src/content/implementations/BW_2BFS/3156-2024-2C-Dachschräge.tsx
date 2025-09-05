@@ -1,7 +1,8 @@
 import { Exercise } from '@/data/types'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
-import { pp, ppFrac } from '@/helper/pretty-print'
+import { buildEquation } from '@/helper/math-builder'
+import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   gesamt: number
@@ -22,7 +23,7 @@ export const exercise3156: Exercise<DATA> = {
     }
   },
   originalData: { gesamt: 2.4, wand: 2.2, schrank: 100 },
-  constraint({ data }) {
+  constraint() {
     return true
   },
   intro({ data }) {
@@ -30,8 +31,9 @@ export const exercise3156: Exercise<DATA> = {
       <>
         <p>
           Unter einer Dachschräge soll der Platz, wie in der Skizze dargestellt,
-          genutzt werden. Geplant ist. dort einen 100 cm breiten Schrank
-          einzubauen.
+          genutzt werden. Geplant ist. dort einen{' '}
+          <InlineMath math={` ${pp(data.schrank)} \\, \\text{cm}`} /> breiten
+          Schrank einzubauen.
         </p>
         <svg viewBox="0 0 328 230">
           <image href="/content/BW_2BFS/306.png" height="230" width="328" />
@@ -58,10 +60,10 @@ export const exercise3156: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Berechnen Sie, wie hoch der Schrank maximal sein kann.</p>
@@ -69,12 +71,16 @@ export const exercise3156: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const numX = roundToDigits(
+          ((data.gesamt * 100 - data.schrank) * data.wand) / data.gesamt,
+          2,
+        )
         return (
           <>
             <p>Tipp: Achte bei dieser Aufgabe auf die Einheiten der Maße.</p>
             <p>
               Vereinfacht stellt die Skizze ein Dreieck dar. Die Höhe des
-              Schranks nennen wir x.
+              Schranks nennen wir <InlineMath math="x" />.
             </p>
             <svg viewBox="0 0 328 230">
               <image
@@ -115,70 +121,88 @@ export const exercise3156: Exercise<DATA> = {
               Durch den Strahlensatz stehen die Seiten in folgendem Verhältnis
               zueinander:
             </p>
+
             {buildEquation([
               [
                 <>
-                  {buildInlineFrac(
-                    <>x</>,
-                    <>
-                      {pp(data.gesamt * 100)} - {data.schrank}
-                    </>,
-                  )}
+                  <span style={{ fontSize: 12 }}>
+                    <InlineMath
+                      math={`\\dfrac{x}{${pp(data.gesamt * 100)} - ${data.schrank}}`}
+                    />
+                  </span>
                 </>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(
-                    <>{pp(data.wand * 100)}</>,
-                    <>{pp(data.gesamt * 100)}</>,
-                  )}
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <span style={{ fontSize: 12 }}>
+                    <InlineMath
+                      math={`\\dfrac{${pp(data.wand * 100)}}{${pp(
+                        data.gesamt * 100,
+                      )}}`}
+                    />
+                  </span>
                 </>,
               ],
               [
                 <>
-                  {buildInlineFrac(
-                    <>x</>,
-                    <>{pp(data.gesamt * 100 - data.schrank)}</>,
-                  )}
+                  <span style={{ fontSize: 12 }}>
+                    <InlineMath
+                      math={`\\dfrac{x}{${pp(data.gesamt * 100 - data.schrank)}}`}
+                    />
+                  </span>
                 </>,
-                <>=</>,
-                <>{ppFrac(data.wand / data.gesamt)}</>,
-                <>| · {pp(data.gesamt * 100 - data.schrank)}</>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <span style={{ fontSize: 12 }}>
+                    <InlineMath
+                      math={`\\dfrac{${pp(data.wand)}}{${pp(data.gesamt)}}`}
+                    />
+                  </span>
+                </>,
+                <>
+                  |{' '}
+                  <InlineMath
+                    math={`\\cdot ${pp(data.gesamt * 100 - data.schrank)}`}
+                  />
+                </>,
               ],
               [
-                <>x</>,
-                <>≈</>,
                 <>
-                  {pp(
-                    roundToDigits(
-                      ((data.gesamt * 100 - data.schrank) * data.wand) /
-                        data.gesamt,
-                      2,
-                    ),
-                  )}
+                  <InlineMath math="x" />
+                </>,
+                <>
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <span style={{ fontSize: 12 }}>
+                    <InlineMath math={`${pp(numX)}`} />
+                  </span>
                 </>,
               ],
             ])}
+
             <p>
               Der Schrank darf maximal{' '}
-              {pp(
-                roundToDigits(
-                  ((data.gesamt * 100 - data.schrank) * data.wand) /
-                    data.gesamt,
-                  2,
-                ),
-              )}{' '}
-              cm breit sein.
+              <b>
+                {' '}
+                <InlineMath math={`${pp(numX)}~ cm`} />
+              </b>{' '}
+              hoch sein.
             </p>
           </>
         )
       },
     },
+
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Berechnen Sie den Winkel α.</p>
@@ -186,10 +210,15 @@ export const exercise3156: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const alpha = roundToDigits(
+          (360 * Math.atan(data.wand / data.gesamt)) / (2 * Math.PI),
+          2,
+        )
         return (
           <>
             <p>
-              Für den Winkel α rechnen wir in diesem rechtwinkligen Dreieck:
+              Für den Winkel <InlineMath math="\alpha" /> rechnen wir in diesem
+              rechtwinkligen Dreieck:
             </p>
             <svg viewBox="0 0 328 230">
               <image
@@ -218,69 +247,79 @@ export const exercise3156: Exercise<DATA> = {
               </text>
             </svg>
             <p>Die Ankathete des Winkels und die Gegenkathete sind gegeben.</p>
-            <p>Berechne den Wert von α mit dem Tangens:</p>
+            <p>
+              Berechne den Wert von <InlineMath math="\alpha" /> mit dem
+              Tangens:
+            </p>
+
             {buildEquation([
               [
-                <>tan(α)</>,
-                <>=</>,
-                <>{buildInlineFrac(<>Gegenkathete</>, <>Ankathete</>)}</>,
-              ],
-              [
-                <>tan(α)</>,
-                <>=</>,
                 <>
-                  {buildInlineFrac(
-                    <>{pp(data.wand)}</>,
-                    <>{pp(data.gesamt)}</>,
-                  )}
+                  <InlineMath math="\tan(\alpha)" />
                 </>,
                 <>
-                  | tan<sup>-1</sup>()
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="\dfrac{\text{Gegenkathete}}{\text{Ankathete}}" />
                 </>,
               ],
               [
-                <>α</>,
-                <>=</>,
                 <>
-                  tan<sup>-1</sup>
-                  <span className="inline-block  scale-y-[2]">(</span>
-                  {buildInlineFrac(
-                    <>{pp(data.wand)}</>,
-                    <>{pp(data.gesamt)}</>,
-                  )}
-                  <span className="inline-block  scale-y-[2]">)</span>
+                  <InlineMath math="\tan(\alpha)" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\dfrac{${pp(data.wand)}}{${pp(data.gesamt)}}`}
+                  />
+                </>,
+                <>
+                  | <InlineMath math="\arctan()" />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math="\alpha" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath
+                    math={`\\arctan\\!\\left(\\dfrac{${pp(
+                      data.wand,
+                    )}}{${pp(data.gesamt)}}\\right)`}
+                  />
                 </>,
               ],
               [
                 <></>,
-                <>≈</>,
                 <>
-                  {pp(
-                    roundToDigits(
-                      (360 * Math.atan(data.wand / data.gesamt)) /
-                        (2 * Math.PI),
-                      2,
-                    ),
-                  )}
-                  °
+                  <InlineMath math="\approx" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(alpha)}^{\\circ}`} />
                 </>,
               ],
             ])}
+
             <p>
-              Die Größe von α beträgt{' '}
-              {pp(
-                roundToDigits(
-                  (360 * Math.atan(data.wand / data.gesamt)) / (2 * Math.PI),
-                  2,
-                ),
-              )}
-              °.
+              Die Größe von <InlineMath math="\alpha" /> beträgt{' '}
+              <b>
+                <InlineMath math={`${pp(alpha)}^{\\circ}`} />
+              </b>
+              .
             </p>
+
             <p>
               {data.wand == data.gesamt && (
                 <>
                   Tipp: Hier hätte man keine Rechnung gebraucht. Da die Wand
-                  gleich lang ist wie der Boden ist α = 45°. Das lässt sich mit
+                  gleich lang ist wie der Boden, ist{' '}
+                  <InlineMath math="\alpha = 45^{\circ}" />. Das lässt sich mit
                   einem halben Quadrat begründen.
                 </>
               )}

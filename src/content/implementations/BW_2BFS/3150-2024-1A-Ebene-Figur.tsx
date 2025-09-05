@@ -1,11 +1,8 @@
 import { Exercise } from '@/data/types'
 import { Color1, Color2, Color3, Color4 } from '@/helper/colors'
-import {
-  buildEquation,
-  buildInlineFrac,
-  buildSqrt,
-} from '@/helper/math-builder'
+import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
+import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
   umfang: number
@@ -49,37 +46,40 @@ export const exercise3150: Exercise<DATA> = {
   tasks: [
     {
       points: 2,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Der Umfang soll {data.umfang} cm betragen. Geben Sie dazu eine
-              Gleichung an und berechnen Sie x.
-            </p>
-          </>
+          <p>
+            Der Umfang soll <InlineMath math={`${data.umfang} \\text{ cm}`} />{' '}
+            betragen. Geben Sie dazu eine Gleichung an und berechnen Sie{' '}
+            <InlineMath math="x" />.
+          </p>
         )
       },
       solution({ data }) {
+        const xVal = (data.umfang - 2 * data.länge) / 4
         return (
           <>
             <p>Der Umfang ist die Summe aller einzelnen Seitenlängen:</p>
             {buildEquation([
               [
-                <>U</>,
-                <>=</>,
                 <>
-                  x + x + x + x + {data.länge} + {data.länge}
+                  <InlineMath math="U" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`x+x+x+x+${data.länge}+${data.länge}`} />
                 </>,
               ],
               [
-                '',
+                <></>,
                 <>
-                  {' '}
                   <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                    <span className="inline-block scale-y-[1.5]">↓</span>
                   </Color4>
                 </>,
                 <>
@@ -88,98 +88,162 @@ export const exercise3150: Exercise<DATA> = {
                   </Color4>
                 </>,
               ],
-              [<>U</>, <>=</>, <>4x + {2 * data.länge}</>],
               [
-                '',
                 <>
-                  {' '}
+                  <InlineMath math="U" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`4x+${2 * data.länge}`} />
+                </>,
+              ],
+              [
+                <></>,
+                <>
                   <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                    <span className="inline-block scale-y-[1.5]">↓</span>
                   </Color4>
                 </>,
                 <>
                   <Color4>
                     <span style={{ fontSize: 'small' }}>
-                      Der Umfang soll {data.umfang} cm betragen.
+                      Der Umfang soll {data.umfang} cm betragen
                     </span>
                   </Color4>
                 </>,
               ],
               [
-                <>{data.umfang}</>,
-                <>=</>,
-                <>4x + {2 * data.länge}</>,
-                <>| − {2 * data.länge}</>,
+                <>
+                  <InlineMath math={String(data.umfang)} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`4x+${2 * data.länge}`} />
+                </>,
               ],
               [
-                <>{data.umfang - 2 * data.länge}</>,
-                <>=</>,
-                <>4x</>,
-                <>| : 4</>,
+                <>
+                  <InlineMath math={`${data.umfang - 2 * data.länge}`} />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="4x" />
+                </>,
               ],
-              [<>x</>, <>=</>, <>{pp((data.umfang - 2 * data.länge) / 4)}</>],
+              [
+                <>
+                  <InlineMath math="x" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={String(xVal)} />
+                </>,
+              ],
             ])}
-            <p>Die Länge beträgt x = {pp((data.umfang - 2 * data.länge) / 4)} cm.</p>
+            <p>
+              Die Länge beträgt <InlineMath math={`x=${xVal}`} /> cm.
+            </p>
           </>
         )
       },
     },
     {
       points: 2,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
         return (
-          <>
-            <p>
-              Nun soll x = {data.x} cm sein. Berechnen Sie die Höhe und geben
-              Sie das Ergebnis als Wurzel an.
-            </p>
-          </>
+          <p>
+            Nun soll <InlineMath math={`x=${data.x}\\,\\text{cm}`} /> sein.
+            Berechnen Sie die Höhe und geben Sie das Ergebnis als Wurzel an.
+          </p>
         )
       },
       solution({ data }) {
+        const sum = data.x * data.x * 2
         return (
           <>
-            <p>
-              Im rechtwinkligen Dreieck können wir h mit dem Satz des Pythagoras
-              berechnen:
-            </p>
+            <p>Im rechtwinkligen Dreieck gilt der Satz des Pythagoras:</p>
             {buildEquation([
-              [<>h²</>, <>=</>, <>x² + x²</>],
               [
-                '',
                 <>
-                  {' '}
+                  <InlineMath math="h^{2}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math="x^{2}+x^{2}" />
+                </>,
+              ],
+              [
+                <></>,
+                <>
                   <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                    <span className="inline-block scale-y-[1.5]">↓</span>
                   </Color4>
                 </>,
                 <>
                   <Color4>
                     <span style={{ fontSize: 'small' }}>
-                      Länge für x einsetzen
+                      Wert für x einsetzen
                     </span>
                   </Color4>
                 </>,
               ],
               [
-                <>h²</>,
-                <>=</>,
                 <>
-                  {data.x}² + {data.x}²
+                  <InlineMath math="h^{2}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${data.x}^{2}+${data.x}^{2}`} />
                 </>,
               ],
               [
-                <>h²</>,
-                <>=</>,
                 <>
-                  {data.x * data.x} + {data.x * data.x}
+                  <InlineMath math="h^{2}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${data.x * data.x}+${data.x * data.x}`} />
                 </>,
               ],
-              [<>h²</>, <>=</>, <>{data.x * data.x * 2}</>, <>| √</>],
-              [<>h</>, <>=</>, <>{buildSqrt(data.x * data.x * 2)}</>],
+              [
+                <>
+                  <InlineMath math="h^{2}" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${sum}`} />
+                </>,
+              ],
+              [
+                <>
+                  <InlineMath math="h" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`\\sqrt{${sum}}`} />
+                </>,
+              ],
             ])}
           </>
         )
@@ -187,87 +251,69 @@ export const exercise3150: Exercise<DATA> = {
     },
     {
       points: 1,
-      intro({ data }) {
+      intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
-          <>
-            <p>
-              Bestimmen Sie einen Term, der x und h enthält und mit dem die
-              Fläche dieser Figur berechnet werden kann.
-            </p>
-          </>
+          <p>
+            Bestimmen Sie einen Term, der <InlineMath math="x" /> und{' '}
+            <InlineMath math="h" /> enthält und mit dem die Fläche dieser Figur
+            berechnet werden kann.
+          </p>
         )
       },
+      // --- Lösung Teil 3 (Flächenterm in x und h) ---
       solution({ data }) {
         return (
           <>
             <p>
               Die Fläche setzt sich aus einem Rechteck in der Mitte und zwei
-              Dreiecken zusammen.
+              Dreiecken zusammen. Die beiden Dreiecke ergeben zusammen ein
+              Quadrat mit der Seitenlänge <InlineMath math="x" />.
             </p>
-            <p>
-              Beachte, dass die Dreiecke zusammengesetzt ein Quadrat mit der
-              Seitenlänge x ergeben.
-            </p>
-            <svg viewBox="0 0 328 260">
-              <image
-                href="/content/BW_2BFS/300_2.png"
-                height="230"
-                width="328"
-              />
-              <text
-                x={70}
-                y={195}
-                fontSize={20}
-                textAnchor="right"
-                stroke="black"
-              >
-                {data.länge} cm
-              </text>
-              <text
-                x={210}
-                y={55}
-                fontSize={20}
-                textAnchor="right"
-                stroke="black"
-              >
-                {data.länge} cm
-              </text>
-            </svg>
             {buildEquation([
               [
-                '',
+                <></>,
                 <>
-                  {' '}
                   <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                    <span className="inline-block scale-y-[1.5]">↓</span>
                   </Color4>
                 </>,
                 <>
                   <Color4>
                     <span style={{ fontSize: 'small' }}>
-                      Fläche der zwei grünen Dreiecke und ein oranges Rechteck
+                      Fläche: zwei Dreiecke + Rechteck
                     </span>
                   </Color4>
                 </>,
               ],
               [
-                <>A</>,
-                <>=</>,
                 <>
-                  <Color2>{buildInlineFrac(<>x · x</>, <>2</>)}</Color2> +{' '}
-                  <Color3>{data.länge} · h</Color3> +{' '}
-                  <Color2>{buildInlineFrac(<>x · x</>, <>2</>)}</Color2>
+                  <InlineMath math="A" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <Color2>
+                    <InlineMath math="\dfrac{x\cdot x}{2}" />
+                  </Color2>
+                  <span> + </span>
+                  <Color3>
+                    <InlineMath math={`${data.länge} \\cdot  h`} />
+                  </Color3>
+                  <span> + </span>
+                  <Color2>
+                    <InlineMath math="\dfrac{x\cdot x}{2}" />
+                  </Color2>
                 </>,
               ],
               [
-                '',
+                <></>,
                 <>
-                  {' '}
                   <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
+                    <span className="inline-block scale-y-[1.5]">↓</span>
                   </Color4>
                 </>,
                 <>
@@ -277,19 +323,41 @@ export const exercise3150: Exercise<DATA> = {
                 </>,
               ],
               [
-                <>A</>,
-                <>=</>,
                 <>
-                  <Color2>{buildInlineFrac(<>x²</>, <>2</>)}</Color2> +{' '}
-                  <Color3>{data.länge} · h</Color3> +{' '}
-                  <Color2>{buildInlineFrac(<>x²</>, <>2</>)}</Color2>
+                  <InlineMath math="A" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <Color2>
+                    <InlineMath math="\dfrac{x^{2}}{2}" />
+                  </Color2>
+                  <span> + </span>
+                  <Color3>
+                    <InlineMath math={`${data.länge}\\cdot h`} />
+                  </Color3>
+                  <span> + </span>
+                  <Color2>
+                    <InlineMath math="\dfrac{x^{2}}{2}" />
+                  </Color2>
                 </>,
               ],
               [
-                <>A</>,
-                <>=</>,
                 <>
-                  <Color2>x²</Color2> + <Color3>{data.länge} · h</Color3>
+                  <InlineMath math="A" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <Color2>
+                    <InlineMath math="x^{2}" />
+                  </Color2>
+                  <span> + </span>
+                  <Color3>
+                    <InlineMath math={`${data.länge}\\cdot h`} />
+                  </Color3>
                 </>,
               ],
             ])}
