@@ -168,14 +168,14 @@ export const exercise3053: Exercise<DATA> = {
     curves: [
       { a: -2, c: 2, name: 'p1', label: 'K₁' },
       { a: 2, c: -1, name: 'p2', label: 'K₂' },
-      { a: -1, c: -1, name: 'p3', label: 'K₃' },
+      { a: -2, c: -1, name: 'p3', label: 'K₃' },
       { a: 0.5, c: 2, name: 'p4', label: 'K₄' },
     ],
     equations: [
-      { a: -1, c: -1, name: 'p1' },
-      { a: 0.5, c: 2, name: 'p2' },
-      { a: -2, c: 2, name: 'p3' },
-      { a: 2, c: -1, name: 'p4' },
+      { a: -2, c: 2, name: 'p1' },
+      { a: 2, c: -1, name: 'p2' },
+      { a: -2, c: -1, name: 'p3' },
+      { a: 0.5, c: 2, name: 'p4' },
     ],
     mapping: { p1: 'K₃', p2: 'K₄', p3: 'K₁', p4: 'K₂' },
     a_b: 1,
@@ -196,7 +196,7 @@ export const exercise3053: Exercise<DATA> = {
           <>
             Der Schnittpunkt mit der <InlineMath math="y" />
             -Achse liegt bei (
-            <InlineMath math="0" /> | <InlineMath math="3" />
+            <InlineMath math="3" /> | <InlineMath math="0" />
             ).
           </>
         ),
@@ -205,11 +205,11 @@ export const exercise3053: Exercise<DATA> = {
       {
         text: (
           <>
-            Bei <InlineMath math="x=-1" /> und <InlineMath math="y=2" /> liegt
+            Bei <InlineMath math="x=1" /> und <InlineMath math="y=2" /> liegt
             der Scheitelpunkt.
           </>
         ),
-        truth: true,
+        truth: false,
       },
       {
         text: (
