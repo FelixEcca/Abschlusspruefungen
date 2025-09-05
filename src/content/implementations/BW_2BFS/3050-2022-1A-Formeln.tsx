@@ -195,19 +195,10 @@ export const exercise3050: Exercise<DATA> = {
                   <InlineMath math="\text{gesuchte Jahre}" />
                 </>,
                 <>
-                  <InlineMath math="=" />
+                  <InlineMath math=":" />
                 </>,
                 <>
-                  <InlineMath math={`${data.ziel} - ${bJetzt}`} />
-                </>,
-              ],
-              [
-                <></>,
-                <>
-                  <InlineMath math="=" />
-                </>,
-                <>
-                  <InlineMath math={`${jahre}`} />
+                  <InlineMath math={`${data.ziel} - ${bJetzt} = ${jahre}`} />
                 </>,
               ],
             ])}
