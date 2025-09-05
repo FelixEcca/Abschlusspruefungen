@@ -51,7 +51,7 @@ export const exercise3208: Exercise<DATA> = {
 
     // --- K2: Normalparabel in Scheitelform ---
     // "Normalparabel" -> Leitkoeffizient = +1
-    const h = rng.randomIntBetween(-2, 2) // Scheitel x-Richtung
+    const h = rng.randomIntBetween(1, 4) // Scheitel x-Richtung
     const k = rng.randomIntBetween(-4, 2) // Scheitel y-Richtung
     const y2 = xs.map(x => (x - h) ** 2 + k)
 

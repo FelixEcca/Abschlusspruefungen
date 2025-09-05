@@ -59,7 +59,7 @@ export const exercise3203: Exercise<DATA> = {
     c1: 3,
     m2: -1,
     b2: 3,
-    s3: -3,
+    s3: 3,
     k3: 0,
     distractorType: 'line',
     dm: 2,

@@ -103,10 +103,7 @@ export const exercise3205: Exercise<DATA> = {
           <InlineMath math={`d=${data.d}\\,\\text{m}`} />. Er hat ein
           kegelförmiges Dach mit der Höhe{' '}
           <InlineMath math={`h_D=${data.hD}\\,\\text{m}`} />. <br></br>Für das
-          Dach wurden{' '}
-          <InlineMath
-            math={`A_{\\text{gel}}=${data.deliveredA}\\,\\text{m}^2`}
-          />{' '}
+          Dach wurden <InlineMath math={`${data.deliveredA}\\,\\text{m}^2`} />{' '}
           Ziegel geliefert.
         </p>
 
@@ -119,6 +116,65 @@ export const exercise3205: Exercise<DATA> = {
             width="328"
             height="250"
           />
+          {/* Durchmesser d */}
+
+          <text x={65} y={245} fontSize={16} textAnchor="middle" fill="black">
+            d = {data.d} m
+          </text>
+          <text x={250} y={245} fontSize={16} textAnchor="middle" fill="black">
+            d = {data.d} m
+          </text>
+
+          {/* Höhe Turm hz */}
+
+          <text
+            x={150}
+            y={20}
+            fontSize={16}
+            textAnchor="end"
+            fill="black "
+            transform="rotate(-90 195 70)"
+          >
+            h = {data.hz} m
+          </text>
+          <text
+            x={150}
+            y={198}
+            fontSize={16}
+            textAnchor="end"
+            fill="black "
+            transform="rotate(-90 195 70)"
+          >
+            h = {data.hz} m
+          </text>
+
+          {/* Höhe Dach hD */}
+
+          <text
+            x={245}
+            y={20}
+            fontSize={16}
+            textAnchor="end"
+            fill="black"
+            transform="rotate(-90 195 70)"
+          >
+            hD = {data.hD} m
+          </text>
+
+          {/* Marker definitions for arrows */}
+          <defs>
+            <marker
+              id="arrow"
+              markerWidth="10"
+              markerHeight="10"
+              refX="8"
+              refY="5"
+              orient="auto"
+              markerUnits="strokeWidth"
+            >
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+            </marker>
+          </defs>
         </svg>
       </div>
     )
