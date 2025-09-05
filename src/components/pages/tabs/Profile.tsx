@@ -98,8 +98,7 @@ export function Profile() {
             <IonList lines="none">
               <IonItem>
                 <IonLabel>
-                  Aufgaben insgesamt:
-                  <b>{total_all}</b>
+                  Aufgaben insgesamt: <b>{total_all}</b>
                 </IonLabel>
               </IonItem>
               <IonItem>

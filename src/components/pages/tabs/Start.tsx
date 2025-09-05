@@ -213,7 +213,7 @@ export function Start() {
                 </span>
               </div>
             </div>
-            <div className="h-4" />
+            <div className="h-3" />
             <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
               <div>
                 🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
