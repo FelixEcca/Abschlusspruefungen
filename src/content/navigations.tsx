@@ -3196,17 +3196,241 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'BW - 2BFS',
     topics: [
       {
-        title: 'TestTopic',
+        title: 'Parabeln',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'TestSkill',
-            skillExercises: [
-              {
-                id: 3150,
-              },
-            ],
+            name: 'Scheitel ablesen',
+            skillExercises: [{ id: 4000 }],
+          },
+          {
+            name: 'Wertetabelle',
+            skillExercises: [{ id: 4001 }],
+          },
+          {
+            name: 'Scheitelpunktform ↔ Normalform umformen',
+            skillExercises: [{ id: 4002 }],
+          },
+          {
+            name: 'Parabel aus Punkten',
+            skillExercises: [{ id: 4003 }],
+          },
+          {
+            name: 'Streckung/Spiegelung/Verschiebung',
+            skillExercises: [{ id: 4004 }],
+          },
+          {
+            name: 'Nullstellen & y-Achsenabschnitt am Graphen',
+            skillExercises: [{ id: 4005 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Geraden',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Steigung & y-Achsenabschnitt bestimmen',
+            skillExercises: [{ id: 4100 }],
+          },
+          {
+            name: 'Geradengleichung aus zwei Punkten',
+            skillExercises: [{ id: 4101 }],
+          },
+          {
+            name: 'Punkt-Steigungsform / Normalform',
+            skillExercises: [{ id: 4102 }],
+          },
+          {
+            name: 'Parallel / Senkrecht',
+            skillExercises: [{ id: 4103 }],
+          },
+          {
+            name: 'Schnittpunkt zweier Geraden',
+            skillExercises: [{ id: 4104 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Gleichungen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Gleichungen lösen',
+            skillExercises: [{ id: 4200 }],
+          },
+          {
+            name: 'Klammern & Ausmultiplizieren',
+            skillExercises: [{ id: 4201 }],
+          },
+          {
+            name: 'Bruchgleichungen',
+            skillExercises: [{ id: 4202 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Quadratische Gleichungen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'pq-Formel',
+            skillExercises: [{ id: 4300 }],
+          },
+          {
+            name: 'Nullstellen',
+            skillExercises: [{ id: 4301 }],
+          },
+          {
+            name: 'Quadratische Ergänzung',
+            skillExercises: [{ id: 4302 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Terme',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Terme vereinfachen & ausmultiplizieren',
+            skillExercises: [{ id: 4400 }],
+          },
+          {
+            name: 'Binomische Formeln',
+            skillExercises: [{ id: 4401 }],
+          },
+          {
+            name: 'Ausklammern',
+            skillExercises: [{ id: 4402 }],
+          },
+          {
+            name: 'Potenzen',
+            skillExercises: [{ id: 4403 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Prozent und Zins',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Prozentrechnung',
+            skillExercises: [{ id: 4500 }],
+          },
+          {
+            name: 'Prozentuale Zu-/Abnahme',
+            skillExercises: [{ id: 4501 }],
+          },
+          {
+            name: 'Zinsrechnung',
+            skillExercises: [{ id: 4502 }],
+          },
+
+          {
+            name: 'Dreisatz',
+            skillExercises: [{ id: 4503 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Figuren',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Umfang & Fläche',
+            skillExercises: [{ id: 4600 }],
+          },
+
+          {
+            name: 'Winkelsätze ',
+            skillExercises: [{ id: 4601 }],
+          },
+          {
+            name: 'Satz des Pythagoras',
+            skillExercises: [{ id: 4602 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Körper',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Quader/Prisma',
+            skillExercises: [{ id: 4700 }],
+          },
+          {
+            name: 'Zylinder/Kegel/Kugel',
+            skillExercises: [{ id: 4701 }],
+          },
+
+          {
+            name: 'Zusammengesetzte Körper',
+            skillExercises: [{ id: 4702 }],
+          },
+        ],
+      },
+
+      {
+        title: 'LGS',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Additions- & Einsetzungsverfahren',
+            skillExercises: [{ id: 4800 }],
+          },
+          {
+            name: 'Gleichsetzungsverfahren',
+            skillExercises: [{ id: 4801 }],
+          },
+
+          {
+            name: 'Schnittpunkt von Geraden (als LGS)',
+            skillExercises: [{ id: 4802 }],
+          },
+        ],
+      },
+
+      {
+        title: 'Daten und Zufall',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Diagramme',
+            skillExercises: [{ id: 4900 }],
+          },
+          {
+            name: 'Mittelwert/Median/Spannweite',
+            skillExercises: [{ id: 4901 }],
+          },
+          {
+            name: 'Wahrscheinlichkeit',
+            skillExercises: [{ id: 4902 }],
+          },
+          {
+            name: 'Absolute/relative Häufigkeit',
+            skillExercises: [{ id: 4903 }],
+          },
+          {
+            name: 'Baumdiagramm & Pfadregeln',
+            skillExercises: [{ id: 4904 }],
           },
         ],
       },
@@ -3215,6 +3439,7 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+
   5: {
     longTitle: 'Baden-Württemberg - 1BK2T',
     shortTitle: 'BW - 1BK2T Physik',

@@ -10,17 +10,82 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonButton,
+  IonBadge,
 } from '@ionic/react'
+import { useHistory } from 'react-router'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { navigationData } from '@/content/navigations'
+import { setupExercise } from '../../exercise-view/state/actions'
 
-function topicRouteIndex(exam: number, i: number) {
-  return exam == 1 ? i + 1 : exam == 2 ? i + 101 : i + 201
+type PageRef = { index: string; intro?: string[] }
+type SkillEx =
+  | number
+  | {
+      id: number
+      pages?: PageRef[]
+    }
+
+/** Alle Aufgaben eines Themas „flachziehen“. Nimmt skillGroups UND optional topic.exercises. */
+function collectExercises(topic: any) {
+  const out: { id: number; pages?: PageRef[]; group?: string }[] = []
+
+  // 1) Aus skillGroups[].skillExercises
+  const groups = Array.isArray(topic?.skillGroups) ? topic.skillGroups : []
+  groups.forEach((g: any) => {
+    const sx = Array.isArray(g?.skillExercises) ? g.skillExercises : []
+    sx.forEach((it: SkillEx) => {
+      if (typeof it === 'number') out.push({ id: it, group: g?.name })
+      else if (it && typeof it.id === 'number')
+        out.push({ id: it.id, pages: it.pages, group: g?.name })
+    })
+  })
+
+  // 2) Optional: top-level topic.exercises (Zahlen oder {id,pages})
+  const top = Array.isArray(topic?.exercises) ? topic.exercises : []
+  top.forEach((it: any) => {
+    if (typeof it === 'number') out.push({ id: it })
+    else if (it && typeof it.id === 'number')
+      out.push({ id: it.id, pages: it.pages })
+  })
+
+  return out
 }
 
 export function Topics() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const topics = navigationData[exam]?.topics ?? []
+  const history = useHistory()
+
+  const startExercise = (
+    id: number,
+    topicTitle: string,
+    group?: string,
+    pages?: PageRef[],
+  ) => {
+    const name = group ?? topicTitle
+    setupExercise(
+      id,
+      name,
+      pages?.map(p => ({
+        ...p,
+        intro: p.intro as ('global' | 'local' | 'skill')[] | undefined,
+      })),
+    )
+    history.push(
+      '/exercise/' +
+        id +
+        (pages
+          ? '#' +
+            encodeURIComponent(
+              JSON.stringify({
+                name,
+                pages,
+              }),
+            )
+          : ''),
+    )
+  }
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -30,81 +95,89 @@ export function Topics() {
         </IonToolbar>
       </IonHeader>
 
-      {/* Seitenhintergrund hier pro Seite setzen */}
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
         <div className="mx-3 mt-4">
           <IonAccordionGroup expand="inset">
-            {topics.map((topic, idx) => {
-              const groups = topic?.skillGroups ?? []
-              const groupCount = groups.length
-              // Fallback-Namen, falls topic.name fehlt
-              const topicName =
-                (topic as any)?.name ??
-                (topic as any)?.title ??
-                `Thema ${idx + 1}`
+            {topics.map((topic: any, idx: number) => {
+              const title = topic?.title ?? topic?.name ?? `Thema ${idx + 1}`
+              const exercises = collectExercises(topic)
 
               return (
                 <IonAccordion key={idx} value={String(idx)}>
-                  {/* Header klappt nur auf/zu – kein Routing */}
+                  {/* Header */}
                   <IonItem slot="header" className="bg-white">
                     <IonLabel>
-                      <div className="font-medium">{topicName}</div>
-                      {groupCount > 0 && (
-                        <div className="text-sm text-gray-500">
-                          {groupCount} Unterthemen
-                        </div>
-                      )}
+                      <div className="font-medium">{title}</div>
+                      <div className="text-sm text-gray-500">
+                        {exercises.length > 0
+                          ? `${exercises.length} Aufgaben`
+                          : 'Keine Aufgaben hinterlegt'}
+                      </div>
                     </IonLabel>
                   </IonItem>
 
-                  {/* Inhalt: Unterthemen als Cards mit Schatten */}
-                  <div slot="content" className="p-2 space-y-3">
-                    {groupCount === 0 ? (
-                      <div className="text-sm text-gray-200 p-2">
-                        Keine Unterthemen vorhanden.
+                  {/* Inhalt: direkt Aufgaben-Liste */}
+                  <div slot="content" className="p-2">
+                    {exercises.length === 0 ? (
+                      <div className="text-sm text-gray-600 p-2">
+                        Für dieses Thema sind noch keine Aufgaben vorhanden.
                       </div>
                     ) : (
-                      groups.map((g: any, gi: number) => {
-                        const groupName = g?.name ?? `Unterthema ${gi + 1}`
-                        const skills = Array.isArray(g?.skills) ? g.skills : []
+                      <IonList lines="none">
+                        {exercises.map((ex, i) => {
+                          const hasPages = ex.pages && ex.pages.length
+                          return (
+                            <IonItem
+                              key={`${ex.id}-${i}`}
+                              className="bg-white rounded-xl shadow-md mb-1"
+                            >
+                              <IonLabel>
+                                <div className="flex items-center justify-between">
+                                  <div className="font-medium">{ex.group}</div>
+                                </div>
 
-                        return (
-                          <div
-                            key={gi}
-                            className="p-3 bg-white rounded-xl shadow-md border border-gray-100"
-                          >
-                            <div className="font-semibold mb-1">
-                              {groupName}
-                            </div>
-
-                            {skills.length > 0 ? (
-                              <IonList lines="none">
-                                {skills.map((skill: any, si: number) => {
-                                  const skillName =
-                                    typeof skill === 'string'
-                                      ? skill
-                                      : skill?.name ?? `Skill ${si + 1}`
-                                  return (
-                                    <div
-                                      key={si}
-                                      className="text-sm text-gray-100 py-1 px-2 rounded hover:bg-gray-50 cursor-default"
+                                {hasPages ? (
+                                  <div className="mt-2 flex flex-wrap gap-2">
+                                    {ex.pages!.map((p, pi) => (
+                                      <IonButton
+                                        key={pi}
+                                        size="small"
+                                        color="primary"
+                                        fill="outline"
+                                        onClick={() =>
+                                          startExercise(
+                                            ex.id,
+                                            title,
+                                            ex.group,
+                                            [p],
+                                          )
+                                        }
+                                      >
+                                        Teil&nbsp;{p.index.toUpperCase()}
+                                      </IonButton>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <IonButton
+                                      size="small"
+                                      color="primary"
+                                      onClick={() =>
+                                        startExercise(ex.id, title, ex.group)
+                                      }
                                     >
-                                      {skillName}
-                                    </div>
-                                  )
-                                })}
-                              </IonList>
-                            ) : (
-                              <div className="text-sm text-gray-600">
-                                Keine Einzel-Skills gelistet.
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })
+                                      Starten
+                                    </IonButton>
+                                  </div>
+                                )}
+                              </IonLabel>
+                            </IonItem>
+                          )
+                        })}
+                      </IonList>
                     )}
                   </div>
                 </IonAccordion>

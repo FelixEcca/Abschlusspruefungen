@@ -120,6 +120,45 @@ import { exercise3209 } from './implementations/BW_2BFS/3209-2025-3C-Quadratisch
 import { exercise3210 } from './implementations/BW_2BFS/3210-2025-4A-LGS'
 import { exercise3211 } from './implementations/BW_2BFS/3211-2025-4B-Parabeln'
 import { exercise3212 } from './implementations/BW_2BFS/3212-2025-4C-Autokauf'
+import { exercise4000 } from './implementations/Training/4000'
+import { exercise4001 } from './implementations/Training/4001'
+import { exercise4002 } from './implementations/Training/4002'
+import { exercise4003 } from './implementations/Training/4003'
+import { exercise4004 } from './implementations/Training/4004'
+import { exercise4005 } from './implementations/Training/4005'
+import { exercise4100 } from './implementations/Training/4100'
+import { exercise4101 } from './implementations/Training/4101'
+import { exercise4102 } from './implementations/Training/4102'
+import { exercise4103 } from './implementations/Training/4103'
+import { exercise4104 } from './implementations/Training/4104'
+import { exercise4200 } from './implementations/Training/4200'
+import { exercise4201 } from './implementations/Training/4201'
+import { exercise4202 } from './implementations/Training/4202'
+import { exercise4300 } from './implementations/Training/4300'
+import { exercise4301 } from './implementations/Training/4301'
+import { exercise4302 } from './implementations/Training/4302'
+import { exercise4400 } from './implementations/Training/4400'
+import { exercise4401 } from './implementations/Training/4401'
+import { exercise4402 } from './implementations/Training/4402'
+import { exercise4403 } from './implementations/Training/4403'
+import { exercise4500 } from './implementations/Training/4500'
+import { exercise4501 } from './implementations/Training/4501'
+import { exercise4502 } from './implementations/Training/4502'
+import { exercise4503 } from './implementations/Training/4503'
+import { exercise4600 } from './implementations/Training/4600'
+import { exercise4601 } from './implementations/Training/4601'
+import { exercise4602 } from './implementations/Training/4602'
+import { exercise4700 } from './implementations/Training/4700'
+import { exercise4701 } from './implementations/Training/4701'
+import { exercise4702 } from './implementations/Training/4702'
+import { exercise4800 } from './implementations/Training/4800'
+import { exercise4801 } from './implementations/Training/4801'
+import { exercise4802 } from './implementations/Training/4802'
+import { exercise4900 } from './implementations/Training/4900'
+import { exercise4901 } from './implementations/Training/4901'
+import { exercise4902 } from './implementations/Training/4902'
+import { exercise4903 } from './implementations/Training/4903'
+import { exercise4904 } from './implementations/Training/4904'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -237,6 +276,45 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   3212: exercise3212,
   400: exercise400,
   401: exercise401,
+  4000: exercise4000,
+  4001: exercise4001,
+  4002: exercise4002,
+  4003: exercise4003,
+  4004: exercise4004,
+  4005: exercise4005,
+  4100: exercise4100,
+  4101: exercise4101,
+  4102: exercise4102,
+  4103: exercise4103,
+  4104: exercise4104,
+  4200: exercise4200,
+  4201: exercise4201,
+  4202: exercise4202,
+  4300: exercise4300,
+  4301: exercise4301,
+  4302: exercise4302,
+  4400: exercise4400,
+  4401: exercise4401,
+  4402: exercise4402,
+  4403: exercise4403,
+  4500: exercise4500,
+  4501: exercise4501,
+  4502: exercise4502,
+  4503: exercise4503,
+  4600: exercise4600,
+  4601: exercise4601,
+  4602: exercise4602,
+  4700: exercise4700,
+  4701: exercise4701,
+  4702: exercise4702,
+  4800: exercise4800,
+  4801: exercise4801,
+  4802: exercise4802,
+  4900: exercise4900,
+  4901: exercise4901,
+  4902: exercise4902,
+  4903: exercise4903,
+  4904: exercise4904,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
