@@ -3241,16 +3241,12 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4101 }],
           },
           {
-            name: 'Punkt-Steigungsform / Normalform',
+            name: 'Parallel / Senkrecht',
             skillExercises: [{ id: 4102 }],
           },
           {
-            name: 'Parallel / Senkrecht',
-            skillExercises: [{ id: 4103 }],
-          },
-          {
             name: 'Schnittpunkt zweier Geraden',
-            skillExercises: [{ id: 4104 }],
+            skillExercises: [{ id: 4103 }],
           },
         ],
       },

@@ -130,7 +130,7 @@ import { exercise4100 } from './implementations/Training/4100'
 import { exercise4101 } from './implementations/Training/4101'
 import { exercise4102 } from './implementations/Training/4102'
 import { exercise4103 } from './implementations/Training/4103'
-import { exercise4104 } from './implementations/Training/4104'
+
 import { exercise4200 } from './implementations/Training/4200'
 import { exercise4201 } from './implementations/Training/4201'
 import { exercise4202 } from './implementations/Training/4202'
@@ -286,7 +286,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4101: exercise4101,
   4102: exercise4102,
   4103: exercise4103,
-  4104: exercise4104,
+
   4200: exercise4200,
   4201: exercise4201,
   4202: exercise4202,
