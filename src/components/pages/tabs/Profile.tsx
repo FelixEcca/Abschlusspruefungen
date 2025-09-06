@@ -11,6 +11,8 @@ import {
   IonButton,
   IonText,
 } from '@ionic/react'
+import React from 'react'
+import { useHistory } from 'react-router'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -19,15 +21,68 @@ import { navigationData } from '@/content/navigations'
 import {
   useProfile,
   formatMs,
-  resetProfile, // ⬅️ neu: zum Löschen des Lernfortschritts
+  resetProfile,
 } from '../../../../store/progress-store'
-import React from 'react'
 import { exercisesData } from '@/content/exercises'
+import { SkillExercise } from '@/data/types'
+
+type FlatExercise = { id: number; group?: string }
+
+function flattenExercises(topic: any): FlatExercise[] {
+  const groups = Array.isArray(topic?.skillGroups) ? topic.skillGroups : []
+  const out: FlatExercise[] = []
+  groups.forEach((g: any) => {
+    const skills = Array.isArray(g?.skillExercises) ? g.skillExercises : []
+    skills.forEach((sx: SkillExercise | number) => {
+      if (typeof sx === 'number') {
+        out.push({ id: sx, group: g?.name })
+      } else if (sx && typeof (sx as any).id === 'number') {
+        out.push({ id: (sx as any).id, group: g?.name })
+      }
+    })
+  })
+  return out
+}
+
+function flattenAllExercises(topics: any[]): FlatExercise[] {
+  const acc: FlatExercise[] = []
+  topics.forEach(t => acc.push(...flattenExercises(t)))
+  return acc
+}
+
+function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 1 && idNum > 99) return false
+  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
+  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
+  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
+  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
+  return true
+}
 
 export function Profile() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const profile = useProfile()
 
+  // --- Prüfungsaufgaben (aus exercisesData) ---
+  const examIds = React.useMemo(
+    () =>
+      Object.keys(exercisesData)
+        .map(k => parseInt(k, 10))
+        .filter(id => passExamFilter(exam, id)),
+    [exam],
+  )
+  const examCount = examIds.length
+
+  // --- Trainingsaufgaben (aus navigationData[exam].topics) ---
+  const trainingCount = React.useMemo(() => {
+    const topics = navigationData[exam]?.topics ?? []
+    const flat = flattenAllExercises(topics)
+    // doppelte IDs vermeiden
+    const ids = Array.from(new Set(flat.map(f => f.id)))
+    return ids.length
+  }, [exam])
+
+  // --- Profil-Stats (bearbeitet/gelöst/markiert/Zeit) ---
   type ExerciseEntry = {
     solved?: boolean
     flagged?: boolean
@@ -35,27 +90,14 @@ export function Profile() {
     correct?: number
     timeMs?: number
   }
-  function passExamFilter(exam: number, idNum: number): boolean {
-    if (exam == 1 && idNum > 99) return false
-    if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
-    if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
-    if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
-    if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-    return true
-  }
   const entries: ExerciseEntry[] = Object.values(profile.exercises ?? {})
-  const total = entries.length
+  const workedOn = entries.length
   const solved = entries.filter(e => e.solved).length
   const flagged = entries.filter(e => e.flagged).length
   const totalTimeMs = profile.totalTimeMs ?? 0
-  const allIds = React.useMemo(
-    () =>
-      Object.keys(exercisesData)
-        .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
-    [exam],
-  )
-  const total_all = allIds.length
+
+  const totalAvailable = examCount + trainingCount
+
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -98,12 +140,15 @@ export function Profile() {
             <IonList lines="none">
               <IonItem>
                 <IonLabel>
-                  Aufgaben verfügbar: <b>{total_all + 36}</b>
+                  Aufgaben verfügbar: <b>{totalAvailable}</b>{' '}
+                  <span className="text-sm text-gray-500">
+                    ({examCount} Prüfung + {trainingCount} Training)
+                  </span>
                 </IonLabel>
               </IonItem>
               <IonItem>
                 <IonLabel>
-                  Bearbeitete Aufgaben: <b>{total}</b>
+                  Bearbeitete Aufgaben: <b>{workedOn}</b>
                 </IonLabel>
               </IonItem>
               <IonItem>
@@ -113,7 +158,7 @@ export function Profile() {
               </IonItem>
               <IonItem>
                 <IonLabel>
-                  Markiert (Blitz, gelb): <b>{flagged}</b>
+                  Markiert (gelb): <b>{flagged}</b>
                 </IonLabel>
               </IonItem>
               <IonItem>
