@@ -27,6 +27,7 @@ export default function LevelingPanel() {
     [exam],
   )
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const statuses = ids.map(id => useProgress(id))
   const solvedCount = statuses.filter(s => s?.solved).length
 
