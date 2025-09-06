@@ -93,12 +93,12 @@ export function Profile() {
           </div>
 
           {/* Statistik */}
-          <div className="shadow-md bg-white rounded-xl border p-3">
+          <div className="shadow-md bg-sky-50 rounded-xl border p-3">
             <div className="font-semibold mb-2">Dein Lernfortschritt</div>
             <IonList lines="none">
               <IonItem>
                 <IonLabel>
-                  Aufgaben insgesamt: <b>{total_all}</b>
+                  Aufgaben verfügbar: <b>{total_all + 36}</b>
                 </IonLabel>
               </IonItem>
               <IonItem>
@@ -125,7 +125,7 @@ export function Profile() {
           </div>
 
           {/* Fortschritt löschen */}
-          <div className="shadow-md bg-white rounded-xl border p-3 space-y-3">
+          <div className="shadow-md bg-sky-50 rounded-xl border p-3 space-y-3">
             <div className="font-semibold">Fortschritt löschen</div>
             <IonText color="medium" className="text-sm block">
               Löscht alle lokal gespeicherten Lernstände auf diesem Gerät.

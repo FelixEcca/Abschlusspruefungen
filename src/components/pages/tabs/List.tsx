@@ -1,3 +1,4 @@
+import pen from '/assets/simple-document-icon-paper-sheet-and-pencil-png.png'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { exercisesData } from '@/content/exercises'
 import {
@@ -110,7 +111,18 @@ export function List() {
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
-        <div className="mx-3 mt-8 bg-white rounded-md pt-2 px-2 pb-2">
+        <div className="flex justify-between mb-4"></div>
+        <div className="mx-3 rounded-xl border bg-sky-50 shadow-xl p-3">
+          <div className="flex items-center ">
+            <img src={pen.src} alt="Pen" className="w-10 h-10 rounded-xl " />
+            <span className="flex-1 text-xs">
+              Lege dir Stift, Papier, Taschenrechner und Geodreieck bereit.
+              Lasse dir Zeit und bereite dich mit diesen originalen
+              Prüfungsaufgaben vor.
+            </span>
+          </div>
+        </div>
+        <div className="mx-3 mt-4 bg-sky-50 rounded-md pt-2 px-2 pb-2">
           <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
           <IonAccordionGroup expand="inset">

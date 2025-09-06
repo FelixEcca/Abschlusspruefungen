@@ -1,20 +1,40 @@
 import * as React from 'react'
-import { useProfile } from '../../../store/progress-store'
 import { computeLevelProgress } from './leveling'
+import { exercisesData } from '@/content/exercises'
+import { PlayerProfileStore } from '../../../store/player-profile-store'
+import { useProgress } from '../../../store/progress-store'
+
+// gleiche Filter-Logik wie im Rest der App
+function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 1 && idNum > 99) return false
+  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
+  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
+  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
+  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
+  return true
+}
 
 export default function LevelingPanel() {
-  const profile = useProfile()
-  // solvedCount: Anzahl gelöster Aufgaben (nur true-Flags zählen)
-  const solvedCount = React.useMemo(() => {
-    const entries = Object.values(profile.exercises ?? {})
-    return entries.filter((e: any) => !!e?.solved).length
-  }, [profile.exercises])
+  // aktuelles Exam
+  const exam = PlayerProfileStore.useState(s => s.currentExam)
+
+  // alle IDs für das aktuelle Exam (stabil via memo)
+  const ids = React.useMemo(
+    () =>
+      Object.keys(exercisesData)
+        .map(k => parseInt(k, 10))
+        .filter(id => passExamFilter(exam, id)),
+    [exam],
+  )
+
+  const statuses = ids.map(id => useProgress(id))
+  const solvedCount = statuses.filter(s => s?.solved).length
 
   const { level, pctWithin, remainingToNext, nextLevel } =
     computeLevelProgress(solvedCount)
 
   return (
-    <div className="w-full rounded-xl border bg-sky-100/70 shadow-xl p-5">
+    <div className="w-full rounded-xl border bg-white shadow-xl p-5">
       <div className="text-base font-semibold mb-2">Level {level} ✨</div>
 
       <div
@@ -29,11 +49,12 @@ export default function LevelingPanel() {
           style={{ width: `${Math.round((pctWithin ?? 0) * 100)}%` }}
         />
       </div>
+
       <div className="text-xs text-gray-700 mt-2 tabular-nums">
         {level < 6 ? (
           <>
             Löse <b>{remainingToNext}</b>{' '}
-            {remainingToNext == 1 ? 'Aufgabe' : 'Aufgaben'}, um in Level{' '}
+            {remainingToNext === 1 ? 'Aufgabe' : 'Aufgaben'}, um in Level{' '}
             <b>{nextLevel}</b> zu kommen.
           </>
         ) : (

@@ -3,7 +3,7 @@ import { exercisesData } from '@/content/exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 
 // kumulative Prozentziele: 0→1:0%, 1→2:+5%, 2→3:+10%, 3→4:+15%, 4→5:+20%, 5→6:+25%
-const CUM_TARGETS = [0, 0.01,0.02,0.03,0.04, 0.10, 0.15, 0.20, 0.25, 0.25] // entspricht Level 1..6
+const CUM_TARGETS = [0, 0.02,0.02,0.03,0.04, 0.10, 0.15, 0.20, 0.25, 0.25] // entspricht Level 1..6
 
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false

@@ -1,6 +1,8 @@
 // src/components/pages/tabs/Participate.tsx
 import * as React from 'react'
 import { useHistory } from 'react-router'
+import streak from '/assets/10760660.png'
+import medal from '/assets/7937682.png'
 import {
   IonPage,
   IonHeader,
@@ -142,7 +144,7 @@ export function Start() {
         <div className="mx-3 mt-4 space-y-6">
           {/* Begrüßung */}
 
-          <div className="shadow-md rounded-xl border p-3 bg-white">
+          <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             {editingName ? (
               <>
                 <div className="font-semibold mb-1">Hallo! Wie heißt du?</div>
@@ -184,46 +186,57 @@ export function Start() {
             ) : (
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-lg">
+                  <div className="text-3xl">
                     👋 Hallo{name ? `, ${name}` : ''}!
                   </div>
                   <div className="text-sm text-gray-600">
-                    Schön, dich wiederzusehen. Viel Erfolg beim Üben!
+                    Schön, dich wiederzusehen. <br></br>Viel Erfolg beim Üben!
                   </div>
                 </div>
-                <IonButton fill="clear" className="!text-sky-600 !font-medium">
-                  Bearbeiten
-                </IonButton>
               </div>
             )}
           </div>
 
           {/* Fortschritt */}
-          <div className="bg-white shadow-md rounded-xl border p-3 mt-6">
+          <div className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6">
             <div className="font-semibold mb-2">Dein Fortschritt</div>
             <div className="mt-4">
               <LevelPanel />
             </div>
             <div className="flex justify-between mb-3"></div>
-            <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
-              <div className="flex justify-between mb-1 ">
-                <span>Gelöste Prüfungsaufgaben insgesamt:</span>
-                <span className="text-right">
-                  <b>👏🏻 {solved}</b>
+            <div className="rounded-xl border bg-white shadow-xl p-6">
+              <div className="flex items-center ">
+                <img
+                  src={medal.src}
+                  alt="Medal"
+                  className="w-10 h-10 rounded-xl object-contain"
+                />
+                <span className="flex-1 text-center">
+                  Gelöste Prüfungsaufgaben:
+                </span>
+                <span className="flex-none text-right font-bold text-lg">
+                  {solved}
                 </span>
               </div>
             </div>
             <div className="h-3" />
-            <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
-              <div>
-                🔥 Aktuelle Streak: <b>{currentStreak}</b> Tag
-                {currentStreak === 1 ? '' : 'e'}
+            <div className="rounded-xl border bg-white shadow-xl p-6">
+              <div className="flex items-center gap-3">
+                <img
+                  src={streak.src}
+                  alt="Streak"
+                  className="w-10 h-10 rounded-xl object-contain"
+                />
+                <span>
+                  Aktuelle Streak: <b>{currentStreak}</b> Tag
+                  {currentStreak === 1 ? '' : 'e'}
+                </span>
               </div>
             </div>
           </div>
 
           {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
-          <div className="shadow-md rounded-xl border p-3 bg-white">
+          <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
               <div className="font-semibold">Zufällige Aufgabe</div>
