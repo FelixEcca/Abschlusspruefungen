@@ -52,7 +52,7 @@ function collectExercises(topic: any) {
   return out
 }
 
-export function Topics() {
+export function Training() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const topics = navigationData[exam]?.topics ?? []
   const history = useHistory()

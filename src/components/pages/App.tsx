@@ -11,20 +11,22 @@ import {
 } from '@ionic/react'
 import { Route, Redirect } from 'react-router-dom' // ⬅️ wichtig: react-router-dom!
 import {
+  analyticsOutline,
   gridOutline,
   homeOutline,
   menuOutline,
   person,
   personAdd,
   personOutline,
+  powerOutline,
 } from 'ionicons/icons'
 
 import { List } from './tabs/List'
 import { Search } from './tabs/Search'
 import { Start } from './tabs/Start'
 import { Profile } from './tabs/Profile'
-import { Topics } from './tabs/Topics' // neuer Tab
-import { faSmile } from '@fortawesome/free-solid-svg-icons'
+import { Training } from './tabs/Training' // neuer Tab
+import { faDumbbell, faSmile } from '@fortawesome/free-solid-svg-icons'
 // import { loadEmoji } from 'next/dist/compiled/@vercel/og/emoji'
 // import { faSmile } from '@fortawesome/free-solid-svg-icons'
 
@@ -39,7 +41,7 @@ export function App() {
 
         {/* Tabs-Routen – immer mit component={...} */}
         <Route exact path="/app/start" component={Start} />
-        <Route exact path="/app/topics" component={Topics} />
+        <Route exact path="/app/training" component={Training} />
         <Route exact path="/app/list" component={List} />
         <Route exact path="/app/search" component={Search} />
         <Route exact path="/app/profile" component={Profile} />
@@ -51,9 +53,9 @@ export function App() {
           <IonLabel>Start</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="tab-topics" href="/app/topics">
-          <IonIcon icon={gridOutline} />
-          <IonLabel>Themen</IonLabel>
+        <IonTabButton tab="tab-topics" href="/app/training">
+          <IonIcon icon={analyticsOutline} />
+          <IonLabel>Training</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="tab-list" href="/app/list">
