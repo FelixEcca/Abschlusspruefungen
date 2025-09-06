@@ -206,8 +206,8 @@ export function Start() {
             </div>
             <div className="flex justify-between mb-3"></div>
             <div className="rounded-xl border bg-sky-100 shadow-xl p-6">
-              <div className="flex justify-between mb-1">
-                <span>Gelöste Aufgaben insgesamt:</span>
+              <div className="flex justify-between mb-1 ">
+                <span>Gelöste Prüfungsaufgaben insgesamt:</span>
                 <span className="text-right">
                   <b>👏🏻 {solved}</b>
                 </span>

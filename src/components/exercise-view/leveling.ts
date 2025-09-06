@@ -3,7 +3,7 @@ import { exercisesData } from '@/content/exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 
 // kumulative Prozentziele: 0→1:0%, 1→2:+5%, 2→3:+10%, 3→4:+15%, 4→5:+20%, 5→6:+25%
-const CUM_TARGETS = [0, 0.05, 0.15, 0.30, 0.50, 0.75] // entspricht Level 1..6
+const CUM_TARGETS = [0, 0.01,0.02,0.03,0.04, 0.10, 0.15, 0.20, 0.25, 0.25] // entspricht Level 1..6
 
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false
@@ -22,7 +22,7 @@ export function getTotalExercisesForCurrentExam(): number {
 
 /** Immer definierte, NaN-freie Rückgabe */
 export function computeLevelProgress(solvedCount: number) {
-  const total = getTotalExercisesForCurrentExam()
+  const total = getTotalExercisesForCurrentExam()+39
   // Falls es (noch) keine Aufgaben im Exam filter gibt, so tun, als gäbe es 1 – verhindert NaN.
   const safeTotal = Math.max(1, total)
 

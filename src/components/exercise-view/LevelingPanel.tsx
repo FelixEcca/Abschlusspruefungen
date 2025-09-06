@@ -32,7 +32,8 @@ export default function LevelingPanel() {
       <div className="text-xs text-gray-700 mt-2 tabular-nums">
         {level < 6 ? (
           <>
-            Löse <b>{remainingToNext}</b> Aufgaben, um in Level{' '}
+            Löse <b>{remainingToNext}</b>{' '}
+            {remainingToNext == 1 ? 'Aufgabe' : 'Aufgaben'}, um in Level{' '}
             <b>{nextLevel}</b> zu kommen.
           </>
         ) : (
