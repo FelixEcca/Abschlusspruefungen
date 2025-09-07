@@ -62,26 +62,31 @@ export const exercise4601: Exercise<DATA> = {
     return (
       <>
         <p>
-          Gegeben ist ein rechtwinkliges Dreieck mit{' '}
-          <InlineMath math={`\\alpha=${alpha}^{\\circ}`} /> (am linken Fußpunkt).
-          Es ist genau <b>eine</b> Seitenlänge bekannt. Bestimme die gesuchte Größe.
+          Gegeben ist ein rechtwinkliges Dreieck, siehe Skizze.
+         
         </p>
-
+<p>Berechne die Länge von {
+          ask==='a'?'a':
+          ask==='b'?'b':
+          ask==='c'?'c':'β'
+        }.</p>
         {/* Skizze */}
         <svg viewBox="0 0 280 180" className="border rounded my-2">
           <polyline points={triSVG().base} fill="none" stroke="black" strokeWidth="2" />
           <text x="180" y="135" fontSize="12">α={alpha}°</text>
           {/* Seitenbeschriftung grob */}
-          <text x="140" y="160" fontSize="20">b</text>
-          <text x="0" y="100" fontSize="20" transform="rotate(-90 10,90)">a</text>
-          <text x="140" y="80" fontSize="20">c</text>
+          <text x="140" y="160" fontSize="20">
+            {givenSide === 'b' ? b : 'b'}
+          </text>
+          <text x="0" y="100" fontSize="20" transform="rotate(-90 10,90)">
+            {givenSide === 'a' ? a : 'a'}
+          </text>
+          <text x="140" y="80" fontSize="20">
+            {givenSide === 'c' ? c : 'c'}
+          </text>
         </svg>
 
-        <p>Gegeben: {labelsGiven}. Gesucht: <b>{
-          ask==='a'?'a ':
-          ask==='b'?'b ':
-          ask==='c'?'c ':'β'
-        }</b>.</p>
+        
       </>
     )
   },
