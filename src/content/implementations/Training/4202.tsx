@@ -10,7 +10,7 @@ interface D4202 {
 }
 
 export const exercise4202: Exercise<D4202> = {
-  title: 'Bruchgleichungen (mit Definitionsmenge)',
+  title: 'Bruchgleichungen',
   source: 'Training',
   useCalculator: false,
   duration: 9,

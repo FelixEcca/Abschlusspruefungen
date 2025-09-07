@@ -18,7 +18,7 @@ function toY(n: number) {
 }
 
 export const exercise4100: Exercise<DATA> = {
-  title: 'Gerade: Steigung und y-Achsenabschnitt ablesen',
+  title: 'Steigung und y-Achsenabschnitt ablesen',
   source: 'Training',
   useCalculator: false,
   duration: 6,

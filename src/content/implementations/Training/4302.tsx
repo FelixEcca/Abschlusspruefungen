@@ -11,7 +11,7 @@ interface D4302 {
 }
 
 export const exercise4302: Exercise<D4302> = {
-  title: 'Quadratische Ergänzung (Lücke füllen)',
+  title: 'Quadratische Ergänzung',
   source: 'Training',
   useCalculator: false,
   duration: 7,

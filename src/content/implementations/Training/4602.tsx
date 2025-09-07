@@ -80,9 +80,25 @@ export const exercise4602: Exercise<DATA> = {
         <br />
         <InlineMath math={einsetzen} />
         <br />
-        <InlineMath
-          math={`${sym}\\approx ${pp(Math.round(result * 100) / 100)}`}
-        />
+        {(() => {
+          // Helper to check for perfect squares
+          const isPerfectSquare = (n: number) => Number.isInteger(Math.sqrt(n))
+          // Helper to format the result as sqrt or integer
+          let value = 0
+          if (sym === 'c') value = a * a + b * b
+          else if (sym === 'b') value = c * c - a * a
+          else value = c * c - b * b
+
+          if (isPerfectSquare(value)) {
+        return (
+          <InlineMath math={`${sym} = ${Math.sqrt(value)}`} />
+        )
+          } else {
+        return (
+          <InlineMath math={`${sym} = \\sqrt{${value}}`} />
+        )
+          }
+        })()}
       </>
     )
   },

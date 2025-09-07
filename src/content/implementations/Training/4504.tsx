@@ -1,21 +1,28 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 
-type Rel = 'prop' | 'antiprop' | 'quad'
+type Rel = 'prop' | 'antiprop' 
 interface DATA {
   rel: Rel
   rows: { x: number; y: number }[]
 }
 
+/** erzeugt eine strikte, aufsteigend sortierte Menge ganzer x-Werte */
+function uniqueSortedXs(rng: any, len = 4, min = 1, max = 9) {
+  const set = new Set<number>()
+  while (set.size < len) set.add(rng.randomIntBetween(min, max))
+  return Array.from(set).sort((a, b) => a - b)
+}
+
 function makeTable(rng: any): DATA {
-  const rel = rng.randomItemFromArray(['prop', 'antiprop', 'quad']) as Rel
-  // kleine, positive Ganzzahlen, keine 0
-  const xs = [1, 2, 3, 4].map(() => rng.randomIntBetween(1, 6))
-  const k = rng.randomIntBetween(1, 5) // Faktor
+  const rel = rng.randomItemFromArray(['prop', 'antiprop'])
+  const xs = uniqueSortedXs(rng, 4, 1, 9)
+  const k = rng.randomIntBetween(1, 6)
+
   const rows = xs.map(x => {
     if (rel === 'prop') return { x, y: k * x }
-    if (rel === 'antiprop') return { x, y: Math.round((k * 12) / x) } // einfache Werte
-    return { x, y: k * x * x } // quadratisch
+    // For antiproportional: x * y = k * 12, so y = (k * 12) / x, but ensure integer result
+    return { x, y: Math.round(1000*(k * 12) / x)/1000 }
   })
   return { rel, rows }
 }
@@ -34,10 +41,10 @@ export const exercise4504: Exercise<DATA> = {
   originalData: {
     rel: 'prop',
     rows: [
-      { x: 1, y: 3 },
       { x: 2, y: 6 },
       { x: 3, y: 9 },
-      { x: 4, y: 12 },
+      { x: 5, y: 15 },
+      { x: 8, y: 24 },
     ],
   },
 
@@ -50,13 +57,13 @@ export const exercise4504: Exercise<DATA> = {
     return (
       <>
         <p>
-          In der Tabelle ist ein Zusammenhang zwischen <InlineMath math="x" />{' '}
-          und <InlineMath math="y" /> gegeben. Bestimme, ob er{' '}
-          <b>proportional</b>, <b>antiproportional</b> oder <b>quadratisch</b>{' '}
-          ist.
+          In der Tabelle ist ein Zusammenhang zwischen <InlineMath math="x" /> und{' '}
+          <InlineMath math="y" /> gegeben. Entscheide, ob er{' '}
+          proportional oder antiproportional{' '}
+          ist. Begründe kurz.
         </p>
         <div className="overflow-auto">
-          <table className="min-w-[240px] border-collapse text-sm">
+          <table className="min-w-[260px] border-collapse text-sm">
             <thead>
               <tr>
                 <th className="border px-2 py-1">x</th>
@@ -79,40 +86,24 @@ export const exercise4504: Exercise<DATA> = {
             </tbody>
           </table>
         </div>
-        <p className="mt-2">Begründe kurz.</p>
       </>
     )
   },
-
   solution({ data }) {
     const { rel, rows } = data
-    const ratios = rows.map(r => r.y / r.x)
-    const x_y = rows.map(r => r.x * r.y)
-    const y_over_x2 = rows.map(r => r.y / (r.x * r.x))
 
-    let text = ''
-    if (rel === 'prop') {
-      text =
-        'Die Quotienten y/x sind (nahezu) konstant ⇒ proportionaler Zusammenhang y = k·x.'
-    } else if (rel === 'antiprop') {
-      text =
-        'Die Produkte x·y sind (nahezu) konstant ⇒ antiproportionaler Zusammenhang y = k/x.'
-    } else {
-      text =
-        'Die Quotienten y/x² sind (nahezu) konstant ⇒ quadratischer Zusammenhang y = k·x².'
-    }
+    const text =
+      rel === 'prop'
+        ? 'Die Werte steigen konstant ⇒ proportionaler Zusammenhang.'
+        :  'x·y ist konstant ⇒ antiproportionaler Zusammenhang.'
+          
 
     return (
       <>
-        <p>
-          <b>Lösung:</b> {text}
-        </p>
-        <ul className="list-disc ml-5 text-sm">
-          <li>y/x: {ratios.map(v => v.toFixed(2)).join(', ')}</li>
-          <li>x·y: {x_y.join(', ')}</li>
-          <li>y/x²: {y_over_x2.map(v => v.toFixed(2)).join(', ')}</li>
-        </ul>
+        <p><b>Lösung:</b> {text}</p>
+        
       </>
     )
   },
 }
+

@@ -11,7 +11,7 @@ interface DATA {
 }
 
 export const exercise4101: Exercise<DATA> = {
-  title: 'Geradengleichung aus Punkt (m oder b gegeben)',
+  title: 'Geradengleichung aus Punkt',
   source: 'Training',
   useCalculator: false,
   duration: 6,

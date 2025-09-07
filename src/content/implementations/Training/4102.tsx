@@ -10,7 +10,7 @@ interface DATA {
 }
 
 export const exercise4102: Exercise<DATA> = {
-  title: 'Lage zweier Geraden aus den Termen',
+  title: 'Lage von Gerden',
   source: 'Training',
   useCalculator: false,
   duration: 5,

@@ -8,6 +8,20 @@ import { Color4 } from '@/helper/colors'
 interface DATA {
   total: number
   red: number
+  withReplacement: boolean
+  event: 'exactlyOneRed' | 'twoRed' | 'twoBlack'
+}
+
+const eventText = {
+  exactlyOneRed: 'genau eine rote Kugel',
+  twoRed: 'zwei rote Kugeln',
+  twoBlack: 'zwei schwarze Kugeln',
+}
+
+const eventMath = {
+  exactlyOneRed: 'E=\\text{genau eine rote Kugel}',
+  twoRed: 'E=\\text{zwei rote Kugeln}',
+  twoBlack: 'E=\\text{zwei schwarze Kugeln}',
 }
 
 export const exercise4904: Exercise<DATA> = {
@@ -20,13 +34,20 @@ export const exercise4904: Exercise<DATA> = {
   generator(rng) {
     const total = rng.randomIntBetween(10, 16) * 2
     const red = rng.randomIntBetween(6, 9) * 2
-    return { total, red }
+    const withReplacement = rng.randomBoolean()
+    const event = rng.randomItemFromArray(['exactlyOneRed', 'twoRed', 'twoBlack'] as const)
+    return { total, red, withReplacement, event }
   },
 
-  originalData: { total: 32, red: 16 },
+  originalData: { total: 32, red: 16, withReplacement: false, event: 'exactlyOneRed' },
 
   constraint({ data }) {
-    return data.red > 0 && data.red < data.total
+    return (
+      data.red > 0 &&
+      data.red < data.total &&
+      (data.event !== 'twoRed' || data.red >= 2) &&
+      (data.event !== 'twoBlack' || data.total - data.red >= 2)
+    )
   },
 
   task({ data }) {
@@ -34,9 +55,9 @@ export const exercise4904: Exercise<DATA> = {
       <>
         <p>
           In einer Urne liegen rote (R) und schwarze (S) Kugeln. Es wird zweimal
-          nacheinander <b>ohne Zurücklegen</b> gezogen. Ergänze das Baumdiagramm
-          und bestimme die Wahrscheinlichkeit für das Ereignis{' '}
-          <InlineMath math="E=\{\\text{genau eine rote Kugel}\}" />.
+          nacheinander {data.withReplacement ? 'mit' : 'ohne'} Zurücklegen gezogen.
+          Ergänze das Baumdiagramm und bestimme die Wahrscheinlichkeit für das Ereignis{' '}
+          <InlineMath math={eventMath[data.event]} />.
         </p>
 
         <svg viewBox="0 0 328 180">
@@ -51,7 +72,11 @@ export const exercise4904: Exercise<DATA> = {
           <foreignObject x={266} y={97} width={28} height={45}>
             <div style={{ fontSize: '16px' }}>
               <InlineMath
-                math={`\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`}
+                math={
+                  data.withReplacement
+                    ? `\\tfrac{${data.total - data.red}}{${data.total}}`
+                    : `\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`
+                }
               />
             </div>
           </foreignObject>
@@ -61,23 +86,92 @@ export const exercise4904: Exercise<DATA> = {
   },
 
   solution({ data }) {
-    // Ergänzungen
+    // Wahrscheinlichkeiten
+    const pR = data.red / data.total
     const pS = (data.total - data.red) / data.total
-    const pRgivenR = (data.red - 1) / (data.total - 1)
-    const pSgivenR = (data.total - data.red) / (data.total - 1)
-    const pRgivenS = data.red / (data.total - 1)
 
-    // E = (R,S) ∪ (S,R)
-    const numRS_un = data.red * (data.total - data.red)
-    const denRS_un = data.total * (data.total - 1)
-    const numSR_un = (data.total - data.red) * data.red
-    const denSR_un = data.total * (data.total - 1)
+    // Mit oder ohne Zurücklegen
+    let pRgivenR, pSgivenR, pRgivenS, pSgivenS
+    if (data.withReplacement) {
+      pRgivenR = pR
+      pSgivenR = pS
+      pRgivenS = pR
+      pSgivenS = pS
+    } else {
+      pRgivenR = (data.red - 1) / (data.total - 1)
+      pSgivenR = (data.total - data.red) / (data.total - 1)
+      pRgivenS = data.red / (data.total - 1)
+      pSgivenS = (data.total - data.red - 1) / (data.total - 1)
+    }
 
-    const num_un = numRS_un + numSR_un
-    const den_un = denRS_un // gleich
-    const g = getGcd(num_un, den_un)
-    const num = Math.round(num_un / g)
-    const den = Math.round(den_un / g)
+    // Zähler und Nenner für die Ereignisse
+    let num = 0
+    let den = 0
+    let eqLatex = ''
+    let eqPaths: string[] = []
+
+    if (data.event === 'exactlyOneRed') {
+      // (R,S) + (S,R)
+      // P(R) * P(S|R) + P(S) * P(R|S)
+      const numRS = data.red * (data.total - data.red)
+      const numSR = (data.total - data.red) * data.red
+      if (data.withReplacement) {
+        den = data.total * data.total
+      } else {
+        den = data.total * (data.total - 1)
+      }
+      num = numRS + numSR
+      eqLatex =
+        data.withReplacement
+          ? `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
+          : `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total - 1}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total - 1}}`
+      eqPaths = [
+        data.withReplacement
+          ? `P(R,S) = \\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}}`
+          : `P(R,S) = \\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total - 1}}`,
+        data.withReplacement
+          ? `P(S,R) = \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
+          : `P(S,R) = \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total - 1}}`,
+      ]
+    } else if (data.event === 'twoRed') {
+      // (R,R)
+      // P(R) * P(R|R)
+      if (data.withReplacement) {
+        num = data.red * data.red
+        den = data.total * data.total
+        eqLatex = `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
+      } else {
+        num = data.red * (data.red - 1)
+        den = data.total * (data.total - 1)
+        eqLatex = `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.red - 1}}{${data.total - 1}}`
+      }
+      eqPaths = [
+        data.withReplacement
+          ? `P(R,R) = \\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
+          : `P(R,R) = \\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.red - 1}}{${data.total - 1}}`,
+      ]
+    } else if (data.event === 'twoBlack') {
+      // (S,S)
+      // P(S) * P(S|S)
+      if (data.withReplacement) {
+        num = (data.total - data.red) * (data.total - data.red)
+        den = data.total * data.total
+        eqLatex = `\\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}}`
+      } else {
+        num = (data.total - data.red) * (data.total - data.red - 1)
+        den = data.total * (data.total - 1)
+        eqLatex = `\\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`
+      }
+      eqPaths = [
+        data.withReplacement
+          ? `P(S,S) = \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}}`
+          : `P(S,S) = \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`,
+      ]
+    }
+
+    const g = getGcd(num, den)
+    const numSimp = Math.round(num / g)
+    const denSimp = Math.round(den / g)
 
     return (
       <>
@@ -103,13 +197,23 @@ export const exercise4904: Exercise<DATA> = {
           {/* nach S */}
           <foreignObject x={179} y={97} width={24} height={45}>
             <div style={{ fontSize: '16px', color: 'green' }}>
-              <InlineMath math={`\\tfrac{${data.red}}{${data.total - 1}}`} />
+              <InlineMath
+                math={
+                  data.withReplacement
+                    ? `\\tfrac{${data.red}}{${data.total}}`
+                    : `\\tfrac{${data.red}}{${data.total - 1}}`
+                }
+              />
             </div>
           </foreignObject>
           <foreignObject x={266} y={97} width={28} height={45}>
             <div style={{ fontSize: '16px', color: 'green' }}>
               <InlineMath
-                math={`\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`}
+                math={
+                  data.withReplacement
+                    ? `\\tfrac{${data.total - data.red}}{${data.total}}`
+                    : `\\tfrac{${data.total - data.red - 1}}{${data.total - 1}}`
+                }
               />
             </div>
           </foreignObject>
@@ -117,21 +221,33 @@ export const exercise4904: Exercise<DATA> = {
           <foreignObject x={33} y={97} width={24} height={45}>
             <div style={{ fontSize: '16px', color: 'green' }}>
               <InlineMath
-                math={`\\tfrac{${data.red - 1}}{${data.total - 1}}`}
+                math={
+                  data.withReplacement
+                    ? `\\tfrac{${data.red}}{${data.total}}`
+                    : `\\tfrac{${data.red - 1}}{${data.total - 1}}`
+                }
               />
             </div>
           </foreignObject>
           <foreignObject x={136} y={97} width={28} height={45}>
             <div style={{ fontSize: '16px', color: 'green' }}>
               <InlineMath
-                math={`\\tfrac{${data.total - data.red}}{${data.total - 1}}`}
+                math={
+                  data.withReplacement
+                    ? `\\tfrac{${data.total - data.red}}{${data.total}}`
+                    : `\\tfrac{${data.total - data.red}}{${data.total - 1}}`
+                }
               />
             </div>
           </foreignObject>
         </svg>
 
         <p className="mt-2">
-          <b>Pfadregeln für E = genau eine rote</b>
+          <b>
+            Pfadregeln für E = {eventText[data.event]}
+            <br />
+            ({data.withReplacement ? 'mit' : 'ohne'} Zurücklegen)
+          </b>
         </p>
         {buildEquation([
           [
@@ -140,30 +256,26 @@ export const exercise4904: Exercise<DATA> = {
               <InlineMath math="=" />
             </>,
             <>
-              <InlineMath math="P(R,S)+P(S,R)" />
-            </>,
-          ],
-          [
-            <></>,
-            <Color4>=</Color4>,
-            <>
               <InlineMath
-                math={`\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${
-                  data.total - data.red
-                }}{${data.total - 1}}\\; +\\; \\tfrac${'{'}${
-                  data.total - data.red
-                }{'}'}{${data.total}}\\cdot\\tfrac{${data.red}}{${
-                  data.total - 1
-                }}`}
+                math={
+                  data.event === 'exactlyOneRed'
+                    ? 'P(R,S)+P(S,R)'
+                    : data.event === 'twoRed'
+                    ? 'P(R,R)'
+                    : 'P(S,S)'
+                }
               />
             </>,
           ],
+          ...eqPaths.map((eq, i) => [
+            <></>,
+            <Color4>{i === 0 ? '=' : '+'}</Color4>,
+            <InlineMath math={eq.replace(/^P\([A-Z,]+\)\s*=\s*/, '')} />,
+          ]),
           [
             <></>,
             <Color4>=</Color4>,
-            <>
-              <InlineMath math={`\\tfrac{${num}}{${den}}`} />
-            </>,
+            <InlineMath math={`\\tfrac{${numSimp}}{${denSimp}}`} />,
           ],
         ])}
       </>

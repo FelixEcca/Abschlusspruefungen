@@ -37,10 +37,10 @@ export const exercise4505: Exercise<DATA> = {
     const { kind, a, b, c, xs } = data
     const term =
       kind === 'lin'
-        ? `y=${pp(a)}x ${pp(b, 'merge_op')}`
+        ? `y=${a===1? '':a===-1? '-':pp(a)}x ${pp(b, 'merge_op')}`
         : kind === 'quad'
-          ? `y=${pp(a)}x^{2} ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')}`
-          : `y=${pp(a)}x^{2} ${pp(b, 'merge_op')}`
+          ? `y=${a===1? '':a===-1? '-':pp(a)}x^{2} ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')}`
+          : `y=${a===1? '':a===-1? '-':pp(a)}x^{2} ${pp(b, 'merge_op')}`
 
     return (
       <>
