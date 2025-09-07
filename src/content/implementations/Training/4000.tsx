@@ -16,7 +16,7 @@ function toY(n: number) {
 
 export const exercise4000: Exercise<DATA> = {
   title: 'Scheitelpunkt ablesen',
-  source: 'BW · 2BFS · Parabeln',
+  source: 'Training',
   useCalculator: false,
   duration: 6,
   points: 2,

@@ -12,7 +12,7 @@ interface DATA {
 
 export const exercise4003: Exercise<DATA> = {
   title: 'Parabel aus Punkt',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 6,
   points: 3,

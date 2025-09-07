@@ -3221,8 +3221,24 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4004 }],
           },
           {
-            name: 'Nullstellen & y-Achsenabschnitt am Graphen',
+            name: 'Schnittpunkte mit Koordinatenachsen',
             skillExercises: [{ id: 4005 }],
+          },
+          {
+            name: 'Schnittpunkt mit y=c',
+            skillExercises: [{ id: 4301 }],
+          },
+          {
+            name: 'Schnittpunkte berechnen',
+            skillExercises: [{ id: 4006 }],
+          },
+          {
+            name: 'Parabel skizzieren',
+            skillExercises: [{ id: 4007 }],
+          },
+          {
+            name: 'a und c bestimmen',
+            skillExercises: [{ id: 4008 }],
           },
         ],
       },
@@ -3245,8 +3261,8 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4102 }],
           },
           {
-            name: 'Schnittpunkt zweier Geraden',
-            skillExercises: [{ id: 4103 }],
+            name: 'Schnittpunkt von Geraden',
+            skillExercises: [{ id: 4801 }],
           },
         ],
       },
@@ -3280,10 +3296,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'pq-Formel',
             skillExercises: [{ id: 4300 }],
           },
-          {
-            name: 'Nullstellen',
-            skillExercises: [{ id: 4301 }],
-          },
+
           {
             name: 'Quadratische Ergänzung',
             skillExercises: [{ id: 4302 }],
@@ -3297,7 +3310,7 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Terme vereinfachen & ausmultiplizieren',
+            name: 'Terme vereinfachen',
             skillExercises: [{ id: 4400 }],
           },
           {
@@ -3337,6 +3350,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Dreisatz',
             skillExercises: [{ id: 4503 }],
           },
+          {
+            name: 'Zusammenhang erkennen',
+            skillExercises: [{ id: 4503 }],
+          },
+          {
+            name: 'Termwerte berechnen',
+            skillExercises: [{ id: 4503 }],
+          },
         ],
       },
 
@@ -3374,11 +3395,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zylinder/Kegel/Kugel',
             skillExercises: [{ id: 4701 }],
           },
-
-          {
-            name: 'Zusammengesetzte Körper',
-            skillExercises: [{ id: 4702 }],
-          },
         ],
       },
 
@@ -3388,17 +3404,8 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Additions- & Einsetzungsverfahren',
+            name: 'LGS lösen',
             skillExercises: [{ id: 4800 }],
-          },
-          {
-            name: 'Gleichsetzungsverfahren',
-            skillExercises: [{ id: 4801 }],
-          },
-
-          {
-            name: 'Schnittpunkt von Geraden (als LGS)',
-            skillExercises: [{ id: 4802 }],
           },
         ],
       },
@@ -3427,6 +3434,10 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Baumdiagramm & Pfadregeln',
             skillExercises: [{ id: 4904 }],
+          },
+          {
+            name: 'Erwartungswert',
+            skillExercises: [{ id: 4905 }],
           },
         ],
       },

@@ -19,7 +19,7 @@ function toY(n: number) {
 
 export const exercise4005: Exercise<DATA> = {
   title: 'Nullstellen & y-Achsenabschnitt am Graphen',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 8,
   points: 4,

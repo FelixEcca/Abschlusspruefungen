@@ -12,7 +12,7 @@ interface DATA {
 
 export const exercise4101: Exercise<DATA> = {
   title: 'Geradengleichung aus Punkt (m oder b gegeben)',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 6,
   points: 3,
@@ -47,23 +47,33 @@ export const exercise4101: Exercise<DATA> = {
     const { mode, m, b, x0, y0 } = data
     return (
       <>
-        <p>
-          Gegeben ist eine Gerade in der Form <InlineMath math="y = m x + b" />{' '}
-          und der Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} /> auf dieser
-          Geraden.
-        </p>
         {mode === 'solve_b' ? (
-          <p>
-            Bestimme <InlineMath math="b" /> für{' '}
-            <InlineMath math={`m=${pp(m)}`} />, und gib den vollständigen
-            Funktionsterm an.
-          </p>
+          <>
+            <p>
+              Gegeben ist eine Gerade in der Form<br></br>{' '}
+              <InlineMath math={`y = ${pp(m)} x + b`} /> und der Punkt{' '}
+              <InlineMath math={`P(${x0}\\mid ${y0})`} /> auf dieser Geraden.
+            </p>
+            <p>
+              Bestimme <InlineMath math="b" /> und gib den vollständigen
+              Funktionsterm an.
+            </p>
+          </>
         ) : (
-          <p>
-            Bestimme <InlineMath math="m" /> für{' '}
-            <InlineMath math={`b=${pp(b)}`} />, und gib den vollständigen
-            Funktionsterm an.
-          </p>
+          <>
+            <p>
+              <p>
+                Gegeben ist eine Gerade in der Form<br></br>{' '}
+                <InlineMath math={`y = mx ${pp(b, 'merge_op')}`} /> und der
+                Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} /> auf dieser
+                Geraden.
+              </p>
+              <p>
+                Bestimme <InlineMath math="m" /> und gib den vollständigen
+                Funktionsterm an.
+              </p>
+            </p>
+          </>
         )}
       </>
     )
@@ -72,30 +82,56 @@ export const exercise4101: Exercise<DATA> = {
   solution({ data }) {
     const { mode, m, b, x0, y0 } = data
     if (mode === 'solve_b') {
-      const bVal = y0 - m * x0
+      // m gegeben, b unbekannt
       return (
-        <p>
-          <InlineMath
-            math={`b = y - m x = ${y0} - (${pp(m)})\\cdot ${x0} = ${pp(bVal)}`}
-          />
-          {` `}⇒{' '}
-          <InlineMath
-            math={`\\boxed{\\;y = ${pp(m)}x ${pp(bVal, 'merge_op')}\\;}`}
-          />
-        </p>
+        <>
+          <p>
+            Geradengleichung: <InlineMath math={`y = ${pp(m)}x + b`} />
+          </p>
+          <p>
+            Punkt einsetzen:{' '}
+            <InlineMath math={`${y0} = ${pp(m)} \\cdot ${x0} + b`} />
+          </p>
+          <p>
+            Nach <InlineMath math="b" /> umstellen:
+            <br />
+            <InlineMath
+              math={`b = ${y0} - (${pp(m)} \\cdot ${x0}) = ${pp(y0 - m * x0)}`}
+            />
+          </p>
+          <p>
+            Funktionsterm:{' '}
+            <InlineMath
+              math={`\\boxed{y = ${pp(m)}x ${pp(y0 - m * x0, 'merge_op')}}`}
+            />
+          </p>
+        </>
       )
     }
-    const mVal = (y0 - b) / x0
+    // b gegeben, m unbekannt
     return (
-      <p>
-        <InlineMath
-          math={`m = \\dfrac{y-b}{x} = \\dfrac{${y0} - (${pp(b)})}{${x0}} = ${pp(mVal)}`}
-        />
-        {` `}⇒{' '}
-        <InlineMath
-          math={`\\boxed{\\;y = ${pp(mVal)}x ${pp(b, 'merge_op')}\\;}`}
-        />
-      </p>
+      <>
+        <p>
+          Geradengleichung: <InlineMath math={`y = m x ${pp(b, 'merge_op')}`} />
+        </p>
+        <p>
+          Punkt einsetzen:{' '}
+          <InlineMath math={`${y0} = m \\cdot ${x0} ${pp(b, 'merge_op')}`} />
+        </p>
+        <p>
+          Nach <InlineMath math="m" /> umstellen:
+          <br />
+          <InlineMath
+            math={`m = \\frac{${pp(y0)} ${b < 0 ? '+' : '-'} ${pp(Math.abs(b))}}{${pp(x0)}} = ${pp((y0 - b) / x0)}`}
+          />
+        </p>
+        <p>
+          Funktionsterm:{' '}
+          <InlineMath
+            math={`\\boxed{y = ${pp((y0 - b) / x0)}x ${pp(b, 'merge_op')}}`}
+          />
+        </p>
+      </>
     )
   },
 }

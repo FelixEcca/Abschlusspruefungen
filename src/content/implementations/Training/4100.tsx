@@ -19,7 +19,7 @@ function toY(n: number) {
 
 export const exercise4100: Exercise<DATA> = {
   title: 'Gerade: Steigung und y-Achsenabschnitt ablesen',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 6,
   points: 3,
@@ -59,7 +59,7 @@ export const exercise4100: Exercise<DATA> = {
       <>
         <p>
           Lies am Graphen die <b>Steigung</b> <InlineMath math="m" /> und den{' '}
-          <b>y-Achsenabschnitt</b> <InlineMath math="b" /> ab. Gib die
+          <b>y-Achsenabschnitt</b> <InlineMath math="b" /> ab. <br></br>Gib die
           Funktionsgleichung in der Form <InlineMath math="y = m x + b" /> an.
         </p>
 

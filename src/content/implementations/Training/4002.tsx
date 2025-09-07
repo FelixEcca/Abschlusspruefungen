@@ -14,7 +14,7 @@ interface DATA {
 
 export const exercise4002: Exercise<DATA> = {
   title: 'Scheitelform ↔ Normalform umformen',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 8,
   points: 4,

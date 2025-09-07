@@ -58,13 +58,14 @@ import { exercise3013 } from './implementations/BW_2BFS/3013-2021-4C-Spielzeug'
 import { exercise3014 } from './implementations/BW_2BFS/3014-2021-5A-Blutgruppen'
 import { exercise3015 } from './implementations/BW_2BFS/3015-2021-5B-Koordinatensystem'
 import { exercise3016 } from './implementations/BW_2BFS/3016-2021-5C-Ebene-Figuren'
-import { exercise3050 } from './implementations/BW_2BFS/3050-2022-1A-Formeln'
+import { exercise3050 } from './implementations/BW_2BFS/3050-2022-1A-Figur'
 import { exercise3051 } from './implementations/BW_2BFS/3051-2022-1B-Aussagen'
 import { exercise3052 } from './implementations/BW_2BFS/3052-2022-1C-Zufallsexperiment'
-import { exercise3053 } from './implementations/BW_2BFS/3053-2022-1D-Koordinatensysteme'
+import { exercise3053 } from './implementations/BW_2BFS/3053-2022-1D-Schaubilder'
 import { exercise3054 } from './implementations/BW_2BFS/3054-2022-1E-LGS'
 import { exercise3055 } from './implementations/BW_2BFS/3055-2022-2A-Überraschungsei'
 import { exercise3056 } from './implementations/BW_2BFS/3056-2022-2B-Wandregal'
+import { exercise3057 } from './implementations/BW_2BFS/3057-2022-2C-Figur'
 import { exercise3058 } from './implementations/BW_2BFS/3058-2022-3A-Körper'
 import { exercise3059 } from './implementations/BW_2BFS/3059-2022-3B-Parabeln'
 import { exercise3060 } from './implementations/BW_2BFS/3060-2022-3C-Kerzen'
@@ -74,9 +75,9 @@ import { exercise3063 } from './implementations/BW_2BFS/3063-2022-4C-Strahlensat
 import { exercise3064 } from './implementations/BW_2BFS/3064-2022-5A-Figuren'
 import { exercise3065 } from './implementations/BW_2BFS/3065-2022-5B-Gleichung'
 import { exercise3066 } from './implementations/BW_2BFS/3066-2022-5C-Eiskugeln'
-import { exercise3100 } from './implementations/BW_2BFS/3100-2023-1A-Gleichungen'
-import { exercise3101 } from './implementations/BW_2BFS/3101-2023-1B-Ebene-Figuren'
-import { exercise3102 } from './implementations/BW_2BFS/3102-2023-1C-Glücksrad'
+import { exercise3100 } from './implementations/BW_2BFS/3100-2023-1A-Formeln'
+import { exercise3101 } from './implementations/BW_2BFS/3101-2023-1B-Dreiecke-mi-Koordinatensystem'
+import { exercise3102 } from './implementations/BW_2BFS/3102-2023-1C-Zufallsexperiment'
 import { exercise3103 } from './implementations/BW_2BFS/3103-2023-1D-Parabeln'
 import { exercise3104 } from './implementations/BW_2BFS/3104-2023-1E-Geraden'
 import { exercise3105 } from './implementations/BW_2BFS/3105-2023-2A-Fahrscheine'
@@ -126,10 +127,12 @@ import { exercise4002 } from './implementations/Training/4002'
 import { exercise4003 } from './implementations/Training/4003'
 import { exercise4004 } from './implementations/Training/4004'
 import { exercise4005 } from './implementations/Training/4005'
+import { exercise4006 } from './implementations/Training/4006'
+import { exercise4007 } from './implementations/Training/4007'
+import { exercise4008 } from './implementations/Training/4008'
 import { exercise4100 } from './implementations/Training/4100'
 import { exercise4101 } from './implementations/Training/4101'
 import { exercise4102 } from './implementations/Training/4102'
-import { exercise4103 } from './implementations/Training/4103'
 
 import { exercise4200 } from './implementations/Training/4200'
 import { exercise4201 } from './implementations/Training/4201'
@@ -145,20 +148,21 @@ import { exercise4500 } from './implementations/Training/4500'
 import { exercise4501 } from './implementations/Training/4501'
 import { exercise4502 } from './implementations/Training/4502'
 import { exercise4503 } from './implementations/Training/4503'
+import { exercise4504 } from './implementations/Training/4504'
+import { exercise4505 } from './implementations/Training/4505'
 import { exercise4600 } from './implementations/Training/4600'
 import { exercise4601 } from './implementations/Training/4601'
 import { exercise4602 } from './implementations/Training/4602'
 import { exercise4700 } from './implementations/Training/4700'
 import { exercise4701 } from './implementations/Training/4701'
-import { exercise4702 } from './implementations/Training/4702'
 import { exercise4800 } from './implementations/Training/4800'
 import { exercise4801 } from './implementations/Training/4801'
-import { exercise4802 } from './implementations/Training/4802'
 import { exercise4900 } from './implementations/Training/4900'
 import { exercise4901 } from './implementations/Training/4901'
 import { exercise4902 } from './implementations/Training/4902'
 import { exercise4903 } from './implementations/Training/4903'
 import { exercise4904 } from './implementations/Training/4904'
+import { exercise4905 } from './implementations/Training/4905'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -225,12 +229,17 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   3053: exercise3053,
   3054: exercise3054,
   3055: exercise3055,
+  3056: exercise3056,
+  3057: exercise3057,
+  3058: exercise3058,
+  3059: exercise3059,
   3060: exercise3060,
   3061: exercise3061,
   3062: exercise3062,
   3063: exercise3063,
   3064: exercise3064,
   3065: exercise3065,
+  3066: exercise3066,
   3100: exercise3100,
   3101: exercise3101,
   3102: exercise3102,
@@ -282,10 +291,12 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4003: exercise4003,
   4004: exercise4004,
   4005: exercise4005,
+  4006: exercise4006,
+  4007: exercise4007,
+  4008: exercise4008,
   4100: exercise4100,
   4101: exercise4101,
   4102: exercise4102,
-  4103: exercise4103,
 
   4200: exercise4200,
   4201: exercise4201,
@@ -301,20 +312,21 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4501: exercise4501,
   4502: exercise4502,
   4503: exercise4503,
+  4504: exercise4504,
+  4505: exercise4505,
   4600: exercise4600,
   4601: exercise4601,
   4602: exercise4602,
   4700: exercise4700,
   4701: exercise4701,
-  4702: exercise4702,
   4800: exercise4800,
   4801: exercise4801,
-  4802: exercise4802,
   4900: exercise4900,
   4901: exercise4901,
   4902: exercise4902,
   4903: exercise4903,
   4904: exercise4904,
+  4905: exercise4905,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

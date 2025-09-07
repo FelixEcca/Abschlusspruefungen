@@ -15,9 +15,9 @@ interface DATA {
   order: number[]
 }
 
-export const exercise3050: Exercise<DATA> = {
+export const exercise3100: Exercise<DATA> = {
   title: 'Formeln',
-  source: '2022 Pflichtteil Aufgabe 1A',
+  source: '2023 Pflichtteil Aufgabe 1A',
   useCalculator: false,
   duration: 42,
   generator(rng) {

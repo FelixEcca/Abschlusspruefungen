@@ -2,9 +2,9 @@ import { Exercise } from '@/data/types'
 
 interface DATA {}
 
-export const exercise3102: Exercise<DATA> = {
-  title: 'Glücksrad',
-  source: '2023 Pflichtteil Aufgabe 1C',
+export const exercise3053: Exercise<DATA> = {
+  title: 'Schaubilder',
+  source: '2022 Pflichtteil Aufgabe 1D',
   useCalculator: false,
   duration: 42,
   generator(rng) {

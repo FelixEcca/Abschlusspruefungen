@@ -18,7 +18,7 @@ function toY(n: number) {
 
 export const exercise4001: Exercise<DATA> = {
   title: 'Wertetabelle einer Parabel',
-  source: '2BFS',
+  source: 'Training',
   useCalculator: false,
   duration: 8,
   points: 4,
