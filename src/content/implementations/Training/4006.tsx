@@ -30,14 +30,37 @@ export const exercise4006: Exercise<DATA> = {
   },
 
   originalData: { kind: 'qL', a: 1, b: 2, c: -3, m: -1, n: 2 },
+  constraint({ data }) {
+    // alles im Sichtbereich halten
+    const { kind, a, b, c, m, n } = data
+    const A = kind === 'qL' ? a : a - (a + 1)
+    const B = kind === 'qL' ? b - m : b - (b - 1)
+    const C = kind === 'qL' ? c - n : c - (c + 1)
+
+    // Lösen A x^2 + B x + C = 0 mit pq-Formel (auf Normalform bringen)
+    // x^2 + px + q = 0
+    const p = B / A
+    const q = C / A
+    const D = (p / 2) * (p / 2) - q
+    const has = D >= 0
+    const x1 = has ? -p / 2 - Math.sqrt(D) : NaN
+    const x2 = has ? -p / 2 + Math.sqrt(D) : NaN
+
+    const yAt = (x: number) =>
+      data.kind === 'qL' ? m * x + n : (a + 1) * x * x + (b - 1) * x + (c + 1)
+
+    return (
+      data.c!=0 && x1%1==0 && x2%1==0   && data.b!=0 && data.n!=0 && data.b!=data.m && data.c!=data.n && x1!=x2
+    )
+  },
 
   task({ data }) {
     const { kind, a, b, c, m, n } = data
-    const f = `y=${pp(a)}x^{2} ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')}`
+    const f = `y=${a===1? '' : a===-1? '-' : pp(a)}x^{2} ${b===1? '+' : b===-1? '-' : pp(b, 'merge_op')}x ${pp(c, 'merge_op')}`
     const g =
       kind === 'qL'
-        ? `y=${pp(m)}x ${pp(n, 'merge_op')}`
-        : `y=${pp(a + 1)}x^{2} ${pp(b - 1, 'merge_op')}x ${pp(c + 1, 'merge_op')}`
+        ? `y=${m===1? '' : m===-1? '-' : pp(m)}x ${pp(n, 'merge_op')}`
+        : `y=${a+1===1? '' : a+1===-1? '-' : pp(a+1)}x^{2} ${b-1===1? '+' : b-1===-1? '-' : pp(b-1, 'merge_op')}x ${pp(c + 1, 'merge_op')}`
 
     return (
       <>
