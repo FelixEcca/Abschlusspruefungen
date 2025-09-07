@@ -28,14 +28,19 @@ export const exercise4007: Exercise<DATA> = {
       'shift',
       'vertex',
     ])
-    const c = rng.randomIntBetween(-4, 4)
-    const h = rng.randomIntBetween(-3, 3)
-    const k = rng.randomIntBetween(-3, 3)
+    const c = rng.randomIntBetween(-6, 6)
+    const h = rng.randomIntBetween(-6, 6)
+    const k = rng.randomIntBetween(-6, 6)
     return { kind, c, h, k }
   },
 
   originalData: { kind: 'shift', c: 2, h: -1, k: 1 },
-
+constraint({ data }) {
+    
+    return (
+      data.c!=0 && data.h!=0 && data.k!=0 && data.h!=data.k && Math.abs(data.c)<=5 && Math.abs(data.h)<=5 && Math.abs(data.k)<=5
+    )
+  },
   task({ data }) {
     const { kind, c, h, k } = data
     const term =

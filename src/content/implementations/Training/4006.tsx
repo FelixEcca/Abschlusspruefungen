@@ -66,7 +66,7 @@ export const exercise4006: Exercise<DATA> = {
       <>
         <p>Gegeben sind die Funktionen</p>
         <p>
-          <InlineMath math={`f:\\;${f}`} /> und{' '}
+          <InlineMath math={`f:\\;${f}`} /> und<br></br>{' '}
           <InlineMath math={`g:\\;${g}`} />.
         </p>
         <p>Bestimme alle Schnittpunkte von f und g.</p>

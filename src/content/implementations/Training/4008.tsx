@@ -69,6 +69,16 @@ export const exercise4008: Exercise<DATA> = {
   },
 
   solution({ data }) {
+     // Zeichne die Parabel y = a x^2 + c
+    const xs: number[] = []
+    for (let x = -5; x <= 5; x += 0.2) xs.push(+x.toFixed(1))
+    const path = xs
+      .map(x => {
+        const y = data.a * x * x + data.c
+        return `${toX(x)},${toY(y)}`
+      })
+      .join(' ')
+
     // „a“ über Vergleich der Breite: z. B. Punkt (1, a + c) relativ zu c
     const y1 = data.a * 1 * 1 + data.c
     return (
@@ -77,13 +87,28 @@ export const exercise4008: Exercise<DATA> = {
           <b>Antwort:</b>{' '}
           <InlineMath math={`a=${pp(data.a)},\\; c=${pp(data.c)}`} />
         </p>
-        <p className="text-sm">
-          Hinweis: <InlineMath math="c" /> ist der Schnittpunkt mit der y-Achse{' '}
-          <InlineMath math="(0,c)" />. Für <InlineMath math="x=1" /> liegt die
-          Parabel bei{' '}
-          <InlineMath math={`y=a\\cdot 1^2 + c = a + c = ${pp(y1)}`} />, daraus
-          erkennt man <InlineMath math="a" />.
-        </p>
+        <svg viewBox="0 0 328 328" className="border rounded">
+          <image
+            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            height="328"
+            width="328"
+          />
+          <polyline
+            points={path}
+            fill="none"
+            stroke="red"
+            strokeWidth="2"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+          />
+          {/* Markierung y-Achsenabschnitt (0,c) */}
+          <circle cx={toX(0)} cy={toY(data.c)} r="3" fill="blue" />
+          <line x1={toX(0)} y1={toY(data.c)} x2={toX(1)} y2={toY(data.c)} stroke="green" strokeWidth="2" strokeDasharray="4 4" />
+          <line x1={toX(1)} y1={toY(data.c)} x2={toX(1)} y2={toY(y1)} stroke="green" strokeWidth="2" strokeDasharray="2 2" />
+          <line x1={toX(0)} y1={toY(data.c)} x2={toX(-2)} y2={toY(data.c)} stroke="green" strokeWidth="2" strokeDasharray="2 2"/>
+          <text x={toX(1)+4} y={toY(data.c)} fontSize="12" fill="green">a = {pp(data.a)}</text>
+          <text x={toX(-3)-12} y={toY(data.c)+4} fontSize="12" fill="green">c = {pp(data.c)}</text>
+        </svg>
       </>
     )
   },
