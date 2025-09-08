@@ -12,9 +12,9 @@ interface DATA3106 {
 }
 
 export const exercise3106: Exercise<DATA3106> = {
-  title: 'Strahlensatz: Proportionen, Länge y und Winkel α',
-  source: '2023 Pflichtteil 2B',
-  useCalculator: false,
+  title: 'Strahlensatz',
+  source: '2023 Wahlteil Aufgabe 2B',
+  useCalculator: true,
   duration: 12,
 
   generator(rng) {

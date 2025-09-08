@@ -12,8 +12,8 @@ interface DATA {
 }
 
 export const exercise3051: Exercise<DATA> = {
-  title: 'Satzanfänge und -enden; Ähnliche Figuren',
-  source: '2022 Aufgabe 1B',
+  title: 'Aussagen',
+  source: '2022 Pflichtteil Aufgabe 1B',
   useCalculator: false,
   duration: 10,
 

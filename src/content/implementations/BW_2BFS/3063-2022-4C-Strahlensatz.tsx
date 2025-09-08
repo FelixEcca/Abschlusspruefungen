@@ -14,9 +14,9 @@ interface DATA {
 }
 
 export const exercise3063: Exercise<DATA> = {
-  title: 'Strahlensatzfigur beschriften und x bestimmen',
-  source: '2022 Aufgabe 4C',
-  useCalculator: false,
+  title: 'Strahlensatz',
+  source: '2022 Wahlteil Aufgabe 4C',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {

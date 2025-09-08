@@ -17,8 +17,8 @@ interface DATA {
 }
 
 export const exercise3066: Exercise<DATA> = {
-  title: 'Eis: Kugelvolumen, Vergleich & Gewinn pro Liter',
-  source: '2022 Aufgabe 5C',
+  title: 'Eiskugeln',
+  source: '2022 Wahlteil Aufgabe 5C',
   useCalculator: true,
   duration: 14,
 

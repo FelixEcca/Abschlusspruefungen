@@ -13,8 +13,8 @@ interface DATA {
 }
 
 export const exercise3050: Exercise<DATA> = {
-  title: 'Umfangsterme & Pyramidenkanten',
-  source: '2022 Aufgabe 1A',
+  title: 'Terme',
+  source: '2022 Pflichtteil Aufgabe 1A',
   useCalculator: false,
   duration: 10,
 

@@ -15,8 +15,8 @@ interface DATA {
 }
 
 export const exercise3054: Exercise<DATA> = {
-  title: 'LGS prüfen & lösen',
-  source: '2022 Aufgabe 1E',
+  title: 'LGS',
+  source: '2022 Pflichtteil Aufgabe 1E',
   useCalculator: false,
   duration: 8,
 

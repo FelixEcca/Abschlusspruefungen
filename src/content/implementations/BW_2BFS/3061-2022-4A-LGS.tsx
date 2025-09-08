@@ -21,9 +21,9 @@ function toY(n: number) {
 }
 
 export const exercise3061: Exercise<DATA> = {
-  title: 'Lineares Gleichungssystem – rechnerisch & grafisch',
-  source: '2022 Aufgabe 4A',
-  useCalculator: false,
+  title: 'LGS',
+  source: '2022 Wahlteil Aufgabe 4A',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {

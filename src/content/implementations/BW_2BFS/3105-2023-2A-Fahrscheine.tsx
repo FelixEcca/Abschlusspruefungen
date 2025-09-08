@@ -11,9 +11,9 @@ interface DATA3105 {
 }
 
 export const exercise3105: Exercise<DATA3105> = {
-  title: 'Zwei ohne Fahrschein & Erwartungswert',
-  source: '2023 Pflichtteil 2A',
-  useCalculator: false,
+  title: 'Fahrscheine',
+  source: '2023 Wahlteil Aufgabe 2A',
+  useCalculator: true,
   duration: 8,
 
   generator(rng) {

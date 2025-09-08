@@ -13,9 +13,9 @@ interface DATA3115 {
 }
 
 export const exercise3115: Exercise<DATA3115> = {
-  title: 'Verschobene Normalparabel – Gleichung & Schnitt',
-  source: '2023 Aufgabe 5B',
-  useCalculator: false,
+  title: 'Parabeln',
+  source: '2023 Wahlteil Aufgabe 5B',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {

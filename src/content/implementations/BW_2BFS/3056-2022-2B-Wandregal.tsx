@@ -13,8 +13,8 @@ interface DATA {
 }
 
 export const exercise3056: Exercise<DATA> = {
-  title: 'Dreieckiges Eckregal – Winkel & Maßstabsskizze',
-  source: '2022 Aufgabe 2B',
+  title: 'Wandregal',
+  source: '2022 Wahlteil Aufgabe 2B',
   useCalculator: true,
   duration: 12,
 

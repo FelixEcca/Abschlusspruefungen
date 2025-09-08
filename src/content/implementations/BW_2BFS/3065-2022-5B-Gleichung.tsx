@@ -14,9 +14,9 @@ interface DATA {
 }
 
 export const exercise3065: Exercise<DATA> = {
-  title: 'Gleichung, Frage zu Gerade/Parabel, Scheitelform',
-  source: '2022 Aufgabe 5B',
-  useCalculator: false,
+  title: 'Gleichung',
+  source: '2022 Wahlteil Aufgabe 5B',
+  useCalculator: true,
   duration: 12,
 
   generator(rng) {

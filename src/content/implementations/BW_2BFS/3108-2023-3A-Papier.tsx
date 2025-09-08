@@ -16,8 +16,8 @@ interface DATA3108 {
 }
 
 export const exercise3108: Exercise<DATA3108> = {
-  title: 'Papierstapel: Blattdicke & Luftanteil in Kugel',
-  source: '2023 Pflichtteil 3A',
+  title: 'Papier',
+  source: '2023 Wahlteil Aufgabe 3A',
   useCalculator: true,
   duration: 10,
 

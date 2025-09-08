@@ -12,8 +12,8 @@ interface DATA3107 {
 }
 
 export const exercise3107: Exercise<DATA3107> = {
-  title: 'Viertelkreis & Kreis – Radius R berechnen',
-  source: '2023 Pflichtteil 2C',
+  title: 'Figur',
+  source: '2023 Wahlteil Aufgabe 2C',
   useCalculator: true,
   duration: 10,
 

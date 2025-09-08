@@ -22,8 +22,8 @@ function tri5a() {
 }
 
 export const exercise3114: Exercise<DATA3114> = {
-  title: 'Thales-Nachweis, Winkel α, ähnliche Figur',
-  source: '2023 Aufgabe 5A',
+  title: 'Rechtwinkliges Dreieck',
+  source: '2023 Wahlteil Aufgabe 5A',
   useCalculator: true,
   duration: 12,
 

@@ -13,9 +13,9 @@ interface DATA {
 }
 
 export const exercise3059: Exercise<DATA> = {
-  title: 'Parabeln – Scheitel, Transformation und Nullstellen',
-  source: '2022 Aufgabe 3B',
-  useCalculator: false,
+  title: 'Parabeln',
+  source: '2022 Wahlteil Aufgabe 3B',
+  useCalculator: true,
   duration: 12,
 
   generator(rng) {

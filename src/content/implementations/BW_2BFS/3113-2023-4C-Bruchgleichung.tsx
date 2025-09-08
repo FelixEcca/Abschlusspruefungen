@@ -16,9 +16,9 @@ interface DATA3113 {
 }
 
 export const exercise3113: Exercise<DATA3113> = {
-  title: 'Bruchgleichung: Definitionsmenge & Lösung',
-  source: '2023 Pflichtteil 4C',
-  useCalculator: false,
+  title: 'Bruchgleichung',
+  source: '2023 Wahlteil Aufgabe 4C',
+  useCalculator: true,
   duration: 8,
 
   generator(rng) {

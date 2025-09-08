@@ -21,8 +21,8 @@ interface DATA {
 }
 
 export const exercise3064: Exercise<DATA> = {
-  title: 'Ähnlichkeit/Kongruenz – Längen & Winkel auf dem Raster',
-  source: '2022 Aufgabe 5A',
+  title: 'Figuren',
+  source: '2022 Wahlteil Aufgabe 5A',
   useCalculator: true,
   duration: 16,
 

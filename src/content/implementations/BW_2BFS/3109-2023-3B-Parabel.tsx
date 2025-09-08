@@ -14,9 +14,9 @@ interface DATA3109 {
 }
 
 export const exercise3109: Exercise<DATA3109> = {
-  title: 'Parabel: Scheitel & Berührpunkt mit Ursprungsgerade',
-  source: '2023 Pflichtteil 3B',
-  useCalculator: false,
+  title: 'Parabel',
+  source: '2023 Wahlteil Aufgabe 3B',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {

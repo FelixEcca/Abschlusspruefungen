@@ -25,9 +25,9 @@ function toY(n: number) {
 }
 
 export const exercise3062: Exercise<DATA> = {
-  title: 'Parabel p₁: Achsen-Schnittpunkte; p₂: Beschreibung',
-  source: '2022 Aufgabe 4B',
-  useCalculator: false,
+  title: 'Parabeln',
+  source: '2022 Wahlteil Aufgabe 4B',
+  useCalculator: true,
   duration: 12,
 
   generator(rng) {

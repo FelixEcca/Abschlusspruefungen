@@ -12,9 +12,9 @@ interface DATA3112 {
 }
 
 export const exercise3112: Exercise<DATA3112> = {
-  title: 'Lineares Gleichungssystem – Lösung & unendlich-viele-Bedingung',
-  source: '2023 Pflichtteil 4B',
-  useCalculator: false,
+  title: 'LGS',
+  source: '2023 Wahlteil Aufgabe 4B',
+  useCalculator: true,
   duration: 8,
 
   generator(rng) {

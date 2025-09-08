@@ -12,8 +12,8 @@ interface DATA {
 }
 
 export const exercise3055: Exercise<DATA> = {
-  title: 'Überraschungsei – Wahrscheinlichkeit & Erwartungswert',
-  source: '2022 Aufgabe 2A',
+  title: 'Überraschungsei',
+  source: '2022 Wahlteil Aufgabe 2A',
   useCalculator: true,
   duration: 12,
 

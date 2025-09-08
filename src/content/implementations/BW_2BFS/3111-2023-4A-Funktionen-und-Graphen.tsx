@@ -15,9 +15,9 @@ interface DATA3111 {
 }
 
 export const exercise3111: Exercise<DATA3111> = {
-  title: 'Gerade & Parabel – Scheitel und Schnitt',
-  source: '2023 Pflichtteil 4A',
-  useCalculator: false,
+  title: 'Gerade und Parabel',
+  source: '2023 Wahlteil Aufgabe 4A',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {

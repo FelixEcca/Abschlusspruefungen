@@ -11,8 +11,8 @@ interface DATA {
 }
 
 export const exercise3058: Exercise<DATA> = {
-  title: 'Kegel im Würfel – Radius & Oberfläche',
-  source: '2022 Aufgabe 3A',
+  title: 'Körper',
+  source: '2022 Wahlteil Aufgabe 3A',
   useCalculator: true,
   duration: 12,
 

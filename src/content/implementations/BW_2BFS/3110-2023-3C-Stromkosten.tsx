@@ -15,8 +15,8 @@ interface DATA3110 {
 }
 
 export const exercise3110: Exercise<DATA3110> = {
-  title: 'Stromtarife: Gleichungen, Schnittpunkt, Ersparnis',
-  source: '2023 Pflichtteil 3C',
+  title: 'Stromkosten',
+  source: '2023 Wahlteil Aufgabe 3C',
   useCalculator: true,
   duration: 10,
 

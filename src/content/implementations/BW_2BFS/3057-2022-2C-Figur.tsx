@@ -16,8 +16,8 @@ interface DATA {
 }
 
 export const exercise3057: Exercise<DATA> = {
-  title: 'Drahtfigur: fehlende Längen & Materialkosten',
-  source: '2022 Aufgabe 2C',
+  title: 'Figur',
+  source: '2022 Wahlteil Aufgabe 2C',
   useCalculator: true,
   duration: 12,
 

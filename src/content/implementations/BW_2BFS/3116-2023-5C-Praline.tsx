@@ -14,8 +14,8 @@ interface DATA116 {
 }
 
 export const exercise3116: Exercise<DATA116> = {
-  title: 'Praline: Nougatvolumen & Schoko-Anteil',
-  source: '2023 Aufgabe 5C',
+  title: 'Praline',
+  source: '2023 Wahlteil Aufgabe 5C',
   useCalculator: true,
   duration: 12,
 

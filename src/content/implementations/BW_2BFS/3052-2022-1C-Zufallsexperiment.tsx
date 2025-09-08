@@ -12,8 +12,8 @@ interface DATA {
 }
 
 export const exercise3052: Exercise<DATA> = {
-  title: 'Urne: Baumdiagramm mit/ohne Zurücklegen',
-  source: '2022 Aufgabe 1C',
+  title: 'Zufallsexperiment',
+  source: '2022 Pflichtteil Aufgabe 1C',
   useCalculator: false,
   duration: 12,
 

@@ -11,8 +11,8 @@ interface DATA {
 }
 
 export const exercise3053: Exercise<DATA> = {
-  title: 'Achsen beschriften und skalieren (Parabel & Gerade)',
-  source: '2022 Aufgabe 1D',
+  title: 'Schaubilder',
+  source: '2022 Pflichtteil Aufgabe 1D',
   useCalculator: false,
   duration: 8,
 

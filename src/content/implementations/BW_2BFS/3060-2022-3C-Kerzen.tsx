@@ -17,9 +17,9 @@ interface DATA {
 }
 
 export const exercise3060: Exercise<DATA> = {
-  title: 'Kerzen A–C: Zuordnung, Ablesezeit und Gleichung',
-  source: '2022 Aufgabe 3C',
-  useCalculator: false,
+  title: 'Kerzen',
+  source: '2022 Wahlteil Aufgabe 3C',
+  useCalculator: true,
   duration: 10,
 
   generator(rng) {
