@@ -3,7 +3,7 @@
 // =====================================
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { pp } from '@/helper/pretty-print'
+import { pp, ppFrac } from '@/helper/pretty-print'
 
 interface DATA {
   total: number
@@ -29,44 +29,48 @@ export const exercise3052: Exercise<DATA> = {
   originalData: { total: 11, red: 4, withReplacement: false },
 
   constraint({ data }) {
-    return data.red > 0 && data.red < data.total
+    return data.red > 0 && data.red < data.total && data.red != data.total / 2
   },
 
   intro({ data }) {
     return (
       <div className="space-y-2">
         <p>
-          In einer Urne sind rote und blaue Kugeln. Es werden zweimal
-          nacheinander eine Kugel gezogen.
+          In einer Urne sind rote und blaue Kugeln. Es werden zwei Kugeln
+          gezogen. Das Experiment ist durch das Baumdiagramm dargestellt.
         </p>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <img src="/content/BW_2BFS/3052_Baum.png" width={320} />
-        <p>
-          Ist mit oder ohne Zurücklegen? Ergänzen Sie die Wahrscheinlichkeiten.
-        </p>
-        {/* Beschriftete Brüche (Platzhalter) */}
-        <svg
-          viewBox="0 0 320 160"
-          width="320"
-          height="160"
-          className="border rounded"
-        >
-          {/* Stamm */}
-          <line x1="20" y1="140" x2="100" y2="80" stroke="black" />
-          <line x1="20" y1="140" x2="100" y2="140" stroke="black" />
-          {/* erste Ebene r/b */}
-          <line x1="100" y1="80" x2="200" y2="60" stroke="black" />
-          <line x1="100" y1="80" x2="200" y2="100" stroke="black" />
-          <line x1="100" y1="140" x2="200" y2="120" stroke="black" />
-          <line x1="100" y1="140" x2="200" y2="160" stroke="black" />
-          {/* Brüche als foreignObject */}
-          <foreignObject x="110" y="58" width="60" height="24">
-            <div style={{ fontSize: 12 }}>r</div>
+
+        <svg viewBox="0 0 328 160">
+          <image
+            href="/content/BW_2BFS/3052_Baum.png"
+            height="160"
+            width="328"
+          />
+          <foreignObject x={85} y={0} width={20} height={45}>
+            <div
+              style={{
+                fontSize: '12px',
+                color: 'black',
+                transform: 'scale(1)',
+              }}
+            >
+              {ppFrac(data.red / data.total)}
+            </div>
           </foreignObject>
-          <foreignObject x="110" y="98" width="60" height="24">
-            <div style={{ fontSize: 12 }}>b</div>
+          <foreignObject x={20} y={75} width={20} height={45}>
+            <div
+              style={{
+                fontSize: '12px',
+                color: 'black',
+                transform: 'scale(1)',
+              }}
+            >
+              {data.withReplacement
+                ? ppFrac(data.red / data.total)
+                : ppFrac((data.red - 1) / (data.total - 1))}
+            </div>
           </foreignObject>
-          {/* zeigt, dass Brüche einzutragen sind */}
         </svg>
       </div>
     )
@@ -76,26 +80,27 @@ export const exercise3052: Exercise<DATA> = {
     {
       points: 6,
       intro() {
-        return (
-          <p>
-            <b>1.</b> Begründen Sie anhand des Baumdiagramms:
-          </p>
-        )
+        return null
       },
       task({ data }) {
         return (
-          <ul className="list-disc ml-6">
-            <li>Wie viele rote und blaue Kugeln sind zu Beginn in der Urne?</li>
-            <li>Werden die Kugeln mit oder ohne Zurücklegen gezogen?</li>
-          </ul>
+          <>
+            <p>Begründen Sie anhand des Baumdiagramms:</p>
+            <ul className="list-disc ml-6">
+              <li>
+                Wie viele rote und blaue Kugeln sind zu Beginn in der Urne?
+              </li>
+              <li>Werden die Kugeln mit oder ohne Zurücklegen gezogen?</li>
+            </ul>
+          </>
         )
       },
       solution({ data }) {
         return (
           <>
             <p>
-              Zu Beginn: <b>{data.red}</b> rote und{' '}
-              <b>{data.total - data.red}</b> blaue Kugeln.
+              Zu Beginn: {data.red} rote und {data.total - data.red} blaue
+              Kugeln.
             </p>
             <p>
               Es wird {data.withReplacement ? 'mit' : 'ohne'} Zurücklegen
@@ -113,8 +118,7 @@ export const exercise3052: Exercise<DATA> = {
       task() {
         return (
           <p>
-            <b>2.</b> Ergänzen Sie die fehlenden Wahrscheinlichkeiten im
-            Baumdiagramm.
+            Ergänzen Sie die fehlenden Wahrscheinlichkeiten im Baumdiagramm.
           </p>
         )
       },
@@ -129,62 +133,85 @@ export const exercise3052: Exercise<DATA> = {
         const pB2b = 1 - pR2b
         // Darstellung mit foreignObject
         return (
-          <svg
-            viewBox="0 0 320 160"
-            width="320"
-            height="160"
-            className="border rounded"
-          >
-            {/* Struktur */}
-            <line x1="20" y1="140" x2="100" y2="80" stroke="black" />
-            <line x1="20" y1="140" x2="100" y2="140" stroke="black" />
-            <line x1="100" y1="80" x2="200" y2="60" stroke="black" />
-            <line x1="100" y1="80" x2="200" y2="100" stroke="black" />
-            <line x1="100" y1="140" x2="200" y2="120" stroke="black" />
-            <line x1="100" y1="140" x2="200" y2="160" stroke="black" />
-            {/* Labels */}
-            <foreignObject x="60" y="78" width="80" height="24">
-              <div style={{ fontSize: 12 }}>
-                {pp(pR1)} = {data.red}/{data.total}
+          <svg viewBox="0 0 328 160">
+            <image
+              href="/content/BW_2BFS/3052_Baum.png"
+              height="160"
+              width="328"
+            />
+            <foreignObject x={85} y={0} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
+                {ppFrac(data.red / data.total)}
               </div>
             </foreignObject>
-            <foreignObject x="60" y="138" width="80" height="24">
-              <div style={{ fontSize: 12 }}>
-                {pp(pB1)} = {data.total - data.red}/{data.total}
+            <foreignObject x={230} y={0} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
+                {ppFrac((data.total - data.red) / data.total)}
+              </div>
+            </foreignObject>
+            <foreignObject x={20} y={75} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
+                {data.withReplacement
+                  ? ppFrac(data.red / data.total)
+                  : ppFrac((data.red - 1) / (data.total - 1))}
               </div>
             </foreignObject>
 
-            <foreignObject x="150" y="56" width="120" height="24">
-              <div style={{ fontSize: 12 }}>
-                r: {pp(pR2r)} ={' '}
+            <foreignObject x={100} y={75} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
                 {data.withReplacement
-                  ? `${data.red}/${data.total}`
-                  : `${data.red - 1}/${data.total - 1}`}
+                  ? ppFrac((data.total - data.red) / data.total)
+                  : ppFrac((data.total - data.red) / (data.total - 1))}
               </div>
             </foreignObject>
-            <foreignObject x="150" y="96" width="120" height="24">
-              <div style={{ fontSize: 12 }}>
-                b: {pp(pB2r)} ={' '}
+            <foreignObject x={210} y={75} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
                 {data.withReplacement
-                  ? `${data.total - data.red}/${data.total}`
-                  : `${data.total - data.red}/${data.total - 1}`}
+                  ? ppFrac(data.red / data.total)
+                  : ppFrac(data.red / (data.total - 1))}
               </div>
             </foreignObject>
-
-            <foreignObject x="150" y="116" width="120" height="24">
-              <div style={{ fontSize: 12 }}>
-                r: {pp(pR2b)} ={' '}
+            <foreignObject x={290} y={75} width={20} height={45}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'black',
+                  transform: 'scale(1)',
+                }}
+              >
                 {data.withReplacement
-                  ? `${data.red}/${data.total}`
-                  : `${data.red}/${data.total - 1}`}
-              </div>
-            </foreignObject>
-            <foreignObject x="150" y="156" width="120" height="24">
-              <div style={{ fontSize: 12 }}>
-                b: {pp(pB2b)} ={' '}
-                {data.withReplacement
-                  ? `${data.total - data.red}/${data.total}`
-                  : `${data.total - data.red - 1}/${data.total - 1}`}
+                  ? ppFrac((data.total - data.red) / data.total)
+                  : ppFrac((data.total - data.red - 1) / (data.total - 1))}
               </div>
             </foreignObject>
           </svg>
