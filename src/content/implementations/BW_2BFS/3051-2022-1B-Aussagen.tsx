@@ -108,7 +108,7 @@ export const exercise3051: Exercise<DATA> = {
           <p>
             <b>Satzanfänge</b>
           </p>
-          <ol className="list-decimal ml-5">
+          <ol className="list-decimal ml-5 text-xs">
             {data.starts.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
@@ -118,7 +118,7 @@ export const exercise3051: Exercise<DATA> = {
           <p>
             <b>Satzenden</b>
           </p>
-          <ol className="list-[upper-alpha] ml-5">
+          <ol className="list-[upper-alpha] ml-5 text-xs">
             {data.ends.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
@@ -135,11 +135,7 @@ export const exercise3051: Exercise<DATA> = {
         return null
       },
       task() {
-        return (
-          <p>
-            <b>1.</b> Ordnen Sie jedem Satzanfang ein passendes Satzende zu.
-          </p>
-        )
+        return <p>Ordnen Sie jedem Satzanfang ein passendes Satzende zu.</p>
       },
       solution({ data }) {
         // zeige Lösung als Tabelle Startindex -> Endbuchstabe
@@ -148,7 +144,7 @@ export const exercise3051: Exercise<DATA> = {
           <ul className="list-decimal ml-5">
             {data.mapping.map(([i, j], k) => (
               <li key={k}>
-                Start {i + 1} → {letter(j)}
+                Start {i + 1} → Ende {letter(j)}
               </li>
             ))}
           </ul>
@@ -163,40 +159,50 @@ export const exercise3051: Exercise<DATA> = {
       task() {
         return (
           <p>
-            <b>2.</b> Zeichnen Sie zwei Figuren, die ähnlich, aber nicht
-            kongruent sind.
+            Zeichnen Sie zwei Figuren, die ähnlich, aber nicht kongruent sind.
           </p>
         )
       },
       solution() {
         // zwei ähnliche Dreiecke (Skizze)
         return (
-          <svg
-            viewBox="0 0 320 160"
-            width="320"
-            height="160"
-            className="border rounded"
-          >
-            <polyline
-              points="40,120 140,120 60,40 40,120"
-              fill="none"
-              stroke="black"
-              strokeWidth="2"
-            />
-            <polyline
-              points="200,120 300,120 220,60 200,120"
-              fill="none"
-              stroke="black"
-              strokeWidth="2"
-              strokeDasharray="4 3"
-            />
-            <text x="80" y="135">
-              Dreieck 1
-            </text>
-            <text x="230" y="135">
-              Dreieck 2 (ähnlich, kleiner)
-            </text>
-          </svg>
+          <>
+            <svg
+              viewBox="0 0 320 160"
+              width="320"
+              height="160"
+              className="border rounded"
+            >
+              <polyline
+                points="40,120 140,120 60,40 40,120"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+              />
+
+              <text x="80" y="135">
+                Dreieck 1
+              </text>
+            </svg>
+            <svg
+              viewBox="0 0 320 160"
+              width="320"
+              height="160"
+              className="border rounded"
+            >
+              <polyline
+                points="50,90 100,90 60,50 50,90"
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+                strokeDasharray="4 3"
+              />
+
+              <text x="70" y="135">
+                Dreieck 2 (ähnlich, kleiner)
+              </text>
+            </svg>
+          </>
         )
       },
     },
