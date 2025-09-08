@@ -35,11 +35,20 @@ export const exercise4904: Exercise<DATA> = {
     const total = rng.randomIntBetween(10, 16) * 2
     const red = rng.randomIntBetween(6, 9) * 2
     const withReplacement = rng.randomBoolean()
-    const event = rng.randomItemFromArray(['exactlyOneRed', 'twoRed', 'twoBlack'] as const)
+    const event = rng.randomItemFromArray([
+      'exactlyOneRed',
+      'twoRed',
+      'twoBlack',
+    ] as const)
     return { total, red, withReplacement, event }
   },
 
-  originalData: { total: 32, red: 16, withReplacement: false, event: 'exactlyOneRed' },
+  originalData: {
+    total: 32,
+    red: 16,
+    withReplacement: false,
+    event: 'exactlyOneRed',
+  },
 
   constraint({ data }) {
     return (
@@ -55,9 +64,9 @@ export const exercise4904: Exercise<DATA> = {
       <>
         <p>
           In einer Urne liegen rote (R) und schwarze (S) Kugeln. Es wird zweimal
-          nacheinander {data.withReplacement ? 'mit' : 'ohne'} Zurücklegen gezogen.
-          Ergänze das Baumdiagramm und bestimme die Wahrscheinlichkeit für das Ereignis{' '}
-          <InlineMath math={eventMath[data.event]} />.
+          nacheinander {data.withReplacement ? 'mit' : 'ohne'} Zurücklegen
+          gezogen. Ergänze das Baumdiagramm und bestimme die Wahrscheinlichkeit
+          für das Ereignis <InlineMath math={eventMath[data.event]} />.
         </p>
 
         <svg viewBox="0 0 328 180">
@@ -121,10 +130,9 @@ export const exercise4904: Exercise<DATA> = {
         den = data.total * (data.total - 1)
       }
       num = numRS + numSR
-      eqLatex =
-        data.withReplacement
-          ? `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
-          : `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total - 1}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total - 1}}`
+      eqLatex = data.withReplacement
+        ? `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total}}`
+        : `\\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total - 1}} + \\tfrac{${data.total - data.red}}{${data.total}}\\cdot\\tfrac{${data.red}}{${data.total - 1}}`
       eqPaths = [
         data.withReplacement
           ? `P(R,S) = \\tfrac{${data.red}}{${data.total}}\\cdot\\tfrac{${data.total - data.red}}{${data.total}}`
@@ -245,8 +253,7 @@ export const exercise4904: Exercise<DATA> = {
         <p className="mt-2">
           <b>
             Pfadregeln für E = {eventText[data.event]}
-            <br />
-            ({data.withReplacement ? 'mit' : 'ohne'} Zurücklegen)
+            <br />({data.withReplacement ? 'mit' : 'ohne'} Zurücklegen)
           </b>
         </p>
         {buildEquation([
@@ -261,8 +268,8 @@ export const exercise4904: Exercise<DATA> = {
                   data.event === 'exactlyOneRed'
                     ? 'P(R,S)+P(S,R)'
                     : data.event === 'twoRed'
-                    ? 'P(R,R)'
-                    : 'P(S,S)'
+                      ? 'P(R,R)'
+                      : 'P(S,S)'
                 }
               />
             </>,

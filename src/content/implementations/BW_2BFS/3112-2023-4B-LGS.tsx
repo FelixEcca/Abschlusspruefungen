@@ -1,45 +1,84 @@
+// ======================================
+// 4B — LGS:  -2x = 2(y+1)  ;  x + 1/4 y = 1/2
+// ======================================
 import { Exercise } from '@/data/types'
+import { InlineMath } from 'react-katex'
+import { buildEquation } from '@/helper/math-builder'
 
-interface DATA {}
+interface DATA3112 {
+  // zufällige Vielfache des Originals für Generator-Aufgaben
+  k1: number
+  k2: number
+}
 
-export const exercise3112: Exercise<DATA> = {
-  title: 'LGS',
-  source: '2023 Wahlteil Aufgabe 4B',
-  useCalculator: true,
-  duration: 42,
+export const exercise3112: Exercise<DATA3112> = {
+  title: 'Lineares Gleichungssystem – Lösung & unendlich-viele-Bedingung',
+  source: '2023 Pflichtteil 4B',
+  useCalculator: false,
+  duration: 8,
+
   generator(rng) {
-    return {}
+    // skaliere beide Originalgleichungen mit netten Faktoren (Übungsteil)
+    const k1 = rng.randomItemFromArray([1, 2, 3])
+    const k2 = rng.randomItemFromArray([1, 2, 4])
+    return { k1, k2 }
   },
-  originalData: {},
-  constraint({ data }) {
+
+  originalData: { k1: 1, k2: 1 },
+
+  constraint() {
     return true
   },
+
   intro({ data }) {
-    return null
+    const g1 = `-2\\cdot ${data.k1}\\,x=2\\cdot ${data.k1}(y+1)`
+    const g2 = `${data.k2}\\,x+\\tfrac{${data.k2}}{4}y=\\tfrac{${data.k2}}{2}`
+    return (
+      <>
+        <p>Gegeben ist das LGS</p>
+        <InlineMath math={g1} />
+        <span> (1)</span>
+        <br />
+        <InlineMath math={g2} />
+        <span> (2)</span>
+      </>
+    )
   },
+
   tasks: [
     {
-      points: 42,
-      intro({ data }) {
+      points: 5,
+      intro() {
         return null
       },
-      task({ data }) {
-        return <></>
+      task() {
+        return <p>Lösen Sie das LGS.</p>
       },
-      solution({ data }) {
-        return <></>
+      solution() {
+        return buildEquation([
+          ['Aus (1)', '', 'x=-(y+1)'],
+          ['In (2)', '\\Rightarrow', '-(y+1)+\\tfrac{1}{4}y=\\tfrac{1}{2}'],
+          ['Lösen', '\\Rightarrow', 'y=-2,\\ x=1'],
+        ])
       },
     },
     {
-      points: 42,
-      intro({ data }) {
+      points: 3,
+      intro() {
         return null
       },
-      task({ data }) {
-        return <></>
+      task() {
+        return (
+          <p>
+            Geben Sie eine zweite Gleichung an, die mit (1) unendlich viele
+            Lösungen besitzt.
+          </p>
+        )
       },
-      solution({ data }) {
-        return <></>
+      solution() {
+        return (
+          <InlineMath math="x+y+1=0\\quad(\\text{Vielfache/äquivalente Form von (1)})" />
+        )
       },
     },
   ],
