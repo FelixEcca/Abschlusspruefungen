@@ -86,7 +86,10 @@ export const exercise3106: Exercise<DATA3106> = {
   },
 
   constraint({ data }) {
-    return data.b !== 0 && data.statements.length === 3
+    const y = data.rRight * (data.a / data.b) - data.rRight
+    return (
+      data.b !== 0 && data.statements.length === 3 && (y * 2) % 1 === 0 && y > 0
+    )
   },
 
   intro({ data }) {
