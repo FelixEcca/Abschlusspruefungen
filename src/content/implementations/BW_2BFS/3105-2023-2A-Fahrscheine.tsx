@@ -31,8 +31,9 @@ export const exercise3105: Exercise<DATA3105> = {
   intro({ data }) {
     return (
       <p>
-        Angenommen, {Math.round(100 * data.pNo)}% der Zugfahrenden fahren ohne
-        gültigen Fahrschein.
+        Angenommen, von den Personen, die mit dem Zug fahren, fahren{' '}
+        {Math.round(100 * data.pNo)}% ohne gültigen Fahrschein. gültigen
+        Fahrschein.
       </p>
     )
   },
@@ -46,8 +47,9 @@ export const exercise3105: Exercise<DATA3105> = {
       task() {
         return (
           <p>
-            Berechnen Sie die Wahrscheinlichkeit, dass <b>zwei</b> zufällig
-            kontrollierte Personen ohne Fahrschein sind.
+            Berechnen Sie mithilfe eines Baumdiagramms die Wahrscheinlichkeit
+            dafür, dass zwei zufällig kontrollierte Personen ohne gültigen
+            Fahrschein fahren.
           </p>
         )
       },
@@ -55,11 +57,161 @@ export const exercise3105: Exercise<DATA3105> = {
         const p2 = data.pNo * data.pNo
         return (
           <>
-            <BlockMath math="P(2\ \text{ohne})=p\cdot p" />
+            <p>
+              Das Baumdiagramm für das Kontrollieren von zwei Fahrgästen sieht
+              so aus:
+            </p>
+            <svg viewBox="0 0 328 200">
+              <image
+                href="/content/BW_2BFS/3054.png"
+                height="200"
+                width="328"
+              />
+              <text
+                x={70}
+                y={100}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                ohne
+              </text>
+              <text
+                x={240}
+                y={100}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                mit
+              </text>
+              <text
+                x={20}
+                y={195}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                ohne
+              </text>
+              <text
+                x={140}
+                y={195}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                mit
+              </text>
+              <text
+                x={180}
+                y={195}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                ohne
+              </text>
+              <text
+                x={300}
+                y={195}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                mit
+              </text>
+              <text
+                x={70}
+                y={100}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                ohne
+              </text>
+              <foreignObject x={60} y={30} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(data.pNo)}`} />
+                </div>
+              </foreignObject>
+              <foreignObject x={205} y={30} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(1 - data.pNo)}`} />
+                </div>
+              </foreignObject>
+              <foreignObject x={270} y={130} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(1 - data.pNo)}`} />
+                </div>
+              </foreignObject>
+              <foreignObject x={105} y={130} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(1 - data.pNo)}`} />
+                </div>
+              </foreignObject>
+              <foreignObject x={0} y={130} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(data.pNo)}`} />
+                </div>
+              </foreignObject>
+              <foreignObject x={170} y={130} width={40} height={30}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <InlineMath math={`${pp(data.pNo)}`} />
+                </div>
+              </foreignObject>
+            </svg>
             <BlockMath
-              math={`= ${pp(data.pNo)}\\cdot ${pp(data.pNo)} = ${pp(p2)}`}
+              math={`
+                \\begin{align*}
+                  P(2\\ \\text{ohne}) &= P(ohne) \\cdot P(ohne) \\\\
+                  &= ${pp(data.pNo)} \\cdot ${pp(data.pNo)} \\\\
+                  &= ${pp(p2)}
+                \\end{align*}
+              `}
             />
-            <p>≈ {Math.round(p2 * 100)} %</p>
           </>
         )
       },
@@ -72,8 +224,9 @@ export const exercise3105: Exercise<DATA3105> = {
       task({ data }) {
         return (
           <p>
-            Wie viele Personen ohne Fahrschein <em>erwartet</em> man bei{' '}
-            {data.sample} Kontrollen?
+            Ermitteln Sie, wie viele Personen man erwarten kann, die ohne
+            gültigen Fahrschein fahren, wenn {data.sample} Personen zufällig
+            kontrolliert werden.
           </p>
         )
       },
@@ -86,6 +239,9 @@ export const exercise3105: Exercise<DATA3105> = {
             <InlineMath
               math={`E=${data.sample}\\cdot ${pp(data.pNo)}=${pp(E)}`}
             />
+            <p>
+              Etwa {Math.round(E)} Personen werden erwartungsgemäß kontrolliert.
+            </p>
           </>
         )
       },
