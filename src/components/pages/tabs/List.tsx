@@ -136,6 +136,11 @@ export function List() {
                       {label}{' '}
                       <span className="text-sm text-gray-500">
                         ({items.length})
+                        {(year === 2023 || year === 2022) && (
+                          <span className="ml-2 text-orange-600 font-semibold">
+                            Work in Progress
+                          </span>
+                        )}
                       </span>
                     </IonLabel>
                   </IonItem>
