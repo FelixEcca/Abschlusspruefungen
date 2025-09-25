@@ -2,15 +2,22 @@
 // 3B — Parabel y = x^2 + 4x + 1
 // =====================================
 import { Exercise } from '@/data/types'
-import { InlineMath } from 'react-katex'
+import { InlineMath, BlockMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { buildEquation } from '@/helper/math-builder'
 
 interface DATA3109 {
   a: number
   b: number
   c: number
-  m: number
+  m: number // Steigung der Ursprungsgeraden
+}
+
+// Mapper wie gewohnt (KS 10er-Raster)
+function toX(n: number) {
+  return 167 + n * ((94.5 * 2) / 10)
+}
+function toY(n: number) {
+  return 163 - n * ((94.5 * 2) / 10)
 }
 
 export const exercise3109: Exercise<DATA3109> = {
@@ -20,13 +27,18 @@ export const exercise3109: Exercise<DATA3109> = {
   duration: 10,
 
   generator(rng) {
-    // erzwinge Tangente: b = 2m
-    const m = rng.randomItemFromArray([1, 2, 3, -1, -2])
-    const b = 2 * m
-    const c = rng.randomIntBetween(-2, 2)
+    // Wir erzeugen eine Parabel p: y = x^2 + b x + c
+    // und eine Ursprungsgerade y = m x, die p BERÜHRT (genau 1 Schnittpunkt).
+    // Konstruktiv: wähle m ∈ {-3,-2,-1,1,2,3}, k ∈ {1,2,3}
+    // setze b = m + 2k  ⇒  b - m = 2k  ⇒  c = k^2  (Diskriminante 0).
+    const m = rng.randomItemFromArray([-3, -2, -1, 1, 2, 3])
+    const k = rng.randomItemFromArray([1, 2, 3])
+    const b = m + 2 * k
+    const c = k * k
     return { a: 1, b, c, m }
   },
 
+  // Originaldaten exakt wie im Scan: y = x^2 + 4x + 1, m = 2
   originalData: { a: 1, b: 4, c: 1, m: 2 },
 
   constraint() {
@@ -36,11 +48,10 @@ export const exercise3109: Exercise<DATA3109> = {
   intro({ data }) {
     return (
       <p>
-        Gegeben:{' '}
+        Die Parabel <InlineMath math="p" /> hat die Gleichung <br></br>
         <InlineMath
-          math={`p: y=x^2${pp(data.b, 'merge_op')}x${pp(data.c, 'merge_op')}`}
+          math={`y = x^{2}${pp(data.b, 'merge_op')}x${pp(data.c, 'merge_op')}.`}
         />
-        .
       </p>
     )
   },
@@ -52,43 +63,104 @@ export const exercise3109: Exercise<DATA3109> = {
         return null
       },
       task() {
-        return <p>Bestimmen Sie den Scheitelpunkt.</p>
+        return (
+          <p>
+            Berechnen Sie die Koordinaten des Scheitelpunktes. Zeichnen Sie die
+            Parabel <InlineMath math="p" /> in ein Koordinatensystem.
+          </p>
+        )
       },
       solution({ data }) {
-        const h = -data.b / (2 * data.a)
-        const k = data.a * h * h + data.b * h + data.c
-        return buildEquation([
-          ['Formel', '', 'h=-\\tfrac{b}{2a},\\; k=f(h)'],
-          ['Einsetzen', '\\Rightarrow', `S=(${pp(h)}\\mid ${pp(k)})`],
-        ])
+        const a = data.a
+        const b = data.b
+        const c = data.c
+        const h = -b / (2 * a)
+        const k = a * h * h + b * h + c
+
+        // Parabel-SVG
+        const xs: number[] = []
+        for (let x = h - 6; x <= h + 6; x += 0.1) xs.push(+x.toFixed(1))
+        const path = xs
+          .map(x => `${toX(x)},${toY(a * x * x + b * x + c)}`)
+          .join(' ')
+
+        return (
+          <div className="space-y-2">
+            <p>Bestimme die Scheitelpunktform mit quadratischer Ergänzung:</p>
+            <BlockMath
+              math={`y = x^{2}${pp(data.b, 'merge_op')}x + \\left(\\frac{${pp(data.b)}}{2}\\right)^2${pp(data.c, 'merge_op')}- \\left(\\frac{${pp(data.b)}}{2}\\right)^2`}
+            />
+            <BlockMath
+              math={`y = \\left(x ${data.b > 0 ? '+' : '-'}\\frac{${pp(data.b)}}{2}\\right)^{2} ${pp(data.c - (data.b / 2) * (data.b / 2), 'merge_op')}`}
+            />
+            <BlockMath
+              math={`y = (x ${pp(data.b / 2, 'merge_op')})^{2} ${pp(data.c - (data.b / 2) * (data.b / 2), 'merge_op')}`}
+            />
+            <BlockMath
+              math={`\\Rightarrow\\; S\\,=\\,(${pp(h)}\\mid ${pp(k)})`}
+            />
+            <svg
+              viewBox="0 0 328 328"
+              width="328"
+              height="328"
+              className="border rounded"
+            >
+              <image
+                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                width="328"
+                height="328"
+              />
+              <polyline
+                points={path}
+                fill="none"
+                stroke="black"
+                strokeWidth="2"
+              />
+              <circle cx={toX(h)} cy={toY(k)} r="3" />
+              <text x={toX(h) + 6} y={toY(k) - 6} fontSize="12">
+                S
+              </text>
+            </svg>
+          </div>
+        )
       },
     },
     {
       points: 5,
       intro({ data }) {
+        return null
+      },
+      task({ data }) {
         return (
           <p>
-            Die Ursprungsgerade hat Steigung{' '}
-            <InlineMath math={`${pp(data.m)}`} />.
+            2.&nbsp;Die Ursprungsgerade mit der Steigung{' '}
+            <InlineMath math={`${pp(data.m)}`} /> und die Parabel{' '}
+            <InlineMath math="p" /> haben genau einen Punkt gemeinsam. Bestimmen
+            Sie die Koordinaten dieses Punktes.
           </p>
         )
       },
-      task() {
-        return <p>Bestimmen Sie den gemeinsamen Punkt.</p>
-      },
       solution({ data }) {
-        // bei Tangente: x = -m, y = m*x
-        const x = -data.m,
-          y = data.m * x
-        return buildEquation([
-          ['Schnitt', '', 'x^2+bx+c=mx'],
-          [
-            'Einsetzen',
-            '\\Rightarrow',
-            `x^2+${pp(data.b)}x${pp(data.c, 'merge_op')}=${pp(data.m)}x`,
-          ],
-          ['Berührpunkt', '\\Rightarrow', `P(${pp(x)}\\mid ${pp(y)})`],
-        ])
+        // Berührpunkt durch Gleichsetzen y = x^2 + b x + c = m x
+        // x^2 + (b - m)x + c = 0  mit Diskriminante 0 ⇒ x = -(b - m)/2
+        const bm = data.b - data.m
+        const x = -bm / 2
+        const y = data.m * x
+        return (
+          <div className="space-y-2">
+            <BlockMath
+              math={`x^2+(${pp(data.b)}-${pp(
+                data.m,
+              )})x+${pp(data.c)}=0\\;\\Rightarrow\\;x=-\\dfrac{${pp(
+                data.b,
+              )}-${pp(data.m)}}{2}=${pp(x)}`}
+            />
+            <BlockMath math={`y=mx=${pp(data.m)}\\cdot ${pp(x)}=${pp(y)}`} />
+            <BlockMath
+              math={`\\Rightarrow\\; P\\,=\\,(${pp(x)}\\mid ${pp(y)})`}
+            />
+          </div>
+        )
       },
     },
   ],
