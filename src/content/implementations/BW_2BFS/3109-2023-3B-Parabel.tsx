@@ -133,7 +133,7 @@ export const exercise3109: Exercise<DATA3109> = {
       task({ data }) {
         return (
           <p>
-            2.&nbsp;Die Ursprungsgerade mit der Steigung{' '}
+            Die Ursprungsgerade mit der Steigung{' '}
             <InlineMath math={`${pp(data.m)}`} /> und die Parabel{' '}
             <InlineMath math="p" /> haben genau einen Punkt gemeinsam. Bestimmen
             Sie die Koordinaten dieses Punktes.
@@ -148,14 +148,23 @@ export const exercise3109: Exercise<DATA3109> = {
         const y = data.m * x
         return (
           <div className="space-y-2">
+            <p>
+              Setze die Parabelgleichung und Geradengleichung gleich und löse:
+            </p>
             <BlockMath
-              math={`x^2+(${pp(data.b)}-${pp(
-                data.m,
-              )})x+${pp(data.c)}=0\\;\\Rightarrow\\;x=-\\dfrac{${pp(
-                data.b,
-              )}-${pp(data.m)}}{2}=${pp(x)}`}
+              math={`x^2+${pp(data.b)}x+${pp(data.c)}=${pp(data.m)}x`}
             />
-            <BlockMath math={`y=mx=${pp(data.m)}\\cdot ${pp(x)}=${pp(y)}`} />
+            <BlockMath
+              math={`\\Rightarrow\\; x^2+${pp(bm)}x+${pp(data.c)}=0`}
+            />
+            <p>Verwende die pq-Formel. Unter der Wurzel wird 0 stehen.</p>
+            <BlockMath
+              math={`\\Rightarrow\\; x=-\\dfrac{${pp(bm)}}{2}\\pm\\sqrt{0}=${pp(x)}`}
+            />
+            <p>Setze in die Geradengleichung ein für y:</p>
+            <BlockMath
+              math={`y=${pp(data.m)}\\cdot${pp(x, 'embrace_neg')}=${pp(y)}`}
+            />
             <BlockMath
               math={`\\Rightarrow\\; P\\,=\\,(${pp(x)}\\mid ${pp(y)})`}
             />
