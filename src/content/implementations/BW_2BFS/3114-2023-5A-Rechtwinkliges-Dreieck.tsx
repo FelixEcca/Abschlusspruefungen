@@ -2,22 +2,25 @@
 // 5A — Rechtwinkliges Dreieck ABC
 // ======================================
 import { Exercise } from '@/data/types'
-import { InlineMath } from 'react-katex'
+import { InlineMath, BlockMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA3114 {
+  // Katheten a=AB (senkrecht), b=BC (waagrecht), Hypotenuse c=AC
   a: number
   b: number
   c: number
+  // Verkleinerungsfaktor für die ähnliche Figur (0<k<1)
   scaleK: number
 }
 
 function tri5a() {
   return {
+    // rechtwinklig bei B (30,140), A oben (30,40), C rechts (250,140)
     base: '30,140 250,140 30,40 30,140',
+    A: { x: 30, y: 40 },
     B: { x: 30, y: 140 },
     C: { x: 250, y: 140 },
-    A: { x: 30, y: 40 },
   }
 }
 
@@ -26,26 +29,29 @@ export const exercise3114: Exercise<DATA3114> = {
   source: '2023 Wahlteil Aufgabe 5A',
   useCalculator: true,
   duration: 12,
+  points: 12,
 
   generator(rng) {
-    const tri = rng.randomItemFromArray([
+    // Pythagoreische Tripel → saubere Winkelwerte
+    const base = rng.randomItemFromArray([
       [3, 4, 5],
-      [6, 8, 10],
       [5, 12, 13],
       [8, 15, 17],
+      [6, 8, 10],
     ])
-    const k = rng.randomItemFromArray([1, 2])
-    const a = tri[0] * k,
-      b = tri[1] * k,
-      c = tri[2] * k
+    const kInt = rng.randomItemFromArray([1, 2]) // ggf. skalieren
+    const a = base[0] * kInt
+    const b = base[1] * kInt
+    const c = base[2] * kInt
     const scaleK = rng.randomItemFromArray([0.5, 0.6, 0.7, 0.8])
     return { a, b, c, scaleK }
   },
 
-  // Original ohne Zahlen → „nettes“ Beispiel
+  // Original (ohne Zahlen): Beispiel mit 6-8-10
   originalData: { a: 6, b: 8, c: 10, scaleK: 0.6 },
 
   constraint({ data }) {
+    // Pythagoras prüfen
     return Math.abs(data.a ** 2 + data.b ** 2 - data.c ** 2) < 1e-9
   },
 
@@ -55,30 +61,44 @@ export const exercise3114: Exercise<DATA3114> = {
       <>
         <p>
           Gegeben ist das rechtwinklige Dreieck <InlineMath math="ABC" />{' '}
-          (rechter Winkel bei <InlineMath math="B" />
+          (Rechtwinkel in <InlineMath math="B" />
           ).
         </p>
-        <svg viewBox="0 0 280 180">
+        {/* Skizze mit Maßen */}
+        <svg viewBox="0 0 280 180" className="border rounded">
           <polyline
             points={S.base}
             fill="none"
             stroke="black"
             strokeWidth="2"
           />
-          <polyline
-            points="30,140 50,140 50,120"
-            fill="none"
-            stroke="black"
-            strokeWidth="2"
-          />
-          <text x={140} y={158}>
-            {pp(data.b)} cm
-          </text>
-          <text x={6} y={100} transform="rotate(-90 10,90)">
+
+          {/* Seitenbeschriftungen */}
+          <text x={6} y={100} fontSize={14} transform="rotate(-90 10,90)">
             {pp(data.a)} cm
           </text>
-          <text x={120} y={80}>
+          <text x={140} y={158} fontSize={14}>
+            {pp(data.b)} cm
+          </text>
+          <text x={120} y={80} fontSize={14}>
             {pp(data.c)} cm
+          </text>
+          {/* Eckpunkte */}
+          <text x={24} y={38}>
+            A
+          </text>
+          <text x={24} y={156}>
+            B
+          </text>
+          <text x={252} y={156}>
+            C
+          </text>
+          {/* α am Punkt A, β am Punkt B wie im Blatt */}
+          <text x={35} y={60}>
+            α
+          </text>
+          <text x={35} y={132}>
+            β
           </text>
         </svg>
       </>
@@ -86,47 +106,88 @@ export const exercise3114: Exercise<DATA3114> = {
   },
 
   tasks: [
+    // (1) Thales-Erklärung
     {
-      points: 4,
+      points: 3,
       intro() {
         return null
       },
       task() {
         return (
           <p>
-            Beschreiben Sie, wie man mit dem Thaleskreis zeigt, dass{' '}
-            <InlineMath math="\\beta" /> ein rechter Winkel ist.
+            Mit Hilfe eines Thaleskreises kann man nachweisen, dass der Winkel{' '}
+            <InlineMath math="\beta" /> ein rechter Winkel ist. Beschreiben Sie
+            die Vorgehensweise.
           </p>
         )
       },
       solution() {
         return (
-          <p>
-            Kreis mit Durchmesser <InlineMath math="AC" /> zeichnen
-            (Thaleskreis). Punkt <InlineMath math="B" /> liegt auf dem Halbkreis
-            ⇒ Winkel bei <InlineMath math="B" /> ist 90°.
-          </p>
+          <ul className="list-disc ml-5">
+            <li>
+              Zeichne einen Kreis mit dem Durchmesser <InlineMath math="AC" />,
+              sodass A und C jeweils auf dem Kreis liegen.
+            </li>
+            <li>
+              Wenn der Punkt B ebenfalls auf dem Kreis liegt, dann ist der
+              Winkel <InlineMath math="\beta" /> ein rechter Winkel (Satz des
+              Thales).
+            </li>
+          </ul>
         )
       },
     },
+
+    // (2) Winkel α berechnen
     {
-      points: 6,
+      points: 5,
       intro() {
         return null
       },
       task() {
         return (
           <p>
-            Berechnen Sie <InlineMath math="\\alpha" /> (auf 2 Dez.) und
-            zeichnen Sie eine <b>ähnliche, kleinere</b> Figur mit demselben
-            Eckpunkt <InlineMath math="C" />.
+            Berechnen Sie den Winkel <InlineMath math="\alpha" /> (auf zwei
+            Dezimalstellen).
           </p>
         )
       },
       solution({ data }) {
         const alpha = (Math.atan(data.b / data.a) * 180) / Math.PI
-        const S = tri5a(),
-          k = data.scaleK
+        const alphaR = Math.round(alpha * 100) / 100
+        return (
+          <>
+            <BlockMath math=" \tan(\alpha)=\dfrac{\text{Gegenkathete}}{\text{Ankathete}}=\dfrac{BC}{AB} " />
+            <BlockMath
+              math={` \\tan(\\alpha)=\\dfrac{${pp(data.b)}}{${pp(
+                data.a,
+              )}} \\Rightarrow \\alpha=\\tan^{-1}\\!\\left(\\dfrac{${pp(
+                data.b,
+              )}}{${pp(data.a)}}\\right)\\approx ${pp(alphaR)}^{\\circ} `}
+            />
+          </>
+        )
+      },
+    },
+
+    // (3) Ähnliche, nicht kongruente Figur (kleiner)
+    {
+      points: 4,
+      intro({ data }) {
+        return null
+      },
+      task({ data }) {
+        return (
+          <p>
+            Zeichnen Sie eine zur dargestellten Figur ähnliche, aber nicht
+            kongruente Figur mit kleinerem Flächeninhalt in die Abbildung ein.
+          </p>
+        )
+      },
+      solution({ data }) {
+        const S = tri5a()
+        const k = data.scaleK
+        // neue Punkte durch Zentrierung in C und Skalieren
         const A1 = {
           x: S.C.x + k * (S.A.x - S.C.x),
           y: S.C.y + k * (S.A.y - S.C.y),
@@ -135,38 +196,49 @@ export const exercise3114: Exercise<DATA3114> = {
           x: S.C.x + k * (S.B.x - S.C.x),
           y: S.C.y + k * (S.B.y - S.C.y),
         }
-        const path = `${B1.x},${B1.y} ${S.C.x},${S.C.y} ${A1.x},${A1.y} ${B1.x},${B1.y}`
+        const pathSmall = `${B1.x},${B1.y} ${S.C.x},${S.C.y} ${A1.x},${A1.y} ${B1.x},${B1.y}`
+
         return (
           <div className="space-y-2">
-            <InlineMath
-              math={`\\tan(\\alpha)=\\tfrac{BC}{AB}=\\tfrac{${pp(data.b)}}{${pp(data.a)}}\\Rightarrow\\alpha\\approx ${pp(Math.round(alpha * 100) / 100)}^{\\circ}`}
-            />
-            <svg viewBox="0 0 280 180">
+            <svg viewBox="0 0 280 180" className="border rounded">
               <polyline
                 points={S.base}
                 fill="none"
                 stroke="black"
                 strokeWidth="2"
               />
+
               <polyline
-                points="30,140 50,140 50,120"
-                fill="none"
-                stroke="black"
-                strokeWidth="2"
-              />
-              <polyline
-                points={path}
+                points={pathSmall}
                 fill="none"
                 stroke="black"
                 strokeWidth="2"
                 strokeDasharray="4 3"
               />
               <circle cx={S.C.x} cy={S.C.y} r="3" />
+              <text x={S.C.x + 6} y={S.C.y - 6} fontSize={12}>
+                C
+              </text>
+              {/* D at start of pathSmall (B1) */}
+              <text x={B1.x - 5} y={B1.y + 15} fontSize={12}>
+                D
+              </text>
+              {/* E at end of pathSmall (A1) */}
+              <text x={A1.x - 5} y={A1.y - 15} fontSize={12}>
+                E
+              </text>
+              <text x={20} y={30} fontSize={12}>
+                A
+              </text>
+              <text x={20} y={160} fontSize={12}>
+                B
+              </text>
             </svg>
             <p>
-              Fläche skaliert mit <InlineMath math="k^2" />; hier{' '}
-              <InlineMath math={`k=${pp(k)}`} /> ⇒ kleiner.
+              Das Dreieck CDE ist ähnlich zu Dreieck ABC, aber nicht kongruent
+              (deckungsgleich).
             </p>
+            <p>Es hat außerdem einen kleineren Flächeninhalt.</p>
           </div>
         )
       },
