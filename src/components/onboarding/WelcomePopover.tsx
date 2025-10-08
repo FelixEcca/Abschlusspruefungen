@@ -92,6 +92,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
                   PlayerProfileStore.update(s => {
                     s.currentExam = selectedExam
                   })
+                  window.location.reload() // <-- This will reload the page
                 }}
                 interface="popover"
               >
