@@ -95,9 +95,6 @@ export function WelcomePopover({ forceOpen = false, onClose }: Props) {
                 onIonChange={e => {
                   const selectedExam = Number(e.detail.value)
                   setExam(selectedExam)
-                  PlayerProfileStore.update(s => {
-                    s.currentExam = selectedExam
-                  })
                 }}
                 interface="popover"
               >
