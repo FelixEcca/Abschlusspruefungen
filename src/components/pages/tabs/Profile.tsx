@@ -1,3 +1,4 @@
+// src/components/pages/tabs/Profile.tsx
 import {
   IonPage,
   IonHeader,
@@ -11,7 +12,6 @@ import {
   IonText,
 } from '@ionic/react'
 import React from 'react'
-import { useHistory } from 'react-router'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -55,35 +55,34 @@ function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
   if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
   if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  if (exam == 6 && (idNum < 5000 || idNum >= 5999)) return false
   return true
 }
 
 export function Profile() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const profile = useProfile()
-  const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
 
-  // --- Prüfungsaufgaben (aus exercisesData) ---
+  // Prüfungs-IDs aus exercisesData
   const examIds = React.useMemo(
     () =>
       Object.keys(exercisesData)
         .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
+        .filter(id =>
+          passExamFilter(typeof exam === 'number' ? exam : 99999, id),
+        ),
     [exam],
   )
   const examCount = examIds.length
 
-  // --- Trainingsaufgaben (aus navigationData[exam].topics) ---
+  // Trainingsaufgaben (navigationData[exam])
   const trainingCount = React.useMemo(() => {
-    const topics = navigationData[exam]?.topics ?? []
+    const topics = navigationData[exam as number]?.topics ?? []
     const flat = flattenAllExercises(topics)
-    // doppelte IDs vermeiden
     const ids = Array.from(new Set(flat.map(f => f.id)))
     return ids.length
   }, [exam])
 
-  // --- Profil-Stats (bearbeitet/gelöst/markiert/Zeit) ---
+  // Profil-Stats
   type ExerciseEntry = {
     solved?: boolean
     flagged?: boolean
@@ -99,23 +98,15 @@ export function Profile() {
 
   const totalAvailable = examCount + trainingCount
 
-  // --- Loading fallback if exam data is not ready ---
-  if (!examDataReady) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Profil</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <div className="flex justify-center items-center h-full">
-            <div>Wird geladen...</div>
-          </div>
-        </IonContent>
-      </IonPage>
-    )
-  }
+  // Prüfungen dynamisch wie im Popover
+  const examKeys = React.useMemo(
+    () =>
+      Object.keys(navigationData)
+        .map(n => Number(n))
+        .filter(n => !Number.isNaN(n))
+        .sort((a, b) => a - b),
+    [],
+  )
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -137,22 +128,25 @@ export function Profile() {
             </label>
             <select
               id="exam-select"
-              value={exam}
+              value={typeof exam === 'number' ? exam : ''}
               onChange={e => {
-                updatePlayerProfileStore(s => {
-                  s.currentExam = parseInt(e.target.value)
-                })
+                const v = Number(e.target.value)
+                if (!Number.isNaN(v)) {
+                  updatePlayerProfileStore(s => {
+                    s.currentExam = v
+                  })
+                }
               }}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {Object.keys(navigationData)
-                .map(n => Number(n))
-                .filter(n => navigationData[n]?.shortTitle)
-                .map(n => (
-                  <option value={n} key={n}>
-                    {navigationData[n].shortTitle}
-                  </option>
-                ))}
+              <option value="" disabled>
+                Bitte auswählen …
+              </option>
+              {examKeys.map(n => (
+                <option value={n} key={n}>
+                  {navigationData[n]?.shortTitle ?? `Prüfung ${n}`}
+                </option>
+              ))}
             </select>
           </div>
 

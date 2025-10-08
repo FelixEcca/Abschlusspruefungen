@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 // src/components/pages/tabs/Participate.tsx
 import * as React from 'react'
 import { useHistory } from 'react-router'
@@ -16,7 +15,6 @@ import {
 import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
-import { navigationData } from '@/content/navigations'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -28,10 +26,9 @@ import {
 } from '../../../../store/progress-store'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
-import { setNonce } from 'ionicons/dist/types/stencil-public-runtime'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
-// 👉 leichter Popover statt blockierendem Modal
+// Entfernt: import { setNonce } ...  (verursachte Namenskollision/Unsinn)
 
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false
@@ -39,13 +36,8 @@ function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
   if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
   if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  if (exam == 6 && (idNum < 5000 || idNum >= 5999)) return false
   return true
 }
-
-// function topicRouteIndex(exam: number, i: number) {
-//   return exam == 1 ? i + 1 : exam == 2 ? i + 101 : i + 201
-// }
 
 export function Start() {
   const history = useHistory()
@@ -53,49 +45,18 @@ export function Start() {
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
 
-  // Popover: nur anzeigen, wenn kein Name gespeichert ist UND exam !== 6
-  const [askNameOpen, setAskNameOpen] = React.useState(false)
-  React.useEffect(() => {
-    setAskNameOpen(!hasName && exam !== 6)
-  }, [hasName, exam])
-
-  // Begrüßung / Name (Karte)
-  const [editingName, setEditingName] = React.useState(!hasName)
-  const [inputName, setInputName] = React.useState(name)
-  React.useEffect(() => {
-    setInputName(name)
-    setEditingName(!hasName)
-  }, [name, hasName])
-
-  // Zufällige Aufgabe: immer "ungelöst" (Fallback: alle, falls alles gelöst)
-  const [lastId, setLastId] = React.useState<number | null>(null)
+  // Popover explizit steuern (nur anzeigen, wenn Name/Exam fehlen)
+  const needOnboarding = !hasName || typeof exam !== 'number'
   const [nonce, setNonce] = React.useState(0)
   const { currentStreak = 0 } = useProfile()
 
-  // Whitescreen fix: check if exam data is ready
-  const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
-
-  if (!examDataReady) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Abschlussprüfungen</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <div className="flex justify-center items-center h-full">
-            <div>Wird geladen...</div>
-          </div>
-        </IonContent>
-      </IonPage>
-    )
-  }
-
+  // Zufällige Aufgabe (ungelöst bevorzugt)
+  const [lastId, setLastId] = React.useState<number | null>(null)
   const suggestion = React.useMemo(() => {
+    const ex = typeof exam === 'number' ? exam : (99999 as number) // Fallback zeigt alle
     const allForExam = Object.keys(exercisesData)
       .map(id => parseInt(id, 10))
-      .filter(idNum => passExamFilter(exam, idNum))
+      .filter(idNum => passExamFilter(ex, idNum))
 
     if (allForExam.length === 0) return null
 
@@ -108,9 +69,8 @@ export function Start() {
     }
     return { id: pick, content: exercisesData[pick] }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exam, lastId, nonce]) // nonce triggert Neuwahl
+  }, [exam, lastId, nonce])
 
-  // Fortschritts-Färbung für die vorgeschlagene Aufgabe (flagged > solved > default)
   const sugProgress = useProgress(suggestion?.id ?? -1)
   const sugClass = suggestion
     ? sugProgress?.flagged
@@ -124,7 +84,9 @@ export function Start() {
     () =>
       Object.keys(exercisesData)
         .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
+        .filter(id =>
+          passExamFilter(typeof exam === 'number' ? exam : 99999, id),
+        ),
     [exam],
   )
   const userProfile = useProfile()
@@ -139,7 +101,6 @@ export function Start() {
 
   const total = allIds.length
   const solved = allIds.filter(id => solvedSet.has(id)).length
-  const percent = total > 0 ? Math.round((solved / total) * 100) : 0
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -148,68 +109,28 @@ export function Start() {
           <IonTitle>Abschlussprüfungen</IonTitle>
         </IonToolbar>
       </IonHeader>
-      {/* Popover nur anzeigen, wenn askNameOpen true ist */}
-      {askNameOpen && <WelcomePopover forceOpen />}
+
+      {/* Popover nur wenn nötig */}
+      <WelcomePopover forceOpen={needOnboarding} />
+
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
-        {/* 💬 Name-Popover nur wenn kein Name vorhanden ist */}
-
         <div className="mx-3 mt-4 space-y-6">
-          {/* Begrüßung */}
-
+          {/* Begrüßungskarte (Name ändern) */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
-            {editingName ? (
-              <>
-                <div className="font-semibold mb-1">Hallo! Wie heißt du?</div>
-                <input
-                  value={inputName}
-                  onChange={e => setInputName(e.target.value)}
-                  placeholder="Dein Name"
-                  className="w-full p-2 border border-gray-300 rounded-md mb-2"
-                />
-
-                <div className="flex gap-2">
-                  <IonButton
-                    onClick={() => {
-                      const trimmed = inputName.trim()
-                      updatePlayerProfileStore(s => {
-                        s.name = trimmed || ''
-                      })
-                      // Wenn leer gelassen wurde, Editing offen lassen:
-                      setEditingName(!(trimmed.length > 0))
-                      // Wenn weiterhin leer ist, Popover erneut anbieten:
-                      setAskNameOpen(!(trimmed.length > 0))
-                    }}
-                  >
-                    Speichern
-                  </IonButton>
-                  {hasName ? (
-                    <IonButton
-                      fill="clear"
-                      onClick={() => setEditingName(false)}
-                    >
-                      Abbrechen
-                    </IonButton>
-                  ) : null}
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-3xl">
+                  👋 Hallo{name ? `, ${name}` : ''}!
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  Dein Name wird nur lokal im Browser gespeichert.
-                </p>
-              </>
-            ) : (
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-3xl">
-                    👋 Hallo{name ? `, ${name}` : ''}!
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Schön, dich wiederzusehen. <br></br>Viel Erfolg beim Üben!
-                  </div>
+                <div className="text-sm text-gray-600">
+                  Schön, dich wiederzusehen. <br />
+                  Viel Erfolg beim Üben!
                 </div>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Fortschritt */}
@@ -218,7 +139,6 @@ export function Start() {
             <div className="mt-4">
               <LevelPanel />
             </div>
-            <div className="flex justify-between mb-3"></div>
             <div className="rounded-xl border bg-white shadow-xl p-6">
               <div className="flex items-center ">
                 <img
@@ -234,6 +154,7 @@ export function Start() {
                 </span>
               </div>
             </div>
+
             <div className="h-3" />
             <div className="rounded-xl border bg-white shadow-xl p-6">
               <div className="flex items-center gap-3">
@@ -250,14 +171,14 @@ export function Start() {
             </div>
           </div>
 
-          {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
+          {/* Zufällige Aufgabe */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
               <div className="font-semibold">Zufällige Aufgabe</div>
               <IonButton
                 fill="clear"
-                onClick={() => setNonce((n: number) => n + 1)}
+                onClick={() => setNonce(n => n + 1)}
                 title="Neue Aufgabe vorschlagen"
               >
                 <IonIcon icon={shuffleOutline} />
