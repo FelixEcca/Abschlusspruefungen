@@ -85,7 +85,13 @@ export function WelcomePopover({ forceOpen = false }: Props) {
               <IonSelect
                 placeholder="Bitte auswählen"
                 value={exam}
-                onIonChange={e => setExam(Number(e.detail.value))}
+                onIonChange={e => {
+                  const selectedExam = Number(e.detail.value)
+                  setExam(selectedExam)
+                  PlayerProfileStore.update(s => {
+                    s.currentExam = selectedExam
+                  })
+                }}
                 interface="popover"
               >
                 {exams.map(ex => (
