@@ -47,17 +47,19 @@ function passExamFilter(exam: number, idNum: number): boolean {
 //   return exam == 1 ? i + 1 : exam == 2 ? i + 101 : i + 201
 // }
 
+// ...existing imports...
+
 export function Start() {
   const history = useHistory()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
 
-  // Popover: nur anzeigen, wenn kein Name gespeichert ist
+  // Popover: nur anzeigen, wenn kein Name gespeichert ist UND exam !== 6
   const [askNameOpen, setAskNameOpen] = React.useState(false)
   React.useEffect(() => {
-    setAskNameOpen(!hasName)
-  }, [hasName])
+    setAskNameOpen(!hasName && exam !== 6)
+  }, [hasName, exam])
 
   // Begrüßung / Name (Karte)
   const [editingName, setEditingName] = React.useState(!hasName)
@@ -137,14 +139,6 @@ export function Start() {
     return set
   }, [userProfile.exercises])
 
-  // const flaggedCount = React.useMemo(() => {
-  //   let c = 0
-  //   for (const v of Object.values(userProfile.exercises ?? {})) {
-  //     if (v?.flagged) c++
-  //   }
-  //   return c
-  // }, [userProfile.exercises])
-
   const total = allIds.length
   const solved = allIds.filter(id => solvedSet.has(id)).length
   const percent = total > 0 ? Math.round((solved / total) * 100) : 0
@@ -156,7 +150,8 @@ export function Start() {
           <IonTitle>Abschlussprüfungen</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <WelcomePopover />
+      {/* Popover nur anzeigen, wenn askNameOpen true ist */}
+      {askNameOpen && <WelcomePopover forceOpen />}
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
