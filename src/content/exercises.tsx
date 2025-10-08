@@ -163,6 +163,13 @@ import { exercise4902 } from './implementations/Training/4902'
 import { exercise4903 } from './implementations/Training/4903'
 import { exercise4904 } from './implementations/Training/4904'
 import { exercise4905 } from './implementations/Training/4905'
+import { exercise5000 } from './implementations/Training_TG11/5000'
+import { exercise5001 } from './implementations/Training_TG11/5001'
+import { exercise5002 } from './implementations/Training_TG11/5002'
+import { exercise5003 } from './implementations/Training_TG11/5003'
+import { exercise5004 } from './implementations/Training_TG11/5004'
+import { exercise5005 } from './implementations/Training_TG11/5005'
+import { exercise5006 } from './implementations/Training_TG11/5006'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -327,6 +334,13 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4903: exercise4903,
   4904: exercise4904,
   4905: exercise4905,
+  5000: exercise5000,
+  5001: exercise5001,
+  5002: exercise5002,
+  5003: exercise5003,
+  5004: exercise5004,
+  5005: exercise5005,
+  5006: exercise5006,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

@@ -31,6 +31,7 @@ function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
   if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
   if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
+  if (exam == 6 && (idNum < 5000 || idNum >= 5999)) return false
   return true
 }
 

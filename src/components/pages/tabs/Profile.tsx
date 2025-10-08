@@ -56,6 +56,7 @@ function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
   if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
   if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
+  if (exam == 6 && (idNum < 5000 || idNum >= 5999)) return false
   return true
 }
 
@@ -126,7 +127,7 @@ export function Profile() {
               }}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {[3, 4, 5].map(n => (
+              {[3, 4, 5, 6].map(n => (
                 <option value={n} key={n}>
                   {navigationData[n].shortTitle}
                 </option>
