@@ -44,6 +44,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
       s.name = inputName.trim()
       s.currentExam = exam!
     })
+
     setOpen(false)
   }
 
