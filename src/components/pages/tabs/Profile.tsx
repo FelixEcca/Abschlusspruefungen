@@ -1,4 +1,3 @@
-// src/components/pages/tabs/Profile.tsx
 import {
   IonPage,
   IonHeader,
@@ -63,6 +62,7 @@ function passExamFilter(exam: number, idNum: number): boolean {
 export function Profile() {
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const profile = useProfile()
+  const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
 
   // --- Prüfungsaufgaben (aus exercisesData) ---
   const examIds = React.useMemo(
@@ -99,6 +99,24 @@ export function Profile() {
 
   const totalAvailable = examCount + trainingCount
 
+  // --- Loading fallback if exam data is not ready ---
+  if (!examDataReady) {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Profil</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="flex justify-center items-center h-full">
+            <div>Wird geladen...</div>
+          </div>
+        </IonContent>
+      </IonPage>
+    )
+  }
+
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -127,11 +145,14 @@ export function Profile() {
               }}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {[3, 4, 5, 6].map(n => (
-                <option value={n} key={n}>
-                  {navigationData[n].shortTitle}
-                </option>
-              ))}
+              {Object.keys(navigationData)
+                .map(n => Number(n))
+                .filter(n => navigationData[n]?.shortTitle)
+                .map(n => (
+                  <option value={n} key={n}>
+                    {navigationData[n].shortTitle}
+                  </option>
+                ))}
             </select>
           </div>
 
