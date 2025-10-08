@@ -47,8 +47,6 @@ function passExamFilter(exam: number, idNum: number): boolean {
 //   return exam == 1 ? i + 1 : exam == 2 ? i + 101 : i + 201
 // }
 
-// ...existing imports...
-
 export function Start() {
   const history = useHistory()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
