@@ -32,8 +32,6 @@ export function WelcomePopover({ forceOpen = false, onClose }: Props) {
     if (onClose) onClose()
   }
 
-  if (!open) return null
-
   // alle verfügbaren Prüfungen (Schlüssel) herausziehen
   const exams = Object.keys(navigationData)
     .map(n => Number(n))
