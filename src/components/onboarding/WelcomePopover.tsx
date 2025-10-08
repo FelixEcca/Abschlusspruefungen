@@ -6,9 +6,10 @@ import { navigationData } from '@/content/navigations'
 type Props = {
   // optional: erzwinge das PopUp (z.B. für Tests)
   forceOpen?: boolean
+  onClose?: () => void
 }
 
-export function WelcomePopover({ forceOpen = false }: Props) {
+export function WelcomePopover({ forceOpen = false, onClose }: Props) {
   const currentName = PlayerProfileStore.useState(s => s.name)
   const currentExam = PlayerProfileStore.useState(s => s.currentExam)
 
@@ -24,6 +25,12 @@ export function WelcomePopover({ forceOpen = false }: Props) {
       setOpen(true)
     }
   }, [forceOpen, currentName])
+
+  // Notify parent when closing
+  function handleClose() {
+    setOpen(false)
+    if (onClose) onClose()
+  }
 
   if (!open) return null
 
@@ -44,8 +51,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
       s.name = inputName.trim()
       s.currentExam = exam!
     })
-
-    setOpen(false)
+    handleClose()
   }
 
   return (
@@ -59,7 +65,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             <div className="text-lg font-semibold">👋 Willkommen!</div>
             <button
               className="text-gray-400 hover:text-gray-600"
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               aria-label="Schließen"
               title="Schließen"
             >
@@ -92,7 +98,6 @@ export function WelcomePopover({ forceOpen = false }: Props) {
                   PlayerProfileStore.update(s => {
                     s.currentExam = selectedExam
                   })
-                  window.location.reload() // <-- This will reload the page
                 }}
                 interface="popover"
               >
@@ -109,11 +114,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             <IonButton expand="block" onClick={save} disabled={!valid}>
               Los geht&apos;s ✨
             </IonButton>
-            <IonButton
-              fill="outline"
-              color="medium"
-              onClick={() => setOpen(false)}
-            >
+            <IonButton fill="outline" color="medium" onClick={handleClose}>
               Später
             </IonButton>
           </div>
