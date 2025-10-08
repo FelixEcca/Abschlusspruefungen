@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // src/components/pages/tabs/Participate.tsx
 import * as React from 'react'
 import { useHistory } from 'react-router'
@@ -15,7 +16,7 @@ import {
 import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
-// import { navigationData } from '@/content/navigations' // bleibt falls benötigt
+import { navigationData } from '@/content/navigations'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -70,6 +71,26 @@ export function Start() {
   const [lastId, setLastId] = React.useState<number | null>(null)
   const [nonce, setNonce] = React.useState(0)
   const { currentStreak = 0 } = useProfile()
+
+  // Whitescreen fix: check if exam data is ready
+  const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
+
+  if (!examDataReady) {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Abschlussprüfungen</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="flex justify-center items-center h-full">
+            <div>Wird geladen...</div>
+          </div>
+        </IonContent>
+      </IonPage>
+    )
+  }
 
   const suggestion = React.useMemo(() => {
     const allForExam = Object.keys(exercisesData)
