@@ -52,6 +52,7 @@ export function WelcomePopover({ forceOpen = false, onClose }: Props) {
       s.currentExam = exam!
     })
     handleClose()
+    window.location.reload() // <-- This will reload the page
   }
 
   return (
