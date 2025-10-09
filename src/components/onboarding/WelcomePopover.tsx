@@ -19,34 +19,9 @@ type Props = { forceOpen?: boolean }
 export function WelcomePopover({ forceOpen = false }: Props) {
   const clientReady = useClientReady()
   const storeName = PlayerProfileStore.useState(s => s.name)
-  const storeExam = PlayerProfileStore.useState(s => s.currentExam)
-
-  // Sichtbarkeit streng lokal steuern (kein Autoclose bei Backdrop-Klick)
-  const [dismissed, setDismissed] = React.useState(false)
-
-  // Controlled Inputs
-  const [name, setName] = React.useState(storeName ?? '')
-  const [exam, setExam] = React.useState<number | ''>(
-    typeof storeExam === 'number' ? storeExam : '',
-  )
-
-  // Store -> lokale Inputs synchronisieren (nach Rehydration)
-  React.useEffect(() => {
-    if (typeof storeName === 'string') setName(storeName)
-  }, [storeName])
-  React.useEffect(() => {
-    if (typeof storeExam === 'number') setExam(storeExam)
-  }, [storeExam])
-
-  if (!clientReady) return null
-
-  const needOnboarding =
-    !(name && name.trim().length >= 2) || !(typeof exam === 'number')
-  const shouldOpen = (forceOpen || needOnboarding) && !dismissed
-  if (!shouldOpen) return null
+  // const storeExam = PlayerProfileStore.useState(s => s.currentExam)
 
   // Prüfungsoptionen
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const examKeys = React.useMemo(
     () =>
       Object.keys(navigationData)
@@ -58,26 +33,40 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const label = (key: number) =>
     navigationData[key]?.shortTitle ?? `Prüfung ${key}`
 
+  // Sichtbarkeit streng lokal steuern (kein Autoclose bei Backdrop-Klick)
+  const [dismissed, setDismissed] = React.useState(false)
+
+  // Controlled Inputs
+  const [name, setName] = React.useState(storeName ?? '')
+  const [exam, setExam] = React.useState<number | ''>('') // <-- leer am Anfang
+
+  // Store -> lokale Inputs synchronisieren (nach Rehydration)
+  React.useEffect(() => {
+    if (typeof storeName === 'string') setName(storeName)
+  }, [storeName])
+  // Prüfung NICHT automatisch aus dem Store übernehmen!
+
+  if (!clientReady) return null
+
+  // Popover bleibt offen, bis explizit geschlossen!
+  const shouldOpen = forceOpen || !dismissed
+  if (!shouldOpen) return null
+
   const canSubmit = name.trim().length >= 2 && typeof exam === 'number'
 
   function onSubmit() {
     if (!canSubmit) return
     const trimmed = name.trim()
-    // ✅ Wichtig: deinen Store-Updater verwenden
     updatePlayerProfileStore(s => {
       s.name = trimmed
       s.currentExam = exam as number
     })
-    // erst nach erfolgreichem Update schließen
     setDismissed(true)
   }
 
   return (
     // Backdrop OHNE onClick -> kein Auto-Close durch zufällige Klicks
-    <div
-      className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8"
-      // sicherstellen, dass ESC nicht zufällig handled; Browser-Default bleibt
-    >
+    <div className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8">
       {/* Dialog-Card: stoppt Pointer-Events und lässt nur Buttons steuern */}
       <div
         role="dialog"
@@ -135,9 +124,17 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         </div>
 
         <div className="mt-4 flex gap-2">
-          <IonButton expand="block" onClick={onSubmit} disabled={!canSubmit}>
+          <IonButton
+            expand="block"
+            onClick={() => {
+              onSubmit()
+              window.location.reload()
+            }}
+            disabled={!canSubmit}
+          >
             Los geht&apos;s ✨
           </IonButton>
+
           <IonButton
             fill="outline"
             color="medium"
@@ -145,10 +142,6 @@ export function WelcomePopover({ forceOpen = false }: Props) {
           >
             Später
           </IonButton>
-        </div>
-
-        <div className="mt-2 text-[11px] text-gray-500">
-          Hinweis: Dieses Fenster erscheint nur, wenn Name oder Prüfung fehlen.
         </div>
       </div>
     </div>
