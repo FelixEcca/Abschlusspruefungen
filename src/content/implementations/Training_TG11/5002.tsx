@@ -22,7 +22,7 @@ export const exercise5002: Exercise<DATA> = {
 
   generator(rng) {
     const nonzero = () =>
-      rng.randomItemFromArray([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+      rng.randomIntBetween(-20,20)
     const x1 = nonzero()
     const x2 = nonzero()
     const x3 = nonzero()

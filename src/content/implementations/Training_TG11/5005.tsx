@@ -35,7 +35,7 @@ export const exercise5005: Exercise<DATA> = {
       az = nz()
 
     if (isParallel) {
-      const k = rng.randomItemFromArray([2, -2, 3, -3, 0.5, -0.5])
+      const k = rng.randomItemFromArray([2, -2, 3, -3, 0.5, -0.5,-4,4,-5,5,6,-6])
       const bx = k * ax,
         by = k * ay,
         bz = k * az
@@ -115,13 +115,21 @@ export const exercise5005: Exercise<DATA> = {
             <p>Die Vektoren sind parallel zueinander.</p>
 
             <p>
-              Der Vektor b ist genau das{' '}
+              Der Vektor {Math.abs(data.bx / data.ax) > 1 ? (
+                <>b</>
+              ) : (
+                <>a</>
+              )} ist genau das{' '}
               {Math.abs(data.bx / data.ax) > 1 ? (
                 <>{pp(data.bx / data.ax, 'embrace_neg')}</>
               ) : (
                 <>{pp(data.ax / data.bx, 'embrace_neg')}</>
               )}
-              -fache des Vektors a.
+              -fache des Vektors {Math.abs(data.bx / data.ax) > 1 ? (
+                <>a</>
+              ) : (
+                <>b</>
+              )}.
             </p>
           </>
         ) : (
