@@ -1,4 +1,3 @@
-// src/components/pages/tabs/Participate.tsx
 import * as React from 'react'
 import { useHistory } from 'react-router'
 import streak from '/assets/10760660.png'
@@ -15,10 +14,7 @@ import {
 import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
-import {
-  PlayerProfileStore,
-  updatePlayerProfileStore,
-} from '../../../../store/player-profile-store'
+import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import {
   useProfile,
   useProgress,
@@ -26,9 +22,12 @@ import {
 } from '../../../../store/progress-store'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
-import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
-// Entfernt: import { setNonce } ...  (verursachte Namenskollision/Unsinn)
+function useClientReady() {
+  const [ready, setReady] = React.useState(false)
+  React.useEffect(() => setReady(true), [])
+  return ready
+}
 
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false
@@ -39,37 +38,73 @@ function passExamFilter(exam: number, idNum: number): boolean {
   return true
 }
 
+/** Wählt deterministisch eine „mittlere“ Aufgabe (SSR-geeignet, ohne Zufall). */
+function pickStableSuggestion(): {
+  id: number
+  title: string
+  source?: string
+} | null {
+  const allIds = Object.keys(exercisesData)
+    .map(k => parseInt(k, 10))
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b)
+
+  if (allIds.length === 0) return null
+  const mid = allIds[Math.floor(allIds.length / 2)]
+  const c = exercisesData[mid]
+  return { id: mid, title: c?.title ?? 'Aufgabe', source: c?.source }
+}
+
 export function Start() {
+  const clientReady = useClientReady()
   const history = useHistory()
+
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
-
-  // Popover explizit steuern (nur anzeigen, wenn Name/Exam fehlen)
   const needOnboarding = !hasName || typeof exam !== 'number'
-  const [nonce, setNonce] = React.useState(0)
+
   const { currentStreak = 0 } = useProfile()
 
-  // Zufällige Aufgabe (ungelöst bevorzugt)
+  // SSR-sichere Initialempfehlung (deterministisch, ohne Random/Store)
+  const [suggestion, setSuggestion] = React.useState(() =>
+    pickStableSuggestion(),
+  )
   const [lastId, setLastId] = React.useState<number | null>(null)
-  const suggestion = React.useMemo(() => {
-    const ex = typeof exam === 'number' ? exam : (99999 as number) // Fallback zeigt alle
+  const [nonce, setNonce] = React.useState(0)
+
+  // Nach Mount (Client): Verfeinerung unter Berücksichtigung der Prüfung + „ungelöst bevorzugt“.
+  React.useEffect(() => {
+    if (!clientReady) return
+    const ex = typeof exam === 'number' ? exam : (99999 as number)
     const allForExam = Object.keys(exercisesData)
       .map(id => parseInt(id, 10))
       .filter(idNum => passExamFilter(ex, idNum))
 
-    if (allForExam.length === 0) return null
-
+    if (allForExam.length === 0) {
+      setSuggestion(null)
+      return
+    }
     const onlyUnsolved = allForExam.filter(idNum => !getStatus(idNum)?.solved)
     const pool = onlyUnsolved.length > 0 ? onlyUnsolved : allForExam
 
-    let pick = pool[Math.floor(Math.random() * pool.length)]
+    // deterministisch, aber „gemischt“: nimm Index aus (exam + nonce) Mod pool.length
+    const idx = Math.abs(
+      ((typeof exam === 'number' ? exam : 0) + nonce) % pool.length,
+    )
+    let pick = pool[idx]
+    // vermeide sofortige Wiederholung
     if (pool.length > 1 && lastId !== null && pick === lastId) {
-      pick = pool[Math.floor(Math.random() * pool.length)]
+      pick = pool[(idx + 1) % pool.length]
     }
-    return { id: pick, content: exercisesData[pick] }
+    const content = exercisesData[pick]
+    setSuggestion({
+      id: pick,
+      title: content?.title ?? 'Aufgabe',
+      source: content?.source,
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exam, lastId, nonce])
+  }, [clientReady, exam, nonce]) // lastId absichtlich nicht als Dep, wir prüfen nur innerhalb
 
   const sugProgress = useProgress(suggestion?.id ?? -1)
   const sugClass = suggestion
@@ -80,28 +115,6 @@ export function Start() {
         : 'bg-white border-gray-200'
     : 'bg-white border-gray-200'
 
-  const allIds = React.useMemo(
-    () =>
-      Object.keys(exercisesData)
-        .map(k => parseInt(k, 10))
-        .filter(id =>
-          passExamFilter(typeof exam === 'number' ? exam : 99999, id),
-        ),
-    [exam],
-  )
-  const userProfile = useProfile()
-
-  const solvedSet = React.useMemo(() => {
-    const set = new Set<number>()
-    for (const [k, v] of Object.entries(userProfile.exercises ?? {})) {
-      if (v?.solved) set.add(parseInt(k, 10))
-    }
-    return set
-  }, [userProfile.exercises])
-
-  const total = allIds.length
-  const solved = allIds.filter(id => solvedSet.has(id)).length
-
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -110,15 +123,15 @@ export function Start() {
         </IonToolbar>
       </IonHeader>
 
-      {/* Popover nur wenn nötig */}
-      <WelcomePopover forceOpen={needOnboarding} />
+      {/* Popover kontrolliert und nur nach Mount – verhindert SSR/CSR-Differenz */}
+      {clientReady && <WelcomePopover forceOpen={needOnboarding} />}
 
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
         <div className="mx-3 mt-4 space-y-6">
-          {/* Begrüßungskarte (Name ändern) */}
+          {/* Begrüßung */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             <div className="flex items-center justify-between">
               <div>
@@ -133,12 +146,8 @@ export function Start() {
             </div>
           </div>
 
-          {/* Fortschritt */}
+          {/* Kleine Streak-Karte (Features erhalten) */}
           <div className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6">
-            <div className="font-semibold mb-2">Dein Fortschritt</div>
-            <div className="mt-4">
-              <LevelPanel />
-            </div>
             <div className="rounded-xl border bg-white shadow-xl p-6">
               <div className="flex items-center ">
                 <img
@@ -146,36 +155,19 @@ export function Start() {
                   alt="Medal"
                   className="w-10 h-10 rounded-xl object-contain"
                 />
-                <span className="flex-1 text-center">
-                  Gelöste Prüfungsaufgaben:
-                </span>
+                <span className="flex-1 text-center">Aktuelle Streak:</span>
                 <span className="flex-none text-right font-bold text-lg">
-                  {solved}
-                </span>
-              </div>
-            </div>
-
-            <div className="h-3" />
-            <div className="rounded-xl border bg-white shadow-xl p-6">
-              <div className="flex items-center gap-3">
-                <img
-                  src={streak.src}
-                  alt="Streak"
-                  className="w-10 h-10 rounded-xl object-contain"
-                />
-                <span>
-                  Aktuelle Streak: <b>{currentStreak}</b> Tag
-                  {currentStreak === 1 ? '' : 'e'}
+                  {currentStreak}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Zufällige Aufgabe */}
+          {/* Zufällige (deterministische) Aufgabe */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
-              <div className="font-semibold">Zufällige Aufgabe</div>
+              <div className="font-semibold">Vorgeschlagene Aufgabe</div>
               <IonButton
                 fill="clear"
                 onClick={() => setNonce(n => n + 1)}
@@ -195,9 +187,9 @@ export function Start() {
                 }}
               >
                 <div className="text-sm text-fuchsia-900">
-                  [{suggestion.content.source ?? '—'}]
+                  [{suggestion.source ?? '—'}]
                 </div>
-                <div className="font-medium">{suggestion.content.title}</div>
+                <div className="font-medium">{suggestion.title}</div>
                 <div className="mt-2">
                   <IonButton
                     size="small"
