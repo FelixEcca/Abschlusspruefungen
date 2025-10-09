@@ -3,75 +3,61 @@ import { IonButton, IonInput, IonSelect, IonSelectOption } from '@ionic/react'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { navigationData } from '@/content/navigations'
 
-function useClientReady() {
-  const [ready, setReady] = React.useState(false)
-  React.useEffect(() => setReady(true), [])
-  return ready
+type Props = {
+  /** Optional: Popover explizit anzeigen/erzwingen (z.B. aus Start) */
+  forceOpen?: boolean
 }
 
-type Props = { forceOpen?: boolean }
-
 export function WelcomePopover({ forceOpen = false }: Props) {
-  const clientReady = useClientReady()
+  const currentName = PlayerProfileStore.useState(s => s.name)
+  const currentExam = PlayerProfileStore.useState(s => s.currentExam)
 
-  // Storewerte lesen (können beim 1. Client-Render noch leer sein)
-  const storeName = PlayerProfileStore.useState(s => s.name)
-  const storeExam = PlayerProfileStore.useState(s => s.currentExam)
-
-  // Lokaler Zustand
   const [dismissed, setDismissed] = React.useState(false)
-  const [name, setName] = React.useState(storeName ?? '')
-  const [exam, setExam] = React.useState<number | ''>(
-    typeof storeExam === 'number' ? storeExam : '',
+  const [inputName, setInputName] = React.useState(currentName ?? '')
+  const [exam, setExam] = React.useState<number | undefined>(
+    currentExam ?? undefined,
   )
 
-  // Store → lokale Inputs synchronisieren (nach Rehydration)
-  React.useEffect(() => {
-    if (typeof storeName === 'string') setName(storeName)
-  }, [storeName])
-  React.useEffect(() => {
-    if (typeof storeExam === 'number') setExam(storeExam)
-  }, [storeExam])
-
-  // Popover erst auf dem Client entscheiden/rendern (vermeidet SSR/CSR-Differenz)
-  if (!clientReady) return null
-
+  // --- Ableiten, ob wir anzeigen sollen ---
   const needOnboarding =
-    !(name && name.trim().length >= 2) || !(typeof exam === 'number')
+    !inputName?.trim() || typeof exam !== 'number' || Number.isNaN(exam)
   const shouldOpen = (forceOpen || needOnboarding) && !dismissed
+
+  // Wenn Store-Werte später rehydrieren, übernehme sie in die Felder
+  React.useEffect(() => {
+    if (typeof currentName === 'string') setInputName(currentName)
+  }, [currentName])
+  React.useEffect(() => {
+    if (typeof currentExam === 'number') setExam(currentExam)
+  }, [currentExam])
 
   if (!shouldOpen) return null
 
-  // Prüfungen dynamisch
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const examKeys = React.useMemo(
-    () =>
-      Object.keys(navigationData)
-        .map(n => Number(n))
-        .filter(n => !Number.isNaN(n))
-        .sort((a, b) => a - b),
-    [],
-  )
-  const label = (key: number) =>
-    navigationData[key]?.shortTitle ?? `Prüfung ${key}`
+  // verfügbare Prüfungen dynamisch
+  const exams = Object.keys(navigationData)
+    .map(n => Number(n))
+    .filter(n => !Number.isNaN(n))
+    .sort((a, b) => a - b)
 
-  const canSubmit = name.trim().length >= 2 && typeof exam === 'number'
+  const labelFor = (ex: number) =>
+    navigationData[ex]?.shortTitle ?? `Prüfung ${ex}`
 
-  function onSubmit() {
-    if (!canSubmit) return
-    try {
-      PlayerProfileStore.update(s => {
-        s.name = name.trim()
-        s.currentExam = exam as number
-      })
-    } finally {
-      setDismissed(true)
-    }
+  const valid = (inputName?.trim().length ?? 0) >= 2 && typeof exam === 'number'
+
+  function save() {
+    if (!valid || typeof exam !== 'number') return
+    PlayerProfileStore.update(s => {
+      s.name = inputName.trim()
+      s.currentExam = exam
+    })
+    // Schließen – und künftig geschlossen lassen
+    setDismissed(true)
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8">
+    <div className="fixed inset-0 z-50 bg-black/10 flex items-start justify-center pt-6">
       <div className="w-[min(92vw,380px)] rounded-2xl shadow-xl bg-white border border-gray-200 p-4">
+        {/* Header */}
         <div className="flex items-start justify-between">
           <div className="text-lg font-semibold">👋 Willkommen!</div>
           <button
@@ -85,17 +71,17 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         </div>
 
         <p className="mt-1 text-sm text-gray-600">
-          Bitte gib deinen Namen an und wähle deine Prüfung. Du kannst das
-          später im Profil jederzeit ändern.
+          Schön, dass du da bist. Sag mir kurz deinen Namen und wähle deine
+          Prüfung – dann geht’s los. 🚀
         </p>
 
         <div className="mt-3 space-y-3">
           <IonInput
             label="Dein Name"
             labelPlacement="stacked"
-            placeholder="Name …"
-            value={name}
-            onIonChange={e => setName((e.detail.value as string) ?? '')}
+            placeholder="..."
+            value={inputName}
+            onIonChange={e => setInputName((e.detail.value as string) ?? '')}
           />
 
           <div>
@@ -103,15 +89,15 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             <IonSelect
               placeholder="Bitte auswählen"
               value={typeof exam === 'number' ? exam : undefined}
-              interface="popover"
               onIonChange={e => {
                 const v = Number(e.detail.value)
-                setExam(Number.isNaN(v) ? '' : v)
+                setExam(Number.isNaN(v) ? undefined : v)
               }}
+              interface="popover"
             >
-              {examKeys.map(k => (
-                <IonSelectOption key={k} value={k}>
-                  {label(k)}
+              {exams.map(ex => (
+                <IonSelectOption key={ex} value={ex}>
+                  {labelFor(ex)}
                 </IonSelectOption>
               ))}
             </IonSelect>
@@ -119,7 +105,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         </div>
 
         <div className="mt-4 flex gap-2">
-          <IonButton expand="block" onClick={onSubmit} disabled={!canSubmit}>
+          <IonButton expand="block" onClick={save} disabled={!valid}>
             Los geht&apos;s ✨
           </IonButton>
           <IonButton
@@ -132,7 +118,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         </div>
 
         <div className="mt-2 text-[11px] text-gray-500">
-          Hinweis: Dieses Fenster erscheint nur, wenn Name oder Prüfung fehlen.
+          Tipp: Du kannst die Prüfung jederzeit im Profil ändern.
         </div>
       </div>
     </div>
