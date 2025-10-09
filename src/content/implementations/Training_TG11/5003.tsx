@@ -113,9 +113,9 @@ export const exercise5003: Exercise<DATA> = {
               math={String.raw`
               \overrightarrow{AB}=
               \begin{pmatrix}
-              ${pp(data.Bx)}- ${pp(data.Ax)}\\
-              ${pp(data.By)}- ${pp(data.Ay)}\\
-              ${pp(data.Bz)}- ${pp(data.Az)}
+              ${pp(data.Bx)}- ${pp(data.Ax, 'embrace_neg')}\\
+              ${pp(data.By)}- ${pp(data.Ay, 'embrace_neg')}\\
+              ${pp(data.Bz)}- ${pp(data.Az, 'embrace_neg')}
               \end{pmatrix}
               =
               \begin{pmatrix}
