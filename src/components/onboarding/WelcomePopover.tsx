@@ -1,9 +1,13 @@
+// src/components/onboarding/WelcomePopover.tsx
 import * as React from 'react'
 import { IonButton, IonInput, IonSelect, IonSelectOption } from '@ionic/react'
-import { PlayerProfileStore } from '../../../store/player-profile-store'
+import {
+  PlayerProfileStore,
+  updatePlayerProfileStore,
+} from '../../../store/player-profile-store'
 import { navigationData } from '@/content/navigations'
 
-/** Stellt sicher, dass SSR/CSR-Markup identisch bleibt: wir rendern erst nach Mount. */
+/** Erst nach Mount rendern -> verhindert SSR/CSR-Mismatch */
 function useClientReady() {
   const [ready, setReady] = React.useState(false)
   React.useEffect(() => setReady(true), [])
@@ -14,18 +18,19 @@ type Props = { forceOpen?: boolean }
 
 export function WelcomePopover({ forceOpen = false }: Props) {
   const clientReady = useClientReady()
-
-  // Storewerte (können beim 1. Client-Render noch leer sein)
   const storeName = PlayerProfileStore.useState(s => s.name)
   const storeExam = PlayerProfileStore.useState(s => s.currentExam)
 
+  // Sichtbarkeit streng lokal steuern (kein Autoclose bei Backdrop-Klick)
   const [dismissed, setDismissed] = React.useState(false)
+
+  // Controlled Inputs
   const [name, setName] = React.useState(storeName ?? '')
   const [exam, setExam] = React.useState<number | ''>(
     typeof storeExam === 'number' ? storeExam : '',
   )
 
-  // Store → lokale Inputs synchronisieren (nach Rehydration)
+  // Store -> lokale Inputs synchronisieren (nach Rehydration)
   React.useEffect(() => {
     if (typeof storeName === 'string') setName(storeName)
   }, [storeName])
@@ -33,7 +38,15 @@ export function WelcomePopover({ forceOpen = false }: Props) {
     if (typeof storeExam === 'number') setExam(storeExam)
   }, [storeExam])
 
-  // Prüfungen dynamisch
+  if (!clientReady) return null
+
+  const needOnboarding =
+    !(name && name.trim().length >= 2) || !(typeof exam === 'number')
+  const shouldOpen = (forceOpen || needOnboarding) && !dismissed
+  if (!shouldOpen) return null
+
+  // Prüfungsoptionen
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const examKeys = React.useMemo(
     () =>
       Object.keys(navigationData)
@@ -45,32 +58,35 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const label = (key: number) =>
     navigationData[key]?.shortTitle ?? `Prüfung ${key}`
 
-  // Popover erst auf dem Client entscheiden/rendern (vermeidet SSR/CSR-Differenz)
-  if (!clientReady) return null
-
-  const needOnboarding =
-    !(name && name.trim().length >= 2) || !(typeof exam === 'number')
-  const shouldOpen = (forceOpen || needOnboarding) && !dismissed
-
-  if (!shouldOpen) return null
-
   const canSubmit = name.trim().length >= 2 && typeof exam === 'number'
 
   function onSubmit() {
     if (!canSubmit) return
-    try {
-      PlayerProfileStore.update(s => {
-        s.name = name.trim()
-        s.currentExam = exam as number
-      })
-    } finally {
-      setDismissed(true)
-    }
+    const trimmed = name.trim()
+    // ✅ Wichtig: deinen Store-Updater verwenden
+    updatePlayerProfileStore(s => {
+      s.name = trimmed
+      s.currentExam = exam as number
+    })
+    // erst nach erfolgreichem Update schließen
+    setDismissed(true)
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8">
-      <div className="w-[min(92vw,380px)] rounded-2xl shadow-xl bg-white border border-gray-200 p-4">
+    // Backdrop OHNE onClick -> kein Auto-Close durch zufällige Klicks
+    <div
+      className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8"
+      // sicherstellen, dass ESC nicht zufällig handled; Browser-Default bleibt
+    >
+      {/* Dialog-Card: stoppt Pointer-Events und lässt nur Buttons steuern */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Willkommen"
+        className="w-[min(92vw,380px)] rounded-2xl shadow-xl bg-white border border-gray-200 p-4"
+        onMouseDown={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
+      >
         <div className="flex items-start justify-between">
           <div className="text-lg font-semibold">👋 Willkommen!</div>
           <button
@@ -78,6 +94,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             onClick={() => setDismissed(true)}
             aria-label="Schließen"
             title="Schließen"
+            type="button"
           >
             ✖
           </button>
