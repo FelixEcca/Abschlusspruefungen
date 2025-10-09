@@ -1,4 +1,3 @@
-// src/components/pages/tabs/Start.tsx
 import * as React from 'react'
 import { useHistory } from 'react-router'
 import streak from '/assets/10760660.png'
@@ -92,6 +91,12 @@ export function Start() {
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
 
+  // Whitescreen fix: check if exam data is ready
+  // (Falls du navigationData brauchst, hier einbauen)
+  // import { navigationData } from '@/content/navigations'
+  // const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
+  // if (!examDataReady) { ... }
+
   // Begrüßungs-Karte (Name editierbar, wie in deiner ursprünglichen Version)
   const [editingName, setEditingName] = React.useState(!hasName)
   const [inputName, setInputName] = React.useState(name)
@@ -162,6 +167,12 @@ export function Start() {
   const solved = allIds.filter(id => solvedSet.has(id)).length
   const { currentStreak = 0 } = userProfile
 
+  // Popover-Logik: Nur anzeigen, wenn Name oder Prüfung fehlen
+  const needOnboarding =
+    !(name && name.trim().length >= 2) || !(typeof exam === 'number')
+  // Popover wird nur angezeigt, wenn needOnboarding true ist
+  // und WelcomePopover rendert sich selbst nur, wenn nötig
+
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
@@ -170,8 +181,8 @@ export function Start() {
         </IonToolbar>
       </IonHeader>
 
-      {/* WelcomePopover rendert selbst nur nach Mount → SSR-sicher */}
-      <WelcomePopover />
+      {/* WelcomePopover nur anzeigen, wenn nötig */}
+      {needOnboarding && <WelcomePopover />}
 
       <IonContent
         fullscreen

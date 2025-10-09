@@ -19,8 +19,10 @@ type Props = { forceOpen?: boolean }
 export function WelcomePopover({ forceOpen = false }: Props) {
   const clientReady = useClientReady()
   const storeName = PlayerProfileStore.useState(s => s.name)
-  // const storeExam = PlayerProfileStore.useState(s => s.currentExam)
-
+  const storeExam = PlayerProfileStore.useState(s => s.currentExam)
+  const needOnboarding =
+    !(storeName && storeName.trim().length >= 2) ||
+    !(typeof storeExam === 'number')
   // Prüfungsoptionen
   const examKeys = React.useMemo(
     () =>
@@ -49,7 +51,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   if (!clientReady) return null
 
   // Popover bleibt offen, bis explizit geschlossen!
-  const shouldOpen = forceOpen || !dismissed
+  const shouldOpen = (forceOpen || needOnboarding) && !dismissed
   if (!shouldOpen) return null
 
   const canSubmit = name.trim().length >= 2 && typeof exam === 'number'
@@ -128,7 +130,6 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             expand="block"
             onClick={() => {
               onSubmit()
-              window.location.reload()
             }}
             disabled={!canSubmit}
           >
