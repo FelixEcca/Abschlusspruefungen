@@ -1,4 +1,3 @@
-// src/components/onboarding/WelcomePopover.tsx
 import * as React from 'react'
 import { IonButton, IonInput, IonSelect, IonSelectOption } from '@ionic/react'
 import {
@@ -20,9 +19,27 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const clientReady = useClientReady()
   const storeName = PlayerProfileStore.useState(s => s.name)
   const storeExam = PlayerProfileStore.useState(s => s.currentExam)
-  const needOnboarding =
-    !(storeName && storeName.trim().length >= 2) ||
-    !(typeof storeExam === 'number')
+
+  // Sichtbarkeit lokal steuern
+  const [dismissed, setDismissed] = React.useState(false)
+
+  // Controlled Inputs
+  const [name, setName] = React.useState(storeName ?? '')
+  const [exam, setExam] = React.useState<number | ''>(
+    typeof storeExam === 'number' ? storeExam : '',
+  )
+
+  // Submitting-Guard (verhindert Doppelklick)
+  const [submitting, setSubmitting] = React.useState(false)
+
+  // Store -> lokale Inputs synchronisieren (nach Rehydration)
+  React.useEffect(() => {
+    if (typeof storeName === 'string') setName(storeName)
+  }, [storeName])
+  React.useEffect(() => {
+    if (typeof storeExam === 'number') setExam(storeExam)
+  }, [storeExam])
+
   // Prüfungsoptionen
   const examKeys = React.useMemo(
     () =>
@@ -35,41 +52,39 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   const label = (key: number) =>
     navigationData[key]?.shortTitle ?? `Prüfung ${key}`
 
-  // Sichtbarkeit streng lokal steuern (kein Autoclose bei Backdrop-Klick)
-  const [dismissed, setDismissed] = React.useState(false)
+  // Bedingungen
+  const missingName = !(storeName && storeName.trim().length >= 2)
+  const missingExam = !(typeof storeExam === 'number')
+  const needOnboarding = missingName || missingExam
 
-  // Controlled Inputs
-  const [name, setName] = React.useState(storeName ?? '')
-  const [exam, setExam] = React.useState<number | ''>('') // <-- leer am Anfang
-
-  // Store -> lokale Inputs synchronisieren (nach Rehydration)
-  React.useEffect(() => {
-    if (typeof storeName === 'string') setName(storeName)
-  }, [storeName])
-  // Prüfung NICHT automatisch aus dem Store übernehmen!
-
-  if (!clientReady) return null
-
-  // Popover bleibt offen, bis explizit geschlossen!
-  const shouldOpen = (forceOpen || needOnboarding) && !dismissed
-  if (!shouldOpen) return null
-
-  const canSubmit = name.trim().length >= 2 && typeof exam === 'number'
+  const open = clientReady && (forceOpen || needOnboarding) && !dismissed
+  const canSubmit =
+    name.trim().length >= 2 && typeof exam === 'number' && !submitting
 
   function onSubmit() {
     if (!canSubmit) return
+    setSubmitting(true)
     const trimmed = name.trim()
     updatePlayerProfileStore(s => {
       s.name = trimmed
       s.currentExam = exam as number
     })
-    setDismissed(true)
+    // Hard reload nach minimaler Verzögerung, um den Store persistieren zu lassen
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        window.location.reload()
+      }, 0)
+    } else {
+      // Fallback ohne window (SSR-Sicherheit)
+      setDismissed(true)
+      setSubmitting(false)
+    }
   }
 
+  if (!open) return null
+
   return (
-    // Backdrop OHNE onClick -> kein Auto-Close durch zufällige Klicks
     <div className="fixed inset-0 z-50 bg-black/15 flex items-start justify-center pt-8">
-      {/* Dialog-Card: stoppt Pointer-Events und lässt nur Buttons steuern */}
       <div
         role="dialog"
         aria-modal="true"
@@ -126,20 +141,15 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         </div>
 
         <div className="mt-4 flex gap-2">
-          <IonButton
-            expand="block"
-            onClick={() => {
-              onSubmit()
-            }}
-            disabled={!canSubmit}
-          >
-            Los geht&apos;s ✨
+          <IonButton expand="block" onClick={onSubmit} disabled={!canSubmit}>
+            {submitting ? 'Lädt…' : "Los geht's ✨"}
           </IonButton>
 
           <IonButton
             fill="outline"
             color="medium"
             onClick={() => setDismissed(true)}
+            disabled={submitting}
           >
             Später
           </IonButton>

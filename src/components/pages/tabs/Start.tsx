@@ -27,15 +27,6 @@ import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
-// ---------- Helpers ----------
-
-/** Nur nach Mount true -> schützt vor SSR/CSR-Differenzen (z.B. Zufall, LocalStorage) */
-function useClientReady() {
-  const [ready, setReady] = React.useState(false)
-  React.useEffect(() => setReady(true), [])
-  return ready
-}
-
 function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 1 && idNum > 99) return false
   if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
@@ -46,7 +37,6 @@ function passExamFilter(exam: number, idNum: number): boolean {
   return true
 }
 
-/** SSR-sichere, deterministische Fallback-Empfehlung (ohne Zufall/Store). */
 function pickStableSuggestion(): {
   id: number
   title: string
@@ -56,14 +46,12 @@ function pickStableSuggestion(): {
     .map(k => parseInt(k, 10))
     .filter(Number.isFinite)
     .sort((a, b) => a - b)
-
   if (allIds.length === 0) return null
   const mid = allIds[Math.floor(allIds.length / 2)]
   const c = exercisesData[mid]
   return { id: mid, title: c?.title ?? 'Aufgabe', source: c?.source }
 }
 
-/** Wählt *zufällig* eine ungelöste Aufgabe; wenn keine übrig -> aus dem gesamten Pool. */
 function pickUnsolvedRandom(
   pool: number[],
   fallbackPool: number[],
@@ -80,24 +68,52 @@ function pickUnsolvedRandom(
   return { id, content: c }
 }
 
-// ---------- Component ----------
+/** eigene Karte, damit useProgress nur gerufen wird, wenn suggestion existiert */
+function SuggestionCard({
+  suggestion,
+  onPick,
+}: {
+  suggestion: { id: number; content: { title?: string; source?: string } }
+  onPick: (id: number) => void
+}) {
+  const prog = useProgress(suggestion.id)
+  const cls = prog?.flagged
+    ? 'bg-yellow-100 border-yellow-400'
+    : prog?.solved
+      ? 'bg-green-100 border-green-400'
+      : 'bg-white border-gray-200'
+
+  return (
+    <div
+      className={`mt-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${cls}`}
+      onClick={() => onPick(suggestion.id)}
+    >
+      <div className="text-sm text-fuchsia-900">
+        [{suggestion.content.source ?? '—'}]
+      </div>
+      <div className="font-medium">{suggestion.content.title}</div>
+      <div className="mt-2">
+        <IonButton
+          size="small"
+          onClick={e => {
+            e.stopPropagation()
+            onPick(suggestion.id)
+          }}
+        >
+          Jetzt üben
+        </IonButton>
+      </div>
+    </div>
+  )
+}
 
 export function Start() {
-  const clientReady = useClientReady()
   const history = useHistory()
 
-  // Profil / Store
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
 
-  // Whitescreen fix: check if exam data is ready
-  // (Falls du navigationData brauchst, hier einbauen)
-  // import { navigationData } from '@/content/navigations'
-  // const examDataReady = navigationData[exam] && navigationData[exam].shortTitle
-  // if (!examDataReady) { ... }
-
-  // Begrüßungs-Karte (Name editierbar, wie in deiner ursprünglichen Version)
   const [editingName, setEditingName] = React.useState(!hasName)
   const [inputName, setInputName] = React.useState(name)
   React.useEffect(() => {
@@ -105,23 +121,20 @@ export function Start() {
     setEditingName(!hasName)
   }, [name, hasName])
 
-  // Zufällige Aufgabe: **immer ungelöst** (Fallback: alle)
   const [lastId, setLastId] = React.useState<number | null>(null)
   const [nonce, setNonce] = React.useState(0)
+
   const [suggestion, setSuggestion] = React.useState<{
     id: number
     content: { title?: string; source?: string }
   } | null>(() => {
-    // SSR-freundliche Platzhalter-Empfehlung (keine Randomness)
     const s = pickStableSuggestion()
     return s
       ? { id: s.id, content: { title: s.title, source: s.source } }
       : null
   })
 
-  // Nach Mount: echte Empfehlung auf Basis "ungelöst im aktuellen Exam"
   React.useEffect(() => {
-    if (!clientReady) return
     if (typeof exam !== 'number') {
       setSuggestion(null)
       return
@@ -129,24 +142,11 @@ export function Start() {
     const allForExam = Object.keys(exercisesData)
       .map(id => parseInt(id, 10))
       .filter(idNum => passExamFilter(exam, idNum))
-
     const unsolved = allForExam.filter(idNum => !getStatus(idNum)?.solved)
     const pick = pickUnsolvedRandom(unsolved, allForExam, lastId)
     setSuggestion(pick)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientReady, exam, nonce])
+  }, [exam, lastId, nonce])
 
-  // Fortschritts-Färbung für die vorgeschlagene Aufgabe (flagged > solved > default)
-  const sugProgress = useProgress(suggestion?.id ?? -1)
-  const sugClass = suggestion
-    ? sugProgress?.flagged
-      ? 'bg-yellow-100 border-yellow-400'
-      : sugProgress?.solved
-        ? 'bg-green-100 border-green-400'
-        : 'bg-white border-gray-200'
-    : 'bg-white border-gray-200'
-
-  // Zahlen für "Fortschritt" (LevelPanel bleibt wie gehabt)
   const userProfile = useProfile()
   const allIds = React.useMemo(
     () =>
@@ -162,16 +162,11 @@ export function Start() {
     }
     return set
   }, [userProfile.exercises])
-
-  const total = allIds.length
   const solved = allIds.filter(id => solvedSet.has(id)).length
   const { currentStreak = 0 } = userProfile
 
-  // Popover-Logik: Nur anzeigen, wenn Name oder Prüfung fehlen
   const needOnboarding =
     !(name && name.trim().length >= 2) || !(typeof exam === 'number')
-  // Popover wird nur angezeigt, wenn needOnboarding true ist
-  // und WelcomePopover rendert sich selbst nur, wenn nötig
 
   return (
     <IonPage className="sm:max-w-[375px] mx-auto">
@@ -181,15 +176,15 @@ export function Start() {
         </IonToolbar>
       </IonHeader>
 
-      {/* WelcomePopover nur anzeigen, wenn nötig */}
-      {needOnboarding && <WelcomePopover />}
+      {/* Immer montiert; steuert Sichtbarkeit intern */}
+      <WelcomePopover forceOpen={needOnboarding} />
 
       <IonContent
         fullscreen
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
         <div className="mx-3 mt-4 space-y-6">
-          {/* Begrüßung / Name bearbeiten (dein Originalverhalten) */}
+          {/* Begrüßung */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             {editingName ? (
               <>
@@ -241,7 +236,7 @@ export function Start() {
             )}
           </div>
 
-          {/* Fortschritt (wie in deiner „vollen“ Version) */}
+          {/* Fortschritt */}
           <div className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6">
             <div className="font-semibold mb-2">Dein Fortschritt</div>
             <div className="mt-4">
@@ -281,7 +276,7 @@ export function Start() {
             </div>
           </div>
 
-          {/* Zufällige Aufgabe (immer ungelöst; Fallback: alle) */}
+          {/* Zufällige Aufgabe */}
           <div className="shadow-md rounded-xl border p-3 bg-sky-50">
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
@@ -296,32 +291,14 @@ export function Start() {
             </div>
 
             {suggestion ? (
-              <div
-                className={`mt-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${sugClass}`}
-                onClick={() => {
-                  setLastId(suggestion.id)
-                  setupExercise(suggestion.id)
-                  history.push('/exercise/' + suggestion.id)
+              <SuggestionCard
+                suggestion={suggestion}
+                onPick={id => {
+                  setLastId(id)
+                  setupExercise(id)
+                  history.push('/exercise/' + id)
                 }}
-              >
-                <div className="text-sm text-fuchsia-900">
-                  [{suggestion.content.source ?? '—'}]
-                </div>
-                <div className="font-medium">{suggestion.content.title}</div>
-                <div className="mt-2">
-                  <IonButton
-                    size="small"
-                    onClick={e => {
-                      e.stopPropagation()
-                      setLastId(suggestion.id)
-                      setupExercise(suggestion.id)
-                      history.push('/exercise/' + suggestion.id)
-                    }}
-                  >
-                    Jetzt üben
-                  </IonButton>
-                </div>
-              </div>
+              />
             ) : (
               <div className="text-sm text-gray-600">
                 Für die eingestellte Prüfung wurden keine Aufgaben gefunden.
