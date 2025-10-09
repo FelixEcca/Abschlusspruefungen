@@ -103,6 +103,19 @@ export function AppShell() {
               )}
             />
           ))}
+          {navigationData[6].topics.map((t, i) => (
+            <Route
+              key={i}
+              path={`/topic/${i + 5001}`}
+              render={() => (
+                <Topic
+                  title={t.title}
+                  color={t.headerColor}
+                  skillGroups={t.skillGroups}
+                />
+              )}
+            />
+          ))}
           {Object.keys(exercisesData)
             .map(x => parseInt(x))
             .map(id => (

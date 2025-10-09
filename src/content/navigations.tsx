@@ -3471,4 +3471,48 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+  6: {
+    longTitle: 'Mathematik TG11',
+    shortTitle: 'BW - TG11 Mathe',
+    topics: [
+      {
+        title: 'Vektoren',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Punkte skizzieren und Ablesen',
+            skillExercises: [{ id: 5000 }],
+          },
+          {
+            name: 'Lage von Punkten',
+            skillExercises: [{ id: 5001 }],
+          },
+          {
+            name: 'Punkte projizieren',
+            skillExercises: [{ id: 5002 }],
+          },
+          {
+            name: 'Verbindungs- und Gegenvektor',
+            skillExercises: [{ id: 5003 }],
+          },
+          {
+            name: 'Linearkombinationen',
+            skillExercises: [{ id: 5004 }],
+          },
+          {
+            name: 'Parallele Vektoren',
+            skillExercises: [{ id: 5005 }],
+          },
+          {
+            name: 'Mittelpunkte von Strecken',
+            skillExercises: [{ id: 5006 }],
+          },
+        ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }
