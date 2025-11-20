@@ -71,7 +71,8 @@ export const exercise5000: Exercise<DATA> = {
 
   constraint({ data }) {
     const länge = Math.sqrt(data.x1a ** 2 + data.x2a ** 2 + data.x3a ** 2)
-    return länge <= 7
+    const länge_b = Math.sqrt(data.x1b ** 2 + data.x2b ** 2 + data.x3b ** 2)
+    return länge <= 7 && länge_b <= 7
   },
 
   intro() {
