@@ -3515,4 +3515,28 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+  7: {
+    longTitle: 'TG11 - Physik',
+    shortTitle: 'TG11 - Physik',
+    topics: [
+      {
+        title: 'Impuls',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Impuls und Stoß',
+            skillExercises: [
+              {
+                id: 6000,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }
