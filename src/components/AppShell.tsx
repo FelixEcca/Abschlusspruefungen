@@ -67,7 +67,7 @@ export function AppShell() {
           {navigationData[1].topics.map((t, i) => (
             <Route
               key={i}
-              path={`/topic/${i + 1}`}
+              path={`/topic/${i + 4001}`}
               render={() => (
                 <Topic
                   title={t.title}
@@ -80,7 +80,7 @@ export function AppShell() {
           {navigationData[2].topics.map((t, i) => (
             <Route
               key={i}
-              path={`/topic/${i + 101}`}
+              path={`/topic/${i + 301}`}
               render={() => (
                 <Topic
                   title={t.title}
@@ -93,7 +93,7 @@ export function AppShell() {
           {navigationData[3].topics.map((t, i) => (
             <Route
               key={i}
-              path={`/topic/${i + 201}`}
+              path={`/topic/${i + 5001}`}
               render={() => (
                 <Topic
                   title={t.title}
@@ -103,10 +103,23 @@ export function AppShell() {
               )}
             />
           ))}
-          {navigationData[6].topics.map((t, i) => (
+          {navigationData[4].topics.map((t, i) => (
             <Route
               key={i}
-              path={`/topic/${i + 5001}`}
+              path={`/topic/${i + 6001}`}
+              render={() => (
+                <Topic
+                  title={t.title}
+                  color={t.headerColor}
+                  skillGroups={t.skillGroups}
+                />
+              )}
+            />
+          ))}
+          {navigationData[5].topics.map((t, i) => (
+            <Route
+              key={i}
+              path={`/topic/${i + 6001}`}
               render={() => (
                 <Topic
                   title={t.title}

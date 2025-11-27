@@ -26,13 +26,11 @@ function getYearFromSource(src?: string): number {
 }
 
 function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 1 && idNum > 99) return false
-  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
-  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
-  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
-  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  if (exam == 6 && (idNum < 5000 || idNum >= 5999)) return false
-  if (exam == 7 && (idNum < 6000 || idNum >= 6999)) return false
+  if (exam == 1 && (idNum < 4000 || idNum >= 4999)) return false
+  if (exam == 2 && (idNum < 300 || idNum >= 399)) return false
+  if (exam == 3) return false
+  if (exam == 4) return false
+  if (exam == 5) return false
   return true
 }
 
