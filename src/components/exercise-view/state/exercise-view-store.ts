@@ -19,13 +19,13 @@ export type IExerciseViewStore = {
   navIndicatorLength: number
   navIndicatorPosition: number
   navIndicatorExternalUpdate: number
-  chatOverlay: null | 'solution' | 'type-n-check' | 'foto' | 'chat'
+  chatOverlay: null | 'solution' | 'type-n-check' | 'foto' | 'chat' | 'scribble'
   pages: SkillExercisePage[]
   toHome: boolean
   needReset: boolean
   needReset2: boolean
 
-  // 🔹 Chat
+  // Chat
   chatMessages: ChatMessage[]
   chatPending: boolean
 }
@@ -46,7 +46,6 @@ export const ExerciseViewStore = new Store<IExerciseViewStore>({
   chatOverlay: null,
   toHome: false,
 
-  // 🔹 Chat
   chatMessages: [],
   chatPending: false,
 })
