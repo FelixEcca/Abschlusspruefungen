@@ -1,5 +1,13 @@
+// exercise-view-store.ts
 import { SkillExercisePage } from '@/data/types'
 import { Store } from 'pullstate'
+
+export type ChatMessage = {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  createdAt: number
+}
 
 export type IExerciseViewStore = {
   skill: any
@@ -16,6 +24,10 @@ export type IExerciseViewStore = {
   toHome: boolean
   needReset: boolean
   needReset2: boolean
+
+  // 🔹 Chat
+  chatMessages: ChatMessage[]
+  chatPending: boolean
 }
 
 export const ExerciseViewStore = new Store<IExerciseViewStore>({
@@ -33,4 +45,8 @@ export const ExerciseViewStore = new Store<IExerciseViewStore>({
   navIndicatorExternalUpdate: -1,
   chatOverlay: null,
   toHome: false,
+
+  // 🔹 Chat
+  chatMessages: [],
+  chatPending: false,
 })

@@ -1,3 +1,4 @@
+// actions.ts
 import { exercisesData } from '@/content/exercises'
 import { Lesson } from '@/data/types'
 import { countLetter } from '@/helper/count-letter'
@@ -32,7 +33,7 @@ export function isWholeLessonDonePercentage(lesson: Lesson) {
 }
 
 export function findRelevantKeys(lesson: Lesson) {
-  let relevantKeys = []
+  let relevantKeys: string[] = []
 
   if (lesson.steps.length == 1) {
     const step = lesson.steps[0]
