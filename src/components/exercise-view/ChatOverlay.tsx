@@ -17,6 +17,24 @@ import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 
+function normalizeMathForMarkdown(text: string): string {
+  let t = text
+
+  // 1) \(...\)  -> $...$
+  t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
+
+  // 2) \[...\]  -> $$...$$
+  t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_m, inner) => `$$${inner}$$`)
+
+  // 3) [ ... \frac ... ]  -> $...$
+  t = t.replace(/\[([^\]\n]*\\frac[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
+
+  // 4) [ ... ^ ... ]  -> $...$
+  t = t.replace(/\[([^\]\n]*\^[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
+
+  return t
+}
+
 export function ChatOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const messages = ExerciseViewStore.useState(s => s.chatMessages)
@@ -47,7 +65,9 @@ export function ChatOverlay() {
     const state = ExerciseViewStore.getRawState()
 
     // User-Nachricht sofort anzeigen
-    const userMessageId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    const userMessageId = `${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}`
     ExerciseViewStore.update(s => {
       s.chatMessages.push({
         id: userMessageId,
@@ -84,17 +104,20 @@ export function ChatOverlay() {
       content: exerciseContext,
     })
 
-    // 2. System: Prompt – jetzt EXPLIZIT LaTeX erlaubt
+    // 2. System: Prompt – mit klaren LaTeX-Regeln
     msgs.push({
       id: 'prompt',
       role: 'system',
       content: `
-Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Schule.
+Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Schule. Hier geht es um Lernen, falls irrelevante Inhalte auftauchen, ignoriere diese höflich.
 
-- Antworte per default auf deutsch. Falls ein Schüler dich in einer anderen Sprache anspricht, antworte in derselben Sprache.
+- Antworte per default auf Deutsch. Falls ein Schüler dich in einer anderen Sprache anspricht, antworte in derselben Sprache.
 - Erkläre kurz, klar und freundlich.
-- Deine Antwort wird als Markdown mit LaTeX gerendert. Du DARFST LaTeX benutzen.
-- Nutze für mathematische Ausdrücke LaTeX-Syntax in \( ... \) für inline und \[ ... \] für abgesetzte Formeln.
+- Deine Antwort wird als Markdown mit LaTeX gerendert.
+- WICHTIG: Jede mathematische Formel MUSS in LaTeX-Umgebung geschrieben werden:
+  - Inline: \`$ ... $\`
+  - Abgesetzt: \`$$ ... $$\`
+- Verwende NICHT nur eckige Klammern wie \`[ y = ... ]\`. Wenn du eine Formel angibst, setze sie IMMER in \`$...$\` oder \`$$...$$\`.
 - Gehe auf die konkrete Aufgabe ein, nicht auf allgemeine Theorie.
 
 Orientiere dich an folgenden Kategorien (du musst sie NICHT explizit nennen):
@@ -126,12 +149,13 @@ ${historyText}
     // --- Request an dein Backend /va89kjds ---
     try {
       const { text } = await makePost('/va89kjds', msgs)
+      const normalized = normalizeMathForMarkdown(text)
 
       ExerciseViewStore.update(s => {
         s.chatMessages.push({
           id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
           role: 'assistant',
-          content: text,
+          content: normalized,
           createdAt: Date.now(),
         })
         s.chatPending = false
@@ -158,10 +182,10 @@ ${historyText}
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-[70px] sm:max-w-[375px] sm:mx-auto px-3 z-40">
-      {/* Chat-Container */}
-      <div className="bg-white rounded-t-2xl shadow-lg border border-gray-200 max-h-[50vh] flex flex-col overflow-hidden">
-        {/* Kopfzeile */}
+    <div className="px-3 pb-2">
+      {/* Karte im Footer, kein fixed/overlay mehr */}
+      <div className="rounded-2xl border border-gray-200 max-h-[40vh] flex flex-col overflow-hidden bg-white shadow-inner">
+        {/* Kopfzeile im Chat selbst, mit Close-Button */}
         <div className="flex justify-between items-center px-3 py-2 border-b text-xs text-gray-600 bg-gray-50">
           <span>KI-Chat</span>
           <button
@@ -206,7 +230,6 @@ ${historyText}
                   <ReactMarkdown
                     remarkPlugins={[remarkMath]}
                     rehypePlugins={[rehypeKatex]}
-                    // optional: einfache Format-Beschränkung, falls nötig
                   >
                     {m.content}
                   </ReactMarkdown>
@@ -230,7 +253,7 @@ ${historyText}
             <TextareaAutosize
               ref={inputRef}
               minRows={1}
-              maxRows={6} // 🔹 wächst bis 6 Zeilen
+              maxRows={6}
               className="w-full resize-none outline-none bg-transparent text-sm"
               placeholder="Gib hier deine Frage oder Antwort ein..."
               onKeyDown={e => {
