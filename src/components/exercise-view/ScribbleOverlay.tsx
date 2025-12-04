@@ -241,7 +241,7 @@ Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu die
     <div className="px-3 pb-2">
       <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-3 space-y-3">
         <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
-          <span>Scribble – zeichne deine Rechnung</span>
+          <span>Scribble – Gib deine Rechnung oder Lösung an.</span>
           <button
             onClick={() =>
               ExerciseViewStore.update(s => {
@@ -254,7 +254,6 @@ Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu die
         </div>
 
         <p className="text-xs text-gray-600">
-          Zeichne hier deine Rechnung oder Skizze mit dem Finger oder der Maus.
           Tippe auf <b>Senden</b>, um Feedback von der KI zu erhalten.
         </p>
 

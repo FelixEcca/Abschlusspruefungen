@@ -17,7 +17,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 
-function normalizeMathForMarkdown(text: string): string {
+export function normalizeMathForMarkdown(text: string): string {
   let t = text
 
   // 1) \(...\)  -> $...$
@@ -53,18 +53,16 @@ export function ChatOverlay() {
 
   if (chatOverlay !== 'chat') return null
 
-  // 🔹 zentrale Sende-Funktion inkl. API-Call
+  // zentrale Sende-Funktion inkl. API-Call
   const sendMessage = async () => {
     const raw = inputRef.current?.value ?? ''
     const value = raw.trim()
     if (!value) return
 
-    // Eingabefeld leeren
     inputRef.current!.value = ''
 
     const state = ExerciseViewStore.getRawState()
 
-    // User-Nachricht sofort anzeigen
     const userMessageId = `${Date.now()}-${Math.random()
       .toString(36)
       .slice(2, 8)}`
@@ -78,8 +76,6 @@ export function ChatOverlay() {
       s.chatPending = true
     })
 
-    // --- Kontext für die KI vorbereiten ---
-
     const page = state.pages[state.navIndicatorPosition]
     const contextIndex = page?.context
     const exerciseId = contextIndex
@@ -88,28 +84,28 @@ export function ChatOverlay() {
 
     const data = contextIndex ? state.dataPerExercise[contextIndex] : state.data
 
-    const exerciseContext = extractor(exercisesData[exerciseId], data)
+    const exerciseContext = extractor(exercisesData[exerciseId], data, {
+      includeSolution: false,
+      includeCorrectionHints: false,
+    })
 
-    // Bisheriger Chat als Text (ohne aktuelle Nachricht, die kommt extra)
     const historyText = state.chatMessages
       .map(m => `${m.role === 'user' ? 'Schülerin' : 'Tutor'}: ${m.content}`)
       .join('\n')
 
     const msgs: IMessage[] = []
 
-    // 1. System: Aufgaben-Kontext
     msgs.push({
       id: 'context',
       role: 'system',
       content: exerciseContext,
     })
 
-    // 2. System: Prompt – mit klaren LaTeX-Regeln
     msgs.push({
       id: 'prompt',
       role: 'system',
       content: `
-Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Schule. Hier geht es um Lernen, falls irrelevante Inhalte auftauchen, ignoriere diese höflich.
+Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Schule.
 
 - Antworte per default auf Deutsch. Falls ein Schüler dich in einer anderen Sprache anspricht, antworte in derselben Sprache.
 - Erkläre kurz, klar und freundlich.
@@ -119,13 +115,7 @@ Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Sch
   - Abgesetzt: \`$$ ... $$\`
 - Verwende NICHT nur eckige Klammern wie \`[ y = ... ]\`. Wenn du eine Formel angibst, setze sie IMMER in \`$...$\` oder \`$$...$$\`.
 - Gehe auf die konkrete Aufgabe ein, nicht auf allgemeine Theorie.
-
-Orientiere dich an folgenden Kategorien (du musst sie NICHT explizit nennen):
-- "not-relevant": Eingabe passt nicht zur Aufgabe → höflich darauf hinweisen und einen Tipp zum Einstieg geben, ohne die Lösung zu verraten.
-- "question": Es wurde eine Frage gestellt → in 2–3 Sätzen helfen (Hinweis, Tipp, erster Schritt).
-- "actionable-feedback": Es gibt einen Lösungsansatz → kurz loben und dann konkret sagen, was der nächste sinnvolle Schritt ist bzw. was zu verbessern ist.
-- "success": Die Lösung ist im Wesentlichen richtig → loben und höchstens kleine Verbesserungsvorschläge machen.
-- "teacher-feedback": Die Lehrkraft möchte sich erkundigen, wie die Schülerin vorankommt → freundlich antworten und den aktuellen Stand, sowie die Stärken und Schwächen zusammenfassen.
+- Du sollst Hinweise geben, keine vollständigen Lösungen ausplaudern (außer auf ausdrückliche Nachfrage).
 
 ${
   historyText
@@ -139,14 +129,12 @@ ${historyText}
       `.trim(),
     })
 
-    // 3. Letzte Nutzereingabe als User-Message
     msgs.push({
       id: 'user',
       role: 'user',
       content: value,
     })
 
-    // --- Request an dein Backend /va89kjds ---
     try {
       const { text } = await makePost('/va89kjds', msgs)
       const normalized = normalizeMathForMarkdown(text)
@@ -174,7 +162,6 @@ ${historyText}
       })
     }
 
-    // Nachladen: erneut nach unten scrollen
     setTimeout(() => {
       const el = scrollRef.current
       if (el) el.scrollTop = el.scrollHeight
@@ -183,11 +170,12 @@ ${historyText}
 
   return (
     <div className="px-3 pb-2">
-      {/* Karte im Footer, kein fixed/overlay mehr */}
       <div className="rounded-2xl border border-gray-200 max-h-[40vh] flex flex-col overflow-hidden bg-white shadow-inner">
-        {/* Kopfzeile im Chat selbst, mit Close-Button */}
         <div className="flex justify-between items-center px-3 py-2 border-b text-xs text-gray-600 bg-gray-50">
-          <span>KI-Chat</span>
+          <span>
+            KI-Chat: Die KI <b>kann</b> Fehler machen oder deine Nachricht
+            falsch verstehen.
+          </span>
           <button
             onClick={() =>
               ExerciseViewStore.update(s => {
@@ -199,7 +187,6 @@ ${historyText}
           </button>
         </div>
 
-        {/* Nachrichtenliste */}
         <div
           ref={scrollRef}
           className="flex-1 px-3 py-2 overflow-y-auto space-y-2 text-sm"
@@ -247,7 +234,6 @@ ${historyText}
           )}
         </div>
 
-        {/* Eingabefeld */}
         <div className="border-t px-3 py-2 bg-gray-50">
           <div className="flex items-end gap-2 bg-white border rounded-xl px-3 py-2 shadow-sm">
             <TextareaAutosize
