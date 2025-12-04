@@ -56,7 +56,7 @@ export function ScribbleOverlay() {
       ctx.lineCap = 'round'
       ctx.strokeStyle = '#111827'
     }
-  }, [canvasRef.current])
+  }, [])
 
   if (chatOverlay !== 'scribble') return null
 
