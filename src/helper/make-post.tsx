@@ -1,26 +1,16 @@
-// make-post.tsx
+// src/helper/make-post.tsx
 
-// Optional: für lokalen Test kannst du das auf true setzen,
-// dann wird 'http://localhost:8080' als Fallback genutzt,
-// falls die Env-Variable fehlt.
-const localDev = false
-
-// 👇 AB JETZT: ALLES läuft über das neue Backend
-// Priorität: NEXT_PUBLIC_KI_BACKEND_URL (aus .env.local)
-// Fallback (nur wenn localDev === true): http://localhost:8080
-export const backendHost =
-  process.env.NEXT_PUBLIC_KI_BACKEND_URL ||
-  (localDev ? 'http://localhost:8080' : '')
-
+/**
+ * Kleiner Helper zum Aufruf der internen API-Routen.
+ *
+ * Beispiel: makePost('/va89kjds', body)
+ *  -> POST auf /api/va89kjds
+ */
 export async function makePost(route: string, body: object) {
-  if (!backendHost) {
-    console.error(
-      'backendHost ist leer. Bitte NEXT_PUBLIC_KI_BACKEND_URL in der .env.local setzen.',
-    )
-    throw new Error('Kein backendHost konfiguriert')
-  }
+  const path = route.startsWith('/') ? route : `/${route}`
+  const url = `/api${path}` // z.B. "/api/va89kjds"
 
-  const res = await fetch(backendHost + route, {
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,10 +19,10 @@ export async function makePost(route: string, body: object) {
   })
 
   if (!res.ok) {
-    throw new Error(
-      `Request failed: ${res.status} ${res.statusText} (${backendHost + route})`,
-    )
+    const text = await res.text()
+    console.error('makePost error', res.status, text)
+    throw new Error(`Request failed with status ${res.status}`)
   }
 
-  return await res.json()
+  return res.json()
 }

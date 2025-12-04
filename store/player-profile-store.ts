@@ -1,7 +1,8 @@
-import { backendHost } from '@/helper/make-post'
+// src/store/player-profile-store.ts
 import { Store } from 'pullstate'
 
 export const storageKey = 'physikprüfungen_player_progress_v0_2'
+
 export type PlayerProfileStoreProps = {
   name: string
   currentExam: number
@@ -11,6 +12,11 @@ export type PlayerProfileStoreProps = {
   original: boolean
   key?: string
   birdieIntros: string[]
+}
+
+interface ExamProgress {
+  selectedTopics: number[]
+  learningPathTags: string[]
 }
 
 export const defaultPlayerProfileStoreValue: PlayerProfileStoreProps = {
@@ -27,11 +33,6 @@ export const defaultPlayerProfileStoreValue: PlayerProfileStoreProps = {
   birdieIntros: [],
 }
 
-interface ExamProgress {
-  selectedTopics: number[]
-  learningPathTags: string[]
-}
-
 export const PlayerProfileStore = new Store<PlayerProfileStoreProps>(
   defaultPlayerProfileStoreValue,
 )
@@ -40,24 +41,30 @@ export function updatePlayerProfileStore(
   f: Parameters<typeof PlayerProfileStore.update>['0'],
 ) {
   PlayerProfileStore.update(f)
-  localStorage.setItem(
-    storageKey,
-    JSON.stringify(PlayerProfileStore.getRawState()),
-  )
-  syncProfileWithBackend()
+  // lokal im Browser speichern
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(PlayerProfileStore.getRawState()),
+    )
+  }
+  // früher: Sync mit externem Backend (Uberspace)
+  // aktuell deaktiviert, da es kein dauerhaftes Backend mehr gibt
+  void syncProfileWithBackend()
 }
 
 export async function syncProfileWithBackend() {
   const key = PlayerProfileStore.getRawState().key
 
-  if (!key || key == 'pending') return
-  // post to backend with json body
-  const body = JSON.stringify(PlayerProfileStore.getRawState())
-  await fetch(`${backendHost}/profile/${key}`, {
-    method: 'POST',
-    body,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  // aktuell kein Remote-Backend vorhanden → Funktion tut nichts
+  // Hook bleibt bestehen, falls später wieder ein Profil-Backend
+  // (z.B. über eine eigene DB + API-Route) angebunden wird.
+  if (!key || key === 'pending') return
+
+  // Beispiel, falls du später ein neues Backend baust:
+  // await fetch(`/api/profile/${key}`, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(PlayerProfileStore.getRawState()),
+  // })
 }

@@ -1,4 +1,4 @@
-// ChatOverlay.tsx
+// src/components/exercise-view/ChatOverlay.tsx
 import { ExerciseViewStore } from './state/exercise-view-store'
 import clsx from 'clsx'
 import { FaIcon } from '../ui/FaIcon'
@@ -20,16 +20,9 @@ import rehypeKatex from 'rehype-katex'
 export function normalizeMathForMarkdown(text: string): string {
   let t = text
 
-  // 1) \(...\)  -> $...$
   t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
-
-  // 2) \[...\]  -> $$...$$
   t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_m, inner) => `$$${inner}$$`)
-
-  // 3) [ ... \frac ... ]  -> $...$
   t = t.replace(/\[([^\]\n]*\\frac[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-
-  // 4) [ ... ^ ... ]  -> $...$
   t = t.replace(/\[([^\]\n]*\^[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
 
   return t
@@ -43,7 +36,6 @@ export function ChatOverlay() {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Immer zum neuesten Eintrag scrollen
   useEffect(() => {
     const el = scrollRef.current
     if (el) {
@@ -53,7 +45,6 @@ export function ChatOverlay() {
 
   if (chatOverlay !== 'chat') return null
 
-  // zentrale Sende-Funktion inkl. API-Call
   const sendMessage = async () => {
     const raw = inputRef.current?.value ?? ''
     const value = raw.trim()

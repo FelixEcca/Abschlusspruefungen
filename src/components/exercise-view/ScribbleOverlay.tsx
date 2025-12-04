@@ -1,4 +1,4 @@
-// ScribbleOverlay.tsx
+// src/components/exercise-view/ScribbleOverlay.tsx
 import { useEffect, useRef, useState } from 'react'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import { FaIcon } from '../ui/FaIcon'
@@ -15,22 +15,12 @@ import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 
-// 👉 eigene Normalisierungsfunktion, NICHT mehr aus ChatOverlay importieren
 function normalizeMathForMarkdown(text: string): string {
   let t = text
-
-  // 1) \(...\)  -> $...$
   t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
-
-  // 2) \[...\]  -> $$...$$
   t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_m, inner) => `$$${inner}$$`)
-
-  // 3) [ ... \frac ... ]  -> $...$
   t = t.replace(/\[([^\]\n]*\\frac[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-
-  // 4) [ ... ^ ... ]  -> $...$
   t = t.replace(/\[([^\]\n]*\^[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-
   return t
 }
 
@@ -187,7 +177,6 @@ Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu die
       `.trim(),
     })
 
-    // Bild-Nachricht – Format wie im anderen Repo
     msgs.push({
       id: 'user-image',
       role: 'user',
@@ -219,7 +208,7 @@ Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu die
           createdAt: Date.now(),
         })
         s.chatPending = false
-        s.chatOverlay = 'chat' // immer in den Chat wechseln
+        s.chatOverlay = 'chat'
       })
     } catch (error) {
       console.error('Error fetching AI response (scribble):', error)

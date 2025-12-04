@@ -40,7 +40,7 @@ export function ExerciseViewFooter() {
         <div className="flex gap-2">
           {/* KI-Chat */}
           <button
-            className={`px-2 py-0.5 rounded text-sm ${
+            className={`px-4 py-1 rounded text-sm ${
               isChatOpen ? 'bg-blue-100' : 'bg-gray-100'
             }`}
             onClick={() => {
@@ -54,7 +54,7 @@ export function ExerciseViewFooter() {
 
           {/* Scribble */}
           <button
-            className={`px-2 py-0.5 rounded text-sm  ${
+            className={`px-8 py-2 rounded text-sm  ${
               isScribbleOpen ? 'bg-blue-100' : 'bg-gray-100'
             } mx-auto`}
             onClick={() => {
@@ -73,7 +73,7 @@ export function ExerciseViewFooter() {
           ref={helpDropdownRef}
         >
           <summary
-            className="list-none cursor-pointer px-2 py-0.5 bg-gray-100 rounded text-sm"
+            className="list-none cursor-pointer px-4 py-2 bg-gray-100 rounded text-sm"
             onClick={() => {
               ExerciseViewStore.update(s => {
                 s.chatOverlay = 'solution'
