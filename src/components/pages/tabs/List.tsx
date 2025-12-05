@@ -31,6 +31,7 @@ function passExamFilter(exam: number, idNum: number): boolean {
   if (exam == 3) return false
   if (exam == 4) return false
   if (exam == 5) return false
+  if (exam == 6) return false
   return true
 }
 

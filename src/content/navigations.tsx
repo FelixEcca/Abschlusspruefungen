@@ -413,4 +413,43 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+  6: {
+    longTitle: 'AV - Mathe',
+    shortTitle: 'AV - Mathe',
+    topics: [
+      {
+        title: 'Dreisatz',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+      {
+        title: 'Prozentrechnen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+      {
+        title: 'Dreiecke',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+      {
+        title: 'Terme',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+      {
+        title: 'Gleichungen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }
