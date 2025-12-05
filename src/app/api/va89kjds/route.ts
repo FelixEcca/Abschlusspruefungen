@@ -1,12 +1,20 @@
 // src/app/api/va89kjds/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'nodejs' // sicherstellen, dass wir im Node-Runtime laufen
+export const dynamic = 'force-dynamic'
+
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
 
+type ImageContentPart = {
+  type: 'image'
+  image: string
+}
+
 type IMessage = {
-  role: 'system' | 'user' | 'assistant'
-  content: any
   id?: string
+  role: 'system' | 'user' | 'assistant'
+  content: string | ImageContentPart[]
 }
 
 // Hilfsfunktion: unsere eigene Messages-Struktur -> OpenAI-Format
@@ -19,10 +27,8 @@ function toOpenAIMessages(msgs: IMessage[]) {
 
     // 2) Bild aus ScribbleOverlay: [{ type: 'image', image: <base64> }]
     if (Array.isArray(m.content)) {
-      const first = m.content[0]
+      const first = m.content[0] as ImageContentPart | undefined
       if (first && first.type === 'image' && first.image) {
-        // 🔴 Bisher: type: 'input_image'  (falsch für /chat/completions)
-        // 🟢 Neu:   type: 'image_url'
         return {
           role: m.role,
           content: [
@@ -46,7 +52,17 @@ function toOpenAIMessages(msgs: IMessage[]) {
 export async function POST(req: NextRequest) {
   try {
     const apiKey = process.env.OPENAI_API_KEY
+
+    // Debug-Logs für Vercel
     console.log('[api/va89kjds] hit – key present?', !!apiKey)
+    console.log(
+      '[api/va89kjds] ENV OPENAI_API_KEY set?',
+      !!process.env.OPENAI_API_KEY,
+    )
+    console.log(
+      '[api/va89kjds] ENV keys containing "OPENAI":',
+      Object.keys(process.env).filter(k => k.toLowerCase().includes('openai')),
+    )
 
     if (!apiKey) {
       return NextResponse.json(
