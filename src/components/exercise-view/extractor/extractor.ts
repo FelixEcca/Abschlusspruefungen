@@ -62,6 +62,6 @@ export function extractor(
   }
 
   console.log(output)
-  ExtractorStore.active = false
+  ExtractorStore.active = true
   return output
 }

@@ -330,15 +330,78 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'TG11 - Physik',
     topics: [
       {
+        title: 'Kinematik',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Gleichförmige Bewegung',
+            skillExercises: [
+              {
+                id: 7000,
+              },
+            ],
+          },
+          {
+            name: 'Gleichmäßig beschleunigte Bewegung',
+            skillExercises: [
+              {
+                id: 7001,
+              },
+            ],
+          },
+          {
+            name: 'Freier Fall',
+            skillExercises: [
+              {
+                id: 7002,
+              },
+            ],
+          },
+          {
+            name: 'Geschwindigkeit in mehreren Dimensionen',
+            skillExercises: [
+              {
+                id: 6000,
+              },
+            ],
+          },
+          {
+            name: 'Verständnisfragen zur Kinematik',
+            skillExercises: [
+              {
+                id: 6004,
+              },
+            ],
+          },
+        ],
+      },
+      {
         title: 'Impuls',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Impuls und Stoß',
+            name: 'Impuls',
             skillExercises: [
               {
-                id: 6000,
+                id: 6001,
+              },
+            ],
+          },
+          {
+            name: 'Impulserhaltung bei Stößen',
+            skillExercises: [
+              {
+                id: 6002,
+              },
+            ],
+          },
+          {
+            name: 'Verständnisfragen zum Impuls',
+            skillExercises: [
+              {
+                id: 6003,
               },
             ],
           },

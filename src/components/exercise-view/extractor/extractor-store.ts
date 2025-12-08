@@ -1,3 +1,3 @@
 export const ExtractorStore = {
-  active: false,
+  active: true,
 }

@@ -176,6 +176,11 @@ import { exercise7002 } from './implementations/2BFS2_Physik/7002'
 import { exercise7003 } from './implementations/2BFS2_Physik/7003'
 import { exercise7004 } from './implementations/2BFS2_Physik/7004'
 import { exercise7005 } from './implementations/2BFS2_Physik/7005'
+import { exercise6000 } from './implementations/TG11_Physik/6000'
+import { exercise6001 } from './implementations/TG11_Physik/6001'
+import { exercise6002 } from './implementations/TG11_Physik/6002'
+import { exercise6003 } from './implementations/TG11_Physik/6003'
+import { exercise6004 } from './implementations/TG11_Physik/6004'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -353,6 +358,11 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   7003: exercise7003,
   7004: exercise7004,
   7005: exercise7005,
+  6000: exercise6000,
+  6001: exercise6001,
+  6002: exercise6002,
+  6003: exercise6003,
+  6004: exercise6004,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
