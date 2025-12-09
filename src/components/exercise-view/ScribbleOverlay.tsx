@@ -168,11 +168,9 @@ export function ScribbleOverlay() {
 Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu dieser Mathematikaufgabe.
 
 - Sei sehr kulant und beharre nicht auf Kleinigkeiten. Wenn der Inhalt richtig ist, melde gutes Feedback zurück.
-- Analysiere, was ich versucht habe.
-- Fasse dich sehr sehr  kurz.
+- Fasse dich sehr sehr kurz mit wenigen Worten.
 - Falls etwas falsch ist, erkläre es in 1-2 Sätzen.
 - Antworte auf deutsch oder alternativ in der Sprache auf der ich geschrieben habe.
-- Gib keine vollständige Musterlösung, sondern fokussiere dich auf Feedback und nächste Schritte.
 - Gib danach keine weiteren Vorschläge oder Fragen mehr.
 - Deine Antwort wird als Markdown mit LaTeX gerendert (\`$...$\` / \`$$...$$\`).
       `.trim(),
