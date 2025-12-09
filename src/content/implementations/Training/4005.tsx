@@ -94,7 +94,7 @@ export const exercise4005: Exercise<DATA> = {
         <p>
           Nullstellen:{' '}
           <InlineMath
-            math={`SP_{x,1}(${pp(x1)}\\mid 0),\\;SP_{x,2}(${pp(x2)}\\mid 0)`}
+            math={`N_{1}(${pp(x1)}\\mid 0),\\;N_{2}(${pp(x2)}\\mid 0)`}
           />
         </p>
         <p>

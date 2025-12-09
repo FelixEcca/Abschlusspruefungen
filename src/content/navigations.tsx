@@ -11,44 +11,34 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'a und c aus Schaubild ablesen',
+            skillExercises: [{ id: 4008 }],
+          },
+          {
             name: 'Scheitel ablesen',
             skillExercises: [{ id: 4000 }],
           },
           {
-            name: 'Wertetabelle',
+            name: 'Wertetabelle ausfüllen',
             skillExercises: [{ id: 4001 }],
           },
           {
-            name: 'Scheitelpunktform ↔ Normalform umformen',
-            skillExercises: [{ id: 4002 }],
-          },
-          {
-            name: 'Parabel aus Punkten',
-            skillExercises: [{ id: 4003 }],
-          },
-          {
-            name: 'Streckung/Spiegelung/Verschiebung',
-            skillExercises: [{ id: 4004 }],
-          },
-          {
-            name: 'Schnittpunkte mit Koordinatenachsen',
-            skillExercises: [{ id: 4005 }],
-          },
-          {
-            name: 'Schnittpunkt mit y=c',
-            skillExercises: [{ id: 4301 }],
-          },
-          {
-            name: 'Schnittpunkte berechnen',
-            skillExercises: [{ id: 4006 }],
-          },
-          {
-            name: 'Parabel skizzieren',
+            name: 'Parabeln skizzieren',
             skillExercises: [{ id: 4007 }],
           },
           {
-            name: 'a und c bestimmen',
-            skillExercises: [{ id: 4008 }],
+            name: 'a und c aus Punkten berechnen',
+            skillExercises: [{ id: 4003 }],
+          },
+
+          {
+            name: 'x-Wert zu gegebenem y-Wert berechnen',
+            skillExercises: [{ id: 4301 }],
+          },
+
+          {
+            name: 'Schnittpunkte mit Koordinatenachsen',
+            skillExercises: [{ id: 4005 }],
           },
         ],
       },

@@ -9,7 +9,7 @@ interface D4301 {
 } // y = ax^2 + b  ;   y = c
 
 export const exercise4301: Exercise<D4301> = {
-  title: 'Schnittpunkte mit y = c',
+  title: 'x-Wert zu gegebenem y-Wert berechnen',
   source: 'Training',
   useCalculator: false,
   duration: 8,
@@ -49,7 +49,7 @@ export const exercise4301: Exercise<D4301> = {
           Gegeben sind die Parabel und die Gerade:{' '}
           <InlineMath math={`y = ${pp(a)}x^2 ${pp(b, 'merge_op')}`} /> und{' '}
           <InlineMath math={`y = ${pp(c)}`} />. <br />
-          Bestimme die Schnittpunkte.
+          Bestimme die Werte für x.
         </p>
       </>
     )
@@ -67,14 +67,16 @@ export const exercise4301: Exercise<D4301> = {
     const y = c
     return (
       <>
-        <p>Setze die Gleichungen der Parabel und der Geraden gleich.</p>
+        <p>
+          Setze den Wert für <InlineMath math={`y = ${pp(c)}`} /> ein.
+        </p>
         <BlockMath
           math={[
             '\\begin{aligned}',
-            `${pp(a)}x^2 ${pp(b, 'merge_op')} &= ${pp(c)}\\\\`,
-            `${pp(a)}x^2 &= ${pp(c - b)}\\\\`,
+            `${pp(c)} &= ${pp(a)}x^2 ${pp(b, 'merge_op')}\\\\`,
+            ` ${pp(c - b)}&= ${pp(a)}x^2\\\\`,
             `x^2 &= ${pp(rhs)}\\\\`,
-            `x_{1,2} &= \\pm\\sqrt{${pp(rhs)}} = ${pp(s)}\\;\\text{bzw.}\\;${pp(-s)}\\\\`,
+            `x_{1,2} &= \\pm\\sqrt{${pp(rhs)}} \\\\`,
             `\\Rightarrow\\; S_1(${pp(x1)}&\\mid ${pp(y)}),\\; S_2(${pp(x2)}\\mid ${pp(y)})`,
             '\\end{aligned}',
           ].join('')}

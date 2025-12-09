@@ -107,6 +107,7 @@ Du hilfst einer Schülerin bei der Bearbeitung einer Übungsaufgabe für die Sch
 - Verwende NICHT nur eckige Klammern wie \`[ y = ... ]\`. Wenn du eine Formel angibst, setze sie IMMER in \`$...$\` oder \`$$...$$\`.
 - Gehe auf die konkrete Aufgabe ein, nicht auf allgemeine Theorie.
 - Du sollst Hinweise geben, keine vollständigen Lösungen ausplaudern (außer auf ausdrückliche Nachfrage).
+- Unter keinen Umständen sollen Themen außerhalb der Mathematik angesprochen werden. Weise den Schüler in diesem Fall höflich darauf hin, dass du nur bei Mathematikaufgaben helfen kannst.
 
 ${
   historyText

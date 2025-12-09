@@ -15,7 +15,7 @@ function toY(n: number) {
 }
 
 export const exercise4008: Exercise<DATA> = {
-  title: 'Parameter a und c aus dem Schaubild ablesen',
+  title: 'a und c aus dem Schaubild ablesen',
   source: 'Training',
   useCalculator: false,
   duration: 6,
@@ -43,7 +43,7 @@ export const exercise4008: Exercise<DATA> = {
     return (
       <>
         <p>
-          Lies aus dem Schaubild die Parameter <InlineMath math="a" /> und{' '}
+          Lies aus dem Schaubild <InlineMath math="a" /> und{' '}
           <InlineMath math="c" /> der Parabel <InlineMath math="y=a x^2 + c" />{' '}
           ab.
         </p>
@@ -69,7 +69,7 @@ export const exercise4008: Exercise<DATA> = {
   },
 
   solution({ data }) {
-     // Zeichne die Parabel y = a x^2 + c
+    // Zeichne die Parabel y = a x^2 + c
     const xs: number[] = []
     for (let x = -5; x <= 5; x += 0.2) xs.push(+x.toFixed(1))
     const path = xs
@@ -103,11 +103,39 @@ export const exercise4008: Exercise<DATA> = {
           />
           {/* Markierung y-Achsenabschnitt (0,c) */}
           <circle cx={toX(0)} cy={toY(data.c)} r="3" fill="blue" />
-          <line x1={toX(0)} y1={toY(data.c)} x2={toX(1)} y2={toY(data.c)} stroke="green" strokeWidth="2" strokeDasharray="4 4" />
-          <line x1={toX(1)} y1={toY(data.c)} x2={toX(1)} y2={toY(y1)} stroke="green" strokeWidth="2" strokeDasharray="2 2" />
-          <line x1={toX(0)} y1={toY(data.c)} x2={toX(-2)} y2={toY(data.c)} stroke="green" strokeWidth="2" strokeDasharray="2 2"/>
-          <text x={toX(1)+4} y={toY(data.c)} fontSize="12" fill="green">a = {pp(data.a)}</text>
-          <text x={toX(-3)-12} y={toY(data.c)+4} fontSize="12" fill="green">c = {pp(data.c)}</text>
+          <line
+            x1={toX(0)}
+            y1={toY(data.c)}
+            x2={toX(1)}
+            y2={toY(data.c)}
+            stroke="green"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+          />
+          <line
+            x1={toX(1)}
+            y1={toY(data.c)}
+            x2={toX(1)}
+            y2={toY(y1)}
+            stroke="green"
+            strokeWidth="2"
+            strokeDasharray="2 2"
+          />
+          <line
+            x1={toX(0)}
+            y1={toY(data.c)}
+            x2={toX(-2)}
+            y2={toY(data.c)}
+            stroke="green"
+            strokeWidth="2"
+            strokeDasharray="2 2"
+          />
+          <text x={toX(1) + 4} y={toY(data.c)} fontSize="12" fill="green">
+            a = {pp(data.a)}
+          </text>
+          <text x={toX(-3) - 12} y={toY(data.c) + 4} fontSize="12" fill="green">
+            c = {pp(data.c)}
+          </text>
         </svg>
       </>
     )

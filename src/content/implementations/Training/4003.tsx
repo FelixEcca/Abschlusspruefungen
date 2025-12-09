@@ -11,7 +11,7 @@ interface DATA {
 }
 
 export const exercise4003: Exercise<DATA> = {
-  title: 'Parabel aus Punkt',
+  title: 'a und c aus Punkten berechnen',
   source: 'Training',
   useCalculator: false,
   duration: 6,
@@ -67,22 +67,33 @@ export const exercise4003: Exercise<DATA> = {
       <>
         {mode === 'solve_c' ? (
           <p>
-            Gegeben ist die Parabel der Form <br></br>
+            Gegeben ist die Parabel mit der Gleichung<br></br>
             <InlineMath
               math={`y = ${a === 1 ? '' : a === -1 ? '-' : pp(a)}\\,x^{2} + c`}
             />{' '}
-            und der Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} /> auf dem
-            Graphen.
+            und der Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} />, der auf
+            der Parabel liegt.
           </p>
         ) : (
           <p>
-            Gegeben ist die Parabel der Form<br></br>
+            Gegeben ist die Parabel mit der Gleichung<br></br>
             <InlineMath math={`y = a\\,x^{2} ${pp(c, 'merge_op')}`} /> und der
-            Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} /> auf dem Graphen.
+            Punkt <InlineMath math={`P(${x0}\\mid ${y0})`} />, der auf der
+            Parabel liegt.
           </p>
         )}
         <p>
-          Bestimme den fehlenden Parameter und gib die Gleichung der Parabel an.
+          Bestimme{' '}
+          {mode === 'solve_c' ? (
+            <>
+              <InlineMath math={`c`} />
+            </>
+          ) : (
+            <>
+              <InlineMath math={`a`} />
+            </>
+          )}{' '}
+          und gib die Gleichung der Parabel an.
         </p>
       </>
     )

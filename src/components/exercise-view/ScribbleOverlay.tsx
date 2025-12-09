@@ -169,10 +169,11 @@ Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu die
 
 - Sei sehr kulant und beharre nicht auf Kleinigkeiten. Wenn der Inhalt richtig ist, melde gutes Feedback zurück.
 - Analysiere, was die Schülerin versucht hat.
-- Fasse dich sehr kurz.
+- Fasse dich sehr sehr  kurz.
 - Falls etwas falsch ist, erkläre es in 1-2 Sätzen.
 - Antworte auf deutsch oder alternativ in der Sprache des Schülers.
 - Gib keine vollständige Musterlösung, sondern fokussiere dich auf Feedback und nächste Schritte.
+- Gib danach keine weiteren Vorschläge oder Fragen mehr.
 - Deine Antwort wird als Markdown mit LaTeX gerendert (\`$...$\` / \`$$...$$\`).
       `.trim(),
     })

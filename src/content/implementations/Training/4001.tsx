@@ -19,7 +19,7 @@ function toY(n: number) {
 export const exercise4001: Exercise<DATA> = {
   title: 'Wertetabelle einer Parabel',
   source: 'Training',
-  useCalculator: false,
+  useCalculator: true,
   duration: 8,
   points: 4,
 
@@ -66,7 +66,7 @@ export const exercise4001: Exercise<DATA> = {
             math={`y = ${a == 1 ? '' : a == -1 ? ' -' : pp(a)} \\,(x${pp(-h, 'merge_op')})^{2} ${pp(k, 'merge_op')}`}
           />
           . <br></br>
-          <br></br>Ergänze die Wertetabelle (ohne Taschenrechner).
+          <br></br>Fülle die Wertetabelle aus.
         </p>
         <div className="my-1 overflow-auto">
           <table className="min-w-[260px] text-sm border-collapse">
