@@ -149,6 +149,7 @@ export function ScribbleOverlay() {
     const data = contextIndex ? state.dataPerExercise[contextIndex] : state.data
 
     const exerciseContext = extractor(exercisesData[exerciseId], data, {
+      includeIntroLabel: true,
       includeSolution: true,
       includeCorrectionHints: false,
     })

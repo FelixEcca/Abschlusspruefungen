@@ -78,6 +78,7 @@ export function ChatOverlay() {
     const exerciseContext = extractor(exercisesData[exerciseId], data, {
       includeSolution: true,
       includeCorrectionHints: false,
+      includeIntroLabel: true,
     })
 
     const historyText = state.chatMessages
