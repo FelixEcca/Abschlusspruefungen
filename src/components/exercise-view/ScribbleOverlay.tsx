@@ -166,7 +166,7 @@ export function ScribbleOverlay() {
       id: 'prompt',
       role: 'system',
       content: `
-Du erhältst gleich ein Bild einer handschriftlichen Skizze oder Rechnung zu dieser Mathematikaufgabe.
+Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Mathematikaufgabe.
 
 - Sei sehr kulant und beharre nicht auf Kleinigkeiten. Wenn der Inhalt richtig ist, melde gutes Feedback zurück.
 - Fasse dich sehr sehr kurz mit wenigen Worten.
