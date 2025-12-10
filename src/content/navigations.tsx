@@ -341,6 +341,22 @@ export const navigationData: { [key: number]: Navigation } = {
             ],
           },
           {
+            name: 'Bewegungsdiagramme',
+            skillExercises: [
+              {
+                id: 6007,
+              },
+            ],
+          },
+          {
+            name: 'Bewegungsgleichungen',
+            skillExercises: [
+              {
+                id: 6005,
+              },
+            ],
+          },
+          {
             name: 'Freier Fall',
             skillExercises: [
               {
@@ -353,6 +369,14 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [
               {
                 id: 6000,
+              },
+            ],
+          },
+          {
+            name: 'Waagerechter Wurf',
+            skillExercises: [
+              {
+                id: 6006,
               },
             ],
           },
