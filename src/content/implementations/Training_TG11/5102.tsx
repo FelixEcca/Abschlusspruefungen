@@ -1,287 +1,201 @@
+import * as React from 'react'
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { pp } from '@/helper/pretty-print'
 
-type GraphKind = 'power' | 'parabola'
-type EndStyle = 'open' | 'closed'
+type Sign = 1 | -1
 
 interface DATA {
-  // a) Graph-Aufgabe (Intervall sichtbar)
-  graphKind: GraphKind
-  sign: 1 | -1
-  n: number // nur für power
-  a: number // für parabola
-  d: number
-  e: number
-  xmin: number
-  xmax: number
-  leftStyle: EndStyle
-  rightStyle: EndStyle
+  // Teil a (Graph)
+  nA: number
+  signA: Sign
 
-  // b) Term-Aufgabe
-  termKind: 'power' | 'ax2c' | 'vertex'
-  tSign: 1 | -1
-  tn: number
-  ta: number
-  tc: number
-  td: number
-  te: number
+  // Teil b (Term)
+  nB: number
+  signB: Sign
 }
 
-function toX(n: number) {
-  return 167 + n * ((94.5 * 2) / 10)
-}
-function toY(n: number) {
-  return 163 - n * ((94.5 * 2) / 10)
-}
-
-function round2(x: number) {
-  return Math.round(x * 100) / 100
-}
-
-function fmtSign(sign: 1 | -1) {
+function fmtSign(sign: Sign) {
   return sign === -1 ? '-' : ''
 }
 
-function polylineFromFn(fn: (x: number) => number, xmin: number, xmax: number) {
+function isEven(n: number) {
+  return n % 2 === 0
+}
+
+/** Wertemenge für f(x)= ±x^n */
+function rangeForPower(n: number, sign: Sign) {
+  // ungerade Potenz: ganz R
+  if (!isEven(n)) return '(-\\infty;\\infty)'
+  // gerade Potenz: >=0 bzw <=0
+  return sign === 1 ? '[0;\\infty)' : '(-\\infty;0]'
+}
+
+/** Simple Mapping für Koordinatensystem (328x328) */
+function toX(x: number) {
+  // x in [-5,5] -> pixel
+  return 164 + x * (164 / 5)
+}
+function toY(y: number) {
+  // y in [-5,5] -> pixel (invertiert)
+  return 164 - y * (164 / 5)
+}
+
+/** clamp, damit wir nicht völlig aus dem Bild laufen */
+function clamp(v: number, lo: number, hi: number) {
+  return Math.max(lo, Math.min(hi, v))
+}
+
+/** baut Polyline für y = sign*x^n, skaliert und geclamped */
+function buildPowerPolyline(n: number, sign: Sign) {
   const pts: string[] = []
-  for (let x = xmin; x <= xmax; x += 0.05) {
-    const y = fn(x)
-    const yClamped = Math.max(-9.5, Math.min(9.5, y))
-    pts.push(`${toX(x)},${toY(yClamped)}`)
+  // fein genug für Kurve
+  for (let x = -5; x <= 5.001; x += 0.1) {
+    const yRaw = sign * Math.pow(x, n)
+    // skaliere so, dass es sichtbar bleibt: bei großen n explodiert y schnell
+    // -> wir normieren grob auf y in [-5,5] über clamp
+    const y = clamp(yRaw, -5, 5)
+    pts.push(`${toX(x)},${toY(y)}`)
   }
   return pts.join(' ')
 }
 
-function endPointCircle(x: number, y: number, style: EndStyle) {
-  const cx = toX(x)
-  const cy = toY(y)
-  const r = 5
-  if (style === 'closed') {
-    return <circle cx={cx} cy={cy} r={r} fill="black" />
-  }
-  return <circle cx={cx} cy={cy} r={r} fill="white" stroke="black" strokeWidth="2" />
-}
-
-function intervalLatex(xmin: number, xmax: number, l: EndStyle, r: EndStyle) {
-  const L = l === 'closed' ? '[' : '('
-  const R = r === 'closed' ? ']' : ')'
-  return `${L}${pp(xmin)};${pp(xmax)}${R}`
-}
-
-function rangeFromSample(
-  fn: (x: number) => number,
-  xmin: number,
-  xmax: number,
-  left: EndStyle,
-  right: EndStyle,
-) {
-  // Sample fein genug für Schulniveau
-  const ys: number[] = []
-  for (let x = xmin; x <= xmax; x += 0.01) ys.push(fn(x))
-  let ymin = Math.min(...ys)
-  let ymax = Math.max(...ys)
-
-  // falls Rand offen: Randwert "nicht enthalten" nur wenn Extrem genau am Rand liegt.
-  // Für einfache Darstellung: wir prüfen Extremnähe an Rand.
-  const yL = fn(xmin)
-  const yR = fn(xmax)
-
-  const minAtLeft = Math.abs(ymin - yL) < 1e-6
-  const minAtRight = Math.abs(ymin - yR) < 1e-6
-  const maxAtLeft = Math.abs(ymax - yL) < 1e-6
-  const maxAtRight = Math.abs(ymax - yR) < 1e-6
-
-  const minIncluded =
-    !((minAtLeft && left === 'open') || (minAtRight && right === 'open'))
-  const maxIncluded =
-    !((maxAtLeft && left === 'open') || (maxAtRight && right === 'open'))
-
-  ymin = round2(ymin)
-  ymax = round2(ymax)
-
-  const L = minIncluded ? '[' : '('
-  const R = maxIncluded ? ']' : ')'
-  return `${L}${pp(ymin)};${pp(ymax)}${R}`
+function Axes() {
+  // Achsen + Pfeile schlicht
+  return (
+    <>
+      {/* x-Achse */}
+      <line x1={0} y1={164} x2={328} y2={164} stroke="black" strokeWidth="2" />
+      {/* y-Achse */}
+      <line x1={164} y1={0} x2={164} y2={328} stroke="black" strokeWidth="2" />
+      {/* Pfeile */}
+      <polyline
+        points="320,164 328,164 322,158"
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
+      />
+      <polyline
+        points="320,164 328,164 322,170"
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
+      />
+      <polyline
+        points="164,8 164,0 158,6"
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
+      />
+      <polyline
+        points="164,8 164,0 170,6"
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
+      />
+      {/* kleine Markierungen bei -4,-2,2,4 */}
+      {[-4, -2, 2, 4].map(v => (
+        <React.Fragment key={v}>
+          <line
+            x1={toX(v)}
+            y1={160}
+            x2={toX(v)}
+            y2={168}
+            stroke="black"
+            strokeWidth="2"
+          />
+          <line
+            x1={160}
+            y1={toY(v)}
+            x2={168}
+            y2={toY(v)}
+            stroke="black"
+            strokeWidth="2"
+          />
+        </React.Fragment>
+      ))}
+    </>
+  )
 }
 
 export const exercise5102: Exercise<DATA> = {
   title: 'Definitions- und Wertemenge',
-  source: 'Potenzfunktionen',
+  source: 'Training',
   useCalculator: false,
-  duration: 10,
-  points: 6,
+  duration: 8,
+  points: 4,
 
   generator(rng) {
-    // a) Graph
-    const graphKind: GraphKind = rng.randomItemFromArray(['power', 'parabola'])
-    const sign: 1 | -1 = rng.randomItemFromArray([1, -1])
-    const n = rng.randomItemFromArray([2, 3, 4, 5, 6,7,8,9]) // gut sichtbar
-    const a = rng.randomItemFromArray([-2, -1, 1, 2])
-    const d = rng.randomIntBetween(-3, 3)
-    const e = rng.randomIntBetween(-4, 4)
+    const nA = rng.randomIntBetween(1, 10)
+    const nB = rng.randomIntBetween(1, 10)
+    const signA: Sign = rng.randomItemFromArray([1, -1])
+    const signB: Sign = rng.randomItemFromArray([1, -1])
 
-    // sichtbares Intervall (sortiert + keine gleichen x)
-    let xmin = -10
-    let xmax = 10
-    if (xmin >= xmax) {
-      const tmp = xmin
-      xmin = xmax - 2
-      xmax = tmp + 2
-    }
-
-    const leftStyle: EndStyle = rng.randomItemFromArray(['open', 'closed'])
-    const rightStyle: EndStyle = rng.randomItemFromArray(['open', 'closed'])
-
-    // b) Term
-    const termKind = rng.randomItemFromArray<'power' | 'ax2c' | 'vertex'>([
-      'power',
-      'ax2c',
-      'vertex',
-    ])
-    const tSign: 1 | -1 = rng.randomItemFromArray([1, -1])
-    const tn = rng.randomItemFromArray([1, 2, 3, 4, 5,6,7,8,9,10])
-    const ta = rng.randomItemFromArray([-2, -1, 1, 2])
-    const tc = rng.randomIntBetween(-6, 6)
-    const td = rng.randomIntBetween(-4, 4)
-    const te = rng.randomIntBetween(-6, 6)
-
-    return {
-      graphKind,
-      sign,
-      n,
-      a,
-      d,
-      e,
-      xmin,
-      xmax,
-      leftStyle,
-      rightStyle,
-      termKind,
-      tSign,
-      tn,
-      ta,
-      tc,
-      td,
-      te,
-    }
+    return { nA, signA, nB, signB }
   },
 
   originalData: {
-    graphKind: 'parabola',
-    sign: 1,
-    n: 3,
-    a: 1,
-    d: 1,
-    e: -2,
-    xmin: -4,
-    xmax: 4,
-    leftStyle: 'closed',
-    rightStyle: 'open',
-    termKind: 'vertex',
-    tSign: 1,
-    tn: 3,
-    ta: 1,
-    tc: 2,
-    td: -1,
-    te: 1,
+    nA: 2,
+    signA: 1,
+    nB: 3,
+    signB: -1,
   },
 
-  constraint({ data }) {
-    return data.xmin < data.xmax && data.td!=0 && data.te !== 0
-  },
-
-  intro() {
-    return null
+  constraint() {
+    return true
   },
 
   tasks: [
     {
-      points: 3,
+      points: 2,
       intro() {
         return null
       },
       task({ data }) {
-        const fn =
-          data.graphKind === 'power'
-            ? (x: number) => data.sign * Math.pow(x, data.n)
-            : (x: number) => data.a * Math.pow(x - data.d, 2) + data.e
-
-        const poly = polylineFromFn(fn, data.xmin, data.xmax)
-        const yL = fn(data.xmin)
-        const yR = fn(data.xmax)
-
+        const pts = buildPowerPolyline(data.nA, data.signA)
         return (
           <>
             <p>
-              Bestimme aus dem Schaubild die Definitionsmenge{' '}
-              <InlineMath math="D" /> und die Wertemenge <InlineMath math="W" />.
+              <b>a)</b> Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
+              zur abgebildeten Funktion.
             </p>
 
-            <svg viewBox="0 0 328 328" className="my-2">
-              <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
-                height="328"
-                width="328"
-              />
-              <polyline
-                points={poly}
-                fill="none"
-                stroke="black"
-                strokeWidth="3"
-              />
-              {endPointCircle(data.xmin, yL, data.leftStyle)}
-              {endPointCircle(data.xmax, yR, data.rightStyle)}
-            </svg>
+            <div className="my-2">
+              <svg viewBox="0 0 328 328" className="border rounded bg-white">
+                <Axes />
+                <polyline
+                  points={pts}
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="3"
+                />
+              </svg>
+            </div>
           </>
         )
       },
       solution({ data }) {
-        const fn =
-          data.graphKind === 'power'
-            ? (x: number) => data.sign * Math.pow(x, data.n)
-            : (x: number) => data.a * Math.pow(x - data.d, 2) + data.e
-
-        const D = intervalLatex(data.xmin, data.xmax, data.leftStyle, data.rightStyle)
-        const W = rangeFromSample(fn, data.xmin, data.xmax, data.leftStyle, data.rightStyle)
-
+        const W = rangeForPower(data.nA, data.signA)
         return (
           <>
-            <p>
-              <InlineMath math={`D=${D}`} />
-              <br />
-              <InlineMath math={`W=${W}`} />
-            </p>
+            <InlineMath math={`D = \\mathbb{R}`} />
+            <br />
+            <InlineMath math={`W = ${W}`} />
           </>
         )
       },
     },
-
     {
-      points: 3,
+      points: 2,
       intro() {
         return null
       },
       task({ data }) {
-        let term = ''
-        if (data.termKind === 'power') {
-          term = `f(x)=${fmtSign(data.tSign)}x^{${data.tn}}`
-        } else if (data.termKind === 'ax2c') {
-          // f(x)=a x^2 ± c
-          term = `f(x)=${pp(data.ta)}x^{2}${pp(data.tc, 'merge_op')}`
-        } else {
-          // vertex: a(x-d)^2+e
-          term = `f(x)=${pp(data.ta)}\\,(x${pp(-data.td, 'merge_op')})^{2}${pp(
-            data.te,
-            'merge_op',
-          )}`
-        }
-
+        const term = `f(x)=${fmtSign(data.signB)}x^{${data.nB}}`
         return (
           <>
             <p>
-              Bestimme Definitionsmenge <InlineMath math="D" /> und
-              Wertemenge <InlineMath math="W" /> der Funktion
+              <b>b)</b> Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
+              für
             </p>
             <p>
               <InlineMath math={term} />
@@ -290,34 +204,12 @@ export const exercise5102: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        // Für diese Aufgabentypen: D=R immer.
-        let W = ''
-        if (data.termKind === 'power') {
-          const even = data.tn % 2 === 0
-          if (!even) {
-            W = '\\mathbb{R}'
-          } else {
-            // even power: sign entscheidet
-            W =
-              data.tSign === 1 ? '[0;\\infty)' : '(-\\infty;0]'
-          }
-        } else if (data.termKind === 'ax2c') {
-          // a x^2 + c -> Scheitel bei y=c
-          if (data.ta > 0) W = `[${pp(data.tc)};\\infty)`
-          else W = `(-\\infty;${pp(data.tc)}]`
-        } else {
-          // a(x-d)^2+e -> Scheitel bei y=e
-          if (data.ta > 0) W = `[${pp(data.te)};\\infty)`
-          else W = `(-\\infty;${pp(data.te)}]`
-        }
-
+        const W = rangeForPower(data.nB, data.signB)
         return (
           <>
-            <p>
-              <InlineMath math={`D=\\mathbb{R}`} />
-              <br />
-              <InlineMath math={`W=${W}`} />
-            </p>
+            <InlineMath math={`D = \\mathbb{R}`} />
+            <br />
+            <InlineMath math={`W = ${W}`} />
           </>
         )
       },
