@@ -321,11 +321,11 @@ export const navigationData: { [key: number]: Navigation } = {
             },
           {
               name: 'Symmetrie',
-              skillExercises: [{ id: 5100 }],
+              skillExercises: [{ id: 5101 }],
             },
             {
               name: 'Definitions- und Wertebereich',
-              skillExercises: [{ id: 5100 }],
+              skillExercises: [{ id: 5102 }],
             },
         ],
       },
