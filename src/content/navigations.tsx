@@ -310,6 +310,25 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
+      {
+        title: 'Potenzfunktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+            {
+              name: 'Globalverhalten',
+              skillExercises: [{ id: 5100 }],
+            },
+          {
+              name: 'Symmetrie',
+              skillExercises: [{ id: 5100 }],
+            },
+            {
+              name: 'Definitions- und Wertebereich',
+              skillExercises: [{ id: 5100 }],
+            },
+        ],
+      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
