@@ -144,6 +144,10 @@ export const exercise5102: Exercise<DATA> = {
     return true
   },
 
+  intro() {
+    return null
+  },
+
   tasks: [
     {
       points: 2,
@@ -155,7 +159,7 @@ export const exercise5102: Exercise<DATA> = {
         return (
           <>
             <p>
-              <b>a)</b> Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
+              Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
               zur abgebildeten Funktion.
             </p>
 
@@ -194,7 +198,7 @@ export const exercise5102: Exercise<DATA> = {
         return (
           <>
             <p>
-              <b>b)</b> Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
+              Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
               für
             </p>
             <p>
