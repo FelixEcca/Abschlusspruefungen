@@ -40,20 +40,12 @@ function toY(y: number) {
   return 164 - y * (164 / 5)
 }
 
-/** clamp, damit wir nicht völlig aus dem Bild laufen */
-function clamp(v: number, lo: number, hi: number) {
-  return Math.max(lo, Math.min(hi, v))
-}
-
-/** baut Polyline für y = sign*x^n, skaliert und geclamped */
+/** baut Polyline für y = sign*x^n, skaliert */
 function buildPowerPolyline(n: number, sign: Sign) {
   const pts: string[] = []
   // fein genug für Kurve
   for (let x = -5; x <= 5.001; x += 0.1) {
-    const yRaw = sign * Math.pow(x, n)
-    // skaliere so, dass es sichtbar bleibt: bei großen n explodiert y schnell
-    // -> wir normieren grob auf y in [-5,5] über clamp
-    const y = clamp(yRaw, -5, 5)
+    const y = sign * Math.pow(x, n)
     pts.push(`${toX(x)},${toY(y)}`)
   }
   return pts.join(' ')
@@ -93,7 +85,7 @@ function Axes() {
         strokeWidth="2"
       />
       {/* kleine Markierungen bei -4,-2,2,4 */}
-      {[-4, -2, 2, 4].map(v => (
+      {[-5, -4, -3, -2, -1, 1, 2, 3, 4, 5].map(v => (
         <React.Fragment key={v}>
           <line
             x1={toX(v)}
@@ -159,8 +151,8 @@ export const exercise5102: Exercise<DATA> = {
         return (
           <>
             <p>
-              Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
-              zur abgebildeten Funktion.
+              Bestimme <InlineMath math="D" /> und <InlineMath math="W" /> zur
+              abgebildeten Funktion.
             </p>
 
             <div className="my-2">
@@ -198,8 +190,7 @@ export const exercise5102: Exercise<DATA> = {
         return (
           <>
             <p>
-              Bestimme <InlineMath math="D" /> und <InlineMath math="W" />{' '}
-              für
+              Bestimme <InlineMath math="D" /> und <InlineMath math="W" /> für
             </p>
             <p>
               <InlineMath math={term} />

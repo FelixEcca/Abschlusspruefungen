@@ -315,18 +315,30 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-            {
-              name: 'Globalverhalten',
-              skillExercises: [{ id: 5100 }],
-            },
           {
-              name: 'Symmetrie',
-              skillExercises: [{ id: 5101 }],
-            },
-            {
-              name: 'Definitions- und Wertebereich',
-              skillExercises: [{ id: 5102 }],
-            },
+            name: 'Parabeln n-ter Ordnung: Globalverhalten',
+            skillExercises: [{ id: 5100 }],
+          },
+          {
+            name: 'Parabeln n-ter Ordnung: Symmetrie',
+            skillExercises: [{ id: 5101 }],
+          },
+          {
+            name: 'Parabeln n-ter Ordnung: Definitions- und Wertebereich',
+            skillExercises: [{ id: 5102 }],
+          },
+          {
+            name: 'Hyperbeln n-ter Ordnung: Globalverhalten',
+            skillExercises: [{ id: 5103 }],
+          },
+          {
+            name: 'Hyperbeln n-ter Ordnung: Symmetrie',
+            skillExercises: [{ id: 5104 }],
+          },
+          {
+            name: 'Hyperbeln n-ter Ordnung: Definitions- und Wertebereich',
+            skillExercises: [{ id: 5105 }],
+          },
         ],
       },
     ],
