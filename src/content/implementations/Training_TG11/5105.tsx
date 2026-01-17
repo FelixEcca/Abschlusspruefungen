@@ -27,10 +27,12 @@ function rangeInvPower(n: number, sign: Sign) {
   const even = n % 2 === 0
   if (even) {
     // immer nur >0 bzw <0
-    return sign === 1 ? '(0;\\infty)' : '(-\\infty;0)'
+    return sign === 1
+      ? '(0;\\infty) ~\\text{oder}~\\mathbb{R}^+'
+      : '(-\\infty;0) ~\\text{oder}~\\mathbb{R}^-'
   }
   // ungerade: beide Vorzeichen möglich, aber niemals 0
-  return '(-\\infty;0)\\cup(0;\\infty)'
+  return '\\mathbb{R}\\setminus\\{0\\}'
 }
 
 function buildInvPowerPolylines(n: number, sign: Sign) {
