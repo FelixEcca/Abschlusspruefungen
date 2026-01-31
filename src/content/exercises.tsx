@@ -176,6 +176,8 @@ import { exercise5102 } from './implementations/Training_TG11/5102'
 import { exercise5103 } from './implementations/Training_TG11/5103'
 import { exercise5104 } from './implementations/Training_TG11/5104'
 import { exercise5105 } from './implementations/Training_TG11/5105'
+import { exercise5106 } from './implementations/Training_TG11/5106'
+import { exercise5107 } from './implementations/Training_TG11/5107'
 import { exercise7000 } from './implementations/2BFS2_Physik/7000'
 import { exercise7001 } from './implementations/2BFS2_Physik/7001'
 import { exercise7002 } from './implementations/2BFS2_Physik/7002'
@@ -367,7 +369,8 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   5103: exercise5103,
   5104: exercise5104,
   5105: exercise5105,
-
+  5106: exercise5106,
+  5107: exercise5107,
   7000: exercise7000,
   7001: exercise7001,
   7002: exercise7002,

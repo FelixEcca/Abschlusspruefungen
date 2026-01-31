@@ -339,6 +339,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Hyperbeln n-ter Ordnung: Definitions- und Wertebereich',
             skillExercises: [{ id: 5105 }],
           },
+          {
+            name: 'Transformationen: Verschiebung',
+            skillExercises: [{ id: 5106 }],
+          },
+          {
+            name: 'Transformationen: Streckung',
+            skillExercises: [{ id: 5107 }],
+          },
         ],
       },
     ],
