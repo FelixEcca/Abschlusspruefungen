@@ -19,9 +19,9 @@ const eventText = {
 }
 
 const eventMath = {
-  exactlyOneRed: 'E=\\text{genau eine rote Kugel}',
-  twoRed: 'E=\\text{zwei rote Kugeln}',
-  twoBlack: 'E=\\text{zwei schwarze Kugeln}',
+  exactlyOneRed: 'E:"\\text{genau eine rote Kugel}"',
+  twoRed: 'E:"\\text{zwei rote Kugeln}"',
+  twoBlack: 'E:"\\text{zwei schwarze Kugeln}"',
 }
 
 export const exercise4904: Exercise<DATA> = {
