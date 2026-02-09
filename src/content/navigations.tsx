@@ -349,6 +349,29 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
+      {
+        title: 'Polynomfunktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Grad der Polynomfunktion',
+            skillExercises: [{ id: 5108 }],
+          },
+          {
+            name: 'Globalverhalten',
+            skillExercises: [{ id: 5109 }],
+          },
+          {
+            name: 'Symmetrie',
+            skillExercises: [{ id: 5110 }],
+          },
+          {
+            name: 'Symmetrie mit Prüfbedingung',
+            skillExercises: [{ id: 5111 }],
+          },
+        ],
+      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
