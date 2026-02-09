@@ -55,7 +55,7 @@ function buildPolylinePower(n: number, sign: Sign) {
 // none: y = a3 x^3 + a1 x + a0 (a0 != 0 => keine Symmetrie)
 function buildPolylineNone(a3: number, a1: number, a0: number) {
   const pts: string[] = []
-  for (let x = -3; x <= 3; x += 0.05) {
+  for (let x = -9; x <= 9; x += 0.05) {
     const y = a3 * Math.pow(x, 3) + a1 * x + a0
     const yc = Math.max(-9.5, Math.min(9.5, y))
     pts.push(`${toX(x)},${toY(yc)}`)

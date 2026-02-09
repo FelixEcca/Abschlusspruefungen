@@ -30,7 +30,7 @@ function polyValue(x: number, terms: Term[]) {
 
 function buildPolyline(terms: Term[]) {
   const pts: string[] = []
-  for (let x = -3; x <= 3; x += 0.05) {
+  for (let x = -9; x <= 9; x += 0.05) {
     const y = polyValue(x, terms)
     const yClamped = Math.max(-9.5, Math.min(9.5, y))
     pts.push(`${toX(x)},${toY(yClamped)}`)
