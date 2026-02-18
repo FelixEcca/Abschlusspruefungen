@@ -370,6 +370,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Symmetrie mit Prüfbedingung',
             skillExercises: [{ id: 5111 }],
           },
+          {
+            name: 'Gleichung lösen mit Substitution',
+            skillExercises: [{ id: 5112 }],
+          },
         ],
       },
     ],
