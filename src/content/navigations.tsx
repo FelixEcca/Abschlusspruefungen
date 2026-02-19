@@ -378,6 +378,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Satz vom Nullprodukt',
             skillExercises: [{ id: 5113 }],
           },
+          {
+            name: 'Linearfaktorform',
+            skillExercises: [{ id: 5114 }],
+          },
         ],
       },
     ],
