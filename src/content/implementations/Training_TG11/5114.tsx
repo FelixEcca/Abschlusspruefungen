@@ -10,7 +10,7 @@ interface Root {
 }
 
 interface DATA {
-  roots: Root[] // Linearfaktoren (x-r)^m, Leitkoeffizient immer 1 (nicht extra erwähnt)
+  roots: Root[] // Linearfaktoren (x-r)^m
 }
 
 function toX(n: number) {
@@ -30,10 +30,16 @@ function fOf(x: number, roots: Root[]) {
   return y
 }
 
+/**
+ * ⚠️ Performance-Fix:
+ * - baut Polyline nur mit moderater Punktzahl (0.1 Schrittweite)
+ * - nutzt Array push + join (kein string +=)
+ * - clamp, damit SVG nicht riesige Koordinaten zeichnet
+ */
 function buildPolyline(roots: Root[]) {
   const pts: string[] = []
-  // Anzeige-Bereich: -8 < x < 8
-  for (let x = -7; x <= 7; x += 0.01) {
+  // Anzeige-Bereich: -8 < x < 8  (hier: -7..7 wie bisher)
+  for (let x = -7; x <= 7 + 1e-9; x += 0.1) {
     const y = fOf(x, roots)
     const yClamped = clamp(y, -9.5, 9.5)
     pts.push(`${toX(x)},${toY(yClamped)}`)
@@ -63,8 +69,7 @@ function describeRoot(rt: Root) {
     return (
       <>
         Bei <InlineMath math={`x=${pp(rt.r)}`} /> schneidet der Graph die
-        x-Achse
-        <i> flach</i> (Vielfachheit 3).
+        x-Achse <i>flach</i> (Vielfachheit 3).
       </>
     )
   }
@@ -88,8 +93,7 @@ export const exercise5114: Exercise<DATA> = {
   points: 4,
 
   generator(rng) {
-    // Grad soll genau 2,3,4 oder 5 sein.
-    // Nullstellen im sichtbaren Bereich, Graph nicht komplett außerhalb.
+    // Grad soll genau 2,3,4 oder 5 sein. (Anforderung)
     const targetDeg = rng.randomItemFromArray([2, 3, 4, 5])
 
     for (let attempt = 0; attempt < 120; attempt++) {
@@ -106,9 +110,8 @@ export const exercise5114: Exercise<DATA> = {
 
       // Vielfachheiten so wählen, dass Summe genau targetDeg ist
       const mults: Mult[] = Array(rootCount).fill(1) as Mult[]
-      let remaining = targetDeg - rootCount // noch zu verteilen
+      let remaining = targetDeg - rootCount
 
-      // verteile remaining als +1 oder +2 auf zufällige Nullstellen (max m=3)
       while (remaining > 0) {
         const i = rng.randomIntBetween(0, rootCount - 1)
         if (mults[i] === 3) continue
@@ -120,9 +123,9 @@ export const exercise5114: Exercise<DATA> = {
         .map((r, i) => ({ r, m: mults[i] }))
         .sort((a, b) => a.r - b.r)
 
-      // Sichtbarkeit: Werte im Bereich -8..8 nicht komplett extrem
+      // Sichtbarkeitstest: Werte im Bereich -8..8 nicht komplett extrem
       const samples = [-6, -4, -2, 0, 2, 4, 6]
-      const ok = samples.every(x => Math.abs(fOf(x, roots)) <= 12) // etwas Luft
+      const ok = samples.every(x => Math.abs(fOf(x, roots)) <= 12)
       if (!ok) continue
 
       // außerdem: nicht “fast überall” bei ±9.5 geklemmt (Grobtest)
@@ -156,7 +159,9 @@ export const exercise5114: Exercise<DATA> = {
   },
 
   task({ data }) {
-    const poly = buildPolyline(data.roots)
+    // ✅ WICHTIG: Polyline memoizen, damit bei Re-Renders nicht jedes Mal neu berechnet wird
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const poly = React.useMemo(() => buildPolyline(data.roots), [data.roots])
 
     return (
       <>
