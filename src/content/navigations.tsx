@@ -374,6 +374,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Gleichung lösen mit Substitution',
             skillExercises: [{ id: 5112 }],
           },
+          {
+            name: 'Satz vom Nullprodukt',
+            skillExercises: [{ id: 5113 }],
+          },
         ],
       },
     ],
