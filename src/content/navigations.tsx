@@ -491,6 +491,53 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
+      {
+        title: 'Kraft',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Gewichtskraft',
+            skillExercises: [
+              {
+                id: 6008,
+              },
+            ],
+          },
+          {
+            name: 'Rechnen im rechtwinkligen Dreieck',
+            skillExercises: [
+              {
+                id: 6009,
+              },
+            ],
+          },
+          {
+            name: 'Kräfteaddition rechnerisch',
+            skillExercises: [
+              {
+                id: 6010,
+              },
+            ],
+          },
+          {
+            name: 'Kräftezerlegung rechnerisch',
+            skillExercises: [
+              {
+                id: 6011,
+              },
+            ],
+          },
+          {
+            name: 'Kräfte an der schiefen Ebene',
+            skillExercises: [
+              {
+                id: 6012,
+              },
+            ],
+          },
+        ],
+      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
