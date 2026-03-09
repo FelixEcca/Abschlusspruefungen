@@ -83,24 +83,25 @@ export const exercise5109: Exercise<DATA> = {
   points: 4,
 
   generator(rng) {
-    // Grad 1..6 (für saubere Skizzen im KS)
     const degree = rng.randomIntBetween(1, 6)
-
-    // Leitkoeffizient ≠ 0
     const lead = pickNonZeroInt(rng, -3, 3)
 
-    // 2 bis 4 Terme insgesamt
-    const termCount = rng.randomIntBetween(2, 4)
+    const possibleExps = Array.from({ length: degree }, (_, i) => i) // 0 ... degree-1
+    const maxTermCount = Math.min(4, degree + 1)
+    const termCount = rng.randomIntBetween(2, maxTermCount)
 
-    const exps = new Set<number>()
-    exps.add(degree)
-    while (exps.size < termCount) {
-      exps.add(rng.randomIntBetween(0, degree - 1))
+    const chosenExps = [degree]
+
+    while (chosenExps.length < termCount) {
+      const candidate = rng.randomItemFromArray(
+        possibleExps.filter(e => !chosenExps.includes(e)),
+      )
+      chosenExps.push(candidate)
     }
 
-    const terms: Term[] = Array.from(exps).map(exp => {
+    const terms: Term[] = chosenExps.map(exp => {
       if (exp === degree) return { exp, coeff: lead }
-      // kleine Koeffizienten, damit die Kurve im KS nicht komplett explodiert
+
       let c = rng.randomIntBetween(-3, 3)
       while (c === 0) c = rng.randomIntBetween(-3, 3)
       return { exp, coeff: c }

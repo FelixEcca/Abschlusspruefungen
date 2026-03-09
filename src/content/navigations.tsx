@@ -378,6 +378,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Satz vom Nullprodukt',
             skillExercises: [{ id: 5113 }],
           },
+          {
+            name: 'Gleichung lösen mit Wurzel ziehen',
+            skillExercises: [{ id: 5114 }],
+          },
+          {
+            name: 'Linearfaktordarstellung von Polynomfunktionen',
+            skillExercises: [{ id: 5115 }],
+          },
         ],
       },
     ],
