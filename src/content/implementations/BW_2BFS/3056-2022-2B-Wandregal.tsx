@@ -1,117 +1,178 @@
-// ====================================
-// 2B (3056) – Eckregal & Musikbox
-// ====================================
+// exercise3056.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA {
-  legA: number // cm
-  legB: number // cm
-  boxA: number // cm
-  boxB: number // cm
+  wallSide: number
+  shelfHeight: number
+  alphaDeg: number
+  boxA: number
+  boxB: number
+  frontEdge: number
+  fits: boolean
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
 export const exercise3056: Exercise<DATA> = {
-  title: 'Wandregal',
-  source: '2022 Wahlteil Aufgabe 2B',
+  title: 'Dreieckiges Regal',
+  source: 'Prüfung 2022 / Aufgabe 2B',
   useCalculator: true,
-  duration: 12,
+  duration: 42,
 
   generator(rng) {
-    const legA = 40 // an Bild angelehnt
-    const legB = rng.randomItemFromArray([90, 100, 110]) // ~1 m
-    const boxA = 20
-    const boxB = 30
-    return { legA, legB, boxA, boxB }
+    const wallSide = rng.randomItemFromArray([30, 35, 40, 45, 50])
+    const shelfHeight = rng.randomItemFromArray([0.8, 0.9, 1.0, 1.1, 1.2])
+    const boxA = rng.randomItemFromArray([18, 20, 22, 24])
+    const boxB = rng.randomItemFromArray([26, 28, 30, 32])
+
+    const alphaDeg = 45
+    const frontEdge = round2(wallSide * Math.sqrt(2))
+    const fits = boxA + boxB <= frontEdge
+
+    return {
+      wallSide,
+      shelfHeight,
+      alphaDeg,
+      boxA,
+      boxB,
+      frontEdge,
+      fits,
+    }
   },
 
-  originalData: { legA: 40, legB: 100, boxA: 20, boxB: 30 },
-
-  constraint() {
-    return true
+  originalData: {
+    wallSide: 40,
+    shelfHeight: 1,
+    alphaDeg: 45,
+    boxA: 20,
+    boxB: 30,
+    frontEdge: round2(40 * Math.sqrt(2)),
+    fits: true,
   },
 
-  intro() {
+  constraint({ data }) {
+    return data.wallSide > 0 && data.shelfHeight > 0
+  },
+
+  intro({ data }) {
+    const { wallSide, shelfHeight } = data
+
     return (
-      <img src="/content/BW_2BFS/3056.png" width={320} alt="Skizze Regal" />
+      <>
+        <p>
+          Felix möchte in einer Ecke seines Zimmers ein dreieckiges Regal für
+          seine Musikbox anbringen.
+        </p>
+
+        <svg viewBox="0 0 328 180">
+          <image
+            href="/content/BW_2BFS/3056.png"
+            height="180"
+            width="328"
+          />
+        </svg>
+
+        <p>
+          Dabei gilt: Die beiden Schenkel an den Wänden sind jeweils{' '}
+          <InlineMath math={`${pp(wallSide)}\\,\\mathrm{cm}`} /> lang und das
+          Regal befindet sich in{' '}
+          <InlineMath math={`${pp(shelfHeight)}\\,\\mathrm{m}`} /> Höhe.
+        </p>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 6,
-      intro() {
+      points: 2,
+      intro({ data }) {
         return null
       },
-      task() {
+      task({ data }) {
         return (
-          <p>
-            <b>1.</b> Berechnen Sie den Winkel <InlineMath math="\\alpha" /> (in
-            Grad) am Eckpunkt.
-          </p>
+          <>
+            <p>Berechnen Sie den Winkel α .</p>
+          </>
         )
       },
       solution({ data }) {
-        // Modell: rechtes Dreieck mit Katheten legA (links) und legB (rechts)
-        const alpha = (Math.atan(data.legA / data.legB) * 180) / Math.PI
+        const { alphaDeg } = data
+
         return (
-          <InlineMath
-            math={`\\alpha=\\tan^{-1}\\!\\left(\\tfrac{${pp(data.legA)}}{${pp(data.legB)}}\\right)\\approx ${pp(Math.round(alpha * 100) / 100)}^{\\circ}`}
-          />
+          <>
+            <p>
+              Da die beiden Wände senkrecht zueinander stehen, entsteht ein
+              rechtwinkliges Dreieck.
+            </p>
+            <p>
+              Die beiden an den Wänden liegenden Seiten sind gleich lang, daher
+              sind die beiden spitzen Winkel gleich groß.
+            </p>
+            <InlineMath math={'\\alpha + \\alpha + 90^{\\circ} = 180^{\\circ}'} />
+            <br />
+            <InlineMath math={`2\\alpha = 90^{\\circ}`} />
+            <br />
+            <InlineMath math={`\\alpha = ${pp(alphaDeg)}^{\\circ}`} />
+          </>
         )
       },
     },
     {
-      points: 6,
-      intro() {
+      points: 3,
+      intro({ data }) {
         return null
       },
-      task() {
+      task({ data }) {
+        const { boxA, boxB } = data
         return (
-          <p>
-            <b>2.</b> Maßstab: 10 cm in Realität ↔ 1 cm in Zeichnung. Prüfen
-            Sie, ob eine Musikbox mit {` ${20}×${30} `}cm auf das Regal passt
-            (Draufsicht).
-          </p>
+          <>
+            <p>
+              Felix hat eine Musikbox mit rechteckiger Grundfläche
+              (Seitenlängen <InlineMath math={`${pp(boxA)}\\,\\mathrm{cm}`} /> und{' '}
+              <InlineMath math={`${pp(boxB)}\\,\\mathrm{cm}`} />).
+            </p>
+            <p>
+              Prüfen Sie mit Hilfe einer Zeichnung, ob die Musikbox vollständig
+              auf das Regal passt.
+            </p>
+            <p>
+              Maßstab: <InlineMath math={'10\\,\\mathrm{cm\\ (Realität)} \\;\\hat{=}\\; 1\\,\\mathrm{cm\\ (Zeichnung)}'} />
+            </p>
+          </>
         )
       },
       solution({ data }) {
-        const scale = 10 // 10:1
-        const A = data.legA / scale,
-          B = data.legB / scale
-        const bx = data.boxA / scale,
-          by = data.boxB / scale
-        // Dreieck (rechtwinklig) mit Katheten A (links), B (rechts)
+        const { wallSide, boxA, boxB, frontEdge, fits } = data
+        const drawShelf = round2(wallSide / 10)
+        const drawA = round2(boxA / 10)
+        const drawB = round2(boxB / 10)
+
         return (
-          <svg
-            viewBox="0 0 220 140"
-            width="320"
-            height="200"
-            className="border rounded"
-          >
-            <polygon points="20,120 200,120 20,120-{A}" fill="none" />
-            {/* Koordinaten berechnen */}
-            <polyline
-              points={`20,120 20,${120 - A} ${20 + B},120 20,120`}
-              stroke="black"
-              fill="none"
-              strokeWidth="2"
+          <>
+            <p>
+              Im Maßstab entsteht ein rechtwinkliges Dreieck mit Katheten
+              <InlineMath math={`${pp(drawShelf)}\\,\\mathrm{cm}`} />.
+            </p>
+            <p>
+              Die Musikbox hat in der Zeichnung die Seitenlängen{' '}
+              <InlineMath math={`${pp(drawA)}\\,\\mathrm{cm}`} /> und{' '}
+              <InlineMath math={`${pp(drawB)}\\,\\mathrm{cm}`} />.
+            </p>
+            <InlineMath
+              math={`\\text{Vorderkante des Regals} = ${pp(wallSide)}\\sqrt{2} \\approx ${pp(
+                frontEdge,
+              )}\\,\\mathrm{cm}`}
             />
-            {/* Box als Rechteck oben auf dem Dreieck – in die Ecke geschoben */}
-            <rect
-              x={20}
-              y={120 - A - by}
-              width={bx}
-              height={by}
-              fill="rgba(0,0,0,0.1)"
-              stroke="black"
-            />
-            <text x="25" y={120 - A - by - 6} fontSize="10">
-              Box
-            </text>
-            <text x="30" y="135" fontSize="10">{`Maßstab 10 cm : 1 cm`}</text>
-          </svg>
+            <br />
+            <p>
+              Da die Box damit vollständig in die Zeichnung eingezeichnet werden
+              kann, passt sie {fits ? 'auf' : 'nicht vollständig auf'} das Regal.
+            </p>
+          </>
         )
       },
     },

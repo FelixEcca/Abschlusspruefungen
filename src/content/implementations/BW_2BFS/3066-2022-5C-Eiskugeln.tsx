@@ -1,58 +1,76 @@
-// =====================================
-// 5C (3066) – Eisladen: Volumen & Kosten
-// =====================================
+// exercise3066.tsx
 import { Exercise } from '@/data/types'
-import { InlineMath, BlockMath } from 'react-katex'
+import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA {
-  dBall: number // cm (Durchmesser einer Kugel)
-  priceBall: number // €
-  cubeEdge: number // cm (Eis "Cubix")
-  cubePrice: number // €
-  matCostPerL: number // €/L Material Schokoeis
-  overheadFactor: number // z.B. 5 (= 400% Nebenkosten + Material)
-  sellPortionMl: number // ml
-  sellPricePortion: number // €
+  scoopDiameter: number
+  scoopPrice: number
+  cubeEdge: number
+  discounterPrice: number
+  chocoCostPerLiter: number
+  extraFactor: number
+  portionMl: number
+  portionPrice: number
+  scoopVolumeTwoMl: number
+  cubeVolumeMl: number
+  profitPerLiter: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
 export const exercise3066: Exercise<DATA> = {
-  title: 'Eiskugeln',
-  source: '2022 Wahlteil Aufgabe 5C',
+  title: 'Eisladen',
+  source: 'Prüfung 2022 / Aufgabe 5C',
   useCalculator: true,
-  duration: 14,
+  duration: 42,
 
   generator(rng) {
-    const dBall = rng.randomItemFromArray([5, 6])
-    const priceBall = rng.randomItemFromArray([1.1, 1.2, 1.3])
-    const cubeEdge = rng.randomItemFromArray([5, 6])
-    const cubePrice = rng.randomItemFromArray([2.2, 2.4, 2.6])
-    const matCostPerL = rng.randomItemFromArray([2.5, 3.0])
-    const overheadFactor = 5 // 400% Nebenkosten → gesamt = 5·Material
-    const sellPortionMl = rng.randomItemFromArray([80, 100, 120])
-    const sellPricePortion = rng.randomItemFromArray([2.0, 2.25, 2.5])
+    const scoopDiameter = 5
+    const scoopPrice = 1.2
+    const cubeEdge = 5
+    const discounterPrice = 2.4
+    const chocoCostPerLiter = rng.randomItemFromArray([2.5, 3, 3.5])
+    const extraFactor = 4
+    const portionMl = 100
+    const portionPrice = rng.randomItemFromArray([2.25, 2.5, 2.75])
+
+    const r = scoopDiameter / 2
+    const scoopVolumeTwoMl = round2(2 * (4 / 3) * Math.PI * r ** 3)
+    const cubeVolumeMl = cubeEdge ** 3
+    const totalCostPerLiter = chocoCostPerLiter * (1 + extraFactor)
+    const revenuePerLiter = (1000 / portionMl) * portionPrice
+    const profitPerLiter = round2(revenuePerLiter - totalCostPerLiter)
+
     return {
-      dBall,
-      priceBall,
+      scoopDiameter,
+      scoopPrice,
       cubeEdge,
-      cubePrice,
-      matCostPerL,
-      overheadFactor,
-      sellPortionMl,
-      sellPricePortion,
+      discounterPrice,
+      chocoCostPerLiter,
+      extraFactor,
+      portionMl,
+      portionPrice,
+      scoopVolumeTwoMl,
+      cubeVolumeMl,
+      profitPerLiter,
     }
   },
 
-  // Originaldaten sinngemäß: d=5 cm, Preis Kugel 1,20 €, „Cubix“ 5 cm Kantenlänge für 2,40 €, Material 2,50 €/L, 100 ml für 2,25 €
   originalData: {
-    dBall: 5,
-    priceBall: 1.2,
+    scoopDiameter: 5,
+    scoopPrice: 1.2,
     cubeEdge: 5,
-    cubePrice: 2.4,
-    matCostPerL: 2.5,
-    overheadFactor: 5,
-    sellPortionMl: 100,
-    sellPricePortion: 2.25,
+    discounterPrice: 2.4,
+    chocoCostPerLiter: 2.5,
+    extraFactor: 4,
+    portionMl: 100,
+    portionPrice: 2.25,
+    scoopVolumeTwoMl: round2(2 * (4 / 3) * Math.PI * 2.5 ** 3),
+    cubeVolumeMl: 125,
+    profitPerLiter: round2(10 * 2.25 - 2.5 * 5),
   },
 
   constraint() {
@@ -61,119 +79,127 @@ export const exercise3066: Exercise<DATA> = {
 
   intro() {
     return (
-      <p>
-        Janine verkauft Eiskugeln (Durchmesser <InlineMath math="d" />) und ein
-        Würfeleis „Cubix“ (Kantenlänge <InlineMath math="a" />
-        ).
-      </p>
+      <>
+        <p>
+          Janine hat einen kleinen Eisladen. Ihre Eiskugeln haben einen
+          Durchmesser von 5 cm und kosten je Kugel 1,20 €.
+        </p>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 4,
+      points: 2,
       intro() {
-        return (
-          <p>
-            <b>1.</b> Volumen einer Eisportion aus zwei Kugeln in ml.
-          </p>
-        )
+        return null
       },
-      task({ data }) {
+      task() {
         return (
-          <p>
-            Gegeben: <InlineMath math={`d=${data.dBall}\\,\\text{cm}`} />.
-          </p>
+          <>
+            <p>Berechnen Sie das Volumen einer Eisportion aus zwei Kugeln in ml.</p>
+          </>
         )
       },
       solution({ data }) {
-        const r = data.dBall / 2
-        const V = 2 * (4 / 3) * Math.PI * r ** 3 // cm^3 = ml
         return (
-          <InlineMath
-            math={`V=2\\cdot\\tfrac{4}{3}\\pi r^{3}= ${pp(Math.round(V * 100) / 100)}\\,\\text{ml}`}
-          />
+          <>
+            <InlineMath math={'V = 2\\cdot \\frac{4}{3}\\pi r^3'} />
+            <br />
+            <InlineMath math={`V = 2\\cdot \\frac{4}{3}\\pi\\cdot ${pp(2.5)}^3`} />
+            <br />
+            <InlineMath math={`V \\approx ${pp(data.scoopVolumeTwoMl)}\\,\\mathrm{ml}`} />
+          </>
         )
       },
     },
     {
-      points: 5,
+      points: 2,
       intro() {
         return (
-          <p>
-            <b>2.</b> Discounter: Eiswürfel <InlineMath math="a" /> cm zwischen
-            zwei Waffeln für {`€`}?. Wo bekommt man mehr Eis fürs Geld (ml pro
-            Euro)?
-          </p>
+          <>
+            <p>
+              In einem Discounter wird das Eis „Cubix“ (Würfelform mit 5 cm
+              Kantenlänge) zwischen zwei Waffeln für 2,40 € verkauft.
+            </p>
+          </>
         )
       },
-      task({ data }) {
+      task() {
         return (
-          <p>
-            Gegeben:{' '}
-            <InlineMath
-              math={`a=${data.cubeEdge}\\,\\text{cm},\\; p_{\\text{Cubix}}=${pp(data.cubePrice)}\\,€`}
-            />
-            , Kugelpreis {pp(data.priceBall)} € pro Stück.
-          </p>
+          <>
+            <p>Wo bekommt man mehr Eis fürs Geld?</p>
+          </>
         )
       },
       solution({ data }) {
-        const r = data.dBall / 2
-        const V2Balls = 2 * (4 / 3) * Math.PI * r ** 3
-        const mlPerEuroBalls = V2Balls / (2 * data.priceBall)
-        const Vcube = data.cubeEdge ** 3
-        const mlPerEuroCube = Vcube / data.cubePrice
         return (
           <>
-            <BlockMath
-              math={`\\text{Kugeln: }\\frac{${pp(V2Balls)}\\,\\text{ml}}{${pp(2 * data.priceBall)}\\,€}=${pp(Math.round(mlPerEuroBalls * 100) / 100)}\\,\\text{ml/€}`}
+            <InlineMath math={`V_\\text{Cubix} = ${pp(data.cubeEdge)}^3 = ${pp(
+              data.cubeVolumeMl,
+            )}\\,\\mathrm{ml}`}
             />
-            <BlockMath
-              math={`\\text{Cubix: }\\frac{${pp(Vcube)}\\,\\text{ml}}{${pp(data.cubePrice)}\\,€}=${pp(Math.round(mlPerEuroCube * 100) / 100)}\\,\\text{ml/€}`}
+            <br />
+            <InlineMath
+              math={`V_\\text{Janine} \\approx ${pp(data.scoopVolumeTwoMl)}\\,\\mathrm{ml}`}
             />
+            <br />
             <p>
-              {mlPerEuroBalls > mlPerEuroCube
-                ? 'Mehr Eis fürs Geld: 2 Kugeln.'
-                : 'Mehr Eis fürs Geld: Cubix.'}
+              Da Janines Portion bei gleichem Preis mehr Volumen hat, bekommt man
+              dort mehr Eis fürs Geld.
             </p>
           </>
         )
       },
     },
     {
-      points: 5,
-      intro() {
-        return (
-          <p>
-            <b>3.</b> Gewinn pro Liter Schokoeis (Materialkosten {pp(2.5)} €/L;
-            Nebenkosten = 400 % der Materialkosten). Verkauf in Portionen zu{' '}
-            {` `}
-            <InlineMath math="100\\,\\text{ml}" /> für {pp(2.25)} € (variabel).
-          </p>
-        )
-      },
-      task({ data }) {
-        return <p>Nutzen Sie die angegebenen Werte.</p>
-      },
-      solution({ data }) {
-        const costPerL = data.matCostPerL * data.overheadFactor // € je L gesamt
-        const portionsPerL = 1000 / data.sellPortionMl
-        const revenuePerL = portionsPerL * data.sellPricePortion
-        const profit = revenuePerL - costPerL
+      points: 2,
+      intro({ data }) {
         return (
           <>
+            <p>
+              Die Materialkosten von Schokoeis betragen{' '}
+              <InlineMath math={`${pp(data.chocoCostPerLiter)}`} /> € pro Liter.
+              Janine rechnet 400% der Materialkosten für die Nebenkosten hinzu.
+              Sie überlegt, dass sie Schokoeis in Portionen zu 100 ml für{' '}
+              <InlineMath math={`${pp(data.portionPrice)}`} /> € verkauft.
+            </p>
+          </>
+        )
+      },
+      task() {
+        return (
+          <>
+            <p>
+              Bestimmen Sie, wie viel Euro Janine nach Abzug der Material- und
+              Nebenkosten an einem Liter Schokoeis verdient.
+            </p>
+          </>
+        )
+      },
+      solution({ data }) {
+        const totalCost = round2(data.chocoCostPerLiter * 5)
+        const revenue = round2(10 * data.portionPrice)
+
+        return (
+          <>
+            <p>Zu den Materialkosten kommen 400% Nebenkosten hinzu.</p>
             <InlineMath
-              math={`\\text{Kosten je L}=${pp(data.matCostPerL)}\\cdot ${pp(data.overheadFactor)}=${pp(costPerL)}\\,€`}
+              math={`K = ${pp(data.chocoCostPerLiter)}\\cdot 5 = ${pp(totalCost)}`}
             />
+            <span> €</span>
             <br />
             <InlineMath
-              math={`\\text{Erlös je L}=\\tfrac{1000}{${pp(data.sellPortionMl)}}\\cdot ${pp(data.sellPricePortion)}=${pp(Math.round(revenuePerL * 100) / 100)}\\,€`}
+              math={`E = 10\\cdot ${pp(data.portionPrice)} = ${pp(revenue)}`}
             />
+            <span> €</span>
             <br />
             <InlineMath
-              math={`\\text{Gewinn je L}= ${pp(Math.round(profit * 100) / 100)}\\,€`}
+              math={`G = ${pp(revenue)} - ${pp(totalCost)} = ${pp(
+                data.profitPerLiter,
+              )}`}
             />
+            <span> €</span>
           </>
         )
       },

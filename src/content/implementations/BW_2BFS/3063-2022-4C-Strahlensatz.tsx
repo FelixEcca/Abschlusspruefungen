@@ -1,111 +1,135 @@
-// =====================================
-// 4C (3063) – Strahlensatzgleichung
-// =====================================
+// exercise3063.tsx
 import { Exercise } from '@/data/types'
-import { InlineMath, BlockMath } from 'react-katex'
-
+import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { buildEquation } from '@/helper/math-builder'
 
 interface DATA {
-  leftTop: number // z.B. 5
-  rightTop: number // z.B. 10
-  extra: number // z.B. 2  (x+extra)
+  leftPart: number
+  totalHeight: number
+  extra: number
+  x: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
 export const exercise3063: Exercise<DATA> = {
-  title: 'Strahlensatz',
-  source: '2022 Wahlteil Aufgabe 4C',
+  title: 'Strahlensatzfigur',
+  source: 'Prüfung 2022 / Aufgabe 4C',
   useCalculator: true,
-  duration: 10,
+  duration: 42,
 
   generator(rng) {
-    const leftTop = rng.randomItemFromArray([4, 5, 6])
-    const rightTop = leftTop * 2
+    const x = rng.randomItemFromArray([2, 2.5, 3, 4, 5])
     const extra = rng.randomItemFromArray([1, 2, 3])
-    return { leftTop, rightTop, extra }
+    const leftPart = rng.randomItemFromArray([4, 5, 6])
+    const totalHeight = round2((leftPart * (x + extra)) / x)
+    return { leftPart, totalHeight, extra, x }
   },
 
-  // Originalgleichung: 5/x = 10/(x+2)
-  originalData: { leftTop: 5, rightTop: 10, extra: 2 },
+  originalData: {
+    leftPart: 5,
+    totalHeight: 10,
+    extra: 2,
+    x: round2(Math.sqrt(10)),
+  },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return data.x > 0
   },
 
   intro({ data }) {
     return (
-      <div className="space-y-2">
-        <p>Gegeben sind Strahlen mit parallelen Geraden und die Gleichung:</p>
-        <BlockMath
-          math={`\\dfrac{${data.leftTop}\\,\\text{cm}}{x\\,\\text{cm}}=\\dfrac{${data.rightTop}\\,\\text{cm}}{x+${data.extra}\\,\\text{cm}}`}
+      <>
+        <p>Gegeben sind eine Strahlensatzfigur und eine Gleichung:</p>
+
+        <svg viewBox="0 0 328 180">
+          <image href="/content/BW_2BFS/3063.png" height="180" width="328" />
+        </svg>
+
+        <InlineMath
+          math={`\\frac{${pp(data.leftPart)}\\,\\mathrm{cm}}{x\\,\\mathrm{cm}} = \\frac{${pp(
+            data.totalHeight,
+          )}\\,\\mathrm{cm}}{x + ${pp(data.extra)}\\,\\mathrm{cm}}`}
         />
-        <p>
-          Beschriften Sie die Figur passend und berechnen Sie{' '}
-          <InlineMath math="x" />.
-        </p>
-        <img
-          src="/content/BW_2BFS/3063.png"
-          width={320}
-          alt="Strahlensatzfigur"
-        />
-      </div>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 4,
+      points: 2,
       intro() {
         return null
       },
       task() {
         return (
-          <p>
-            <b>1.</b> Beschriftung der Figur (Längen wie in der Gleichung).
-          </p>
+          <>
+            <p>Beschriften Sie die Strahlensatzfigur so, dass diese zur Gleichung passt.</p>
+          </>
         )
       },
       solution({ data }) {
         return (
-          <p>
-            Die obere linke Strecke erhält {data.leftTop} cm, die obere rechte{' '}
-            {data.rightTop} cm. Die zugehörigen Grundstrecken sind unten{' '}
-            <InlineMath math="x" /> bzw. <InlineMath math={`x+${data.extra}`} />{' '}
-            cm.
-          </p>
+          <>
+            <p>
+              Die kleinere Höhe wird mit{' '}
+              <InlineMath math={`${pp(data.leftPart)}\\,\\mathrm{cm}`} />,
+              die größere Höhe mit{' '}
+              <InlineMath math={`${pp(data.totalHeight)}\\,\\mathrm{cm}`} />
+              beschriftet.
+            </p>
+            <p>
+              Die Grundstrecken lauten <InlineMath math={'x\\,\\mathrm{cm}'} /> und{' '}
+              <InlineMath math={`x + ${pp(data.extra)}\\,\\mathrm{cm}`} />.
+            </p>
+          </>
         )
       },
     },
     {
-      points: 6,
+      points: 3,
       intro() {
         return null
       },
       task() {
         return (
-          <p>
-            <b>2.</b> Bestimmen Sie <InlineMath math="x" /> (Formel → Einsetzen
-            → Lösen).
-          </p>
+          <>
+            <p>Bestimmen Sie die Länge der Strecke x.</p>
+          </>
         )
       },
       solution({ data }) {
-        const x = (data.leftTop * data.extra) / (data.rightTop - data.leftTop)
-        return buildEquation([
-          ['Formel', '', '\\dfrac{a}{x}=\\dfrac{A}{x+e}'],
-          [
-            'Einsetzen',
-            '\\Rightarrow',
-            `\\dfrac{${data.leftTop}}{x}=\\dfrac{${data.rightTop}}{x+${data.extra}}`,
-          ],
-          [
-            'Kreuzprod.',
-            '\\Rightarrow',
-            `${data.leftTop}(x+${data.extra})=${data.rightTop}x`,
-          ],
-          ['Lösen', '\\Rightarrow', `${pp(x)}`],
-        ])
+        return (
+          <>
+            <InlineMath
+              math={`\\frac{${pp(data.leftPart)}}{x} = \\frac{${pp(
+                data.totalHeight,
+              )}}{x + ${pp(data.extra)}}`}
+            />
+            <br />
+            <InlineMath
+              math={`${pp(data.leftPart)}\\cdot (x + ${pp(data.extra)}) = ${pp(
+                data.totalHeight,
+              )}x`}
+            />
+            <br />
+            <InlineMath
+              math={`${pp(data.leftPart)}x + ${pp(
+                data.leftPart * data.extra,
+              )} = ${pp(data.totalHeight)}x`}
+            />
+            <br />
+            <InlineMath
+              math={`${pp(data.leftPart * data.extra)} = ${pp(
+                data.totalHeight - data.leftPart,
+              )}x`}
+            />
+            <br />
+            <InlineMath math={`x = ${pp(data.x)}\\,\\mathrm{cm}`} />
+          </>
+        )
       },
     },
   ],

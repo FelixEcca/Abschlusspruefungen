@@ -1,91 +1,139 @@
-// ====================================
-// 3A (3059) – Würfel & Kegel
-// ====================================
+// exercise3058.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { buildEquation } from '@/helper/math-builder'
 
 interface DATA {
-  cubeV: number // cm^3
+  volumeCube: number
+  edgeCube: number
+  coneRadius: number
+  coneHeight: number
+  coneSurface: number
+  slantHeight: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
 export const exercise3058: Exercise<DATA> = {
-  title: 'Körper',
-  source: '2022 Wahlteil Aufgabe 3A',
+  title: 'Kegel im Würfel',
+  source: 'Prüfung 2022 / Aufgabe 3A',
   useCalculator: true,
-  duration: 12,
+  duration: 42,
 
   generator(rng) {
-    const edge = rng.randomItemFromArray([6, 7, 8, 9, 10]) // Kantenlänge (cm)
-    const cubeV = edge ** 3
-    return { cubeV }
+    const edgeCube = rng.randomItemFromArray([6, 8, 10, 12])
+    const volumeCube = edgeCube ** 3
+    const coneRadius = edgeCube / 2
+    const coneHeight = edgeCube
+    const slantHeight = round2(Math.sqrt(coneRadius ** 2 + coneHeight ** 2))
+    const coneSurface = round2(
+      Math.PI * coneRadius * coneRadius + Math.PI * coneRadius * slantHeight,
+    )
+
+    return {
+      volumeCube,
+      edgeCube,
+      coneRadius,
+      coneHeight,
+      coneSurface,
+      slantHeight,
+    }
   },
 
-  originalData: { cubeV: 512 }, // a=8 cm
+  originalData: {
+    volumeCube: 512,
+    edgeCube: 8,
+    coneRadius: 4,
+    coneHeight: 8,
+    coneSurface: round2(Math.PI * 4 * 4 + Math.PI * 4 * Math.sqrt(80)),
+    slantHeight: round2(Math.sqrt(80)),
+  },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return data.edgeCube > 0 && data.coneRadius > 0 && data.coneHeight > 0
   },
 
   intro() {
     return (
-      <img src="/content/BW_2BFS/3059.png" width={320} alt="Kegel im Würfel" />
+      <>
+        <p>
+          Ein Würfel hat ein Volumen von <InlineMath math={'512\\,\\mathrm{cm^3}'} />.
+          Der Kegeldurchmesser entspricht der Länge der Kante des Würfels.
+          Die Spitze des Kegels berührt die Deckfläche des Würfels.
+        </p>
+
+        <svg viewBox="0 0 220 180">
+          <image href="/content/BW_2BFS/3058.png" height="180" width="220" />
+        </svg>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 6,
+      points: 3,
       intro() {
         return null
       },
       task() {
         return (
-          <p>
-            <b>1.</b> Zeigen Sie, dass der Kegelradius 4 cm beträgt (im
-            Originalfall).
-          </p>
+          <>
+            <p>Zeigen Sie, dass der Kegelradius 4 cm beträgt.</p>
+          </>
         )
       },
       solution({ data }) {
-        const a = Math.cbrt(data.cubeV) // Kantenlänge
-        const r = a / 2
-        return buildEquation([
-          ['Würfelkante', '', `a=\\sqrt[3]{${pp(data.cubeV)}}=${pp(a)}`],
-          ['Kegeldurchmesser', '', 'entspricht a'],
-          ['Radius', '\\Rightarrow', `r=\\tfrac{a}{2}=${pp(r)}\\,\\text{cm}`],
-        ])
+        const { volumeCube, edgeCube, coneRadius } = data
+        return (
+          <>
+            <InlineMath math={`a^3 = ${pp(volumeCube)}`} />
+            <br />
+            <InlineMath math={`a = \\sqrt[3]{${pp(volumeCube)}} = ${pp(edgeCube)}\\,\\mathrm{cm}`} />
+            <br />
+            <p>Der Kegeldurchmesser entspricht der Würfelkante.</p>
+            <InlineMath math={`r = \\frac{a}{2} = \\frac{${pp(edgeCube)}}{2} = ${pp(coneRadius)}\\,\\mathrm{cm}`} />
+          </>
+        )
       },
     },
     {
-      points: 6,
+      points: 3,
       intro() {
         return null
       },
       task() {
         return (
-          <p>
-            <b>2.</b> Berechnen Sie die Oberfläche des Kegels (Mantel +
-            Grundfläche).
-          </p>
+          <>
+            <p>Berechnen Sie die Oberfläche des Kegels.</p>
+          </>
         )
       },
       solution({ data }) {
-        const a = Math.cbrt(data.cubeV)
-        const r = a / 2
-        const h = a // Spitze berührt Deckfläche, Höhe = a
-        const s = Math.hypot(r, h) // Mantellinie
-        const A = Math.PI * r * s + Math.PI * r * r
-        return buildEquation([
-          [
-            'Daten',
-            '',
-            `r=${pp(r)},\\; h=${pp(h)},\\; s=\\sqrt{r^{2}+h^{2}}=${pp(s)}`,
-          ],
-          ['Formel', '', 'A=\\pi r s + \\pi r^{2}'],
-          ['Ergebnis', '\\Rightarrow', `${pp(A)}\\,\\text{cm}^{2}`],
-        ])
+        const { coneRadius, coneHeight, slantHeight, coneSurface } = data
+        return (
+          <>
+            <p>Die Oberfläche besteht aus Grundfläche und Mantelfläche.</p>
+            <InlineMath math={'s = \\sqrt{r^2 + h^2}'} />
+            <br />
+            <InlineMath
+              math={`s = \\sqrt{${pp(coneRadius)}^2 + ${pp(
+                coneHeight,
+              )}^2} \\approx ${pp(slantHeight)}\\,\\mathrm{cm}`}
+            />
+            <br />
+            <InlineMath math={'O = \\pi r^2 + \\pi r s'} />
+            <br />
+            <InlineMath
+              math={`O = \\pi\\cdot ${pp(coneRadius)}^2 + \\pi\\cdot ${pp(
+                coneRadius,
+              )}\\cdot ${pp(slantHeight)}`}
+            />
+            <br />
+            <InlineMath math={`O \\approx ${pp(coneSurface)}\\,\\mathrm{cm^2}`} />
+          </>
+        )
       },
     },
   ],
