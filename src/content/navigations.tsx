@@ -541,6 +541,14 @@ export const navigationData: { [key: number]: Navigation } = {
               },
             ],
           },
+          {
+            name: 'Bewegungsgesetz F=ma',
+            skillExercises: [
+              {
+                id: 6013,
+              },
+            ],
+          },
         ],
       },
     ],
