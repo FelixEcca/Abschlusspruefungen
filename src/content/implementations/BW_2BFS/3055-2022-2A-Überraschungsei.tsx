@@ -1,126 +1,246 @@
-// ====================================
-// 2A (3055) – Überraschungsei
-// ====================================
+// exercise3055.tsx
 import { Exercise } from '@/data/types'
-import { InlineMath, BlockMath } from 'react-katex'
+import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA {
-  n: number // „jedes n-te Ei“ enthält eine Figur  → p=1/n
-  buyPrice: number
-  sellPrice: number
+  eggsPerFigure: number
+  eggsTim: number
+  eggsMehmet: number
+  eggPrice: number
+  figureSalePrice: number
+  eggsPaula: number
+  pFigure: number
+  expectedFiguresTim: number
+  probabilityNoFigure: number
+  paulaCost: number
+  paulaExpectedRevenue: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
+}
+
+function round4(x: number) {
+  return Math.round(x * 10000) / 10000
 }
 
 export const exercise3055: Exercise<DATA> = {
-  title: 'Überraschungsei',
-  source: '2022 Wahlteil Aufgabe 2A',
+  title: 'Wahrscheinlichkeit',
+  source: 'Prüfung 2022 / Aufgabe 2A',
   useCalculator: true,
-  duration: 12,
+  duration: 42,
 
   generator(rng) {
-    const n = rng.randomIntBetween(5, 10)
-    const buyPrice = rng.randomItemFromArray([0.79, 0.89, 0.99])
-    const sellPrice = rng.randomItemFromArray([5, 6, 7])
-    return { n, buyPrice, sellPrice }
+    const eggsPerFigure = rng.randomItemFromArray([5, 6, 7, 8, 10])
+    const eggsTim = rng.randomItemFromArray([24, 30, 35, 40, 42])
+    const eggsMehmet = 2
+    const eggPrice = rng.randomItemFromArray([0.79, 0.89, 0.99, 1.09])
+    const figureSalePrice = rng.randomItemFromArray([5, 6, 7, 8])
+    const eggsPaula = rng.randomItemFromArray([60, 80, 100, 120])
+
+    const pFigure = 1 / eggsPerFigure
+    const expectedFiguresTim = round2(eggsTim * pFigure)
+    const probabilityNoFigure = round4((1 - pFigure) * (1 - pFigure))
+    const paulaCost = round2(eggsPaula * eggPrice)
+    const paulaExpectedRevenue = round2(eggsPaula * pFigure * figureSalePrice)
+
+    return {
+      eggsPerFigure,
+      eggsTim,
+      eggsMehmet,
+      eggPrice,
+      figureSalePrice,
+      eggsPaula,
+      pFigure,
+      expectedFiguresTim,
+      probabilityNoFigure,
+      paulaCost,
+      paulaExpectedRevenue,
+    }
   },
 
-  // Original: jedes 7. Ei enthält eine Figur; 0,89 €; 6 €
-  originalData: { n: 7, buyPrice: 0.89, sellPrice: 6 },
+  originalData: {
+    eggsPerFigure: 7,
+    eggsTim: 35,
+    eggsMehmet: 2,
+    eggPrice: 0.89,
+    figureSalePrice: 6,
+    eggsPaula: 100,
+    pFigure: 1 / 7,
+    expectedFiguresTim: round2(35 / 7),
+    probabilityNoFigure: round4((6 / 7) * (6 / 7)),
+    paulaCost: round2(100 * 0.89),
+    paulaExpectedRevenue: round2((100 / 7) * 6),
+  },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return (
+      data.eggsPerFigure > 1 &&
+      data.eggsTim > 0 &&
+      data.eggPrice > 0 &&
+      data.figureSalePrice > 0 &&
+      data.eggsPaula > 0
+    )
   },
 
   intro({ data }) {
+    const { eggsPerFigure } = data
     return (
-      <p>
-        Im Schnitt ist in <b>jedem {data.n}. Ei</b> eine Sammelfigur (p = 1/
-        {data.n}).
-      </p>
+      <>
+        <p>
+          Der Hersteller von Überraschungseiern wirbt damit, dass in jedem{' '}
+          <InlineMath math={`${pp(eggsPerFigure)}.`} /> Ei eine Sammelfigur ist.
+        </p>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 4,
-      intro() {
+      points: 1,
+      intro({ data }) {
         return null
       },
       task({ data }) {
+        const { eggsTim } = data
         return (
-          <p>
-            <b>1.</b> Tim kauft 35 Eier. Wie viele Figuren kann er erwarten?
-          </p>
+          <>
+            <p>
+              Tim kauft <InlineMath math={`${pp(eggsTim)}`} /> Eier. Geben Sie an,
+              wie viele Figuren er erwarten kann.
+            </p>
+          </>
         )
       },
       solution({ data }) {
-        const E = 35 * (1 / data.n)
+        const { eggsTim, eggsPerFigure, expectedFiguresTim } = data
         return (
-          <InlineMath
-            math={`E=35\\cdot \\tfrac{1}{${data.n}}=${pp(E)}\\;\\text{Figuren (im Mittel)}`}
-          />
+          <>
+            <InlineMath
+              math={`E = ${pp(eggsTim)}\\cdot \\frac{1}{${pp(eggsPerFigure)}}`}
+            />
+            <br />
+            <InlineMath math={`E = ${pp(expectedFiguresTim)}`} />
+            <br />
+            <p>
+              Tim kann also <InlineMath math={`${pp(expectedFiguresTim)}`} />{' '}
+              Figuren erwarten.
+            </p>
+          </>
         )
       },
     },
     {
-      points: 4,
-      intro() {
+      points: 5,
+      intro({ data }) {
         return null
       },
-      task() {
+      task({ data }) {
         return (
-          <p>
-            Mehmet kauft 2 Eier. Bestimmen Sie die Wahrscheinlichkeit, dass in{' '}
-            <b>keinem</b> Ei eine Figur ist.
-          </p>
+          <>
+            <p>
+              Mehmet kauft zwei Eier und prüft, ob darin jeweils eine
+              Sammelfigur enthalten ist oder nicht.
+            </p>
+            <p>
+              Bestimmen Sie mit Hilfe eines Baumdiagramms die Wahrscheinlichkeit
+              dafür, dass in keinem der beiden Eier eine Figur enthalten ist.
+            </p>
+          </>
         )
       },
       solution({ data }) {
-        const p = 1 / data.n
-        const none = (1 - p) * (1 - p)
+        const { eggsPerFigure, probabilityNoFigure } = data
+
         return (
           <>
-            <BlockMath math="P(\text{keine}) = (1-p)^2" />
-            <BlockMath
-              math={`= (1-\\tfrac{1}{${data.n}})^2 = ${pp(none)} \\approx ${Math.round(none * 100)}\\%`}
+            <p>
+              Die Wahrscheinlichkeit für „keine Figur“ beträgt pro Ei
+              <InlineMath
+                math={`\\ \\frac{${pp(eggsPerFigure - 1)}}{${pp(eggsPerFigure)}}`}
+              />
+              .
+            </p>
+            <InlineMath
+              math={`P = \\frac{${pp(eggsPerFigure - 1)}}{${pp(
+                eggsPerFigure,
+              )}}\\cdot \\frac{${pp(eggsPerFigure - 1)}}{${pp(eggsPerFigure)}}`}
+            />
+            <br />
+            <InlineMath math={`P = ${pp(probabilityNoFigure)}`} />
+            <br />
+            <InlineMath
+              math={`P \\approx ${pp(round2(probabilityNoFigure * 100))}\\,\\%`}
             />
           </>
         )
       },
     },
     {
-      points: 4,
+      points: 3,
       intro({ data }) {
         return null
       },
       task({ data }) {
+        const { eggPrice, figureSalePrice, eggsPaula } = data
         return (
-          <p>
-            <b>3.</b> Ein Ei kostet {pp(data.buyPrice)} €. Paula verkauft eine
-            Figur für {pp(data.sellPrice)} €. Lohnt sich der Kauf von 100 Eiern?
-          </p>
+          <>
+            <p>
+              Ein Ei kostet <InlineMath math={`${pp(eggPrice)}`} /> €. Paula kann
+              eine Sammelfigur für <InlineMath math={`${pp(figureSalePrice)}`} /> €
+              verkaufen. Deshalb möchte sie{' '}
+              <InlineMath math={`${pp(eggsPaula)}`} /> Eier kaufen.
+            </p>
+            <p>
+              Begründen Sie, ob Paula damit rechnen kann, dass sich der Kauf für
+              sie lohnt.
+            </p>
+          </>
         )
       },
       solution({ data }) {
-        const p = 1 / data.n
-        const expectedFigures = 100 * p
-        const revenue = expectedFigures * data.sellPrice
-        const cost = 100 * data.buyPrice
-        const diff = revenue - cost
+        const {
+          eggsPerFigure,
+          eggsPaula,
+          eggPrice,
+          figureSalePrice,
+          paulaCost,
+          paulaExpectedRevenue,
+        } = data
+
+        const profitable = paulaExpectedRevenue > paulaCost
+
         return (
           <>
+            <p>Zuerst wird der erwartete Erlös bestimmt.</p>
             <InlineMath
-              math={`E(\\text{Figuren})=100\\cdot \\tfrac{1}{${data.n}}=${pp(expectedFigures)}`}
+              math={`E = ${pp(eggsPaula)}\\cdot \\frac{1}{${pp(
+                eggsPerFigure,
+              )}}\\cdot ${pp(figureSalePrice)}`}
             />
             <br />
+            <InlineMath math={`E \\approx ${pp(paulaExpectedRevenue)}`} />
+            <span> €</span>
+            <br />
             <InlineMath
-              math={`E(\\text{Gewinn})=${pp(revenue)}- ${pp(cost)}=${pp(diff)}\\,€`}
+              math={`K = ${pp(eggsPaula)}\\cdot ${pp(eggPrice)} = ${pp(
+                paulaCost,
+              )}`}
             />
-            <p>
-              {diff >= 0
-                ? 'Ja, es lohnt sich im Erwartungswert.'
-                : 'Nein, im Erwartungswert lohnt es sich nicht.'}
-            </p>
+            <span> €</span>
+            <br />
+            {profitable ? (
+              <p>
+                Da der erwartete Erlös größer als die Kosten ist, kann Paula
+                damit rechnen, dass sich der Kauf lohnt.
+              </p>
+            ) : (
+              <p>
+                Da der erwartete Erlös kleiner als die Kosten ist, kann Paula
+                nicht damit rechnen, dass sich der Kauf lohnt.
+              </p>
+            )}
           </>
         )
       },

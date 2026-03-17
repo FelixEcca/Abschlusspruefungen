@@ -1,115 +1,154 @@
-// ====================================
-// 3B (3060) – Parabeln p1, p2, p3
-// ====================================
+// exercise3059.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { buildEquation } from '@/helper/math-builder'
 
 interface DATA {
-  // kleine Randomisierung bei p2
-  k2: number
-  s2: number
+  h: number
+  k: number
+  stretch: number
+  shiftDown: number
+  x1: number
+  x2: number
+  xs: number
 }
 
 export const exercise3059: Exercise<DATA> = {
   title: 'Parabeln',
-  source: '2022 Wahlteil Aufgabe 3B',
-  useCalculator: true,
-  duration: 12,
+  source: 'Prüfung 2022 / Aufgabe 3B',
+  useCalculator: false,
+  duration: 42,
 
   generator(rng) {
-    return {
-      k2: rng.randomItemFromArray([3, 4]),
-      s2: rng.randomItemFromArray([6, 7]),
-    }
+    const h = rng.randomItemFromArray([-3, -2, -1, 0, 1, 2])
+    const k = rng.randomItemFromArray([1, 2, 3, 4])
+    const stretch = rng.randomItemFromArray([2, 3, 4])
+    const shiftDown = rng.randomItemFromArray([4, 5, 6, 7])
+    const x1 = rng.randomItemFromArray([-4, -3, -2])
+    const x2 = rng.randomItemFromArray([0, 1, 2])
+    const xs = (x1 + x2) / 2
+
+    return { h, k, stretch, shiftDown, x1, x2, xs }
   },
 
-  originalData: { k2: 3, s2: 6 },
+  originalData: {
+    h: 1,
+    k: 1,
+    stretch: 3,
+    shiftDown: 6,
+    x1: -2,
+    x2: 0,
+    xs: -1,
+  },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return data.x1 < data.x2
   },
 
   intro() {
-    return (
-      <>
-        <p>
-          <b>p₁:</b> <InlineMath math="y=(x-1)^2+1" />
-        </p>
-        <p>
-          <b>p₂:</b> entsteht aus der Normalparabel durch Streckung mit dem
-          Faktor 3 und Verschiebung um 6 Einheiten nach unten.
-        </p>
-        <p>
-          <b>p₃:</b> schneidet die x-Achse in <InlineMath math="x_1=-2" /> und{' '}
-          <InlineMath math="x_2=0" />.
-        </p>
-      </>
-    )
+    return null
   },
 
   tasks: [
     {
       points: 4,
-      intro() {
-        return null
-      },
-      task({ data }) {
+      intro({ data }) {
         return (
-          <p>
-            <b>1.</b> Geben Sie den Scheitel von <InlineMath math="p_1" /> an
-            und skizzieren Sie sie.
-          </p>
+          <>
+            <p>
+              Die Parabel p1 hat die Gleichung{' '}
+              <InlineMath math={`y = (x ${data.h < 0 ? '+' : '-'} ${pp(Math.abs(data.h))})^2 + ${pp(data.k)}`} />.
+            </p>
+          </>
         )
       },
-      solution() {
-        return <InlineMath math={'S(1\\mid 1)'} />
-      },
-    },
-    {
-      points: 4,
-      intro({ data }) {
-        return null
-      },
-      task({ data }) {
+      task() {
         return (
-          <p>
-            <b>2.</b> Geben Sie eine Gleichung von <InlineMath math="p_2" /> an.
-          </p>
+          <>
+            <p>
+              - Geben Sie die Koordinaten des Scheitelpunktes an.
+              <br />- Zeichnen Sie die Parabel p1 im Bereich von x = −2 bis x = 4.
+            </p>
+          </>
         )
       },
       solution({ data }) {
         return (
-          <InlineMath
-            math={`y=${pp(data.k2)}x^{2}${pp(-data.s2, 'merge_op')}`}
-          />
+          <>
+            <InlineMath
+              math={`y = (x ${data.h < 0 ? '+' : '-'} ${pp(
+                Math.abs(data.h),
+              )})^2 + ${pp(data.k)}`}
+            />
+            <br />
+            <p>Die Gleichung liegt in Scheitelform vor.</p>
+            <InlineMath math={`S(${pp(data.h)}\\mid ${pp(data.k)})`} />
+          </>
         )
       },
     },
     {
-      points: 4,
+      points: 2,
       intro() {
-        return null
-      },
-      task({ data }) {
-        return (
-          <p>
-            <b>3.</b> Begründen Sie, warum der Scheitel von{' '}
-            <InlineMath math="p_3" /> die x-Koordinate{' '}
-            <InlineMath math="x_S=-1" /> hat.
-          </p>
-        )
-      },
-      solution() {
         return (
           <>
             <p>
-              Die Nullstellen sind bei <InlineMath math="x=-2" /> und{' '}
-              <InlineMath math="x=0" />. Die Parabel ist symmetrisch zur
-              Senkrechten durch die Mitte zwischen den Nullstellen.
+              Die Parabel p2 entsteht aus der Normalparabel durch Streckung mit
+              dem Faktor 3 und Verschiebung um 6 Längeneinheiten nach unten.
             </p>
-            <InlineMath math="x_S=\tfrac{-2+0}{2}=-1" />
+          </>
+        )
+      },
+      task() {
+        return (
+          <>
+            <p>Geben Sie eine Gleichung von p2 an.</p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return (
+          <>
+            <InlineMath math={`y = ${pp(data.stretch)}x^2 - ${pp(data.shiftDown)}`} />
+          </>
+        )
+      },
+    },
+    {
+      points: 2,
+      intro({ data }) {
+        return (
+          <>
+            <p>
+              Eine Parabel p3 schneidet die x-Achse bei{' '}
+              <InlineMath math={`x_1 = ${pp(data.x1)}`} /> und{' '}
+              <InlineMath math={`x_2 = ${pp(data.x2)}`} />.
+            </p>
+          </>
+        )
+      },
+      task() {
+        return (
+          <>
+            <p>
+              Erläutern Sie, dass der Scheitelpunkt der Parabel die
+              x-Koordinate xS = −1 haben muss.
+            </p>
+          </>
+        )
+      },
+      solution({ data }) {
+        return (
+          <>
+            <p>
+              Die x-Koordinate des Scheitelpunktes liegt genau in der Mitte der
+              beiden Nullstellen.
+            </p>
+            <InlineMath
+              math={`x_S = \\frac{x_1 + x_2}{2} = \\frac{${pp(data.x1)} + ${pp(
+                data.x2,
+              )}}{2} = ${pp(data.xs)}`}
+            />
           </>
         )
       },

@@ -1,112 +1,199 @@
-// ====================================
-// 2C (3058) – Drahtfigur (Strahlensatz)
-// ====================================
+// exercise3057.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA {
   a: number
-  c: number
   d: number
-  e: number // gegeben
+  e: number
+  c: number
   b: number
-  f: number // gesucht
-  pricePerM: number
+  f: number
+  wireLengthCm: number
+  materialCost: number
+  wirePricePerMeter: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
 export const exercise3057: Exercise<DATA> = {
-  title: 'Figur',
-  source: '2022 Wahlteil Aufgabe 2C',
+  title: 'Ähnliche Dreiecke',
+  source: 'Prüfung 2022 / Aufgabe 2C',
   useCalculator: true,
-  duration: 12,
+  duration: 42,
 
   generator(rng) {
-    // Erzeuge ähnliche Dreiecke mit Parallelität (f || a)
-    const a = rng.randomItemFromArray([2.4, 3.0, 3.6])
-    const c = rng.randomItemFromArray([2.8, 3.2, 3.6])
-    const d = rng.randomItemFromArray([2.0, 2.2])
-    const e = rng.randomItemFromArray([1.0, 1.2, 1.4])
-    // Verhältnis großer/kleiner Teildreiecke entlang der Höhe:
-    const k = c / (d + e) // c = d+e im Bild? (hier nähern)
-    const b = d + e // Gesamt-Seitenhöhe außen
-    const f = a * (e / (d + e)) // Parallel => ähnliche Dreiecke: f/a = e/(d+e)
-    const pricePerM = rng.randomItemFromArray([34, 36, 38, 40])
-    return { a, c, d, e, b, f, pricePerM }
+    const templates = [
+      { a: 2.4, d: 2, e: 1, c: 2.8 },
+      { a: 3.6, d: 3, e: 1.5, c: 4.2 },
+      { a: 4.8, d: 4, e: 2, c: 5.6 },
+      { a: 6, d: 5, e: 2.5, c: 7 },
+    ]
+    const t = rng.randomItemFromArray(templates)
+
+    const b = round2((t.c * t.e) / t.d)
+    const f = round2((t.a * t.d) / (t.d + t.e))
+    const wireLengthCm = round2(t.a + t.c + b + t.d + t.e + f)
+    const wirePricePerMeter = rng.randomItemFromArray([32, 35, 38, 40])
+    const materialCost = round2((wireLengthCm / 100) * wirePricePerMeter)
+
+    return {
+      ...t,
+      b,
+      f,
+      wireLengthCm,
+      materialCost,
+      wirePricePerMeter,
+    }
   },
 
   originalData: {
     a: 2.4,
+    d: 2,
+    e: 1,
     c: 2.8,
-    d: 2.0,
-    e: 1.0,
-    b: 3.0,
-    f: 1.2,
-    pricePerM: 38,
+    b: round2((2.8 * 1) / 2),
+    f: round2((2.4 * 2) / 3),
+    wireLengthCm: round2(2.4 + 2.8 + 1.4 + 2 + 1 + 1.6),
+    materialCost: round2((11.2 / 100) * 38),
+    wirePricePerMeter: 38,
   },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return (
+      data.a > 0 &&
+      data.d > 0 &&
+      data.e > 0 &&
+      data.c > 0 &&
+      data.b > 0 &&
+      data.f > 0
+    )
   },
 
-  intro() {
-    return <img src="/content/BW_2BFS/3058.png" width={320} alt="Drahtfigur" />
+  intro({ data }) {
+    const { a, d, e, c } = data
+
+    return (
+      <>
+        <svg viewBox="0 0 260 240">
+          <image
+            href="/content/BW_2BFS/3057.png"
+            height="240"
+            width="260"
+          />
+        </svg>
+
+        <p>
+          Es gilt: <InlineMath math={'f \\text{ und } a \\text{ verlaufen parallel}'} />.
+        </p>
+        <p>
+          Gegeben sind{' '}
+          <InlineMath math={`a = ${pp(a)}\\,\\mathrm{cm}`} />,{' '}
+          <InlineMath math={`d = ${pp(d)}\\,\\mathrm{cm}`} />,{' '}
+          <InlineMath math={`e = ${pp(e)}\\,\\mathrm{cm}`} /> und{' '}
+          <InlineMath math={`c = ${pp(c)}\\,\\mathrm{cm}`} />.
+        </p>
+      </>
+    )
   },
 
   tasks: [
     {
-      points: 6,
-      intro() {
+      points: 4,
+      intro({ data }) {
         return null
       },
-      task() {
+      task({ data }) {
         return (
-          <p>
-            <b>1.</b> Berechnen Sie die fehlenden Seitenlängen{' '}
-            <InlineMath math="b" /> und <InlineMath math="f" />.
-          </p>
+          <>
+            <p>Berechnen Sie die fehlenden Seitenlängen b und f.</p>
+          </>
         )
       },
       solution({ data }) {
+        const { a, d, e, c, b, f } = data
+
         return (
-          <div className="space-y-1">
-            <InlineMath
-              math={`b=d+e=${pp(data.d)}+${pp(data.e)}=${pp(data.b)}\\,\\text{cm}`}
-            />
+          <>
+            <p>Wegen der Parallelen sind die entstehenden Dreiecke ähnlich.</p>
+            <InlineMath math={`\\frac{d}{d+e} = \\frac{c}{c+b}`} />
             <br />
             <InlineMath
-              math={`\\dfrac{f}{a}=\\dfrac{e}{d+e}\\Rightarrow f=a\\cdot\\dfrac{e}{d+e}=${pp(data.a)}\\cdot\\dfrac{${pp(data.e)}}{${pp(data.d + data.e)}}=${pp(Math.round(data.f * 100) / 100)}\\,\\text{cm}`}
+              math={`\\frac{${pp(d)}}{${pp(d + e)}} = \\frac{${pp(c)}}{${pp(
+                c,
+              )}+b}`}
             />
-          </div>
+            <br />
+            <InlineMath math={`b = ${pp(b)}\\,\\mathrm{cm}`} />
+            <br />
+            <br />
+            <InlineMath math={`\\frac{f}{a} = \\frac{d}{d+e}`} />
+            <br />
+            <InlineMath
+              math={`\\frac{f}{${pp(a)}} = \\frac{${pp(d)}}{${pp(d + e)}}`}
+            />
+            <br />
+            <InlineMath math={`f = ${pp(f)}\\,\\mathrm{cm}`} />
+          </>
         )
       },
     },
     {
-      points: 6,
-      intro() {
+      points: 2,
+      intro({ data }) {
         return null
       },
-      task() {
+      task({ data }) {
+        const { wirePricePerMeter } = data
         return (
-          <p>
-            <b>2.</b> Ein Meter Draht kostet {` ${38}–€`} (variiert). Bestimmen
-            Sie die Materialkosten pro Figur.
-          </p>
+          <>
+            <p>Diese Figur soll aus vergoldetem Draht hergestellt werden.</p>
+            <p>
+              Ein Meter Draht kostet{' '}
+              <InlineMath math={`${pp(wirePricePerMeter)}`} /> €. Bestimmen Sie die
+              Materialkosten pro Figur.
+            </p>
+          </>
         )
       },
       solution({ data }) {
-        // Gesamtlänge: äußerer Rahmen (a + b + c) + innerer Querbalken f + innere linke Seite e
-        const totalCm = data.a + data.b + data.c + data.f + data.e
-        const cost = (totalCm / 100) * data.pricePerM
+        const {
+          a,
+          d,
+          e,
+          c,
+          b,
+          f,
+          wireLengthCm,
+          materialCost,
+          wirePricePerMeter,
+        } = data
+
         return (
           <>
+            <p>Benötigt werden alle gezeichneten Drahtstrecken:</p>
             <InlineMath
-              math={`L_{\\text{gesamt}}=${pp(totalCm)}\\,\\text{cm}=${pp(totalCm / 100)}\\,\\text{m}`}
+              math={`l = ${pp(a)} + ${pp(d + e)} + ${pp(c + b)} + ${pp(f)}`}
             />
             <br />
             <InlineMath
-              math={`\\text{Kosten}=${pp(totalCm / 100)}\\cdot ${pp(data.pricePerM)}= ${pp(Math.round(cost * 100) / 100)}\\,€`}
+              math={`l = ${pp(wireLengthCm)}\\,\\mathrm{cm} = ${pp(
+                wireLengthCm / 100,
+              )}\\,\\mathrm{m}`}
             />
+            <br />
+            <InlineMath
+              math={`K = ${pp(wireLengthCm / 100)}\\cdot ${pp(
+                wirePricePerMeter,
+              )}`}
+            />
+            <span> €</span>
+            <br />
+            <InlineMath math={`K \\approx ${pp(materialCost)}`} />
+            <span> €</span>
           </>
         )
       },

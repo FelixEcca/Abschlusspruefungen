@@ -1,127 +1,154 @@
-// ============================
-// 5B (3065) – Gemischte Fragen
-// ============================
+// exercise3065.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { buildEquation } from '@/helper/math-builder'
 
 interface DATA {
-  // Gleichung aus dem Bild
-  // -2x + 1 = x^2 - 2x + 1  →  x^2 = 0
-  // wir randomisieren leicht: -2x + c = x^2 - 2x + c
-  c: number
+  x1: number
+  x2: number
+  hSlope: number
+  hIntercept: number
+  hShift: number
 }
 
 export const exercise3065: Exercise<DATA> = {
-  title: 'Gleichung',
-  source: '2022 Wahlteil Aufgabe 5B',
-  useCalculator: true,
-  duration: 12,
+  title: 'Gerade und Parabel',
+  source: 'Prüfung 2022 / Aufgabe 5B',
+  useCalculator: false,
+  duration: 42,
 
   generator(rng) {
-    const c = rng.randomIntBetween(-1, 3)
-    return { c }
+    const x1 = rng.randomItemFromArray([-4, -3, -2])
+    const x2 = x1
+    const hSlope = -2
+    const hIntercept = 1
+    const hShift = rng.randomItemFromArray([1, 2, 3])
+    return { x1, x2, hSlope, hIntercept, hShift }
   },
 
-  // Original: c = 1
-  originalData: { c: 1 },
+  originalData: {
+    x1: -1,
+    x2: -1,
+    hSlope: -2,
+    hIntercept: 1,
+    hShift: 1,
+  },
 
   constraint() {
     return true
   },
 
-  intro({ data }) {
+  intro() {
     return (
-      <div className="space-y-1">
-        <p>Gegeben ist die Gleichung</p>
-        <InlineMath math={`-2x+${pp(data.c)}=x^{2}-2x+${pp(data.c)}`} />
-      </div>
+      <>
+        <p>
+          Gegeben ist die Gleichung <InlineMath math={'-2x + 1 = x^2 - 2x + 1'} />.
+        </p>
+      </>
     )
   },
 
   tasks: [
     {
-      points: 4,
+      points: 2,
       intro() {
         return null
       },
       task() {
-        return (
-          <p>
-            <b>1.</b> Lösen Sie die Gleichung.
-          </p>
-        )
-      },
-      solution({ data }) {
-        return buildEquation([
-          ['Umformen', '', `-2x+${pp(data.c)}=x^{2}-2x+${pp(data.c)}`],
-          ['', '\\Rightarrow', 'x^{2}=0'],
-          ['Lösung', '\\Rightarrow', 'x=0'],
-        ])
-      },
-    },
-    {
-      points: 4,
-      intro() {
-        return null
-      },
-      task() {
-        return (
-          <p>
-            <b>2.</b> Eine passende Fragestellung zu Gerade und Parabel, die mit
-            der obigen Gleichung gelöst werden könnte?
-          </p>
-        )
+        return <p>Lösen Sie die Gleichung.</p>
       },
       solution() {
         return (
-          <p>
-            „Bestimme die Schnittpunkte der Parabel{' '}
-            <InlineMath math="y=x^{2}-2x+1" /> mit der Geraden{' '}
-            <InlineMath math="y=-2x+1" />
-            .“ (Antwort: ein gemeinsamer Punkt bei <InlineMath math="x=0" /> →
-            Tangential-Berührung.)
-          </p>
+          <>
+            <InlineMath math={'-2x + 1 = x^2 - 2x + 1'} />
+            <br />
+            <InlineMath math={'0 = x^2'} />
+            <br />
+            <InlineMath math={'x = 0'} />
+          </>
         )
       },
     },
     {
-      points: 4,
+      points: 2,
       intro() {
         return null
       },
       task() {
         return (
-          <p>
-            <b>3.</b> Gegeben ist die Parabel <InlineMath math="y=x^{2}-2x+1" />
-            . Geben Sie die Scheitelform an.
-          </p>
+          <>
+            <p>
+              Geben Sie eine Fragestellung an, die in Bezug auf Geraden und
+              Parabeln mit dieser Gleichung gelöst werden könnte.
+            </p>
+          </>
         )
       },
       solution() {
-        return <InlineMath math={'y=(x-1)^{2}+0'} />
+        return (
+          <>
+            <p>
+              Zum Beispiel: „Für welche x-Werte haben die Gerade{' '}
+              <InlineMath math={'y=-2x+1'} /> und die Parabel{' '}
+              <InlineMath math={'y=x^2-2x+1'} /> denselben y-Wert?“
+            </p>
+          </>
+        )
       },
     },
     {
-      points: 4,
+      points: 2,
       intro() {
-        return null
+        return (
+          <>
+            <p>
+              Gegeben ist die Parabel durch{' '}
+              <InlineMath math={'y = x^2 - 2x + 1'} />.
+            </p>
+          </>
+        )
       },
       task() {
         return (
-          <p>
-            <b>4.</b> Beschreiben Sie den Verlauf der Geraden{' '}
-            <InlineMath math="y=-2x+1" />.
-          </p>
+          <>
+            <p>Geben Sie die Gleichung der Parabel in der Scheitelform an.</p>
+          </>
         )
       },
       solution() {
         return (
-          <p>
-            Fallende Gerade mit Steigung −2; y-Achsenabschnitt 1. Pro 1 nach
-            rechts geht es 2 nach unten.
-          </p>
+          <>
+            <InlineMath math={'y = x^2 - 2x + 1'} />
+            <br />
+            <InlineMath math={'y = (x - 1)^2'} />
+          </>
+        )
+      },
+    },
+    {
+      points: 2,
+      intro() {
+        return (
+          <>
+            <p>
+              Beschreiben Sie den Verlauf der Geraden h mit{' '}
+              <InlineMath math={'y = -2x + 1'} />.
+            </p>
+          </>
+        )
+      },
+      task() {
+        return <></>
+      },
+      solution() {
+        return (
+          <>
+            <p>
+              Die Gerade fällt. Sie hat die Steigung{' '}
+              <InlineMath math={'-2'} /> und schneidet die y-Achse bei{' '}
+              <InlineMath math={'1'} />.
+            </p>
+          </>
         )
       },
     },
