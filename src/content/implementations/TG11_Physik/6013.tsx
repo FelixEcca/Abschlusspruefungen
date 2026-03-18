@@ -77,7 +77,9 @@ export const exercise6013: Exercise<DATA> = {
           />
         </svg>
 
-        <p>Berechnen Sie die erforderliche Kraft mit dem Bewegungsgesetz.</p>
+        <p>
+          Berechnen Sie die erforderliche Kraft <InlineMath math={`F`} />.
+        </p>
       </>
     )
   },
