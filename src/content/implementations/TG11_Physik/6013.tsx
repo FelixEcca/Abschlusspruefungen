@@ -68,7 +68,9 @@ export const exercise6013: Exercise<DATA> = {
           />
           .
         </p>
-
+        <p>
+          Berechnen Sie die erforderliche Kraft <InlineMath math={`F`} />.
+        </p>
         <svg viewBox="0 0 328 200">
           <image
             href="/content/TG11_Physik/6013.jpeg"
@@ -76,9 +78,9 @@ export const exercise6013: Exercise<DATA> = {
             width="328"
           />
         </svg>
-
-        <p>
-          Berechnen Sie die erforderliche Kraft <InlineMath math={`F`} />.
+        <p style={{ fontSize: '0.575rem' }}>
+          Bildquelle:
+          https://www.morgenpost.de/sport/article216684563/Robert-Foerstemann-sattelt-um.html
         </p>
       </>
     )
