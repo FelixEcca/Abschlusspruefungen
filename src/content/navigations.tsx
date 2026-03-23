@@ -126,7 +126,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4401 }],
           },
           {
-            name: 'Ausklammern',
+            name: 'Ausmultiplizieren',
             skillExercises: [{ id: 4910 }],
           },
           {
