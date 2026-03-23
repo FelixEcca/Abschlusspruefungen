@@ -137,8 +137,8 @@ export const exercise3100: Exercise<DATA> = {
               <br />
               Alex ist heute {data.alex} Jahre alt.
               <br />
-              Bestimmen Sie, in wie vielen Jahren Bettina
-              {data.ziel} Jahre alt sein wird.
+              Bestimmen Sie, in wie vielen Jahren Bettina {data.ziel} Jahre alt
+              sein wird.
             </p>
           </>
         )
