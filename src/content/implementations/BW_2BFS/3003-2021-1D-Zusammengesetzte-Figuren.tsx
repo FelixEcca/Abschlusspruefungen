@@ -186,14 +186,7 @@ export const exercise3003: Exercise<DATA> = {
                 </p>
               </>
             )}
-            {data.case == 3 && (
-              <>
-                <p>
-                  <InlineMath math={`z`} /> ist viermal so lang wie{' '}
-                  <InlineMath math={`y`} />.
-                </p>
-              </>
-            )}
+
             {data.case == 4 && (
               <>
                 <p>
