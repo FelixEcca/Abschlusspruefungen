@@ -127,11 +127,15 @@ export const navigationData: { [key: number]: Navigation } = {
           },
           {
             name: 'Ausklammern',
-            skillExercises: [{ id: 4402 }],
+            skillExercises: [{ id: 4910 }],
           },
           {
             name: 'Wertetabelle anlegen',
             skillExercises: [{ id: 4908 }],
+          },
+          {
+            name: 'Minusklammern',
+            skillExercises: [{ id: 4909 }],
           },
         ],
       },
