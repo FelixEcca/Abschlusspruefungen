@@ -73,6 +73,10 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Einfache Gleichungen lösen',
+            skillExercises: [{ id: 4907 }],
+          },
+          {
             name: 'Gleichungen lösen',
             skillExercises: [{ id: 4200 }],
           },
@@ -110,6 +114,10 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Termwerte berechnen',
+            skillExercises: [{ id: 4906 }],
+          },
+          {
             name: 'Terme vereinfachen',
             skillExercises: [{ id: 4400 }],
           },
@@ -122,8 +130,8 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4402 }],
           },
           {
-            name: 'Potenzen',
-            skillExercises: [{ id: 4403 }],
+            name: 'Wertetabelle anlegen',
+            skillExercises: [{ id: 4908 }],
           },
         ],
       },
