@@ -74,11 +74,7 @@ export const exercise4202: Exercise<D4202> = {
           math={[
             '\\begin{aligned}',
             `\\frac{${pp(a)}}{x ${pp(b, 'merge_op')}} &= \\frac{${pp(c)}}{x ${pp(d, 'merge_op')}}\\\\[4pt]`,
-            '\\text{Hauptnenner: }(x' +
-              pp(b, 'merge_op') +
-              ')(x' +
-              pp(d, 'merge_op') +
-              ') &\\\\',
+
             `${pp(a)}(x ${pp(d, 'merge_op')}) &= ${pp(c)}(x ${pp(b, 'merge_op')})\\\\`,
             `${pp(a)}x ${pp(a * d, 'merge_op')} &= ${pp(c)}x ${pp(c * b, 'merge_op')}\\\\`,
             `${pp(a - c)}x &= ${pp(c * b - a * d)}\\\\`,

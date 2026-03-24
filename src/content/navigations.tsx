@@ -85,6 +85,18 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4201 }],
           },
           {
+            name: 'Definitionsmenge',
+            skillExercises: [{ id: 4911 }],
+          },
+          {
+            name: 'Einfache Bruchgleichungen',
+            skillExercises: [{ id: 4912 }],
+          },
+          {
+            name: 'Mittlere Bruchgleichungen',
+            skillExercises: [{ id: 4913 }],
+          },
+          {
             name: 'Bruchgleichungen',
             skillExercises: [{ id: 4202 }],
           },
@@ -182,7 +194,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Umfang & Fläche',
             skillExercises: [{ id: 4600 }],
           },
-
+          {
+            name: 'Strahlensatz ',
+            skillExercises: [{ id: 4914 }],
+          },
           {
             name: 'Winkelsätze ',
             skillExercises: [{ id: 4601 }],
