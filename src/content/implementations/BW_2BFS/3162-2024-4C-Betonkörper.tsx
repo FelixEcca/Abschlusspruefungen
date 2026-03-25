@@ -261,7 +261,7 @@ export const exercise3162: Exercise<DATA> = {
               [
                 <></>,
                 <>
-                  <InlineMath math="\\approx" />
+                  <InlineMath math="\approx" />
                 </>,
                 <>
                   <InlineMath math={`${pp(mZyl)}`} />
@@ -339,7 +339,7 @@ export const exercise3162: Exercise<DATA> = {
                   [
                     <></>,
                     <>
-                      <InlineMath math="\\approx" />
+                      <InlineMath math="\approx" />
                     </>,
                     <>
                       <InlineMath math={`${pp(oQuader)}`} />

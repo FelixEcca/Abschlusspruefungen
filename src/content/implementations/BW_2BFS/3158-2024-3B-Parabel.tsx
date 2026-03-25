@@ -1,10 +1,6 @@
 import { Exercise } from '@/data/types'
 import { Color2, Color4 } from '@/helper/colors'
-import {
-  buildEquation,
-  buildInlineFrac,
-  buildSqrt,
-} from '@/helper/math-builder'
+import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { roundToDigits } from '@/helper/round-to-digits'
 import { InlineMath } from 'react-katex'
@@ -268,7 +264,9 @@ export const exercise3158: Exercise<DATA> = {
                 </>,
                 <>
                   <InlineMath
-                    math={`{${pp(-p / 2)}} \\pm \\sqrt{${pp((p / 2) * (p / 2) - q)}}`}
+                    math={`{${pp(-p / 2)}} \\pm \\sqrt{${pp(
+                      (p / 2) * (p / 2) - q,
+                    )}}`}
                   />
                 </>,
               ],
@@ -348,46 +346,67 @@ export const exercise3158: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const a = 1
+        const b = 2 * data.x_s
+        const c = data.x_s * data.x_s + data.y_s
+        const xS = -b / (2 * a)
+        const yS = xS * xS + b * xS + c
+
         return (
           <>
+            <p>Bestimme zuerst den Scheitelpunkt der Parabel.</p>
+
+            {buildEquation([
+              [
+                <>
+                  <InlineMath math="x_S" />
+                </>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`-\\frac{b}{2a}`} />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`-\\frac{${pp(b)}}{2\\cdot ${pp(a)}}`} />
+                </>,
+              ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(xS)}`} />
+                </>,
+              ],
+            ])}
+
             <p>
-              Bestimme die Scheitelform der Parabel mit einer quadratischen
-              Ergänzung:
+              Setze nun den x-Wert des Scheitels in die Parabelgleichung ein.
             </p>
 
             {buildEquation([
               [
                 <>
-                  <InlineMath math="y" />
+                  <InlineMath math="y_S" />
                 </>,
                 <>
                   <InlineMath math="=" />
                 </>,
                 <>
                   <InlineMath
-                    math={`x^{2}\\;\\mathbf{${pp(
-                      2 * data.x_s,
+                    math={`${pp(xS, 'embrace_neg')}^{2} ${pp(
+                      b,
                       'merge_op',
-                    )}}x\\;${pp(data.x_s * data.x_s + data.y_s, 'merge_op')}`}
+                    )}\\cdot ${pp(xS, 'embrace_neg')} ${pp(c, 'merge_op')}`}
                   />
-                </>,
-              ],
-              [
-                '',
-                <>
-                  <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
-                  </Color4>
-                </>,
-                <>
-                  <Color4>
-                    <span style={{ fontSize: 'small' }}>
-                      Ergänze mit dem Term{' '}
-                      <InlineMath
-                        math={`\\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2}`}
-                      />
-                    </span>
-                  </Color4>
                 </>,
               ],
               [
@@ -397,75 +416,33 @@ export const exercise3158: Exercise<DATA> = {
                 </>,
                 <>
                   <InlineMath
-                    math={`x^{2} ${pp(
-                      2 * data.x_s,
-                      'merge_op',
-                    )}x + \\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2} ${pp(
-                      data.x_s * data.x_s + data.y_s,
-                      'merge_op',
-                    )} - \\left(\\frac{${pp(2 * data.x_s)}}{2}\\right)^{2}`}
-                  />
-                </>,
-              ],
-              [
-                '',
-                <>
-                  <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
-                  </Color4>
-                </>,
-                <>
-                  <Color4>
-                    <span style={{ fontSize: 'small' }}>
-                      Fasse den vorderen Teil zu einem Binom zusammen.
-                    </span>
-                  </Color4>
-                </>,
-              ],
-              [
-                <></>,
-                <>
-                  <InlineMath math="=" />
-                </>,
-                <>
-                  <InlineMath
-                    math={`\\big(x ${pp(data.x_s, 'merge_op')}\\big)^{2} ${pp(
-                      data.x_s * data.x_s + data.y_s,
-                      'merge_op',
-                    )} - ${pp(data.x_s)}^{2}`}
-                  />
-                </>,
-              ],
-              [
-                '',
-                <>
-                  <Color4>
-                    <span className="inline-block  scale-y-[1.5]">↓</span>
-                  </Color4>
-                </>,
-                <>
-                  <Color4>
-                    <span style={{ fontSize: 'small' }}>
-                      Fasse den hinteren Teil zusammen.
-                    </span>
-                  </Color4>
-                </>,
-              ],
-              [
-                <></>,
-                <>
-                  <InlineMath math="=" />
-                </>,
-                <>
-                  <InlineMath
-                    math={`\\big(x ${pp(data.x_s, 'merge_op')}\\big)^{2} ${pp(
-                      data.y_s,
+                    math={`${pp(xS * xS)} ${pp(b * xS, 'merge_op')} ${pp(
+                      c,
                       'merge_op',
                     )}`}
                   />
                 </>,
               ],
+              [
+                <></>,
+                <>
+                  <InlineMath math="=" />
+                </>,
+                <>
+                  <InlineMath math={`${pp(yS)}`} />
+                </>,
+              ],
             ])}
+
+            <p>
+              Der Scheitelpunkt ist also{' '}
+              <InlineMath math={`S(${pp(xS)}\\mid ${pp(yS)})`} />.
+            </p>
+
+            <p>Damit lautet die Scheitelform:</p>
+            <InlineMath
+              math={`y = (x ${pp(-xS, 'merge_op')})^{2} ${pp(yS, 'merge_op')}`}
+            />
           </>
         )
       },

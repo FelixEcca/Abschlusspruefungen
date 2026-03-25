@@ -157,7 +157,7 @@ export const exercise3159: Exercise<DATA> = {
                 <InlineMath math={`${data.guess}\\,\\text{€}`} />
               )}{' '}
               Steuern bezahlen.“
-              <br /> B€teilen Sie, ob Alex recht hat.
+              <br /> Beurteilen Sie, ob Alex recht hat.
             </p>
           </>
         )

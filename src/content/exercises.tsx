@@ -94,7 +94,7 @@ import { exercise3115 } from './implementations/BW_2BFS/3115-2023-5B-Parabeln'
 import { exercise3116 } from './implementations/BW_2BFS/3116-2023-5C-Praline'
 
 import { exercise3150 } from './implementations/BW_2BFS/3150-2024-1A-Ebene-Figur'
-import { exercise3151 } from './implementations/BW_2BFS/3151-2024-1B-Graphen'
+import { exercise3151 } from './implementations/BW_2BFS/3151-2024-1B-Schaubilder'
 import { exercise3152 } from './implementations/BW_2BFS/3152-2024-1C-Kartenspiel'
 import { exercise3153 } from './implementations/BW_2BFS/3153-2024-1D-Gleichungen-und-Funktionen'
 import { exercise3154 } from './implementations/BW_2BFS/3154-2024-2A-Zahlenkugeln'

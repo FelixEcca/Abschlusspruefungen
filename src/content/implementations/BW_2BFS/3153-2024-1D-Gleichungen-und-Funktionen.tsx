@@ -87,7 +87,7 @@ export const exercise3153: Exercise<DATA> = {
           <li>
             <InlineMath math={`x=${-data.num}`} /> ist eine Lösung von<br></br>{' '}
             <InlineMath
-              math={`\\frac{1}{x-${data.num}}+\\frac{1}{${data.num}}x=0`}
+              math={`\\frac{1}{-x-${data.num}}+\\frac{1}{${data.num}}x=0`}
             />
           </li>
         </ul>
