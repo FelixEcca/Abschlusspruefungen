@@ -219,7 +219,7 @@ P(2,2)&=\Big(\tfrac{${3 - p1n}}{3}\Big)^2=\tfrac{${(3 - p1n) * (3 - p1n)}}{9}.
     \begin{aligned}
     P(A) &= P(1,1) \\
          &= P(1)\cdot P(1) \\
-         &= \Big(\tfrac{${num1}}{3}\Big)^2 \\
+         &= \tfrac{${num1}}{3} \cdot \tfrac{${num1}}{3} \\
          &= \tfrac{${num1 * num1}}{9}
     \end{aligned}
     `
@@ -237,7 +237,7 @@ P(2,2)&=\Big(\tfrac{${3 - p1n}}{3}\Big)^2=\tfrac{${(3 - p1n) * (3 - p1n)}}{9}.
     \begin{aligned}
     P(A) &= P(2,2) \\
          &= P(2)\cdot P(2) \\
-         &= \Big(\tfrac{${num2}}{3}\Big)^2 \\
+         &= \tfrac{${num2}}{3} \cdot \tfrac{${num2}}{3} \\
          &= \tfrac{${num2 * num2}}{9}
     \end{aligned}
     `

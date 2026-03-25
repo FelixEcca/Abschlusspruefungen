@@ -1,6 +1,6 @@
 import { Exercise } from '@/data/types'
 import { pp } from '@/helper/pretty-print'
-import { BlockMath, InlineMath } from 'react-katex'
+import { InlineMath } from 'react-katex'
 
 interface DATA {
   A: [number, number]
@@ -13,6 +13,77 @@ interface DATA {
     C: [number, number]
     D: [number, number]
   }
+}
+
+function vec(P: [number, number], Q: [number, number]) {
+  return [Q[0] - P[0], Q[1] - P[1]] as [number, number]
+}
+
+function dot(u: [number, number], v: [number, number]) {
+  return u[0] * v[0] + u[1] * v[1]
+}
+
+function cross(u: [number, number], v: [number, number]) {
+  return u[0] * v[1] - u[1] * v[0]
+}
+
+function lengthSq(u: [number, number]) {
+  return u[0] * u[0] + u[1] * u[1]
+}
+
+function classifyQuadrilateral(data: DATA) {
+  const AB = vec(data.A, data.B)
+  const BC = vec(data.B, data.C)
+  const CD = vec(data.C, data.D)
+  const DA = vec(data.D, data.A)
+
+  const abParallelCd = cross(AB, CD) === 0
+  const bcParallelDa = cross(BC, DA) === 0
+
+  const rightAngle = dot(AB, BC) === 0
+
+  const abEqCd = lengthSq(AB) === lengthSq(CD)
+  const bcEqDa = lengthSq(BC) === lengthSq(DA)
+  const allEqual =
+    lengthSq(AB) === lengthSq(BC) &&
+    lengthSq(BC) === lengthSq(CD) &&
+    lengthSq(CD) === lengthSq(DA)
+
+  if (abParallelCd && bcParallelDa && rightAngle && allEqual) {
+    return 'Quadrat'
+  }
+  if (abParallelCd && bcParallelDa && rightAngle) {
+    return 'Rechteck'
+  }
+  if (abParallelCd && bcParallelDa && allEqual) {
+    return 'Raute'
+  }
+  if (abParallelCd && bcParallelDa) {
+    return 'Parallelogramm'
+  }
+  if (abParallelCd || bcParallelDa) {
+    return 'Trapez'
+  }
+  return 'allgemeines Viereck'
+}
+
+function justificationText(kind: string) {
+  if (kind === 'Quadrat') {
+    return 'Die gegenüberliegenden Seiten sind parallel, alle Seiten sind gleich lang und benachbarte Seiten stehen senkrecht aufeinander. Daher handelt es sich um ein Quadrat.'
+  }
+  if (kind === 'Rechteck') {
+    return 'Die gegenüberliegenden Seiten sind gleich lang und parallel und benachbarte Seiten stehen senkrecht aufeinander. Daher handelt es sich um ein Rechteck.'
+  }
+  if (kind === 'Raute') {
+    return 'Die gegenüberliegenden Seiten sind parallel und alle Seiten sind gleich lang. Daher handelt es sich um eine Raute.'
+  }
+  if (kind === 'Parallelogramm') {
+    return 'Die gegenüberliegenden Seiten sind jeweils parallel. Daher handelt es sich um ein Parallelogramm.'
+  }
+  if (kind === 'Trapez') {
+    return 'Es gibt genau ein Paar gegenüberliegender Seiten, das parallel ist. Daher handelt es sich um ein Trapez.'
+  }
+  return 'Es liegt kein spezielles Viereck mit den üblichen Eigenschaften wie Rechteck oder Trapez vor. Daher handelt es sich um ein allgemeines Viereck.'
 }
 
 export const exercise3200: Exercise<DATA> = {
@@ -74,11 +145,8 @@ export const exercise3200: Exercise<DATA> = {
             <p>
               Zeichnen Sie das Viereck <InlineMath math={`ABCD`} /> mit den
               Eckpunkten{' '}
-              <InlineMath
-                math={`A(${pp(data.A[0])}|
-              ${pp(data.A[1])})`}
-              />{' '}
-              , <InlineMath math={`B(${pp(data.B[0])}|${pp(data.B[1])})`} />,{' '}
+              <InlineMath math={`A(${pp(data.A[0])}|${pp(data.A[1])})`} /> ,{' '}
+              <InlineMath math={`B(${pp(data.B[0])}|${pp(data.B[1])})`} />,{' '}
               <InlineMath math={`C(${pp(data.C[0])}|${pp(data.C[1])})`} /> und{' '}
               <InlineMath math={`D(${pp(data.D[0])}|${pp(data.D[1])})`} /> in
               ein rechtwinkliges Koordinatensystem.
@@ -105,7 +173,6 @@ export const exercise3200: Exercise<DATA> = {
                 </marker>
               </defs>
 
-              {/* Achsen */}
               <line
                 x1="-10"
                 y1="0"
@@ -125,7 +192,6 @@ export const exercise3200: Exercise<DATA> = {
                 markerEnd="url(#arrowhead)"
               />
 
-              {/* Skala auf der x-Achse */}
               {Array.from({ length: 21 }, (_, i) => i - 10).map(
                 x =>
                   x !== 0 && (
@@ -145,7 +211,6 @@ export const exercise3200: Exercise<DATA> = {
                   ),
               )}
 
-              {/* Skala auf der y-Achse */}
               {Array.from({ length: 21 }, (_, i) => i - 10).map(
                 y =>
                   y !== 0 && (
@@ -165,7 +230,6 @@ export const exercise3200: Exercise<DATA> = {
                   ),
               )}
 
-              {/* Viereck */}
               <polygon
                 points={`${data.A[0]},${-data.A[1]} ${data.B[0]},${-data.B[1]} ${data.C[0]},${-data.C[1]} ${data.D[0]},${-data.D[1]}`}
                 fill="none"
@@ -173,7 +237,6 @@ export const exercise3200: Exercise<DATA> = {
                 strokeWidth={0.1}
               />
 
-              {/* Punkte-Beschriftungen */}
               {(['A', 'B', 'C', 'D'] as const).map(p => (
                 <text
                   key={p}
@@ -194,13 +257,9 @@ export const exercise3200: Exercise<DATA> = {
       task() {
         return <p>Begründen Sie, um welche Art von Viereck es sich handelt.</p>
       },
-      solution() {
-        return (
-          <p>
-            Die gegenüberliegende Seiten sind gleich lang und parallel und alle
-            Winkel sind rechte Winkel. Daher handelt es sich um ein Rechteck.
-          </p>
-        )
+      solution({ data }) {
+        const kind = classifyQuadrilateral(data)
+        return <p>{justificationText(kind)}</p>
       },
     },
     {
@@ -218,25 +277,22 @@ export const exercise3200: Exercise<DATA> = {
       solution({ data }) {
         return (
           <p>
-            Nach einer Spiegelung am Ursprung ergeben sich die Punkte:<br></br>{' '}
+            Nach einer Spiegelung am Ursprung ergeben sich die Punkte:
+            <br />{' '}
             <InlineMath
-              math={`A′(
-              ${pp(data.mirrored.A[0])}|${pp(data.mirrored.A[1])})`}
+              math={`A′(${pp(data.mirrored.A[0])}|${pp(data.mirrored.A[1])})`}
             />
             ,{' '}
             <InlineMath
-              math={`B′(
-              ${pp(data.mirrored.B[0])}|${pp(data.mirrored.B[1])})`}
+              math={`B′(${pp(data.mirrored.B[0])}|${pp(data.mirrored.B[1])})`}
             />
             ,{' '}
             <InlineMath
-              math={`C′(
-              ${pp(data.mirrored.C[0])}|${pp(data.mirrored.C[1])})`}
+              math={`C′(${pp(data.mirrored.C[0])}|${pp(data.mirrored.C[1])})`}
             />
             ,{' '}
             <InlineMath
-              math={`D′(
-              ${pp(data.mirrored.D[0])}|${pp(data.mirrored.D[1])})`}
+              math={`D′(${pp(data.mirrored.D[0])}|${pp(data.mirrored.D[1])})`}
             />
             .
           </p>

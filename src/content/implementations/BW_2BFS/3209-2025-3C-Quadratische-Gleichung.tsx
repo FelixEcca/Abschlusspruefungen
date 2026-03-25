@@ -108,36 +108,18 @@ export const exercise3209: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
-            <p>
-              Setzt man für x den Wert <InlineMath math={`x=${pp(data.x1)}`} />{' '}
-              ein, erhält man:
-            </p>
-            <BlockMath
-              math={String.raw`
-              ( ${pp(data.x1)} - ${pp(data.p)} ) \cdot ( ${pp(data.x1)} - ${pp(data.q)} ) = ${pp(data.k)} \cdot ( ${pp(data.x1)} - ${pp(data.q)} )\\
-
-              
-              ${pp(0)} = ${pp(0)}
-            `}
-            />
-            <p>
-              Damit ist die Gleichung erfüllt und{' '}
-              <InlineMath math={`x=${pp(data.x1)}`} /> ist eine Lösung.
-            </p>
-            <p>
-              Geht man davon aus, dass <InlineMath math={`x`} /> nicht{' '}
-              <InlineMath math={`${pp(data.x1)}`} /> ist, kann man die Gleichung
-              vereinfachen:
-            </p>
+            <p>Zuerst wird ausmultipliziert:</p>
             <BlockMath
               math={String.raw`
                 \begin{aligned}
-              (x-${pp(data.p)})(x-${pp(data.q)})&=${pp(data.k)}(x-${pp(data.q)})\quad | : ( x - ${pp(data.q)} )\\
-(x-${pp(data.p)})&=${pp(data.k)}\quad | + ${pp(data.p)}\\
-x&=${pp(data.p + data.k)}
+              (x-${pp(data.p)})(x-${pp(data.q)})&=${pp(data.k)}(x-${pp(data.q)})\\
+              x^2 - ${pp(data.p + data.q)}x + ${pp(data.p * data.q)}&= ${pp(data.k)}x ${pp(-data.k * data.q, 'merge_op')}\quad |${pp(-data.k, 'merge_op')}x\\
+              x^2 ${pp(data.b, 'merge_op')}x ${pp(data.p * data.q, 'merge_op')}&= ${pp(-data.k * data.q)}\quad |${pp(data.k * data.q, 'merge_op')}\\
+              x^2 ${pp(data.b, 'merge_op')}x ${pp(data.c, 'merge_op')}&= 0\\
 \end{aligned}
             `}
             />
+            <p>Die Lösung wird mit der abc-Formel berechnet.</p>
             <p>
               Die Gleichung hat die Lösungen&nbsp;
               <InlineMath math={`x_1=${pp(data.x1)}`} />
@@ -177,8 +159,8 @@ x&=${pp(data.p + data.k)}
           explanation = (
             <>
               <p>
-                Wird der Term unter der Wurzel in der pq-Formel negativ, gibt es
-                keine Lösungen.
+                Wird der Term unter der Wurzel in der abc-Formel negativ, gibt
+                es keine Lösungen.
               </p>
             </>
           )

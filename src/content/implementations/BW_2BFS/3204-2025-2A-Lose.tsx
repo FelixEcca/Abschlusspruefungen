@@ -37,8 +37,8 @@ export const exercise3204: Exercise<DATA> = {
           Eine Klasse verkauft Lose. Mit {data.bikes} Los
           {data.bikes === 1 ? '' : 'en'} gewinnt man ein Fahrrad, mit{' '}
           {data.boards} Los{data.boards === 1 ? '' : 'en'} ein Skateboard und
-          die übrigen {data.blanks} Lose sind Nieten. Amy zieht nacheinander{' '}
-          <b>2 Lose ohne Zurücklegen</b>.
+          die übrigen {data.blanks} Lose sind Nieten. Amy zieht nacheinander 2
+          Lose.
         </p>
       </>
     )

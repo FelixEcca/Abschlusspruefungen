@@ -53,30 +53,7 @@ export function ExerciseViewHeader() {
       <div
         className={headerBoxCls}
         onClick={() => {
-          if (toHome) {
-            history.push('/app/start')
-            return
-          }
-          const i1 = navigationData[1].topics.findIndex(t =>
-            t.skillGroups.some(g => g.name == skill),
-          )
-          const i2 = navigationData[2].topics.findIndex(t =>
-            t.skillGroups.some(g => g.name == skill),
-          )
-          const i3 = navigationData[3].topics.findIndex(t =>
-            t.skillGroups.some(g => g.name == skill),
-          )
-          history.push(
-            skill && (i1 >= 0 || i2 >= 0 || i3 >= 0)
-              ? '/topic/' +
-                  (exam == 1
-                    ? i1 + 1
-                    : exam == 2
-                      ? i2 + 101
-                      : i3 + 201
-                  ).toString()
-              : '/app/start',
-          )
+          history.goBack()
         }}
       >
         <div className="flex items-center justify-between">

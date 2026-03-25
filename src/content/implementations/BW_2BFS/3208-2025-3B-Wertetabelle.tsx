@@ -126,7 +126,7 @@ export const exercise3208: Exercise<DATA> = {
     truth3: false,
     stmt4:
       'Es gibt Punkte auf K₁, die oberhalb der Geraden mit der Gleichung y = 5 liegen.',
-    truth4: false,
+    truth4: true,
   } as DATA,
 
   constraint({ data }) {
