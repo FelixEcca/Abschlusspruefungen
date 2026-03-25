@@ -48,7 +48,7 @@ export const exercise3114: Exercise<DATA3114> = {
   },
 
   // Original (ohne Zahlen): Beispiel mit 6-8-10
-  originalData: { a: 6, b: 8, c: 10, scaleK: 0.6 },
+  originalData: { a: 3, b: 6, c: Math.sqrt(3 ** 2 + 6 ** 2), scaleK: 0.6 },
 
   constraint({ data }) {
     // Pythagoras prüfen
@@ -80,9 +80,7 @@ export const exercise3114: Exercise<DATA3114> = {
           <text x={140} y={158} fontSize={14}>
             {pp(data.b)} cm
           </text>
-          <text x={120} y={80} fontSize={14}>
-            {pp(data.c)} cm
-          </text>
+
           {/* Eckpunkte */}
           <text x={24} y={38}>
             A

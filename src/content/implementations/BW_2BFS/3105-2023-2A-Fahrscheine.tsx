@@ -32,8 +32,7 @@ export const exercise3105: Exercise<DATA3105> = {
     return (
       <p>
         Angenommen, von den Personen, die mit dem Zug fahren, fahren{' '}
-        {Math.round(100 * data.pNo)}% ohne gültigen Fahrschein. gültigen
-        Fahrschein.
+        {Math.round(100 * data.pNo)}% ohne gültigen Fahrschein.
       </p>
     )
   },

@@ -29,8 +29,6 @@ export const exercise3109: Exercise<DATA3109> = {
   generator(rng) {
     // Wir erzeugen eine Parabel p: y = x^2 + b x + c
     // und eine Ursprungsgerade y = m x, die p BERÜHRT (genau 1 Schnittpunkt).
-    // Konstruktiv: wähle m ∈ {-3,-2,-1,1,2,3}, k ∈ {1,2,3}
-    // setze b = m + 2k  ⇒  b - m = 2k  ⇒  c = k^2  (Diskriminante 0).
     const m = rng.randomItemFromArray([-3, -2, -1, 1, 2, 3])
     const k = rng.randomItemFromArray([1, 2, 3])
     const b = m + 2 * k
@@ -74,31 +72,52 @@ export const exercise3109: Exercise<DATA3109> = {
         const a = data.a
         const b = data.b
         const c = data.c
-        const h = -b / (2 * a)
-        const k = a * h * h + b * h + c
+        const d = -b / (2 * a)
+        const yS = a * d * d + b * d + c
 
-        // Parabel-SVG
         const xs: number[] = []
-        for (let x = h - 6; x <= h + 6; x += 0.1) xs.push(+x.toFixed(1))
+        for (let x = d - 6; x <= d + 6; x += 0.1) xs.push(+x.toFixed(1))
         const path = xs
           .map(x => `${toX(x)},${toY(a * x * x + b * x + c)}`)
           .join(' ')
 
         return (
           <div className="space-y-2">
-            <p>Bestimme die Scheitelpunktform mit quadratischer Ergänzung:</p>
+            <p>Berechne zuerst die x-Koordinate des Scheitels:</p>
+            <BlockMath math={`d=-\\frac{b}{2a}`} />
             <BlockMath
-              math={`y = x^{2}${pp(data.b, 'merge_op')}x + \\left(\\frac{${pp(data.b)}}{2}\\right)^2${pp(data.c, 'merge_op')}- \\left(\\frac{${pp(data.b)}}{2}\\right)^2`}
+              math={`d=-\\frac{${pp(b)}}{2\\cdot ${pp(a)}}=${pp(d)}`}
+            />
+
+            <p>
+              Setze diesen Wert in die Parabelgleichung ein und berechne den
+              y-Wert:
+            </p>
+            <BlockMath
+              math={`y_S=${pp(a)}\\cdot ${pp(d, 'embrace_neg')}^2 ${pp(
+                b,
+                'merge_op',
+              )}\\cdot ${pp(d, 'embrace_neg')} ${pp(c, 'merge_op')}`}
             />
             <BlockMath
-              math={`y = \\left(x ${data.b > 0 ? '+' : '-'}\\frac{${pp(data.b)}}{2}\\right)^{2} ${pp(data.c - (data.b / 2) * (data.b / 2), 'merge_op')}`}
+              math={`y_S=${pp(a * d * d)} ${pp(b * d, 'merge_op')} ${pp(
+                c,
+                'merge_op',
+              )}=${pp(yS)}`}
             />
+
             <BlockMath
-              math={`y = (x ${pp(data.b / 2, 'merge_op')})^{2} ${pp(data.c - (data.b / 2) * (data.b / 2), 'merge_op')}`}
+              math={`\\Rightarrow\\; S\\,=\\,(${pp(d)}\\mid ${pp(yS)})`}
             />
+
+            <p>Damit lautet die Scheitelform:</p>
             <BlockMath
-              math={`\\Rightarrow\\; S\\,=\\,(${pp(h)}\\mid ${pp(k)})`}
+              math={`y=${pp(a)}\\,(x ${pp(-d, 'merge_op')})^2 ${pp(
+                yS,
+                'merge_op',
+              )}`}
             />
+
             <svg
               viewBox="0 0 328 328"
               width="328"
@@ -116,8 +135,8 @@ export const exercise3109: Exercise<DATA3109> = {
                 stroke="black"
                 strokeWidth="2"
               />
-              <circle cx={toX(h)} cy={toY(k)} r="3" />
-              <text x={toX(h) + 6} y={toY(k) - 6} fontSize="12">
+              <circle cx={toX(d)} cy={toY(yS)} r="3" />
+              <text x={toX(d) + 6} y={toY(yS) - 6} fontSize="12">
                 S
               </text>
             </svg>
@@ -141,8 +160,6 @@ export const exercise3109: Exercise<DATA3109> = {
         )
       },
       solution({ data }) {
-        // Berührpunkt durch Gleichsetzen y = x^2 + b x + c = m x
-        // x^2 + (b - m)x + c = 0  mit Diskriminante 0 ⇒ x = -(b - m)/2
         const bm = data.b - data.m
         const x = -bm / 2
         const y = data.m * x
@@ -159,7 +176,9 @@ export const exercise3109: Exercise<DATA3109> = {
             />
             <p>Verwende die pq-Formel. Unter der Wurzel wird 0 stehen.</p>
             <BlockMath
-              math={`\\Rightarrow\\; x=-\\dfrac{${pp(bm)}}{2}\\pm\\sqrt{0}=${pp(x)}`}
+              math={`\\Rightarrow\\; x=-\\dfrac{${pp(bm)}}{2}\\pm\\sqrt{0}=${pp(
+                x,
+              )}`}
             />
             <p>Setze in die Geradengleichung ein für y:</p>
             <BlockMath

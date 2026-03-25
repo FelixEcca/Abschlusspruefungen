@@ -67,15 +67,15 @@ export const exercise3113: Exercise<DATA3113> = {
           <>
             <p>Der Nenner darf nicht null sein:</p>
             <InlineMath
-              math={`${pp(data.C)}x${pp(data.D, 'merge_op')}\\ne 0\\\\\\Rightarrow\\; x\\ne -${pp(data.D / data.C)}`}
+              math={`${pp(data.C)}x${pp(data.D, 'merge_op')}\\ne 0\\\\\\Rightarrow\\; x\\ne ${pp(-data.D / data.C)}`}
             />
             <p>
               <InlineMath math={`x`} /> darf nicht den Wert{' '}
-              <InlineMath math={`-${pp(data.D / data.C)}`} /> annehmen.
+              <InlineMath math={`${pp(-data.D / data.C)}`} /> annehmen.
             </p>
             <p>Die Definitionsmenge lautet dann:</p>
             <InlineMath
-              math={`\\mathbb{D}=\\mathbb{R}\\setminus \\left\\{ -${pp(data.D / data.C)} \\right\\}`}
+              math={`\\mathbb{D}=\\mathbb{R}\\setminus \\left\\{ ${pp(-data.D / data.C)} \\right\\}`}
             />
           </>
         )

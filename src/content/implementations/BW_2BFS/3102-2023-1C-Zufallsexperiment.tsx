@@ -1,11 +1,10 @@
 import { Exercise } from '@/data/types'
-import { InlineMath, BlockMath } from 'react-katex'
+import { InlineMath } from 'react-katex'
 import { buildEquation } from '@/helper/math-builder'
 import { getGcd } from '@/helper/get-gcd'
-import { pp, ppFrac } from '@/helper/pretty-print'
+import { pp } from '@/helper/pretty-print'
 
 interface DATA {
-  // P(b) = pNum / pDen  ,  P(w) = qNum / pDen  mit qNum = pDen - pNum
   pNum: number
   pDen: number
   qNum: number
@@ -20,7 +19,6 @@ function simplify(n: number, d: number) {
   return [n / g, d / g]
 }
 
-// --- SVG Helfer für das Glücksrad ---
 function polarToCartesian(
   cx: number,
   cy: number,
@@ -42,16 +40,35 @@ function sectorPath(cx: number, cy: number, r: number, a0: number, a1: number) {
   ].join(' ')
 }
 
+function FractionInSvg(props: { x: number; y: number; n: number; d: number }) {
+  return (
+    <foreignObject x={props.x} y={props.y} width={40} height={30}>
+      <div
+        style={{
+          fontSize: '12px',
+          lineHeight: 1,
+          color: 'black',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <InlineMath math={fracStr(props.n, props.d)} />
+      </div>
+    </foreignObject>
+  )
+}
+
 export const exercise3102: Exercise<DATA> = {
   title: 'Zufallsexperiment',
   source: '2023 Pflichtteil Aufgabe 1C',
   useCalculator: false,
   duration: 42,
   generator(rng) {
-    // zufällige, einfache Bruchwahrscheinlichkeit für "blau"
     const pDen = rng.randomIntBetween(3, 8)
     let pNum = rng.randomIntBetween(1, pDen - 1)
-    // kleine Präferenz, nicht genau 1/2 (nur für mehr Varianz)
     if (pDen % 2 === 0 && pNum === pDen / 2) pNum = pNum - 1
     const qNum = pDen - pNum
     return { pNum, pDen, qNum }
@@ -72,76 +89,15 @@ export const exercise3102: Exercise<DATA> = {
           <InlineMath math="b = \text{blau},\quad w = \text{weiß}" />
         </p>
 
-        {/* Abbildung des Baumdiagramms aus der Aufgabenstellung */}
         <svg viewBox="0 0 328 240">
           <image href="/content/BW_2BFS/3052.png" height="240" width="328" />
-          <foreignObject x={90} y={40} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.pNum, data.pDen])}
-            </div>
-          </foreignObject>
 
-          <foreignObject x={90} y={160} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.qNum, data.pDen])}
-            </div>
-          </foreignObject>
-          <foreignObject x={190} y={0} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.pNum, data.pDen])}
-            </div>
-          </foreignObject>
-          <foreignObject x={190} y={80} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.qNum, data.pDen])}
-            </div>
-          </foreignObject>
-          <foreignObject x={180} y={120} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.pNum, data.pDen])}
-            </div>
-          </foreignObject>
-          <foreignObject x={180} y={190} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac([data.qNum, data.pDen])}
-            </div>
-          </foreignObject>
+          <FractionInSvg x={90} y={40} n={data.pNum} d={data.pDen} />
+          <FractionInSvg x={90} y={160} n={data.qNum} d={data.pDen} />
+          <FractionInSvg x={190} y={0} n={data.pNum} d={data.pDen} />
+          <FractionInSvg x={190} y={80} n={data.qNum} d={data.pDen} />
+          <FractionInSvg x={180} y={120} n={data.pNum} d={data.pDen} />
+          <FractionInSvg x={180} y={190} n={data.qNum} d={data.pDen} />
         </svg>
       </>
     )
@@ -158,18 +114,16 @@ export const exercise3102: Exercise<DATA> = {
             <p>Begründen Sie, wie oft das Glücksrad hier gedreht wurde.</p>
             <p>Skizzieren Sie die Einteilung eines möglichen Glücksrads:</p>
 
-            {/* Glücksrad-Skizze: zwei Sektoren, P(b)=pNum/pDen, P(w)=qNum/pDen */}
             <svg viewBox="0 0 328 180">
               {(() => {
                 const cx = 164
                 const cy = 90
                 const r = 65
                 const pb = data.pNum / data.pDen
-                const a0 = -Math.PI / 2 // Start oben
+                const a0 = -Math.PI / 2
                 const a1 = a0 + 2 * Math.PI * pb
                 return (
                   <>
-                    {/* Rand */}
                     <circle
                       cx={cx}
                       cy={cy}
@@ -178,9 +132,6 @@ export const exercise3102: Exercise<DATA> = {
                       stroke="black"
                       strokeWidth="2"
                     />
-                    {/* Sektor "blau" */}
-
-                    {/* Mittelpunkt */}
                     <circle cx={cx} cy={cy} r="3" fill="black" />
                   </>
                 )
@@ -193,8 +144,8 @@ export const exercise3102: Exercise<DATA> = {
         return (
           <>
             <p>
-              Aus dem Baumdiagramm erkennt man zwei Verzweigungen (zwei Ebenen).
-              Daher wurde das Glücksrad <b>zweimal</b> gedreht.
+              Aus dem Baumdiagramm erkennt man zwei Verzweigungen. Daher wurde
+              das Glücksrad <b>zweimal</b> gedreht.
             </p>
             <p>
               Ein mögliches Glücksrad besteht aus zwei Bereichen, deren
@@ -207,7 +158,6 @@ export const exercise3102: Exercise<DATA> = {
               />
             </p>
 
-            {/* dieselbe Skizze wie oben, damit die Lösung eine Beispielzeichnung zeigt */}
             <svg viewBox="0 0 328 180">
               {(() => {
                 const cx = 164
@@ -282,10 +232,10 @@ export const exercise3102: Exercise<DATA> = {
                 </>,
                 <>
                   <InlineMath
-                    math={`P(w)\\cdot P(w)=${fracStr(data.qNum, data.pDen)}\\cdot${fracStr(
+                    math={`P(w)\\cdot P(w)=${fracStr(
                       data.qNum,
                       data.pDen,
-                    )}`}
+                    )}\\cdot${fracStr(data.qNum, data.pDen)}`}
                   />
                 </>,
               ],
