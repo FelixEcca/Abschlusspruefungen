@@ -24,7 +24,7 @@ export const exercise3011: Exercise<DATA> = {
       y_s: rng.randomIntBetween(-5, 5),
     }
   },
-  originalData: { m: 1, b: 1, x_s: 4, y_s: -4 },
+  originalData: { m: 1, b: 1, x_s: 4, y_s: -1 },
   constraint({ data }) {
     const p = -2 * data.x_s - data.m
     const q = data.x_s * data.x_s + data.y_s - data.b

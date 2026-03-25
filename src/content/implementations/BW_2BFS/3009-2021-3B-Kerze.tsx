@@ -32,7 +32,7 @@ export const exercise3009: Exercise<DATA> = {
           Grundfläche. Die Seitenlänge <InlineMath math="a" /> der Grundfläche
           beträgt <InlineMath math={`${data.a}\\,\\text{cm}`} /> und das Volumen
           der Wachskerze beträgt{' '}
-          <InlineMath math={`${data.volume}0\\,\\text{cm}^3`} />.
+          <InlineMath math={`${data.volume}\\,\\text{cm}^3`} />.
         </p>
       </>
     )
@@ -96,9 +96,11 @@ h &= \dfrac{3\cdot ${data.volume}}{${A}} \\
         )
       },
       solution({ data }) {
-        // Hinweis: alpha wird (wie im Original) mit atan in "Radiant" berechnet und ohne Gradumrechnung ausgegeben.
         const h = (data.volume * 3) / (data.a * data.a)
-        const alpha = Math.round(100 * Math.atan(h / ((1 / 2) * data.a))) / 100
+        const alpha =
+          Math.round(
+            100 * Math.atan(h / ((1 / 2) * data.a)) * (180 / Math.PI),
+          ) / 100
 
         return (
           <>
@@ -119,13 +121,13 @@ h &= \dfrac{3\cdot ${data.volume}}{${A}} \\
 
             <BlockMath
               math={String.raw`
-\begin{aligned}
-\tan(\alpha) &= \dfrac{h}{a/2} \\
-             &= \dfrac{${h}}{${data.a}/2} \\
-\alpha        &= \tan^{-1}\!\left(\dfrac{${h}}{${data.a}/2}\right) \\
-              &\approx ${pp(alpha)}^\circ
-\end{aligned}
-`}
+    \begin{aligned}
+    \tan(\alpha) &= \dfrac{h}{a/2} \\
+         &= \dfrac{${h}}{${data.a}/2} \\
+    \alpha        &= \tan^{-1}\!\left(\dfrac{${h}}{${data.a}/2}\right) \\
+          &\approx ${pp(alpha)}^\circ
+    \end{aligned}
+    `}
             />
             <p>
               Der Winkel <InlineMath math="\alpha" /> beträgt{' '}

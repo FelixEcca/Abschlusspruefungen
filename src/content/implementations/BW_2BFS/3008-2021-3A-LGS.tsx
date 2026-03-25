@@ -1,5 +1,5 @@
 import { Exercise } from '@/data/types'
-import { pp, ppFrac } from '@/helper/pretty-print'
+import { pp } from '@/helper/pretty-print'
 import { InlineMath, BlockMath } from 'react-katex'
 
 interface DATA {
@@ -10,6 +10,23 @@ interface DATA {
   d: number
   order: number[]
   faktor: number
+}
+
+function fracLatex(x: number) {
+  if (Number.isInteger(x)) return `${x}`
+  const sign = x < 0 ? '-' : ''
+  const abs = Math.abs(x)
+
+  // einfache Brüche für diese Aufgabe
+  const rounded = Math.round(abs * 1000) / 1000
+  for (let den = 2; den <= 12; den++) {
+    const num = rounded * den
+    if (Math.abs(num - Math.round(num)) < 1e-9) {
+      return `${sign}\\dfrac{${Math.round(num)}}{${den}}`
+    }
+  }
+
+  return `${x}`.replace('.', '{,}')
 }
 
 export const exercise3008: Exercise<DATA> = {
@@ -46,7 +63,6 @@ export const exercise3008: Exercise<DATA> = {
     const c = data.b * data.x + data.a * data.y
     const e = data.d * data.x - data.faktor * data.a * data.y
 
-    // Für die Anzeige
     const b = data.b
     const a = data.a
     const d = data.d
@@ -88,7 +104,7 @@ export const exercise3008: Exercise<DATA> = {
         const c = b * data.x + a * data.y
         const e = d * data.x - k * a * data.y
 
-        const lhsX = k * b + d // Koeffizient vor x nach Addition
+        const lhsX = k * b + d
         const rhs = k * c + e
 
         return (
@@ -111,7 +127,7 @@ ${k * b + d}\,x \;&=\; ${pp(k * c)} \;+\; ${pp(e, 'embrace_neg')}
 
             <BlockMath
               math={String.raw`
-x \;=\; \frac{${pp(rhs)}}{${lhsX}} \;=\; ${pp(data.x)}
+x \;=\; \frac{${pp(rhs)}}{${lhsX}} \;=\; ${fracLatex(data.x)}
 `}
             />
 
@@ -122,11 +138,9 @@ x \;=\; \frac{${pp(rhs)}}{${lhsX}} \;=\; ${pp(data.x)}
             <BlockMath
               math={String.raw`
 \begin{aligned}
-${b}\cdot ${pp(data.x)} \;+\; ${a}\,y &= ${pp(c)}\\
-${a}\,y &= ${pp(c)} \;-\; ${pp(b * data.x)}\\
-y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
-                data.y % 1 == 0 ? data.y : ppFrac(data.y)
-              }
+${b}\cdot ${fracLatex(data.x)} \;+\; ${a}\,y &= ${pp(c)}\\
+${a}\,y &= ${pp(c)} \;-\; ${fracLatex(b * data.x)}\\
+y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
 \end{aligned}
 `}
             />
@@ -135,9 +149,9 @@ y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
               Die Lösungsmenge ist{' '}
               <b>
                 <InlineMath
-                  math={`L=\\left\\{\\left(${pp(data.x)}\\,;\\,${
-                    data.y % 1 == 0 ? data.y : ppFrac(data.y)
-                  }\\right)\\right\\}`}
+                  math={`L=\\left\\{\\left(${fracLatex(data.x)}\\,;\\,${fracLatex(
+                    data.y,
+                  )}\\right)\\right\\}`}
                 />
               </b>
             </p>
@@ -160,7 +174,6 @@ y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
         const c = data.b * data.x + data.a * data.y
         const e = data.d * data.x - data.faktor * data.a * data.y
 
-        // y = (b - a*x)/c
         function generatePoints(
           a: number,
           b: number,
@@ -272,7 +285,6 @@ y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
         const c = data.b * data.x + data.a * data.y
         const e = data.d * data.x - data.faktor * data.a * data.y
 
-        // y = (b + a*x)/c – hier wie in deinem Original für die Lösungsdarstellung
         function generatePoints(
           a: number,
           b: number,
@@ -384,11 +396,16 @@ y &= \dfrac{${pp(c - b * data.x)}}{${a}} \;=\; ${
                 fill="none"
               />
             </svg>
-            <p>Die Geraden stellen die Gleichungen dar aus der Aufgabe.</p>
+            <p>Die Geraden stellen die Gleichungen aus der Aufgabe dar.</p>
             <p>
               Der Schnittpunkt der beiden Geraden ist genau die Lösung des
               Gleichungssystems{' '}
-              <InlineMath math={`\\left(${data.x}\\,|\\,${data.y}\\right)`} />.
+              <InlineMath
+                math={`\\left(${fracLatex(data.x)}\\,|\\,${fracLatex(
+                  data.y,
+                )}\\right)`}
+              />
+              .
             </p>
           </>
         )

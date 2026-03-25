@@ -498,7 +498,7 @@ export const exercise3003: Exercise<DATA> = {
                       <InlineMath math={`=`} />
                     </>,
                     <>
-                      <InlineMath math={`x² + \\frac{x \\cdot y}{2}`} />
+                      <InlineMath math={`x² + \\frac{y \\cdot y}{2}`} />
                     </>,
                   ],
                   [
@@ -519,19 +519,22 @@ export const exercise3003: Exercise<DATA> = {
                     </>,
                   ],
                   [
-                    <></>,
-                    <>=</>,
                     <>
-                      <InlineMath math={`x² + x \\cdot \\frac{1}{2} x`} />
+                      <InlineMath math={`A`} />
+                    </>,
+                    <>
+                      <InlineMath math={`=`} />
+                    </>,
+                    <>
+                      <InlineMath math={`x² + \\frac{0,5 x \\cdot 0,5 x}{2}`} />
                     </>,
                   ],
+
                   [
                     <></>,
                     <>=</>,
                     <>
-                      <b>
-                        <InlineMath math={`x² + \\frac{1}{4} x²`} />
-                      </b>
+                      <InlineMath math={`x² + 0,125 x²`} />
                     </>,
                   ],
                 ])}

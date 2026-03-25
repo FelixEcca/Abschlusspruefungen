@@ -1,5 +1,5 @@
 import { Exercise } from '@/data/types'
-import { buildEquation, buildInlineFrac } from '@/helper/math-builder'
+import { buildEquation } from '@/helper/math-builder'
 import { pp } from '@/helper/pretty-print'
 import { InlineMath } from 'react-katex'
 
@@ -8,19 +8,26 @@ interface DATA {
   r1: number
 }
 
+function fracLatex(n: number, d: number) {
+  return `\\dfrac{${n}}{${d}}`
+}
+
 export const exercise3013: Exercise<DATA> = {
   title: 'Spielzeug',
   source: '2021 Wahlteil Aufgabe 4C',
   useCalculator: true,
   duration: 42,
   generator(rng) {
-    return { r2: rng.randomIntBetween(5, 12), r1: rng.randomIntBetween(10, 20) }
+    return {
+      r2: rng.randomIntBetween(5, 12),
+      r1: rng.randomIntBetween(10, 20),
+    }
   },
   originalData: { r2: 9, r1: 15 },
   constraint({ data }) {
     return data.r1 > data.r2
   },
-  intro({ data }) {
+  intro() {
     return (
       <>
         <p>
@@ -38,7 +45,7 @@ export const exercise3013: Exercise<DATA> = {
   tasks: [
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -53,7 +60,11 @@ export const exercise3013: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        const surfaceArea = Math.round(4 * Math.PI * data.r2 ** 2 * 100) / 100
+        const kugelOberflaeche =
+          Math.round(4 * Math.PI * data.r2 ** 2 * 100) / 100
+        const halbkugelOberflaeche =
+          Math.round((kugelOberflaeche / 2) * 100) / 100
+
         return (
           <>
             <p>Berechne die Oberfläche mit der Formel für die Kugelfläche:</p>
@@ -66,8 +77,7 @@ export const exercise3013: Exercise<DATA> = {
                   <InlineMath math={`=`} />
                 </>,
                 <>
-                  {' '}
-                  <InlineMath math={`4\\cdot π \\cdot r_{2}^{2}`} />
+                  <InlineMath math={`4\\cdot \\pi \\cdot r_{2}^{2}`} />
                 </>,
               ],
               [
@@ -78,7 +88,9 @@ export const exercise3013: Exercise<DATA> = {
                   <InlineMath math={`=`} />
                 </>,
                 <>
-                  <InlineMath math={`4\\cdot π \\cdot (${data.r2} ~cm)²`} />
+                  <InlineMath
+                    math={`4\\cdot \\pi \\cdot (${data.r2}\\,\\text{cm})^{2}`}
+                  />
                 </>,
               ],
               [
@@ -89,17 +101,20 @@ export const exercise3013: Exercise<DATA> = {
                   <InlineMath math={`\\approx`} />
                 </>,
                 <>
-                  <InlineMath math={`${pp(surfaceArea)} ~cm²`} />
+                  <InlineMath
+                    math={`${pp(kugelOberflaeche)}\\,\\text{cm}^{2}`}
+                  />
                 </>,
               ],
             ])}
             <p>
-              {' '}
               Damit ist die Oberfläche der <b>Halbkugel</b>:
             </p>
             <p>
               <InlineMath
-                math={`${pp(surfaceArea)} ~cm² : 2 = ${pp(surfaceArea / 2)} ~cm²`}
+                math={`${pp(kugelOberflaeche)}\\,\\text{cm}^{2} : 2 = ${pp(
+                  halbkugelOberflaeche,
+                )}\\,\\text{cm}^{2}`}
               />
             </p>
           </>
@@ -108,7 +123,7 @@ export const exercise3013: Exercise<DATA> = {
     },
     {
       points: 42,
-      intro({ data }) {
+      intro() {
         return null
       },
       task({ data }) {
@@ -116,59 +131,38 @@ export const exercise3013: Exercise<DATA> = {
           <>
             <p>
               Geben Sie das Verhältnis des Volumens der Halbkugel{' '}
-              <InlineMath math={`H_{1}`} />
-              zum Volumen der Halbkugel <InlineMath math={`H_{2}`} /> an. Es ist{' '}
-              <InlineMath math={`r_{1} = ${data.r1} ~cm`} /> und{' '}
-              <InlineMath math={`r_{2} = ${data.r2} ~cm`} />.
+              <InlineMath math={`H_{1}`} /> zum Volumen der Halbkugel{' '}
+              <InlineMath math={`H_{2}`} /> an. Es ist{' '}
+              <InlineMath math={`r_{1} = ${data.r1}\\,\\text{cm}`} /> und{' '}
+              <InlineMath math={`r_{2} = ${data.r2}\\,\\text{cm}`} />.
             </p>
           </>
         )
       },
       solution({ data }) {
+        const ratio = Math.round((100 * data.r1 ** 3) / data.r2 ** 3) / 100
+
         return (
           <>
             <p>Berechne das Verhältnis der Volumina:</p>
-            <p>
-              {buildInlineFrac(
-                <>
-                  <InlineMath math={`V_{1}`} />
-                </>,
-                <>
-                  <InlineMath math={`V_{2}`} />
-                </>,
-              )}{' '}
-              <InlineMath math={`=`} />{' '}
-              {buildInlineFrac(
-                <>
-                  <InlineMath math={`\\frac{2}{3} · π · r_{1}^{3}`} />
-                </>,
-                <>
-                  <InlineMath math={`\\frac{2}{3} · π · r_{2}^{3}`} />
-                </>,
-              )}{' '}
-              <InlineMath math={`=`} />{' '}
-              {buildInlineFrac(
-                <>
-                  <InlineMath math={`r_{1}^{3}`} />
-                </>,
-                <>
-                  <InlineMath math={`r_{2}^{3}`} />
-                </>,
-              )}{' '}
-              <InlineMath math={`=`} />{' '}
-              {buildInlineFrac(
-                <>
-                  <InlineMath math={`${data.r1}^{3}`} />
-                </>,
-                <>
-                  <InlineMath math={`${data.r2}^{3}`} />
-                </>,
-              )}{' '}
-              <InlineMath math={`=`} />{' '}
-              <InlineMath
-                math={`${pp(Math.round((100 * data.r1 ** 3) / data.r2 ** 3) / 100)}`}
-              />
-            </p>
+
+            <InlineMath
+              math={`\\dfrac{V_{1}}{V_{2}} = \\dfrac{\\frac{2}{3}\\cdot \\pi \\cdot r_{1}^{3}}{\\frac{2}{3}\\cdot \\pi \\cdot r_{2}^{3}}`}
+            />
+            <br />
+            <InlineMath
+              math={`\\dfrac{V_{1}}{V_{2}} = \\dfrac{r_{1}^{3}}{r_{2}^{3}}`}
+            />
+            <br />
+            <InlineMath
+              math={`\\dfrac{V_{1}}{V_{2}} = \\dfrac{${data.r1}^{3}}{${data.r2}^{3}}`}
+            />
+            <br />
+            <InlineMath
+              math={`\\dfrac{V_{1}}{V_{2}} = \\dfrac{${data.r1 ** 3}}{${data.r2 ** 3}}`}
+            />
+            <br />
+            <InlineMath math={`\\dfrac{V_{1}}{V_{2}} \\approx ${pp(ratio)}`} />
           </>
         )
       },
