@@ -44,7 +44,6 @@ export const exercise4914: Exercise<DATA> = {
     const parallelRight = totalParallel
 
     const unknown: Unknown = rng.randomItemFromArray([
-      'topLeft',
       'topRight',
       'bottomLeft',
       'bottomRight',
@@ -55,9 +54,6 @@ export const exercise4914: Exercise<DATA> = {
     let solution = 0
 
     switch (unknown) {
-      case 'topLeft':
-        solution = topLeft
-        break
       case 'topRight':
         solution = topRight
         break

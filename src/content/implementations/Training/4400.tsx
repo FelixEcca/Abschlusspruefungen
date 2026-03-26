@@ -87,7 +87,7 @@ export const exercise4400: Exercise<D4400> = {
       <BlockMath
         math={[
           '\\begin{aligned}',
-          `${pp(a)}x ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')} &= ${a + 1 != 0 ? pp(a + 1) : ''}x ${c != 0 ? pp(c, 'merge_op') : ''}`,
+          `${pp(a)}x ${pp(b, 'merge_op')}x ${pp(c, 'merge_op')} &= ${pp(a + b)}x ${c != 0 ? pp(c, 'merge_op') : ''}`,
           '\\end{aligned}',
         ].join('')}
       />
