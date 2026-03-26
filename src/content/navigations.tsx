@@ -243,10 +243,6 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Diagramme',
-            skillExercises: [{ id: 4900 }],
-          },
-          {
             name: 'Mittelwert/Median/Spannweite',
             skillExercises: [{ id: 4901 }],
           },

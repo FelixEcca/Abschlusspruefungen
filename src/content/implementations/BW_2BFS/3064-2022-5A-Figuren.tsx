@@ -87,7 +87,7 @@ function transformPoints(
 
 export const exercise3064: Exercise<DATA> = {
   title: 'Figuren',
-  source: 'Geometrie',
+  source: '2022',
   useCalculator: true,
   duration: 42,
 
