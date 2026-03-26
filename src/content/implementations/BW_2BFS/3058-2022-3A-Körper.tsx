@@ -59,13 +59,14 @@ export const exercise3058: Exercise<DATA> = {
     return (
       <>
         <p>
-          Ein Würfel hat ein Volumen von <InlineMath math={'512\\,\\mathrm{cm^3}'} />.
-          Der Kegeldurchmesser entspricht der Länge der Kante des Würfels.
-          Die Spitze des Kegels berührt die Deckfläche des Würfels.
+          Ein Würfel hat ein Volumen von{' '}
+          <InlineMath math={'512\\,\\mathrm{cm^3}'} />. Der Kegeldurchmesser
+          entspricht der Länge der Kante des Würfels. Die Spitze des Kegels
+          berührt die Deckfläche des Würfels.
         </p>
 
         <svg viewBox="0 0 220 180">
-          <image href="/content/BW_2BFS/3058.png" height="180" width="220" />
+          <image href="/content/BW_2BFS/3059.png" height="180" width="220" />
         </svg>
       </>
     )
@@ -90,10 +91,14 @@ export const exercise3058: Exercise<DATA> = {
           <>
             <InlineMath math={`a^3 = ${pp(volumeCube)}`} />
             <br />
-            <InlineMath math={`a = \\sqrt[3]{${pp(volumeCube)}} = ${pp(edgeCube)}\\,\\mathrm{cm}`} />
+            <InlineMath
+              math={`a = \\sqrt[3]{${pp(volumeCube)}} = ${pp(edgeCube)}\\,\\mathrm{cm}`}
+            />
             <br />
             <p>Der Kegeldurchmesser entspricht der Würfelkante.</p>
-            <InlineMath math={`r = \\frac{a}{2} = \\frac{${pp(edgeCube)}}{2} = ${pp(coneRadius)}\\,\\mathrm{cm}`} />
+            <InlineMath
+              math={`r = \\frac{a}{2} = \\frac{${pp(edgeCube)}}{2} = ${pp(coneRadius)}\\,\\mathrm{cm}`}
+            />
           </>
         )
       },
@@ -131,7 +136,9 @@ export const exercise3058: Exercise<DATA> = {
               )}\\cdot ${pp(slantHeight)}`}
             />
             <br />
-            <InlineMath math={`O \\approx ${pp(coneSurface)}\\,\\mathrm{cm^2}`} />
+            <InlineMath
+              math={`O \\approx ${pp(coneSurface)}\\,\\mathrm{cm^2}`}
+            />
           </>
         )
       },

@@ -52,8 +52,11 @@ export const exercise3062: Exercise<DATA> = {
     return (
       <>
         <p>
-          Die Parabel p1 hat die Gleichung{' '}
-          <InlineMath math={`y = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(Math.abs(data.b))}x`} />.
+          Die Parabel p1 hat die Gleichung<br></br>{' '}
+          <InlineMath
+            math={`y = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(Math.abs(data.b))}x`}
+          />
+          .
         </p>
       </>
     )
@@ -68,7 +71,10 @@ export const exercise3062: Exercise<DATA> = {
       task() {
         return (
           <>
-            <p>Berechnen Sie die Schnittpunkte der Parabel p1 mit den Koordinatenachsen.</p>
+            <p>
+              Berechnen Sie die Schnittpunkte der Parabel p1 mit den
+              Koordinatenachsen.
+            </p>
           </>
         )
       },
@@ -121,9 +127,7 @@ export const exercise3062: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
-            <p>
-              Wichtige Punkte sind die Nullstellen und der Scheitelpunkt.
-            </p>
+            <p>Wichtige Punkte sind die Nullstellen und der Scheitelpunkt.</p>
             <InlineMath
               math={`x_S = -\\frac{b}{2a} = -\\frac{${pp(data.b)}}{2\\cdot ${pp(
                 data.a,
@@ -156,7 +160,9 @@ export const exercise3062: Exercise<DATA> = {
       task() {
         return (
           <>
-            <p>Beschreiben Sie, wie diese Parabel aus der Normalparabel entsteht.</p>
+            <p>
+              Beschreiben Sie, wie diese Parabel aus der Normalparabel entsteht.
+            </p>
           </>
         )
       },

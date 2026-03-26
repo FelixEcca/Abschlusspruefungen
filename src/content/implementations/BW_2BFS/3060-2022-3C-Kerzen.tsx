@@ -80,8 +80,8 @@ export const exercise3060: Exercise<DATA> = {
           Zeit (x-Achse in Stunden) die Höhe der Kerze (y-Achse in cm) abnimmt.
         </p>
 
-        <svg viewBox="0 0 328 240">
-          <image href="/content/BW_2BFS/3060.png" height="240" width="328" />
+        <svg viewBox="0 0 328 120">
+          <image href="/content/BW_2BFS/3060.png" height="120" width="328" />
         </svg>
       </>
     )
@@ -157,11 +157,10 @@ export const exercise3060: Exercise<DATA> = {
         return (
           <>
             <p>
-              Kerze A startet bei <InlineMath math={`${pp(data.startHeight)}`} /> cm.
+              Kerze A startet bei{' '}
+              <InlineMath math={`${pp(data.startHeight)}`} /> cm.
             </p>
-            <InlineMath
-              math={`y = ${pp(data.slopeA)}x + ${pp(data.bA)}`}
-            />
+            <InlineMath math={`y = ${pp(data.slopeA)}x + ${pp(data.bA)}`} />
           </>
         )
       },

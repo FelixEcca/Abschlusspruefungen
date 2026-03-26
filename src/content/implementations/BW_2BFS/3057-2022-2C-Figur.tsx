@@ -78,24 +78,27 @@ export const exercise3057: Exercise<DATA> = {
 
     return (
       <>
-        <svg viewBox="0 0 260 240">
-          <image
-            href="/content/BW_2BFS/3057.png"
-            height="240"
-            width="260"
-          />
+        <svg viewBox="0 0 328 200">
+          <image href="/content/BW_2BFS/3058.png" height="200" width="328" />
+          <text
+            x={120}
+            y={165}
+            fontSize={15}
+            textAnchor="middle"
+            stroke="black"
+          >
+            a={pp(a)} cm
+          </text>
+          <text x={140} y={50} fontSize={15} textAnchor="middle" stroke="black">
+            c={pp(c)} cm
+          </text>
+          <text x={35} y={120} fontSize={15} textAnchor="middle" stroke="black">
+            e={pp(e)} cm
+          </text>
+          <text x={40} y={65} fontSize={15} textAnchor="middle" stroke="black">
+            d={pp(d)} cm
+          </text>
         </svg>
-
-        <p>
-          Es gilt: <InlineMath math={'f \\text{ und } a \\text{ verlaufen parallel}'} />.
-        </p>
-        <p>
-          Gegeben sind{' '}
-          <InlineMath math={`a = ${pp(a)}\\,\\mathrm{cm}`} />,{' '}
-          <InlineMath math={`d = ${pp(d)}\\,\\mathrm{cm}`} />,{' '}
-          <InlineMath math={`e = ${pp(e)}\\,\\mathrm{cm}`} /> und{' '}
-          <InlineMath math={`c = ${pp(c)}\\,\\mathrm{cm}`} />.
-        </p>
       </>
     )
   },
@@ -153,8 +156,8 @@ export const exercise3057: Exercise<DATA> = {
             <p>Diese Figur soll aus vergoldetem Draht hergestellt werden.</p>
             <p>
               Ein Meter Draht kostet{' '}
-              <InlineMath math={`${pp(wirePricePerMeter)}`} /> €. Bestimmen Sie die
-              Materialkosten pro Figur.
+              <InlineMath math={`${pp(wirePricePerMeter)}`} /> €. Bestimmen Sie
+              die Materialkosten pro Figur.
             </p>
           </>
         )

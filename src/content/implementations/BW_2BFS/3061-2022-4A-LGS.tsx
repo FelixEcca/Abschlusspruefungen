@@ -47,19 +47,21 @@ export const exercise3061: Exercise<DATA> = {
     {
       points: 3,
       intro({ data }) {
+        return <></>
+      },
+      task({ data }) {
         return (
           <>
             <p>Lösen Sie das lineare Gleichungssystem rechnerisch.</p>
             <p>
-              <InlineMath math={`y = ${pp(data.m)}x ${data.b1 >= 0 ? '+' : '-'} ${pp(Math.abs(data.b1))}`} />
+              <InlineMath
+                math={`y = ${pp(data.m)}x ${data.b1 >= 0 ? '+' : '-'} ${pp(Math.abs(data.b1))}`}
+              />
               <br />
               <InlineMath math={`x + y = ${pp(data.sum)}`} />
             </p>
           </>
         )
-      },
-      task() {
-        return <></>
       },
       solution({ data }) {
         return (
@@ -102,7 +104,10 @@ export const exercise3061: Exercise<DATA> = {
           <>
             <p>
               Der Schnittpunkt der beiden Geraden ist
-              <InlineMath math={`\\ S(${pp(data.xSol)}\\mid ${pp(data.ySol)})`} />.
+              <InlineMath
+                math={`\\ S(${pp(data.xSol)}\\mid ${pp(data.ySol)})`}
+              />
+              .
             </p>
           </>
         )

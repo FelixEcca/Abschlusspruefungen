@@ -121,7 +121,7 @@ export const exercise3054: Exercise<DATA> = {
               Addiere die Gleichungen:
               <BlockMath
                 math={String.raw`
-                \left(${pp(B * D)} - ${pp(E * A)}\right)y = ${pp(C * D)} - ${pp(F * A)}
+                \left(${pp(B * D)}  ${pp(-E * A, 'merge_op')}\right)y = ${pp(C * D)} - ${pp(F * A)}
               `}
               />
               <BlockMath

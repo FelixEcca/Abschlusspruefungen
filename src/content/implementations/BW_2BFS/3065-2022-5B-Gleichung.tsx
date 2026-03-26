@@ -42,7 +42,8 @@ export const exercise3065: Exercise<DATA> = {
     return (
       <>
         <p>
-          Gegeben ist die Gleichung <InlineMath math={'-2x + 1 = x^2 - 2x + 1'} />.
+          Gegeben ist die Gleichung <br></br>
+          <InlineMath math={'-2x + 1 = x^2 - 2x + 1'} />.
         </p>
       </>
     )
@@ -88,9 +89,8 @@ export const exercise3065: Exercise<DATA> = {
         return (
           <>
             <p>
-              Zum Beispiel: „Für welche x-Werte haben die Gerade{' '}
-              <InlineMath math={'y=-2x+1'} /> und die Parabel{' '}
-              <InlineMath math={'y=x^2-2x+1'} /> denselben y-Wert?“
+              Zum Beispiel: „Für welche x-Werte schneiden sich die Gerade und
+              die Parabel?“
             </p>
           </>
         )
@@ -144,9 +144,8 @@ export const exercise3065: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Gerade fällt. Sie hat die Steigung{' '}
-              <InlineMath math={'-2'} /> und schneidet die y-Achse bei{' '}
-              <InlineMath math={'1'} />.
+              Die Gerade fällt. Sie hat die Steigung <InlineMath math={'-2'} />{' '}
+              und schneidet die y-Achse bei <InlineMath math={'1'} />.
             </p>
           </>
         )

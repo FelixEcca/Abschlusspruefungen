@@ -3,12 +3,35 @@
 // =====================================
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { pp, ppFrac } from '@/helper/pretty-print'
 
 interface DATA {
   total: number
   red: number
   withReplacement: boolean
+}
+
+function fracLatex(n: number, d: number) {
+  return `\\dfrac{${n}}{${d}}`
+}
+
+function FractionInSvg(props: { x: number; y: number; n: number; d: number }) {
+  return (
+    <foreignObject x={props.x} y={props.y} width={34} height={35}>
+      <div
+        style={{
+          fontSize: '12px',
+          color: 'black',
+          width: '34px',
+          height: '35px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <InlineMath math={fracLatex(props.n, props.d)} />
+      </div>
+    </foreignObject>
+  )
 }
 
 export const exercise3052: Exercise<DATA> = {
@@ -18,14 +41,12 @@ export const exercise3052: Exercise<DATA> = {
   duration: 12,
 
   generator(rng) {
-    // wähle Gesamtzahl und Anzahl roter Kugeln
     const total = rng.randomIntBetween(8, 14)
     const red = rng.randomIntBetween(3, total - 3)
     const withReplacement = rng.randomItemFromArray([true, false])
     return { total, red, withReplacement }
   },
 
-  // Original: 11 Kugeln gesamt, 4 rot, ohne Zurücklegen (siehe Brüche 4/11 und 3/10)
   originalData: { total: 11, red: 4, withReplacement: false },
 
   constraint({ data }) {
@@ -39,7 +60,6 @@ export const exercise3052: Exercise<DATA> = {
           In einer Urne sind rote und blaue Kugeln. Es werden zwei Kugeln
           gezogen. Das Experiment ist durch das Baumdiagramm dargestellt.
         </p>
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
 
         <svg viewBox="0 0 328 160">
           <image
@@ -47,30 +67,15 @@ export const exercise3052: Exercise<DATA> = {
             height="160"
             width="328"
           />
-          <foreignObject x={85} y={0} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {ppFrac(data.red / data.total)}
-            </div>
-          </foreignObject>
-          <foreignObject x={20} y={75} width={20} height={45}>
-            <div
-              style={{
-                fontSize: '12px',
-                color: 'black',
-                transform: 'scale(1)',
-              }}
-            >
-              {data.withReplacement
-                ? ppFrac(data.red / data.total)
-                : ppFrac((data.red - 1) / (data.total - 1))}
-            </div>
-          </foreignObject>
+
+          <FractionInSvg x={85} y={0} n={data.red} d={data.total} />
+
+          <FractionInSvg
+            x={20}
+            y={75}
+            n={data.withReplacement ? data.red : data.red - 1}
+            d={data.withReplacement ? data.total : data.total - 1}
+          />
         </svg>
       </div>
     )
@@ -82,7 +87,7 @@ export const exercise3052: Exercise<DATA> = {
       intro() {
         return null
       },
-      task({ data }) {
+      task() {
         return (
           <>
             <p>Begründen Sie anhand des Baumdiagramms:</p>
@@ -123,15 +128,6 @@ export const exercise3052: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        const pR1 = data.red / data.total
-        const pB1 = 1 - pR1
-        const pR2r = data.withReplacement
-          ? pR1
-          : (data.red - 1) / (data.total - 1)
-        const pB2r = 1 - pR2r
-        const pR2b = data.withReplacement ? pR1 : data.red / (data.total - 1)
-        const pB2b = 1 - pR2b
-        // Darstellung mit foreignObject
         return (
           <svg viewBox="0 0 328 160">
             <image
@@ -139,81 +135,50 @@ export const exercise3052: Exercise<DATA> = {
               height="160"
               width="328"
             />
-            <foreignObject x={85} y={0} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {ppFrac(data.red / data.total)}
-              </div>
-            </foreignObject>
-            <foreignObject x={230} y={0} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {ppFrac((data.total - data.red) / data.total)}
-              </div>
-            </foreignObject>
-            <foreignObject x={20} y={75} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {data.withReplacement
-                  ? ppFrac(data.red / data.total)
-                  : ppFrac((data.red - 1) / (data.total - 1))}
-              </div>
-            </foreignObject>
 
-            <foreignObject x={100} y={75} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {data.withReplacement
-                  ? ppFrac((data.total - data.red) / data.total)
-                  : ppFrac((data.total - data.red) / (data.total - 1))}
-              </div>
-            </foreignObject>
-            <foreignObject x={210} y={75} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {data.withReplacement
-                  ? ppFrac(data.red / data.total)
-                  : ppFrac(data.red / (data.total - 1))}
-              </div>
-            </foreignObject>
-            <foreignObject x={290} y={75} width={20} height={45}>
-              <div
-                style={{
-                  fontSize: '12px',
-                  color: 'black',
-                  transform: 'scale(1)',
-                }}
-              >
-                {data.withReplacement
-                  ? ppFrac((data.total - data.red) / data.total)
-                  : ppFrac((data.total - data.red - 1) / (data.total - 1))}
-              </div>
-            </foreignObject>
+            <FractionInSvg x={85} y={0} n={data.red} d={data.total} />
+            <FractionInSvg
+              x={230}
+              y={0}
+              n={data.total - data.red}
+              d={data.total}
+            />
+
+            <FractionInSvg
+              x={20}
+              y={75}
+              n={data.withReplacement ? data.red : data.red - 1}
+              d={data.withReplacement ? data.total : data.total - 1}
+            />
+
+            <FractionInSvg
+              x={100}
+              y={75}
+              n={
+                data.withReplacement
+                  ? data.total - data.red
+                  : data.total - data.red
+              }
+              d={data.withReplacement ? data.total : data.total - 1}
+            />
+
+            <FractionInSvg
+              x={210}
+              y={75}
+              n={data.withReplacement ? data.red : data.red}
+              d={data.withReplacement ? data.total : data.total - 1}
+            />
+
+            <FractionInSvg
+              x={290}
+              y={75}
+              n={
+                data.withReplacement
+                  ? data.total - data.red
+                  : data.total - data.red - 1
+              }
+              d={data.withReplacement ? data.total : data.total - 1}
+            />
           </svg>
         )
       },

@@ -56,8 +56,11 @@ export const exercise3059: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Parabel p1 hat die Gleichung{' '}
-              <InlineMath math={`y = (x ${data.h < 0 ? '+' : '-'} ${pp(Math.abs(data.h))})^2 + ${pp(data.k)}`} />.
+              Die Parabel p1 hat die Gleichung<br></br>{' '}
+              <InlineMath
+                math={`y = (x ${data.h < 0 ? '+' : '-'} ${pp(Math.abs(data.h))})^2 + ${pp(data.k)}`}
+              />
+              .
             </p>
           </>
         )
@@ -67,7 +70,8 @@ export const exercise3059: Exercise<DATA> = {
           <>
             <p>
               - Geben Sie die Koordinaten des Scheitelpunktes an.
-              <br />- Zeichnen Sie die Parabel p1 im Bereich von x = −2 bis x = 4.
+              <br />- Zeichnen Sie die Parabel p1 im Bereich von x = −2 bis x =
+              4.
             </p>
           </>
         )
@@ -109,7 +113,9 @@ export const exercise3059: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
-            <InlineMath math={`y = ${pp(data.stretch)}x^2 - ${pp(data.shiftDown)}`} />
+            <InlineMath
+              math={`y = ${pp(data.stretch)}x^2 - ${pp(data.shiftDown)}`}
+            />
           </>
         )
       },
@@ -131,8 +137,8 @@ export const exercise3059: Exercise<DATA> = {
         return (
           <>
             <p>
-              Erläutern Sie, dass der Scheitelpunkt der Parabel die
-              x-Koordinate xS = −1 haben muss.
+              Erläutern Sie, dass der Scheitelpunkt der Parabel die x-Koordinate
+              xS = −1 haben muss.
             </p>
           </>
         )

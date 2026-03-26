@@ -311,14 +311,7 @@ export const exercise3050: Exercise<DATA> = {
     {
       points: 6,
       intro() {
-        return (
-          <p>
-            Gegeben ist eine Pyramide mit quadratischer Grundfläche mit
-            Grundkantenlänge <InlineMath math="a" /> und Seitenkantenlänge{' '}
-            <InlineMath math="s" />. Welche Terme beschreiben die Gesamtlänge
-            aller Kanten?
-          </p>
-        )
+        return <></>
       },
       task({ data }) {
         // Dynamically determine the variable names for this pool

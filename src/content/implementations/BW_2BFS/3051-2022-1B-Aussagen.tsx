@@ -103,28 +103,31 @@ export const exercise3051: Exercise<DATA> = {
 
   intro({ data }) {
     return (
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <p>
-            <b>Satzanfänge</b>
-          </p>
-          <ol className="list-decimal ml-5 text-xs">
-            {data.starts.map((s, i) => (
-              <li key={i}>{s}</li>
-            ))}
-          </ol>
+      <>
+        <p>Gegeben sind folgende Satzanfänge und Satzenden</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <p>
+              <b>Satzanfänge</b>
+            </p>
+            <ol className="list-decimal ml-5 text-xs">
+              {data.starts.map((s, i) => (
+                <li key={i}>{s}</li>
+              ))}
+            </ol>
+          </div>
+          <div>
+            <p>
+              <b>Satzenden</b>
+            </p>
+            <ol className="list-[upper-alpha] ml-5 text-xs">
+              {data.ends.map((s, i) => (
+                <li key={i}>{s}</li>
+              ))}
+            </ol>
+          </div>
         </div>
-        <div>
-          <p>
-            <b>Satzenden</b>
-          </p>
-          <ol className="list-[upper-alpha] ml-5 text-xs">
-            {data.ends.map((s, i) => (
-              <li key={i}>{s}</li>
-            ))}
-          </ol>
-        </div>
-      </div>
+      </>
     )
   },
 

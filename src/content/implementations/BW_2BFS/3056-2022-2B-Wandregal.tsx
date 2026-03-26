@@ -6,7 +6,7 @@ import { pp } from '@/helper/pretty-print'
 interface DATA {
   wallSide: number
   shelfHeight: number
-  alphaDeg: number
+
   boxA: number
   boxB: number
   frontEdge: number
@@ -29,14 +29,13 @@ export const exercise3056: Exercise<DATA> = {
     const boxA = rng.randomItemFromArray([18, 20, 22, 24])
     const boxB = rng.randomItemFromArray([26, 28, 30, 32])
 
-    const alphaDeg = 45
     const frontEdge = round2(wallSide * Math.sqrt(2))
     const fits = boxA + boxB <= frontEdge
 
     return {
       wallSide,
       shelfHeight,
-      alphaDeg,
+
       boxA,
       boxB,
       frontEdge,
@@ -47,7 +46,7 @@ export const exercise3056: Exercise<DATA> = {
   originalData: {
     wallSide: 40,
     shelfHeight: 1,
-    alphaDeg: 45,
+
     boxA: 20,
     boxB: 30,
     frontEdge: round2(40 * Math.sqrt(2)),
@@ -69,19 +68,20 @@ export const exercise3056: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 180">
-          <image
-            href="/content/BW_2BFS/3056.png"
-            height="180"
-            width="328"
-          />
+          <image href="/content/BW_2BFS/3056.png" height="180" width="328" />
+          <text x={100} y={45} fontSize={15} textAnchor="middle" stroke="black">
+            {data.wallSide} cm
+          </text>
+          <text
+            x={170}
+            y={120}
+            fontSize={15}
+            textAnchor="middle"
+            stroke="black"
+          >
+            {data.shelfHeight} m
+          </text>
         </svg>
-
-        <p>
-          Dabei gilt: Die beiden Schenkel an den Wänden sind jeweils{' '}
-          <InlineMath math={`${pp(wallSide)}\\,\\mathrm{cm}`} /> lang und das
-          Regal befindet sich in{' '}
-          <InlineMath math={`${pp(shelfHeight)}\\,\\mathrm{m}`} /> Höhe.
-        </p>
       </>
     )
   },
@@ -100,23 +100,20 @@ export const exercise3056: Exercise<DATA> = {
         )
       },
       solution({ data }) {
-        const { alphaDeg } = data
-
         return (
           <>
             <p>
-              Da die beiden Wände senkrecht zueinander stehen, entsteht ein
-              rechtwinkliges Dreieck.
+              Im rechtwinkligen Dreieck kann mit sin oder cos gerechnet werden:
             </p>
-            <p>
-              Die beiden an den Wänden liegenden Seiten sind gleich lang, daher
-              sind die beiden spitzen Winkel gleich groß.
-            </p>
-            <InlineMath math={'\\alpha + \\alpha + 90^{\\circ} = 180^{\\circ}'} />
-            <br />
-            <InlineMath math={`2\\alpha = 90^{\\circ}`} />
-            <br />
-            <InlineMath math={`\\alpha = ${pp(alphaDeg)}^{\\circ}`} />
+            <InlineMath
+              math={`\\cos(\\alpha) = \\frac{\\text{A}}{\\text{H}} = \\frac{${pp(data.wallSide)}}{${pp(data.shelfHeight * 100)}} \\Rightarrow \\\\ \\alpha = \\cos^{-1}\\left(\\frac{${pp(data.wallSide)}}{${pp(data.shelfHeight * 100)}}\\right) = ${pp(
+                Math.round(
+                  ((Math.acos(data.wallSide / (data.shelfHeight * 100)) * 180) /
+                    Math.PI) *
+                    100,
+                ) / 100,
+              )}^{\\circ}`}
+            />
           </>
         )
       },
@@ -131,16 +128,22 @@ export const exercise3056: Exercise<DATA> = {
         return (
           <>
             <p>
-              Felix hat eine Musikbox mit rechteckiger Grundfläche
-              (Seitenlängen <InlineMath math={`${pp(boxA)}\\,\\mathrm{cm}`} /> und{' '}
-              <InlineMath math={`${pp(boxB)}\\,\\mathrm{cm}`} />).
+              Felix hat eine Musikbox mit rechteckiger Grundfläche (Seitenlängen{' '}
+              <InlineMath math={`${pp(boxA)}\\,\\mathrm{cm}`} /> und{' '}
+              <InlineMath math={`${pp(boxB)}\\,\\mathrm{cm}`} />
+              ).
             </p>
             <p>
               Prüfen Sie mit Hilfe einer Zeichnung, ob die Musikbox vollständig
               auf das Regal passt.
             </p>
             <p>
-              Maßstab: <InlineMath math={'10\\,\\mathrm{cm\\ (Realität)} \\;\\hat{=}\\; 1\\,\\mathrm{cm\\ (Zeichnung)}'} />
+              Maßstab:{' '}
+              <InlineMath
+                math={
+                  '10\\,\\mathrm{cm\\ (Realität)} \\;\\hat{=}\\; 1\\,\\mathrm{cm\\ (Zeichnung)}'
+                }
+              />
             </p>
           </>
         )
@@ -154,23 +157,9 @@ export const exercise3056: Exercise<DATA> = {
         return (
           <>
             <p>
-              Im Maßstab entsteht ein rechtwinkliges Dreieck mit Katheten
-              <InlineMath math={`${pp(drawShelf)}\\,\\mathrm{cm}`} />.
-            </p>
-            <p>
-              Die Musikbox hat in der Zeichnung die Seitenlängen{' '}
-              <InlineMath math={`${pp(drawA)}\\,\\mathrm{cm}`} /> und{' '}
-              <InlineMath math={`${pp(drawB)}\\,\\mathrm{cm}`} />.
-            </p>
-            <InlineMath
-              math={`\\text{Vorderkante des Regals} = ${pp(wallSide)}\\sqrt{2} \\approx ${pp(
-                frontEdge,
-              )}\\,\\mathrm{cm}`}
-            />
-            <br />
-            <p>
-              Da die Box damit vollständig in die Zeichnung eingezeichnet werden
-              kann, passt sie {fits ? 'auf' : 'nicht vollständig auf'} das Regal.
+              Da die Box {fits ? '' : 'nicht'} vollständig in die Zeichnung
+              eingezeichnet werden kann, passt sie{' '}
+              {fits ? 'auf' : 'nicht vollständig auf'} das Regal.
             </p>
           </>
         )
