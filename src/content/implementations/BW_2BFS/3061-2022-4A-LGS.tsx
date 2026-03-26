@@ -100,8 +100,43 @@ export const exercise3061: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        function toX(n: number) {
+          return 167 + n * ((94.5 * 2) / 10)
+        }
+        function toY(n: number) {
+          return 163 - n * ((94.5 * 2) / 10)
+        }
+        function g1(x: number) {
+          return data.m * x + data.b1
+        }
+        function g2(x: number) {
+          return -x + data.sum
+        }
         return (
           <>
+            <svg viewBox="0 0 328 328">
+              <image
+                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                height="328"
+                width="328"
+              />
+              <line
+                x1={toX(-8)}
+                y1={toY(g1(-8))}
+                x2={toX(8)}
+                y2={toY(g1(8))}
+                stroke="red"
+                strokeWidth="2"
+              />
+              <line
+                x1={toX(-8)}
+                y1={toY(g2(-8))}
+                x2={toX(8)}
+                y2={toY(g2(8))}
+                stroke="blue"
+                strokeWidth="2"
+              />
+            </svg>
             <p>
               Der Schnittpunkt der beiden Geraden ist
               <InlineMath

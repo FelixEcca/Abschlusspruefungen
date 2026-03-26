@@ -46,6 +46,9 @@ export const exercise3063: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 180">
           <image href="/content/BW_2BFS/3063.png" height="180" width="328" />
+          <text x={290} y={90} fontSize={15} textAnchor="middle" stroke="black">
+            {data.totalHeight} cm
+          </text>
         </svg>
 
         <InlineMath
@@ -66,24 +69,50 @@ export const exercise3063: Exercise<DATA> = {
       task() {
         return (
           <>
-            <p>Beschriften Sie die Strahlensatzfigur so, dass diese zur Gleichung passt.</p>
+            <p>
+              Beschriften Sie die Strahlensatzfigur so, dass diese zur Gleichung
+              passt.
+            </p>
           </>
         )
       },
       solution({ data }) {
         return (
           <>
-            <p>
-              Die kleinere Höhe wird mit{' '}
-              <InlineMath math={`${pp(data.leftPart)}\\,\\mathrm{cm}`} />,
-              die größere Höhe mit{' '}
-              <InlineMath math={`${pp(data.totalHeight)}\\,\\mathrm{cm}`} />
-              beschriftet.
-            </p>
-            <p>
-              Die Grundstrecken lauten <InlineMath math={'x\\,\\mathrm{cm}'} /> und{' '}
-              <InlineMath math={`x + ${pp(data.extra)}\\,\\mathrm{cm}`} />.
-            </p>
+            <svg viewBox="0 0 328 180">
+              <image
+                href="/content/BW_2BFS/3063.png"
+                height="180"
+                width="328"
+              />
+              <text
+                x={290}
+                y={90}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                {data.totalHeight} cm
+              </text>
+              <text
+                x={220}
+                y={110}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                {data.leftPart} cm
+              </text>
+              <text
+                x={225}
+                y={160}
+                fontSize={15}
+                textAnchor="middle"
+                stroke="black"
+              >
+                {data.extra} cm
+              </text>
+            </svg>
           </>
         )
       },

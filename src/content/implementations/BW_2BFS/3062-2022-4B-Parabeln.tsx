@@ -11,8 +11,21 @@ interface DATA {
   root2: number
 }
 
-function round2(x: number) {
-  return Math.round(x * 100) / 100
+function toX(n: number) {
+  return 167 + n * ((94.5 * 2) / 10)
+}
+
+function toY(n: number) {
+  return 163 - n * ((94.5 * 2) / 10)
+}
+
+function polylinePoints(a: number, b: number) {
+  let pts = ''
+  for (let x = -5; x <= 5; x += 0.05) {
+    const y = a * x * x + b * x
+    pts += `${toX(x)},${toY(y)} `
+  }
+  return pts.trim()
 }
 
 export const exercise3062: Exercise<DATA> = {
@@ -27,6 +40,7 @@ export const exercise3062: Exercise<DATA> = {
     const r2 = rng.randomItemFromArray([-4, -3, -2])
     const b = -a * (r1 + r2)
     const c2 = rng.randomItemFromArray([1, 2, 3])
+
     return {
       a,
       b,
@@ -44,7 +58,7 @@ export const exercise3062: Exercise<DATA> = {
     root2: -2,
   },
 
-  constraint({ data }) {
+  constraint() {
     return true
   },
 
@@ -52,9 +66,12 @@ export const exercise3062: Exercise<DATA> = {
     return (
       <>
         <p>
-          Die Parabel p1 hat die Gleichung<br></br>{' '}
+          Die Parabel p1 hat die Gleichung
+          <br />
           <InlineMath
-            math={`y = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(Math.abs(data.b))}x`}
+            math={`y = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(
+              Math.abs(data.b),
+            )}x`}
           />
           .
         </p>
@@ -79,9 +96,15 @@ export const exercise3062: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const c = 0
+        const discriminant = data.b * data.b - 4 * data.a * c
+
         return (
           <>
-            <p>Für die Schnittpunkte mit der x-Achse setzt man y = 0.</p>
+            <p>
+              Für die Schnittpunkte mit der x-Achse setzt man{' '}
+              <InlineMath math="y=0" />.
+            </p>
             <InlineMath
               math={`0 = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(
                 Math.abs(data.b),
@@ -89,9 +112,25 @@ export const exercise3062: Exercise<DATA> = {
             />
             <br />
             <InlineMath
-              math={`0 = x\\left(${pp(data.a)}x ${data.b >= 0 ? '+' : '-'} ${pp(
+              math={`0 = ${pp(data.a)}x^2 ${data.b >= 0 ? '+' : '-'} ${pp(
                 Math.abs(data.b),
-              )}\\right)`}
+              )}x + 0`}
+            />
+            <br />
+            <InlineMath
+              math={`x_{1,2} = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}`}
+            />
+            <br />
+            <InlineMath
+              math={`x_{1,2} = \\frac{-(${pp(data.b)}) \\pm \\sqrt{${pp(
+                data.b,
+              )}^2-4\\cdot ${pp(data.a)}\\cdot 0}}{2\\cdot ${pp(data.a)}}`}
+            />
+            <br />
+            <InlineMath
+              math={`x_{1,2} = \\frac{-(${pp(data.b)}) \\pm \\sqrt{${pp(
+                discriminant,
+              )}}}{${pp(2 * data.a)}}`}
             />
             <br />
             <InlineMath
@@ -104,10 +143,10 @@ export const exercise3062: Exercise<DATA> = {
               <InlineMath math={`(${pp(data.root2)}\\mid 0)`} />.
             </p>
             <p>
-              Für die y-Achse setzt man <InlineMath math={'x=0'} />. Dann ist{' '}
-              <InlineMath math={'y=0'} />.
+              Für die y-Achse setzt man <InlineMath math="x=0" />. Dann ist{' '}
+              <InlineMath math="y=0" />.
             </p>
-            <InlineMath math={'(0\\mid 0)'} />
+            <InlineMath math={`(0\\mid 0)`} />
           </>
         )
       },
@@ -125,22 +164,54 @@ export const exercise3062: Exercise<DATA> = {
         )
       },
       solution({ data }) {
+        const xS = -data.b / (2 * data.a)
+        const yS = data.a * xS * xS + data.b * xS
+        const pts = polylinePoints(data.a, data.b)
+
         return (
           <>
             <p>Wichtige Punkte sind die Nullstellen und der Scheitelpunkt.</p>
             <InlineMath
               math={`x_S = -\\frac{b}{2a} = -\\frac{${pp(data.b)}}{2\\cdot ${pp(
                 data.a,
-              )}} = ${pp(-data.b / (2 * data.a))}`}
+              )}} = ${pp(xS)}`}
             />
             <br />
             <InlineMath
-              math={`y_S = ${pp(data.a)}\\cdot ${pp(-data.b / (2 * data.a))}^2 + ${pp(
+              math={`y_S = ${pp(data.a)}\\cdot ${pp(xS, 'embrace_neg')}^2 ${pp(
                 data.b,
-              )}\\cdot ${pp(-data.b / (2 * data.a))} = ${pp(
-                (-data.b) ** 2 / (4 * data.a),
-              )}`}
+                'merge_op',
+              )}\\cdot ${pp(xS, 'embrace_neg')} = ${pp(yS)}`}
             />
+            <br />
+            <InlineMath math={`S(${pp(xS)}\\mid ${pp(yS)})`} />
+
+            <svg viewBox="0 0 328 328">
+              <image
+                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                height="328"
+                width="328"
+              />
+              <polyline
+                points={pts}
+                stroke="black"
+                strokeWidth="2"
+                fill="none"
+              />
+              <circle cx={toX(data.root1)} cy={toY(0)} r="3" fill="black" />
+              <circle cx={toX(data.root2)} cy={toY(0)} r="3" fill="black" />
+              <circle cx={toX(xS)} cy={toY(yS)} r="3" fill="black" />
+
+              <text x={toX(data.root1) + 4} y={toY(0) - 4} fontSize="12">
+                N₁
+              </text>
+              <text x={toX(data.root2) + 4} y={toY(0) - 4} fontSize="12">
+                N₂
+              </text>
+              <text x={toX(xS) + 4} y={toY(yS) - 4} fontSize="12">
+                S
+              </text>
+            </svg>
           </>
         )
       },
