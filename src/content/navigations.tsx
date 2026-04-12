@@ -211,10 +211,6 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4918 }],
           },
           {
-            name: 'Sin, Cos oder Tan?',
-            skillExercises: [{ id: 4920 }],
-          },
-          {
             name: 'Winkelsätze ',
             skillExercises: [{ id: 4601 }],
           },
