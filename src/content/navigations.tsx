@@ -420,6 +420,17 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
+      {
+        title: 'Steigung und Änderung',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Durchschnittliche Änderungsrate',
+            skillExercises: [{ id: 5116 }],
+          },
+        ],
+      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
