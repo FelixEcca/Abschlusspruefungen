@@ -31,8 +31,8 @@ export const exercise4602: Exercise<DATA> = {
     return (
       <>
         <p>
-          In einem rechtwinkligen Dreieck gilt <InlineMath math="a^2+b^2=c^2" />
-          .
+          In einem rechtwinkligen Dreieck gilt <br></br>
+          <InlineMath math="a^2+b^2=c^2" />.
         </p>
         <p>
           Gegeben:{' '}
@@ -90,13 +90,9 @@ export const exercise4602: Exercise<DATA> = {
           else value = c * c - b * b
 
           if (isPerfectSquare(value)) {
-        return (
-          <InlineMath math={`${sym} = ${Math.sqrt(value)}`} />
-        )
+            return <InlineMath math={`${sym} = ${Math.sqrt(value)}`} />
           } else {
-        return (
-          <InlineMath math={`${sym} = \\sqrt{${value}}`} />
-        )
+            return <InlineMath math={`${sym} = \\sqrt{${value}}`} />
           }
         })()}
       </>

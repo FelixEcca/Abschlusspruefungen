@@ -199,6 +199,22 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 4914 }],
           },
           {
+            name: 'Winkel im Thaleskreis ',
+            skillExercises: [{ id: 4915 }],
+          },
+          {
+            name: 'Rechtwinklige Dreiecke: Seiten benennen',
+            skillExercises: [{ id: 4917 }],
+          },
+          {
+            name: 'Sin, Cos oder Tan?',
+            skillExercises: [{ id: 4918 }],
+          },
+          {
+            name: 'Sin, Cos oder Tan?',
+            skillExercises: [{ id: 4920 }],
+          },
+          {
             name: 'Winkelsätze ',
             skillExercises: [{ id: 4601 }],
           },

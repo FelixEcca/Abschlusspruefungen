@@ -170,6 +170,7 @@ import { exercise4909 } from './implementations/Training/4909'
 import { exercise4910 } from './implementations/Training/4910'
 import { exercise4911 } from './implementations/Training/4911'
 import { exercise4912 } from './implementations/Training/4912'
+
 import { exercise5000 } from './implementations/Training_TG11/5000'
 import { exercise5001 } from './implementations/Training_TG11/5001'
 import { exercise5002 } from './implementations/Training_TG11/5002'
@@ -215,6 +216,12 @@ import { exercise5114 } from './implementations/Training_TG11/5114'
 import { exercise5115 } from './implementations/Training_TG11/5115'
 import { exercise4913 } from './implementations/Training/4913'
 import { exercise4914 } from './implementations/Training/4914'
+import { exercise4915 } from './implementations/Training/4915'
+
+import { exercise4917 } from './implementations/Training/4917'
+import { exercise4918 } from './implementations/Training/4918'
+import { exercise4919 } from './implementations/Training/4919'
+import { exercise4920 } from './implementations/Training/4920'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -388,6 +395,12 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4912: exercise4912,
   4913: exercise4913,
   4914: exercise4914,
+  4915: exercise4915,
+
+  4917: exercise4917,
+  4918: exercise4918,
+  4919: exercise4919,
+  4920: exercise4920,
   5000: exercise5000,
   5001: exercise5001,
   5002: exercise5002,
