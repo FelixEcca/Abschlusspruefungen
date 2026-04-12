@@ -181,7 +181,7 @@ export const exercise5116: Exercise<DATA> = {
   },
 
   constraint({ data }) {
-    return data.x1A !== data.x2A && data.x1B !== data.x2B
+    return data.x1A !== data.x2A && data.x1B !== data.x2B && data.x1B < data.x2B
   },
 
   intro() {
@@ -260,6 +260,7 @@ export const exercise5116: Exercise<DATA> = {
       solution({ data }) {
         return (
           <>
+            <p>Berechne die Differenz der y-Werte und der x-Werte.</p>
             <InlineMath math={`m = \\frac{y_2-y_1}{x_2-x_1}`} />
             <br />
             <InlineMath
