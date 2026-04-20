@@ -9,9 +9,9 @@ interface D4301 {
 } // y = ax^2 + b  ;   y = c
 
 export const exercise4301: Exercise<D4301> = {
-  title: 'x-Wert zu gegebenem y-Wert berechnen',
+  title: 'Fehlende Koordinate eines Punktes berechnen',
   source: 'Training',
-  useCalculator: false,
+  useCalculator: true,
   duration: 8,
   points: 3,
   generator(rng) {
@@ -46,10 +46,10 @@ export const exercise4301: Exercise<D4301> = {
     return (
       <>
         <p>
-          Gegeben sind die Parabel und die Gerade:{' '}
-          <InlineMath math={`y = ${pp(a)}x^2 ${pp(b, 'merge_op')}`} /> und{' '}
-          <InlineMath math={`y = ${pp(c)}`} />. <br />
-          Bestimme die Werte für x.
+          Gegeben sind die Parabel mit der Gleichung{' '}
+          <InlineMath math={`y = ${pp(a)}x^2 ${pp(b, 'merge_op')}`} /> und der
+          Punkt <InlineMath math={`P(x|${pp(c)})`} />. <br />
+          Bestimme die möglichen Werte für x.
         </p>
       </>
     )

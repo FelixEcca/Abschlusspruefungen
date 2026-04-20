@@ -32,7 +32,7 @@ export const navigationData: { [key: number]: Navigation } = {
           },
 
           {
-            name: 'x-Wert zu gegebenem y-Wert berechnen',
+            name: 'Fehlende Koordinate eines Punktes berechnen',
             skillExercises: [{ id: 4301 }],
           },
 
