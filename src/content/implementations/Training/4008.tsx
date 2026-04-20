@@ -22,7 +22,7 @@ export const exercise4008: Exercise<DATA> = {
   points: 4,
 
   generator(rng) {
-    const a = rng.randomItemFromArray([0.5, 1, 2])
+    const a = rng.randomItemFromArray([-0.5, -1, -2, 0.5, 1, 2])
     const c = rng.randomIntBetween(-3, 3)
     return { a, c }
   },
