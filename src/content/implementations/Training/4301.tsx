@@ -48,7 +48,8 @@ export const exercise4301: Exercise<D4301> = {
         <p>
           Gegeben sind die Parabel mit der Gleichung{' '}
           <InlineMath math={`y = ${pp(a)}x^2 ${pp(b, 'merge_op')}`} /> und der
-          Punkt <InlineMath math={`P(x|${pp(c)})`} />. <br />
+          Punkt <InlineMath math={`P(x|${pp(c)})`} />, der auf der Parabel
+          liegt. <br />
           Bestimme die möglichen Werte für x.
         </p>
       </>
