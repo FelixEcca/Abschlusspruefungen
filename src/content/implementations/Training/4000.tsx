@@ -142,7 +142,7 @@ export const exercise4000: Exercise<DATA> = {
           <>
             <p>
               <InlineMath
-                math={`y = ${a}(x${h >= 0 ? '+' : ''}${h}){^2}${k >= 0 ? '+' : ''}${k}`}
+                math={`y = ${a}(x${h >= 0 ? '-' : '+'}${Math.abs(h)}){^2}${k >= 0 ? '+' : ''}${k}`}
               />
             </p>
           </>
