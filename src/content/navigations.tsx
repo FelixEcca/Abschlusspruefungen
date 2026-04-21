@@ -37,8 +37,28 @@ export const navigationData: { [key: number]: Navigation } = {
           },
 
           {
-            name: 'Schnittpunkte mit Koordinatenachsen',
+            name: 'Schnittpunkte mit Koordinatenachsen ablesen',
             skillExercises: [{ id: 4005 }],
+          },
+           {
+            name: 'Scheitel mit Formel berechnen',
+            skillExercises: [{ id: 4921 }],
+          },
+          {
+            name: 'Schnittpunkt mit der y-Achse berechnen',
+            skillExercises: [{ id: 4922 }],
+          },
+          {
+            name: 'Nullstellen berechnen',
+            skillExercises: [{ id: 4923 }],
+          },
+          {
+            name: 'Schnittpunkte Gerade-Parabel',
+            skillExercises: [{ id: 4924 }],
+          },
+          {
+            name: 'Schnittpunkte Parabel-Parabel',
+            skillExercises: [{ id: 4925 }],
           },
         ],
       },

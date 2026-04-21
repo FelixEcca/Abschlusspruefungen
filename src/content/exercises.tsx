@@ -223,6 +223,11 @@ import { exercise4917 } from './implementations/Training/4917'
 import { exercise4918 } from './implementations/Training/4918'
 import { exercise4919 } from './implementations/Training/4919'
 import { exercise4920 } from './implementations/Training/4920'
+import { exercise4921 } from './implementations/Training/4921'
+import { exercise4922 } from './implementations/Training/4922'
+import { exercise4923 } from './implementations/Training/4923'
+import { exercise4924 } from './implementations/Training/4924'
+import { exercise4925 } from './implementations/Training/4925'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -402,6 +407,12 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   4918: exercise4918,
   4919: exercise4919,
   4920: exercise4920,
+  4921: exercise4921,
+  4922: exercise4922,
+  4923: exercise4923,
+  4924: exercise4924,
+  4925: exercise4925,
+
   5000: exercise5000,
   5001: exercise5001,
   5002: exercise5002,

@@ -37,7 +37,7 @@ export const exercise4005: Exercise<DATA> = {
     a: 1,
     h: -2,
     m: 3,
-    k: -9, // -a*m^2
+    k: -6, // -a*m^2
     y0: 1 * 4 - 9, // -5
   },
 
@@ -45,10 +45,10 @@ export const exercise4005: Exercise<DATA> = {
     // alles im Sichtbereich halten
     const { h, m, y0 } = data
     return (
-      Math.abs(h) <= 8 &&
-      Math.abs(h + m) <= 9 &&
-      Math.abs(h - m) <= 9 &&
-      Math.abs(y0) <= 9
+      Math.abs(h) <= 7 &&
+      Math.abs(h + m) <= 8 &&
+      Math.abs(h - m) <= 8 &&
+      Math.abs(y0) <= 8 && Math.abs(data.k) <= 8
     )
   },
 
@@ -98,7 +98,7 @@ export const exercise4005: Exercise<DATA> = {
           />
         </p>
         <p>
-          y-Achsenabschnitt: <InlineMath math={`SP_{y}(0\\mid ${pp(y0)})`} />
+          Schnittpunkt mit der y-Achse: <br></br><InlineMath math={`SP_{y}(0\\mid ${pp(y0)})`} />
         </p>
       </>
     )
