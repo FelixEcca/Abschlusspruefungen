@@ -36,6 +36,15 @@ export function ExerciseViewHeader() {
 
   const history = useHistory()
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      history.goBack()
+      return
+    }
+
+    window.location.href = 'https://abschlusspruefungen.vercel.app/app/start'
+  }
+
   // reaktiver Fortschritt
   const progress = useProgress(id)
   const flagged = !!progress?.flagged
@@ -52,10 +61,8 @@ export function ExerciseViewHeader() {
     <>
       <div
         className={headerBoxCls}
-        onClick={() => {
-          history.goBack()
-        }}
-      >
+        onClick={handleBack}
+      >local
         <div className="flex items-center justify-between">
           <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
             <FaIcon icon={faArrowLeft} />
