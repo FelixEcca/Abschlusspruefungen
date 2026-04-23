@@ -120,25 +120,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Bruchgleichungen',
             skillExercises: [{ id: 4202 }],
           },
-        ],
-      },
-
-      {
-        title: 'Quadratische Gleichungen',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [
           {
-            name: 'pq-Formel',
+            name: 'abc-Formel',
             skillExercises: [{ id: 4300 }],
           },
-
-          {
-            name: 'Quadratische Ergänzung',
-            skillExercises: [{ id: 4302 }],
-          },
         ],
       },
+
+    
 
       {
         title: 'Terme',
