@@ -59,10 +59,7 @@ export function ExerciseViewHeader() {
 
   return (
     <>
-      <div
-        className={headerBoxCls}
-        onClick={handleBack}
-      >local
+      <div className={headerBoxCls} onClick={handleBack}>
         <div className="flex items-center justify-between">
           <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
             <FaIcon icon={faArrowLeft} />
