@@ -438,6 +438,18 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Durchschnittliche Änderungsrate',
             skillExercises: [{ id: 5116 }],
           },
+          {
+            name: 'Steigungsfunktion berechnen',
+            skillExercises: [{ id: 4926 }],
+          },
+          {
+            name: 'Steigung berechnen',
+            skillExercises: [{ id: 4927 }],
+          },
+          {
+            name: 'Steigungsfunktion zuordnen',
+            skillExercises: [{ id: 4928 }],
+          },
         ],
       },
     ],
