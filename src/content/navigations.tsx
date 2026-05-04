@@ -40,7 +40,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Schnittpunkte mit Koordinatenachsen ablesen',
             skillExercises: [{ id: 4005 }],
           },
-           {
+          {
             name: 'Scheitel mit Formel berechnen',
             skillExercises: [{ id: 4921 }],
           },
@@ -126,8 +126,6 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
-
-    
 
       {
         title: 'Terme',
@@ -435,8 +433,16 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Steigungswerte umrechnen',
+            skillExercises: [{ id: 5117 }],
+          },
+          {
             name: 'Durchschnittliche Änderungsrate',
             skillExercises: [{ id: 5116 }],
+          },
+          {
+            name: 'Steigungswert annähern',
+            skillExercises: [{ id: 5118 }],
           },
           {
             name: 'Steigungsfunktion berechnen',
