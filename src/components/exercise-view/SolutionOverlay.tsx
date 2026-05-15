@@ -12,6 +12,7 @@ import { useRef, useEffect } from 'react'
 import { countLetter } from '@/helper/count-letter'
 import { reseed } from './state/actions'
 import { markSolved, useProgress } from '../../../store/progress-store'
+import { GenerateExerciseImageButton } from '@/helper/exercise-image-export'
 
 export function SolutionOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
@@ -21,7 +22,6 @@ export function SolutionOverlay() {
   )
   const pages = ExerciseViewStore.useState(s => s.pages)
 
-  const content = exercisesData[id]
   const solutionDiv = useRef<HTMLDivElement>(null)
 
   // Fortschritt lesen, um Button-Label zu entscheiden
@@ -54,33 +54,30 @@ export function SolutionOverlay() {
 
   if (chatOverlay !== 'solution') return null
 
-  const data = pages[navIndicatorPosition].context
-    ? ExerciseViewStore.getRawState().dataPerExercise[
-        pages[navIndicatorPosition].context!
-      ]
-    : ExerciseViewStore.getRawState().data
+  const rawState = ExerciseViewStore.getRawState()
+  const currentPage = pages[navIndicatorPosition]
 
-  // Ermittelt die passende Lösung aus dem Exercise
+  const currentExerciseId = currentPage.context
+    ? rawState._exerciseIDs[parseInt(currentPage.context) - 1]
+    : id
+
+  const data = currentPage.context
+    ? rawState.dataPerExercise[currentPage.context]
+    : rawState.data
+
+  const exercise = exercisesData[currentExerciseId]
+
   const solutionFn = (() => {
-    const exercise =
-      exercisesData[
-        pages[navIndicatorPosition].context
-          ? ExerciseViewStore.getRawState()._exerciseIDs[
-              parseInt(pages[navIndicatorPosition].context!) - 1
-            ]
-          : id
-      ]
-
-    if (
-      pages[navIndicatorPosition].index === 'single' &&
-      'solution' in exercise
-    ) {
+    if (currentPage.index === 'single' && 'solution' in exercise) {
       return exercise.solution!
-    } else if ('tasks' in exercise) {
+    }
+
+    if ('tasks' in exercise) {
       return exercise.tasks.find(
-        (el, i) => countLetter('a', i) === pages[navIndicatorPosition].index,
+        (el, i) => countLetter('a', i) === currentPage.index,
       )!.solution
     }
+
     // eslint-disable-next-line react/display-name
     return () => <></>
   })()
@@ -132,8 +129,8 @@ export function SolutionOverlay() {
               }`}
               onClick={() => {
                 const exId = ExerciseViewStore.getRawState().id
-                markSolved(exId, !solved) // ⬅️ Toggle
-                // Overlay kurz danach schließen (notify soll zuerst feuern)
+                markSolved(exId, !solved)
+
                 setTimeout(() => {
                   ExerciseViewStore.update(s => {
                     s.chatOverlay = null
@@ -156,6 +153,29 @@ export function SolutionOverlay() {
           >
             Lösung schließen
           </button>
+
+          {/* Bild-Export */}
+          <details className="mt-6 text-right">
+            <summary
+              className="
+      inline-flex h-7 w-7 items-center justify-center
+      rounded-full border border-gray-200
+      text-[10px] text-gray-300
+      opacity-30 hover:opacity-100
+      cursor-pointer select-none
+      list-none
+    "
+            >
+              ⚙
+            </summary>
+
+            <div className="mt-2 text-right">
+              <GenerateExerciseImageButton
+                exerciseId={currentExerciseId}
+                count={5}
+              />
+            </div>
+          </details>
         </div>
       </div>
     </>

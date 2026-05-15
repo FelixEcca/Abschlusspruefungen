@@ -2,10 +2,14 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 
+type ModeA = 'min' | 'max'
+
 interface DATA {
   values: number[]
   labels: string[]
-  minIndex: number
+  modeA: ModeA
+  targetIndexB: number
+  answerIndexA: number
   noSmartphone: number
 }
 
@@ -17,27 +21,44 @@ export const exercise9011: Exercise<DATA> = {
 
   generator(rng) {
     const labels = ['6-9 Jahre', '10-12 Jahre', '13-15 Jahre', '16-18 Jahre']
+
     const values = [
       rng.randomIntBetween(15, 35),
-      rng.randomIntBetween(75, 90),
-      rng.randomIntBetween(88, 96),
-      rng.randomIntBetween(90, 98),
+      rng.randomIntBetween(70, 90),
+      rng.randomIntBetween(82, 96),
+      rng.randomIntBetween(88, 98),
     ]
-    const minIndex = values.indexOf(Math.min(...values))
-    const noSmartphone = 100 - values[1]
 
-    return { values, labels, minIndex, noSmartphone }
+    const modeA: ModeA = rng.randomBoolean() ? 'min' : 'max'
+    const answerIndexA =
+      modeA === 'min'
+        ? values.indexOf(Math.min(...values))
+        : values.indexOf(Math.max(...values))
+
+    const targetIndexB = rng.randomIntBetween(0, 3)
+    const noSmartphone = 100 - values[targetIndexB]
+
+    return {
+      values,
+      labels,
+      modeA,
+      targetIndexB,
+      answerIndexA,
+      noSmartphone,
+    }
   },
 
   originalData: {
     labels: ['6-9 Jahre', '10-12 Jahre', '13-15 Jahre', '16-18 Jahre'],
     values: [21, 86, 95, 96],
-    minIndex: 0,
+    modeA: 'min',
+    targetIndexB: 1,
+    answerIndexA: 0,
     noSmartphone: 14,
   },
 
   constraint({ data }) {
-    return data.values.length === 4
+    return data.values.length === 4 && data.labels.length === 4
   },
 
   intro({ data }) {
@@ -47,6 +68,7 @@ export const exercise9011: Exercise<DATA> = {
           Bei einer Umfrage wurden Kinder und Jugendliche befragt, ob sie ein
           Smartphone besitzen.
         </p>
+
         <svg viewBox="0 0 328 250">
           <text x="75" y="20" fontSize="13">
             Smartphone-Besitz in Prozent
@@ -96,10 +118,11 @@ export const exercise9011: Exercise<DATA> = {
       intro() {
         return null
       },
-      task() {
+      task({ data }) {
         return (
           <p>
-            Bestimmen Sie, in welcher Altersgruppe es die wenigsten Smartphones
+            Bestimmen Sie, in welcher Altersgruppe es{' '}
+            {data.modeA === 'min' ? 'die wenigsten' : 'die meisten'} Smartphones
             gab und wie viel Prozent der Befragten in dieser Altersgruppe ein
             Smartphone hatten.
           </p>
@@ -108,9 +131,10 @@ export const exercise9011: Exercise<DATA> = {
       solution({ data }) {
         return (
           <p>
-            Die wenigsten Smartphones gab es in der Altersgruppe{' '}
-            <b>{data.labels[data.minIndex]}</b>. Dort hatten{' '}
-            <b>{data.values[data.minIndex]} %</b> ein Smartphone.
+            {data.modeA === 'min' ? 'Die wenigsten' : 'Die meisten'} Smartphones
+            gab es in der Altersgruppe <b>{data.labels[data.answerIndexA]}</b>.
+            Dort hatten <b>{data.values[data.answerIndexA]} %</b> ein
+            Smartphone.
           </p>
         )
       },
@@ -120,21 +144,24 @@ export const exercise9011: Exercise<DATA> = {
       intro() {
         return null
       },
-      task() {
+      task({ data }) {
         return (
           <p>
-            Berechnen Sie, wie viel Prozent der befragten Kinder und Jugendlichen
-            in der Altersgruppe 10 – 12 Jahre kein Smartphone hatten.
+            Berechnen Sie, wie viel Prozent der befragten Kinder und
+            Jugendlichen in der Altersgruppe {data.labels[data.targetIndexB]}{' '}
+            kein Smartphone hatten.
           </p>
         )
       },
       solution({ data }) {
         return (
           <>
-            <InlineMath math={`100\\%-${data.values[1]}\\%=${data.noSmartphone}\\%`} />
+            <InlineMath
+              math={`100\\%-${data.values[data.targetIndexB]}\\%=${data.noSmartphone}\\%`}
+            />
             <p>
-              In der Altersgruppe 10 – 12 Jahre hatten <b>{data.noSmartphone} %</b>{' '}
-              kein Smartphone.
+              In der Altersgruppe <b>{data.labels[data.targetIndexB]}</b> hatten{' '}
+              <b>{data.noSmartphone} %</b> kein Smartphone.
             </p>
           </>
         )

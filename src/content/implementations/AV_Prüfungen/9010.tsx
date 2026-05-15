@@ -103,12 +103,16 @@ export const exercise9010: Exercise<DATA> = {
 
     return (
       <>
-        <p>Zuerst wird alles in Minuten umgerechnet.</p>
+        <p>Zuerst wird alles in Minuten umgerechnet und zusammengezählt.</p>
         <InlineMath
           math={`${data.sunday * 60}+${data.monday * 60}+${tuesdayMinutes}+${
             data.wed * 60
           }+${data.thu * 60}=${data.totalMinutes}`}
         />
+        <p>
+          Bestimme, wie viele ganze Stunden das ergibt und wie viele Minuten
+          übrig bleiben.
+        </p>
         <p>
           <InlineMath
             math={`${data.totalMinutes}\\,\\mathrm{min}=${data.hours}\\,\\mathrm{h}\\;${data.minutes}\\,\\mathrm{min}`}

@@ -3,12 +3,121 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
+type Unit = 'mm' | 'cm' | 'dm' | 'm' | 'km' | 'mm²' | 'cm²' | 'dm²' | 'm²'
+
+interface Conversion {
+  value: number
+  from: Unit
+  to: Unit
+  result: number
+}
+
 interface DATA {
-  mm: number
-  cm: number
-  km: number
-  dm2: number
-  mm2: number
+  conversions: Conversion[]
+}
+
+function factorToBase(unit: Unit) {
+  // Basis für Längen: m
+  if (unit === 'mm') return 0.001
+  if (unit === 'cm') return 0.01
+  if (unit === 'dm') return 0.1
+  if (unit === 'm') return 1
+  if (unit === 'km') return 1000
+
+  // Basis für Flächen: m²
+  if (unit === 'mm²') return 0.000001
+  if (unit === 'cm²') return 0.0001
+  if (unit === 'dm²') return 0.01
+  if (unit === 'm²') return 1
+
+  return 1
+}
+
+function convert(value: number, from: Unit, to: Unit) {
+  return (value * factorToBase(from)) / factorToBase(to)
+}
+
+function round4(x: number) {
+  return Math.round(x * 10000) / 10000
+}
+
+function unitLatex(unit: Unit) {
+  if (unit === 'mm²') return '\\mathrm{mm}^2'
+  if (unit === 'cm²') return '\\mathrm{cm}^2'
+  if (unit === 'dm²') return '\\mathrm{dm}^2'
+  if (unit === 'm²') return '\\mathrm{m}^2'
+  return `\\mathrm{${unit}}`
+}
+
+function createLengthConversion(rng: any): Conversion {
+  // Nur benachbarte Längeneinheiten
+  // Achtung: m und km sind hier direkte Nachbarn, weil dazwischen keine der verwendeten Einheiten liegt.
+  const pairs: [Unit, Unit][] = [
+    ['mm', 'cm'],
+    ['cm', 'mm'],
+    ['cm', 'dm'],
+    ['dm', 'cm'],
+    ['dm', 'm'],
+    ['m', 'dm'],
+    ['m', 'km'],
+    ['km', 'm'],
+  ]
+
+  const [from, to] = rng.randomItemFromArray(pairs)
+
+  let value = 0
+
+  if (from === 'km') {
+    value = rng.randomItemFromArray([0.25, 0.48, 0.72, 1.5, 2.4, 3.75])
+  } else if (from === 'm') {
+    value = rng.randomItemFromArray([0.5, 1.2, 2.5, 3.6, 7.8, 12])
+  } else if (from === 'dm') {
+    value = rng.randomItemFromArray([3.5, 8, 12, 24, 36])
+  } else if (from === 'cm') {
+    value = rng.randomItemFromArray([7.5, 9.3, 12.6, 25, 48, 125])
+  } else {
+    value = rng.randomIntBetween(120, 9500)
+  }
+
+  return {
+    value,
+    from,
+    to,
+    result: round4(convert(value, from, to)),
+  }
+}
+
+function createAreaConversion(rng: any): Conversion {
+  // Nur benachbarte Flächeneinheiten
+  const pairs: [Unit, Unit][] = [
+    ['mm²', 'cm²'],
+    ['cm²', 'mm²'],
+    ['cm²', 'dm²'],
+    ['dm²', 'cm²'],
+    ['dm²', 'm²'],
+    ['m²', 'dm²'],
+  ]
+
+  const [from, to] = rng.randomItemFromArray(pairs)
+
+  let value = 0
+
+  if (from === 'm²') {
+    value = rng.randomItemFromArray([0.25, 0.5, 1.2, 2.4, 3.5])
+  } else if (from === 'dm²') {
+    value = rng.randomItemFromArray([4.2, 8, 15, 24, 36, 75])
+  } else if (from === 'cm²') {
+    value = rng.randomItemFromArray([12, 25, 48, 72, 120, 350])
+  } else {
+    value = rng.randomItemFromArray([150, 240, 350, 480, 1250, 3600])
+  }
+
+  return {
+    value,
+    from,
+    to,
+    result: round4(convert(value, from, to)),
+  }
 }
 
 export const exercise9007: Exercise<DATA> = {
@@ -19,36 +128,66 @@ export const exercise9007: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    return {
-      mm: rng.randomIntBetween(1200, 9500),
-      cm: rng.randomItemFromArray([4.5, 5.8, 7.2, 9.3, 12.6]),
-      km: rng.randomItemFromArray([0.25, 0.48, 0.72, 1.35, 2.4]),
-      dm2: rng.randomIntBetween(8, 80),
-      mm2: rng.randomItemFromArray([1.5, 2.4, 3.5, 4.8, 6.2]),
-    }
+    const conversions: Conversion[] = []
+
+    conversions.push(createLengthConversion(rng))
+    conversions.push(createLengthConversion(rng))
+    conversions.push(createLengthConversion(rng))
+    conversions.push(createAreaConversion(rng))
+    conversions.push(createAreaConversion(rng))
+
+    return { conversions: rng.shuffleArray(conversions) }
   },
 
   originalData: {
-    mm: 7562,
-    cm: 9.3,
-    km: 0.72,
-    dm2: 42,
-    mm2: 3.5,
+    conversions: [
+      {
+        value: 7562,
+        from: 'mm',
+        to: 'cm',
+        result: 756.2,
+      },
+      {
+        value: 92.3,
+        from: 'cm',
+        to: 'mm',
+        result: 923,
+      },
+      {
+        value: 0.72,
+        from: 'km',
+        to: 'm',
+        result: 720,
+      },
+      {
+        value: 240,
+        from: 'm²',
+        to: 'dm²',
+        result: 24000,
+      },
+      {
+        value: 3.5,
+        from: 'mm²',
+        to: 'cm²',
+        result: 0.035,
+      },
+    ],
   },
 
-  constraint() {
-    return true
+  constraint({ data }) {
+    return data.conversions.length === 5
   },
 
   task({ data }) {
     return (
       <>
         <p>Wandeln Sie in die Klammern angegebene Einheit um.</p>
-        <p>{data.mm} mm (cm)</p>
-        <p>{pp(data.cm)} cm (mm)</p>
-        <p>{pp(data.km)} km (m)</p>
-        <p>{data.dm2} dm² (m²)</p>
-        <p>{pp(data.mm2)} mm² (cm²)</p>
+
+        {data.conversions.map((conv, i) => (
+          <p key={i}>
+            {pp(conv.value)} {conv.from} ({conv.to})
+          </p>
+        ))}
       </>
     )
   },
@@ -56,11 +195,40 @@ export const exercise9007: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p><InlineMath math={`${data.mm}\\,\\mathrm{mm}=${pp(data.mm / 10)}\\,\\mathrm{cm}`} /></p>
-        <p><InlineMath math={`${pp(data.cm)}\\,\\mathrm{cm}=${pp(data.cm * 10)}\\,\\mathrm{mm}`} /></p>
-        <p><InlineMath math={`${pp(data.km)}\\,\\mathrm{km}=${pp(data.km * 1000)}\\,\\mathrm{m}`} /></p>
-        <p><InlineMath math={`${data.dm2}\\,\\mathrm{dm}^2=${pp(data.dm2 / 100)}\\,\\mathrm{m}^2`} /></p>
-        <p><InlineMath math={`${pp(data.mm2)}\\,\\mathrm{mm}^2=${pp(data.mm2 / 100)}\\,\\mathrm{cm}^2`} /></p>
+        {data.conversions.map((conv, i) => (
+          <p key={i}>
+            <InlineMath
+              math={`${pp(conv.value)}\\,${unitLatex(conv.from)}=${pp(
+                conv.result,
+              )}\\,${unitLatex(conv.to)}`}
+            />
+          </p>
+        ))}
+        <h2>Erklärvideos</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zu Längeneinheiten:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/iRh4wA6TVy4"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
+        <p>Hier gibt es noch ein Erklärungsvideo zu Flächeneinheiten:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/bEgBxIdZZLs"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

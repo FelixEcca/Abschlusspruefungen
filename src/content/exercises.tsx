@@ -248,6 +248,18 @@ import { exercise9010 } from './implementations/AV_Prüfungen/9010'
 import { exercise9011 } from './implementations/AV_Prüfungen/9011'
 import { exercise9012 } from './implementations/AV_Prüfungen/9012'
 import { exercise9013 } from './implementations/AV_Prüfungen/9013'
+import { exercise9014 } from './implementations/AV_Prüfungen/9014'
+import { exercise9015 } from './implementations/AV_Prüfungen/9015'
+import { exercise9016 } from './implementations/AV_Prüfungen/9016'
+import { exercise9017 } from './implementations/AV_Prüfungen/9017'
+import { exercise9018 } from './implementations/AV_Prüfungen/9018'
+import { exercise9019 } from './implementations/AV_Prüfungen/9019'
+import { exercise9020 } from './implementations/AV_Prüfungen/9020'
+import { exercise9021 } from './implementations/AV_Prüfungen/9021'
+import { exercise9022 } from './implementations/AV_Prüfungen/9022'
+import { exercise9023 } from './implementations/AV_Prüfungen/9023'
+import { exercise9024 } from './implementations/AV_Prüfungen/9024'
+import { exercise9025 } from './implementations/AV_Prüfungen/9025'
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
   201: exercise201,
@@ -497,7 +509,18 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9011: exercise9011,
   9012: exercise9012,
   9013: exercise9013,
-
+  9014: exercise9014,
+  9015: exercise9015,
+  9016: exercise9016,
+  9017: exercise9017,
+  9018: exercise9018,
+  9019: exercise9019,
+  9020: exercise9020,
+  9021: exercise9021,
+  9022: exercise9022,
+  9023: exercise9023,
+  9024: exercise9024,
+  9025: exercise9025,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
@@ -570,13 +593,13 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // const listItems = [<li key="1"></li>,<li key="2"></li>,<li key="3"></li>,]
 // const shuffledItems = data.order.map(i => listItems[i])
 // <div className="my-4">
-    //    <iframe
-      //    width="100%"
-        //  height="220"
-          //src="https://www.youtube.com/embed/tEBKFoD9LeI"
-          //title="Erklärungsvideo"
-          //allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          //allowFullScreen
-          //className="rounded border"
-        // />
-      // </div>
+//    <iframe
+//    width="100%"
+//  height="220"
+//src="https://www.youtube.com/embed/tEBKFoD9LeI"
+//title="Erklärungsvideo"
+//allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+//allowFullScreen
+//className="rounded border"
+// />
+// </div>

@@ -123,6 +123,17 @@ export function List() {
             </span>
           </div>
         </div>
+        <br></br>
+        <div className="mx-3 rounded-xl border bg-sky-50 shadow-xl p-3 mb-4">
+          <div className="flex items-center ">
+            <span className="flex-1 text-xs">
+              Hinweis zur AV-Prüfung: Von Teil 1 müssen 8 von 10 Aufgaben in der
+              Prüfung bearbeitet werden. Dazu gibt es 60 Minuten Zeit. In Teil 2
+              müssen alle 10 Aufgaben bearbeitet werden. Hier gibt es 75 Minuten
+              Zeit und der Taschenrechner und die Formelsammlung sind erlaubt.
+            </span>
+          </div>
+        </div>
         <div className="mx-3 mt-4 bg-sky-50 rounded-md pt-2 px-2 pb-2">
           <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 

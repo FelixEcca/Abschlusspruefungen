@@ -34,6 +34,7 @@
     "classnames": "2.5.1",
     "clsx": "2.1.1",
     "esm-seedrandom": "3.0.5",
+    "html-to-image": "1.11.13",
     "katex": "0.16.22",
     "next": "14.2.23",
     "react": "18.2.0",
