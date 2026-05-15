@@ -1,7 +1,6 @@
 // exercise9025.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { GenerateExerciseImageButton } from '@/helper/exercise-image-export'
 
 interface DATA {
   startH: number
@@ -106,13 +105,6 @@ export const exercise9025: Exercise<DATA> = {
             ? 'Ja, bis 14 Uhr ist alles fertig.'
             : 'Nein, bis 14 Uhr ist nicht alles fertig.'}
         </p>
-        <div className="flex gap-2 mb-4">
-          <GenerateExerciseImageButton
-            exercise={exercise}
-            rng={rng}
-            count={5}
-          />
-        </div>
       </>
     )
   },
