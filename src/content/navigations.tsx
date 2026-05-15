@@ -697,7 +697,18 @@ export const navigationData: { [key: number]: Navigation } = {
     longTitle: 'AV - Mathe',
     shortTitle: 'AV - Mathe',
     topics: [
+      
       {
+        title: 'Terme',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },{
+        title: 'Gleichungen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },{
         title: 'Dreisatz',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
@@ -715,18 +726,8 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [],
       },
-      {
-        title: 'Terme',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [],
-      },
-      {
-        title: 'Gleichungen',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [],
-      },
+      
+      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],

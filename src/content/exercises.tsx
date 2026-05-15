@@ -233,7 +233,21 @@ import { exercise4927 } from './implementations/Training/4927'
 import { exercise4928 } from './implementations/Training/4928'
 import { exercise5117 } from './implementations/Training_TG11/5117'
 import { exercise5118 } from './implementations/Training_TG11/5118'
-
+import { exercise8000 } from './implementations/AV_Training/8000'
+import { exercise9000 } from './implementations/AV_Prüfungen/9000'
+import { exercise9001 } from './implementations/AV_Prüfungen/9001'
+import { exercise9002 } from './implementations/AV_Prüfungen/9002'
+import { exercise9003 } from './implementations/AV_Prüfungen/9003'
+import { exercise9004 } from './implementations/AV_Prüfungen/9004'
+import { exercise9005 } from './implementations/AV_Prüfungen/9005'
+import { exercise9006 } from './implementations/AV_Prüfungen/9006'
+import { exercise9007 } from './implementations/AV_Prüfungen/9007'
+import { exercise9008 } from './implementations/AV_Prüfungen/9008'
+import { exercise9009 } from './implementations/AV_Prüfungen/9009'
+import { exercise9010 } from './implementations/AV_Prüfungen/9010'
+import { exercise9011 } from './implementations/AV_Prüfungen/9011'
+import { exercise9012 } from './implementations/AV_Prüfungen/9012'
+import { exercise9013 } from './implementations/AV_Prüfungen/9013'
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
   201: exercise201,
@@ -468,6 +482,22 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   5116: exercise5116,
   5117: exercise5117,
   5118: exercise5118,
+  8000: exercise8000,
+  9000: exercise9000,
+  9001: exercise9001,
+  9002: exercise9002,
+  9003: exercise9003,
+  9004: exercise9004,
+  9005: exercise9005,
+  9006: exercise9006,
+  9007: exercise9007,
+  9008: exercise9008,
+  9009: exercise9009,
+  9010: exercise9010,
+  9011: exercise9011,
+  9012: exercise9012,
+  9013: exercise9013,
+
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
@@ -539,3 +569,14 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
 // order: rng.shuffleArray([0, 1, 2]),
 // const listItems = [<li key="1"></li>,<li key="2"></li>,<li key="3"></li>,]
 // const shuffledItems = data.order.map(i => listItems[i])
+// <div className="my-4">
+    //    <iframe
+      //    width="100%"
+        //  height="220"
+          //src="https://www.youtube.com/embed/tEBKFoD9LeI"
+          //title="Erklärungsvideo"
+          //allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          //allowFullScreen
+          //className="rounded border"
+        // />
+      // </div>
