@@ -1,5 +1,6 @@
 // exercise9020.tsx
 import { Exercise } from '@/data/types'
+import { pp } from '@/helper/pretty-print'
 import { InlineMath } from 'react-katex'
 
 interface DATA {
@@ -13,7 +14,7 @@ interface DATA {
 }
 
 export const exercise9020: Exercise<DATA> = {
-  title: 'Teil 2: Zaunlatten',
+  title: 'Teil 2: Zaun',
   source: '2025',
   useCalculator: true,
   duration: 42,
@@ -67,7 +68,7 @@ export const exercise9020: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 180 100">
-          {Array.from({ length: 4 }, (_, i) => (
+          {Array.from({ length: data.slatsPerMeter }, (_, i) => (
             <rect
               key={i}
               x={25 + i * 25}
@@ -80,7 +81,7 @@ export const exercise9020: Exercise<DATA> = {
           <line
             x1="15"
             y1="35"
-            x2="130"
+            x2={15 + data.slatsPerMeter * 25 + 10}
             y2="35"
             stroke="black"
             strokeWidth="3"
@@ -88,13 +89,16 @@ export const exercise9020: Exercise<DATA> = {
           <line
             x1="15"
             y1="65"
-            x2="130"
+            x2={15 + data.slatsPerMeter * 25 + 10}
             y2="65"
             stroke="black"
             strokeWidth="3"
           />
           <text x="45" y="95" fontSize="12">
             1 m
+          </text>
+          <text x="140" y="60" fontSize="12">
+            {pp(data.slatLength)} m
           </text>
         </svg>
 

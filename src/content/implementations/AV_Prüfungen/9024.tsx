@@ -9,7 +9,7 @@ interface DATA {
 export const exercise9024: Exercise<DATA> = {
   title: 'Teil 2: Säulendiagramm',
   source: '2025',
-  useCalculator: false,
+  useCalculator: true,
   duration: 42,
   points: 42,
 
@@ -84,13 +84,26 @@ export const exercise9024: Exercise<DATA> = {
                 <text x={x + 2} y={185 - h} fontSize="10">
                   {v}
                 </text>
-                <text x={x - 12} y="208" fontSize="9">
+                <text x={x + 8} y="208" fontSize="9">
                   {data.labels[i].slice(0, 2)}
                 </text>
               </g>
             )
           })}
         </svg>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum Säulendiagramm:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/N3w-hBbgLqY"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

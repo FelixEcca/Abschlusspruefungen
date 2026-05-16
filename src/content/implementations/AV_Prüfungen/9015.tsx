@@ -12,7 +12,7 @@ interface DATA {
 }
 
 export const exercise9015: Exercise<DATA> = {
-  title: 'Teil 2: Rezeptanteile',
+  title: 'Teil 2: Rezept',
   source: '2025',
   useCalculator: true,
   duration: 42,
@@ -63,19 +63,42 @@ export const exercise9015: Exercise<DATA> = {
       <>
         <p>Alle Teile zusammen:</p>
         <InlineMath math={`${data.z}+${data.k}+${data.ka}+${data.w}=${sum}`} />
-        <p>Ein Teil entspricht:</p>
-        <InlineMath
-          math={`${pp(data.total)}:${sum}=${pp(one)}\\,\\mathrm{kg}`}
-        />
+        <p>Berechne jeweils den Anteil:</p>
+
         <p>
-          Zwiebeln: <b>{pp(one * data.z)} kg</b>
+          {data.z} Teile Zwiebeln:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.z}}{${sum}} \\approx ${pp(Math.round(one * data.z * 100) / 100)} \\text{ kg}`}
+          />
           <br />
-          Kartoffeln: <b>{pp(one * data.k)} kg</b>
+          {data.k} Teile Kartoffeln:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.k}}{${sum}} \\approx ${pp(Math.round(one * data.k * 100) / 100)} \\text{ kg}`}
+          />
           <br />
-          Karotten: <b>{pp(one * data.ka)} kg</b>
+          {data.ka} Teile Karotten:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.ka}}{${sum}} \\approx ${pp(Math.round(one * data.ka * 100) / 100)} \\text{ kg}`}
+          />
           <br />
-          Wasser: <b>{pp(one * data.w)} kg</b>
+          {data.w} Teile Wasser:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.w}}{${sum}} \\approx ${pp(Math.round(one * data.w * 100) / 100)} \\text{ kg}`}
+          />
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum Berechnen von Anteilen:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/I6-yuR1jurc"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

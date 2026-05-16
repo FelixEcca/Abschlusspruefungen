@@ -40,7 +40,7 @@ function getContext(k: Kontext) {
 export const exercise9014: Exercise<DATA> = {
   title: 'Teil 2: Diagramm',
   source: '2025',
-  useCalculator: false,
+  useCalculator: true,
   duration: 42,
 
   generator(rng) {
@@ -50,7 +50,7 @@ export const exercise9014: Exercise<DATA> = {
       'projektwoche',
       'schulfest',
     ])
-    const total = rng.randomItemFromArray([40, 60, 80, 100, 120])
+    const total = rng.randomItemFromArray([40, 60, 80, 120, 150])
     const fleisch = rng.randomItemFromArray([60, 65, 70, 75])
     const vegetarisch = rng.randomItemFromArray([10, 12.5, 15, 20])
     const keinFisch = rng.randomItemFromArray([7.5, 10, 12.5])
@@ -118,10 +118,10 @@ export const exercise9014: Exercise<DATA> = {
                   fill={i % 2 === 0 ? '#ddd' : '#aaa'}
                   stroke="black"
                 />
-                <text x={lx} y={ly} fontSize="12" textAnchor="middle">
+                <text x={lx} y={ly + 8} fontSize="12" textAnchor="middle">
                   {v.label}
                 </text>
-                <text x={lx} y={ly + 14} fontSize="12" textAnchor="middle">
+                <text x={lx} y={ly + 20} fontSize="12" textAnchor="middle">
                   {pp(v.value)} %
                 </text>
               </g>
@@ -149,8 +149,7 @@ export const exercise9014: Exercise<DATA> = {
       solution({ data }) {
         return (
           <p>
-            Dem Diagramm entnimmt man: <b>{pp(data.fleisch)} %</b> essen gerne
-            Fleisch.
+            Aus dem Diagramm: <b>{pp(data.fleisch)} %</b> essen gerne Fleisch.
           </p>
         )
       },
@@ -180,14 +179,31 @@ export const exercise9014: Exercise<DATA> = {
         const count = (data.total * p) / 100
         return (
           <>
+            <p>Berechne den Prozentwert:</p>
+            <p>
+              <InlineMath math="W=\frac{G \cdot p}{100}" />
+            </p>
             <InlineMath
-              math={`${pp(data.total)}\\cdot \\frac{${pp(p)}}{100}=${pp(
+              math={`W=\\frac{${pp(data.total)} \\cdot ${pp(p)}}{100}=${pp(
                 count,
               )}`}
             />
             <p>
               Das sind <b>{pp(count)} Personen</b>.
             </p>
+            <h2>Erklärvideo</h2>
+            <p>Hier gibt es noch ein Erklärungsvideo zum Prozentwert:</p>
+            <div className="my-4">
+              <iframe
+                width="100%"
+                height="220"
+                src="https://www.youtube.com/embed/W4yiY-gjuJU"
+                title="Erklärungsvideo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded border"
+              />
+            </div>
           </>
         )
       },
