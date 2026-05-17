@@ -233,7 +233,6 @@ import { exercise4927 } from './implementations/Training/4927'
 import { exercise4928 } from './implementations/Training/4928'
 import { exercise5117 } from './implementations/Training_TG11/5117'
 import { exercise5118 } from './implementations/Training_TG11/5118'
-import { exercise8000 } from './implementations/AV_Training/8000'
 import { exercise9000 } from './implementations/AV_Prüfungen/9000'
 import { exercise9001 } from './implementations/AV_Prüfungen/9001'
 import { exercise9002 } from './implementations/AV_Prüfungen/9002'
@@ -260,6 +259,48 @@ import { exercise9022 } from './implementations/AV_Prüfungen/9022'
 import { exercise9023 } from './implementations/AV_Prüfungen/9023'
 import { exercise9024 } from './implementations/AV_Prüfungen/9024'
 import { exercise9025 } from './implementations/AV_Prüfungen/9025'
+import { exercise9500 } from './implementations/AV_Training/9500'
+import { exercise9535 } from './implementations/AV_Training/9535'
+import { exercise9534 } from './implementations/AV_Training/9534'
+import { exercise9533 } from './implementations/AV_Training/9533'
+import { exercise9532 } from './implementations/AV_Training/9532'
+import { exercise9531 } from './implementations/AV_Training/9531'
+import { exercise9529 } from './implementations/AV_Training/9529'
+import { exercise9528 } from './implementations/AV_Training/9528'
+import { exercise9527 } from './implementations/AV_Training/9527'
+import { exercise9526 } from './implementations/AV_Training/9526'
+import { exercise9525 } from './implementations/AV_Training/9525'
+import { exercise9524 } from './implementations/AV_Training/9524'
+import { exercise9523 } from './implementations/AV_Training/9523'
+import { exercise9536 } from './implementations/AV_Training/9536'
+import { exercise9537 } from './implementations/AV_Training/9537'
+import { exercise9540 } from './implementations/AV_Training/9540'
+import { exercise9538 } from './implementations/AV_Training/9538'
+import { exercise9541 } from './implementations/AV_Training/9541'
+import { exercise9543 } from './implementations/AV_Training/9543'
+import { exercise9544 } from './implementations/AV_Training/9544'
+import { exercise9501 } from './implementations/AV_Training/9501'
+import { exercise9502 } from './implementations/AV_Training/9502'
+import { exercise9503 } from './implementations/AV_Training/9503'
+import { exercise9504 } from './implementations/AV_Training/9504'
+import { exercise9505 } from './implementations/AV_Training/9505'
+import { exercise9506 } from './implementations/AV_Training/9506'
+import { exercise9507 } from './implementations/AV_Training/9507'
+import { exercise9508 } from './implementations/AV_Training/9508'
+import { exercise9509 } from './implementations/AV_Training/9509'
+import { exercise9510 } from './implementations/AV_Training/9510'
+import { exercise9511 } from './implementations/AV_Training/9511'
+import { exercise9512 } from './implementations/AV_Training/9512'
+import { exercise9514 } from './implementations/AV_Training/9514'
+import { exercise9515 } from './implementations/AV_Training/9515'
+import { exercise9516 } from './implementations/AV_Training/9516'
+import { exercise9517 } from './implementations/AV_Training/9517'
+import { exercise9518 } from './implementations/AV_Training/9518'
+import { exercise9513 } from './implementations/AV_Training/9513'
+import { exercise9519 } from './implementations/AV_Training/9519'
+import { exercise9520 } from './implementations/AV_Training/9520'
+import { exercise9521 } from './implementations/AV_Training/9521'
+import { exercise9522 } from './implementations/AV_Training/9522'
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
   201: exercise201,
@@ -494,7 +535,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   5116: exercise5116,
   5117: exercise5117,
   5118: exercise5118,
-  8000: exercise8000,
   9000: exercise9000,
   9001: exercise9001,
   9002: exercise9002,
@@ -521,6 +561,48 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9023: exercise9023,
   9024: exercise9024,
   9025: exercise9025,
+  9500: exercise9500,
+  9501: exercise9501,
+  9502: exercise9502,
+  9503: exercise9503,
+  9504: exercise9504,
+  9505: exercise9505,
+  9506: exercise9506,
+  9507: exercise9507,
+  9508: exercise9508,
+  9509: exercise9509,
+  9510: exercise9510,
+  9511: exercise9511,
+  9512: exercise9512,
+  9513: exercise9513,
+  9514: exercise9514,
+  9515: exercise9515,
+  9516: exercise9516,
+  9517: exercise9517,
+  9518: exercise9518,
+  9519: exercise9519,
+  9520: exercise9520,
+  9521: exercise9521,
+  9522: exercise9522,
+  9523: exercise9523,
+  9524: exercise9524,
+  9525: exercise9525,
+  9526: exercise9526,
+  9527: exercise9527,
+  9528: exercise9528,
+  9529: exercise9529,
+  9531: exercise9531,
+  9532: exercise9532,
+  9533: exercise9533,
+  9534: exercise9534,
+  9535: exercise9535,
+  9536: exercise9536,
+  9537: exercise9537,
+  9538: exercise9538,
+  9540: exercise9540,
+  9541: exercise9541,
+  9543: exercise9543,
+  9544: exercise9544,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
