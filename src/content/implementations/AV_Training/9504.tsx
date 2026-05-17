@@ -89,7 +89,7 @@ export const exercise9504: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Berechnen Sie. Beachten Sie zuerst die Klammer.</p>
+        <p>Berechnen Sie das Ergebnis.</p>
         <p>
           <InlineMath math={term(data)} />
         </p>

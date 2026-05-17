@@ -29,7 +29,7 @@ export const exercise9522: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const total = rng.randomItemFromArray([40, 60, 80, 100, 120])
+    const total = rng.randomItemFromArray([40, 60, 80, 120])
     const p1 = rng.randomItemFromArray([40, 50, 60])
     const p2 = rng.randomItemFromArray([10, 15, 20])
     const p3 = rng.randomItemFromArray([10, 15, 20])

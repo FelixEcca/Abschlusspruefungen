@@ -98,7 +98,7 @@ export const exercise9503: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Berechnen Sie. Beachten Sie Punkt vor Strich.</p>
+        <p>Berechnen Sie das Ergebnis. </p>
         <p>
           <InlineMath math={term(data)} />
         </p>

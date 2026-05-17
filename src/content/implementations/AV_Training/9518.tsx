@@ -76,13 +76,20 @@ export const exercise9518: Exercise<DATA> = {
     return <p>{getText(data)}</p>
   },
 
-  solution({ data }) {
-    return (
+  // Lösung für exercise9518 ersetzen durch:
+
+solution({ data }) {
+  return (
+    <>
+      <p>Berechne den Prozentwert:</p>
+      <InlineMath math={`W=\\frac{G\\cdot p}{100}`} />
+      <br />
       <InlineMath
-        math={`${pp(data.base)}\\cdot \\frac{${pp(
+        math={`W=\\frac{${pp(data.base)}\\cdot ${pp(
           data.percent,
         )}}{100}=${pp(data.value)}`}
       />
-    )
-  },
+    </>
+  )
+},
 }

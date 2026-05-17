@@ -3,12 +3,47 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
+type Kontext = 'gemuesetopf' | 'saftmischung' | 'teig' | 'futter'
+
 interface DATA {
+  kontext: Kontext
   total: number
-  z: number
-  k: number
-  ka: number
-  w: number
+  a: number
+  b: number
+  c: number
+  d: number
+}
+
+function getContext(data: DATA) {
+  if (data.kontext === 'saftmischung') {
+    return {
+      intro: `Für eine Saftmischung werden insgesamt ${pp(data.total)} Liter benötigt.`,
+      unit: 'l',
+      items: ['Apfelsaft', 'Orangensaft', 'Traubensaft', 'Wasser'],
+    }
+  }
+
+  if (data.kontext === 'teig') {
+    return {
+      intro: `Für einen Teig werden insgesamt ${pp(data.total)} kg Zutaten benötigt.`,
+      unit: 'kg',
+      items: ['Mehl', 'Zucker', 'Butter', 'Milch'],
+    }
+  }
+
+  if (data.kontext === 'futter') {
+    return {
+      intro: `Für eine Futtermischung werden insgesamt ${pp(data.total)} kg benötigt.`,
+      unit: 'kg',
+      items: ['Hafer', 'Mais', 'Kerne', 'Pellets'],
+    }
+  }
+
+  return {
+    intro: `Für einen Gemüsetopf werden insgesamt ${pp(data.total)} kg benötigt.`,
+    unit: 'kg',
+    items: ['Zwiebeln', 'Kartoffeln', 'Karotten', 'Wasser'],
+  }
 }
 
 export const exercise9517: Exercise<DATA> = {
@@ -19,67 +54,99 @@ export const exercise9517: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    return {
-      total: rng.randomItemFromArray([8, 10, 12, 15, 18, 20]),
-      z: rng.randomIntBetween(1, 4),
-      k: rng.randomIntBetween(6, 12),
-      ka: rng.randomIntBetween(3, 8),
-      w: rng.randomIntBetween(5, 10),
-    }
+    const kontext: Kontext = rng.randomItemFromArray([
+      'gemuesetopf',
+      'saftmischung',
+      'teig',
+      'futter',
+    ])
+
+    const total =
+      kontext === 'saftmischung'
+        ? rng.randomItemFromArray([6, 8, 10, 12, 15, 20])
+        : rng.randomItemFromArray([8, 10, 12, 15, 18, 20])
+
+    const a = rng.randomIntBetween(1, 4)
+    const b = rng.randomIntBetween(3, 10)
+    const c = rng.randomIntBetween(2, 8)
+    const d = rng.randomIntBetween(1, 8)
+
+    return { kontext, total, a, b, c, d }
   },
 
   originalData: {
+    kontext: 'gemuesetopf',
     total: 12,
-    z: 1,
-    k: 10,
-    ka: 5,
-    w: 8,
+    a: 1,
+    b: 10,
+    c: 5,
+    d: 8,
   },
 
   constraint({ data }) {
-    return data.z + data.k + data.ka + data.w > 0
+    return data.a + data.b + data.c + data.d > 0
   },
 
   task({ data }) {
+    const context = getContext(data)
+
     return (
       <>
-        <p>Für einen Gemüsetopf werden insgesamt {pp(data.total)} kg benötigt.</p>
+        <p>{context.intro}</p>
         <p>
           Das Rezept hat folgende Teile:
           <br />
-          {data.z} Teil Zwiebeln
+          {data.a} Teil {context.items[0]}
           <br />
-          {data.k} Teile Kartoffeln
+          {data.b} Teile {context.items[1]}
           <br />
-          {data.ka} Teile Karotten
+          {data.c} Teile {context.items[2]}
           <br />
-          {data.w} Teile Wasser
+          {data.d} Teile {context.items[3]}
         </p>
-        <p>Berechnen Sie, wie viel kg von jeder Zutat gebraucht werden.</p>
+        <p>
+          Berechnen Sie, wie viel {context.unit} von jeder Zutat gebraucht
+          werden.
+        </p>
       </>
     )
   },
 
   solution({ data }) {
-    const sum = data.z + data.k + data.ka + data.w
+    const context = getContext(data)
+    const sum = data.a + data.b + data.c + data.d
     const one = data.total / sum
 
     return (
       <>
         <p>Alle Teile zusammen:</p>
-        <InlineMath math={`${data.z}+${data.k}+${data.ka}+${data.w}=${sum}`} />
+        <InlineMath math={`${data.a}+${data.b}+${data.c}+${data.d}=${sum}`} />
+
         <p>Ein Teil:</p>
         <InlineMath
-          math={`${pp(data.total)}:${sum}=${pp(one)}\\,\\mathrm{kg}`}
+          math={`${pp(data.total)}:${sum}=${pp(one)}\\,\\mathrm{${context.unit}}`}
         />
+
         <p>
-          Zwiebeln: <b>{pp(one * data.z)} kg</b>
+          {context.items[0]}:{' '}
+          <b>
+            {pp(one * data.a)} {context.unit}
+          </b>
           <br />
-          Kartoffeln: <b>{pp(one * data.k)} kg</b>
+          {context.items[1]}:{' '}
+          <b>
+            {pp(one * data.b)} {context.unit}
+          </b>
           <br />
-          Karotten: <b>{pp(one * data.ka)} kg</b>
+          {context.items[2]}:{' '}
+          <b>
+            {pp(one * data.c)} {context.unit}
+          </b>
           <br />
-          Wasser: <b>{pp(one * data.w)} kg</b>
+          {context.items[3]}:{' '}
+          <b>
+            {pp(one * data.d)} {context.unit}
+          </b>
         </p>
       </>
     )

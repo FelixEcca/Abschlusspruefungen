@@ -58,7 +58,7 @@ export const exercise9505: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Berechnen Sie:</p>
+        <p>Berechnen Sie das Ergebnis.</p>
         <InlineMath
           math={`${frac(data.n1, data.d1)}:${frac(data.n2, data.d2)}`}
         />

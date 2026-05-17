@@ -745,9 +745,7 @@ export const navigationData: { [key: number]: Navigation } = {
           { name: 'Gewinn berechnen',
             skillExercises: [{ id: 9512 }],
           },
-          { name: 'Anzahl aufrunden',
-            skillExercises: [{ id: 9513 }],
-          },
+          
           { name: 'Runden',
             skillExercises: [{ id: 9514 }],
           },
@@ -849,9 +847,7 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Diagramme',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{ name: 'Balkendiagramm ablesen',
-            skillExercises: [{ id: 9534 }],
-          },
+        skillGroups: [
         { name: 'Säulendiagramm ablesen',
             skillExercises: [{ id: 9535 }],
           },

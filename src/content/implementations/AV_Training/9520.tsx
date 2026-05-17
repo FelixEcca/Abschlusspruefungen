@@ -47,16 +47,27 @@ export const exercise9520: Exercise<DATA> = {
     )
   },
 
-  solution({ data }) {
-    return (
-      <>
-        <p>Es müssen noch {100 - data.discount} % bezahlt werden.</p>
-        <InlineMath
-          math={`${pp(data.price)}\\cdot\\frac{${
-            100 - data.discount
-          }}{100}=${pp(data.finalPrice)}\\,€`}
-        />
-      </>
-    )
-  },
+ // Lösung für exercise9520 ersetzen durch:
+
+solution({ data }) {
+  const rabatt = Math.round((data.price * data.discount) / 100 * 100) / 100
+
+  return (
+    <>
+      <p>Berechne den Prozentwert:</p>
+      <InlineMath math={`W=\\frac{G\\cdot p}{100}`} />
+      <br />
+      <InlineMath
+        math={`W=\\frac{${pp(data.price)}\\cdot ${data.discount}}{100}=${pp(
+          rabatt,
+        )}\\,€`}
+      />
+
+      <p>Der Rabatt wird vom alten Preis abgezogen:</p>
+      <InlineMath
+        math={`${pp(data.price)}-${pp(rabatt)}=${pp(data.finalPrice)}\\,€`}
+      />
+    </>
+  )
+},
 }

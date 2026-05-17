@@ -261,7 +261,6 @@ import { exercise9024 } from './implementations/AV_Prüfungen/9024'
 import { exercise9025 } from './implementations/AV_Prüfungen/9025'
 import { exercise9500 } from './implementations/AV_Training/9500'
 import { exercise9535 } from './implementations/AV_Training/9535'
-import { exercise9534 } from './implementations/AV_Training/9534'
 import { exercise9533 } from './implementations/AV_Training/9533'
 import { exercise9532 } from './implementations/AV_Training/9532'
 import { exercise9531 } from './implementations/AV_Training/9531'
@@ -296,7 +295,6 @@ import { exercise9515 } from './implementations/AV_Training/9515'
 import { exercise9516 } from './implementations/AV_Training/9516'
 import { exercise9517 } from './implementations/AV_Training/9517'
 import { exercise9518 } from './implementations/AV_Training/9518'
-import { exercise9513 } from './implementations/AV_Training/9513'
 import { exercise9519 } from './implementations/AV_Training/9519'
 import { exercise9520 } from './implementations/AV_Training/9520'
 import { exercise9521 } from './implementations/AV_Training/9521'
@@ -574,7 +572,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9510: exercise9510,
   9511: exercise9511,
   9512: exercise9512,
-  9513: exercise9513,
   9514: exercise9514,
   9515: exercise9515,
   9516: exercise9516,
@@ -594,7 +591,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9531: exercise9531,
   9532: exercise9532,
   9533: exercise9533,
-  9534: exercise9534,
   9535: exercise9535,
   9536: exercise9536,
   9537: exercise9537,

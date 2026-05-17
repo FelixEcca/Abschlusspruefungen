@@ -72,7 +72,7 @@ export const exercise9508: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Berechnen Sie:</p>
+        <p>Berechnen Sie das Ergebnis.</p>
         <InlineMath
           math={`${frac(data.n1, data.d1)}-${frac(data.n2, data.d2)}`}
         />
@@ -82,11 +82,33 @@ export const exercise9508: Exercise<DATA> = {
 
   solution({ data }) {
     const den = lcm(data.d1, data.d2)
+    const factor1= den / data.d1
+    const factor2 = den / data.d2
+   
     const a = data.n1 * (den / data.d1)
     const b = data.n2 * (den / data.d2)
 
     return (
       <>
+      {data.d1 !== data.d2 && (
+                <>
+                  <p>Die Brüche werden auf den gleichen Nenner {den} gebracht.</p>
+                  <InlineMath
+                    math={`${frac(data.n1, data.d1)}=\\frac{${data.n1}\\cdot${factor1}}{${data.d1}\\cdot${factor1}}=${frac(
+                      data.n1 * factor1,
+                      data.d1 * factor1,
+                    )} `}
+                  />
+                  <br />
+                  <InlineMath
+                    math={`${frac(data.n2, data.d2)}=\\frac{${data.n2}\\cdot${factor2}}{${data.d2}\\cdot${factor2}}=${frac(
+                      data.n2 * factor2,
+                      data.d2 * factor2,
+                    )} `}
+                  />
+                  <br /><br />
+                </>
+              )}
         <p>Die Brüche werden auf den gleichen Nenner gebracht.</p>
         <InlineMath
           math={`${frac(data.n1, data.d1)}-${frac(
@@ -94,9 +116,7 @@ export const exercise9508: Exercise<DATA> = {
             data.d2,
           )}=${frac(a, den)}-${frac(b, den)}=${frac(a - b, den)}`}
         />
-        <br />
-        <InlineMath math={`=${frac(data.rn, data.rd)}`} />
-      </>
+              </>
     )
   },
 }

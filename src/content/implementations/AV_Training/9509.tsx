@@ -78,8 +78,7 @@ export const exercise9509: Exercise<DATA> = {
             data.d2
           }}=\\frac{${data.n1 * data.n2}}{${data.d1 * data.d2}}`}
         />
-        <br />
-        <InlineMath math={`=${frac(data.rn, data.rd)}`} />
+        
       </>
     )
   },

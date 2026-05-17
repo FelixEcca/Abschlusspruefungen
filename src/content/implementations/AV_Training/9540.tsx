@@ -15,7 +15,7 @@ export const exercise9540: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const hours = rng.randomItemFromArray([0.5, 1, 1.25, 1.5, 2, 2.5, 3])
+    const hours = rng.randomItemFromArray([0.5, 1, 1.25, 1.5, 2, 2.5, 3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8])
     const minutes = hours * 60
 
     return { hours, minutes }

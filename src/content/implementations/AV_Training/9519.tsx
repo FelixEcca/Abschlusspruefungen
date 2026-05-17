@@ -19,14 +19,21 @@ export const exercise9519: Exercise<DATA> = {
 
   generator(rng) {
     const labels = ['A', 'B', 'C', 'D']
-    const values = [
-      rng.randomIntBetween(10, 40),
-      rng.randomIntBetween(40, 70),
-      rng.randomIntBetween(20, 60),
-      rng.randomIntBetween(5, 30),
-    ]
+
+    let values: number[] = []
+
+    do {
+      const p1 = rng.randomIntBetween(10, 40)
+      const p2 = rng.randomIntBetween(10, 40)
+      const p3 = rng.randomIntBetween(10, 40)
+      const p4 = 100 - p1 - p2 - p3
+
+      values = [p1, p2, p3, p4]
+    } while (values.some(v => v <= 0 || v > 70))
+
     const target = rng.randomIntBetween(0, 3)
-    const count = rng.randomItemFromArray([40, 60, 80, 100, 120])
+
+    const count = rng.randomItemFromArray([40, 60, 80, 100, 120, 200])
     const result = (count * values[target]) / 100
 
     return { labels, values, target, count, result }
@@ -41,13 +48,20 @@ export const exercise9519: Exercise<DATA> = {
   },
 
   constraint({ data }) {
-    return data.result > 0
+    return (
+      data.result > 0 &&
+      data.values.reduce((sum, value) => sum + value, 0) === 100
+    )
   },
 
   task({ data }) {
     return (
       <>
-        <p>In einer Gruppe mit {data.count} Personen zeigt das Diagramm die Anteile.</p>
+        <p>
+          In einer Gruppe mit {data.count} Personen zeigt das Diagramm die
+          Anteile.
+        </p>
+
         <svg viewBox="0 0 328 220">
           <line x1="45" y1="190" x2="305" y2="190" stroke="black" />
           <line x1="45" y1="30" x2="45" y2="190" stroke="black" />
@@ -87,8 +101,8 @@ export const exercise9519: Exercise<DATA> = {
         </svg>
 
         <p>
-          Berechnen Sie, wie viele Personen zur Gruppe {data.labels[data.target]}{' '}
-          gehören.
+          Berechnen Sie, wie viele Personen zur Gruppe{' '}
+          {data.labels[data.target]} gehören.
         </p>
       </>
     )
