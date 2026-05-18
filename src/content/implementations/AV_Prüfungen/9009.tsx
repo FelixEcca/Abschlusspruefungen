@@ -244,7 +244,7 @@ export const exercise9009: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Berechnen Sie. Beachten Sie Punkt vor Strich.</p>
+            <p>Berechnen Sie das Ergebnis.</p>
             <p>
               <InlineMath math={expressionA(data)} />
             </p>
@@ -336,7 +336,7 @@ export const exercise9009: Exercise<DATA> = {
       task({ data }) {
         return (
           <>
-            <p>Berechnen Sie. Beachten Sie zuerst die Klammern.</p>
+            <p>Berechnen Sie das Ergebnis.</p>
             <p>
               <InlineMath math={expressionB(data)} />
             </p>

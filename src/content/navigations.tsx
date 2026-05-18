@@ -178,15 +178,7 @@ export const navigationData: { [key: number]: Navigation } = {
           },
 
           {
-            name: 'Dreisatz',
-            skillExercises: [{ id: 4503 }],
-          },
-          {
-            name: 'Zusammenhang erkennen',
-            skillExercises: [{ id: 4503 }],
-          },
-          {
-            name: 'Termwerte berechnen',
+            name: 'Dreisatz gemischt',
             skillExercises: [{ id: 4503 }],
           },
         ],
@@ -698,19 +690,31 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'AV - Mathe',
     topics: [
       {
-        title: 'Rechnen und Terme',
+        title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{
-            name: 'Gesamtbetrag',
-            skillExercises: [{ id: 9500 }],
-          },{
-            name: 'Preis aus Stückzahl berechnen',
-            skillExercises: [{ id: 9501 }],
-          },{
-            name: 'Aufteilen',
-            skillExercises: [{ id: 9502 }],
-          },{
+        skillGroups: [
+          {
+            name: 'Zahlenstrahl ablesen',
+            skillExercises: [{ id: 9545 }],
+          },
+          {
+            name: 'Runden',
+            skillExercises: [{ id: 9514 }],
+          },
+          {
+            name: 'Schriftliches Addieren',
+            skillExercises: [{ id: 9546 }],
+          },
+          {
+            name: 'Schriftliches Subtrahieren',
+            skillExercises: [{ id: 9547 }],
+          },
+          {
+            name: 'Mehrere Zahlen addieren',
+            skillExercises: [{ id: 9548 }],
+          },
+          {
             name: 'Punkt vor Strich',
             skillExercises: [{ id: 9503 }],
           },
@@ -719,9 +723,166 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9504 }],
           },
           {
-            name: 'Brüche dividieren',
-            skillExercises: [{ id: 9505 }],
+            name: 'Schriftlich Multiplizieren',
+            skillExercises: [{ id: 9549 }],
           },
+          {
+            name: 'Schriftlich Dividieren',
+            skillExercises: [{ id: 9553 }],
+          },
+          {
+            name: 'Addieren/Subtrahieren mit ganzen Zahlen',
+            skillExercises: [{ id: 9550 }],
+          },
+          {
+            name: 'Multiplizieren/Dividieren mit ganzen Zahlen',
+            skillExercises: [{ id: 9551 }],
+          },
+          {
+            name: 'Rechnen mit Kommazahlen',
+            skillExercises: [{ id: 9552 }],
+          },
+          {
+            name: 'Dividieren in Anwendungsaufgaben',
+            skillExercises: [{ id: 9502 }],
+          },
+          {
+            name: 'Rechnen mit Geld 1',
+            skillExercises: [{ id: 9500 }],
+          },
+          {
+            name: 'Rechnen mit Geld 2',
+            skillExercises: [{ id: 9510 }],
+          },
+          {
+            name: 'Rechnen mit Geld 3',
+            skillExercises: [{ id: 9511 }],
+          },
+          {
+            name: 'Rechnen mit Geld 4',
+            skillExercises: [{ id: 9501 }],
+          },
+
+          {
+            name: 'Rechnen mit Geld 5',
+            skillExercises: [{ id: 9512 }],
+          },
+        ],
+      },
+      {
+        title: 'Terme',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Termwerte berechnen',
+            skillExercises: [{ id: 4906 }],
+          },
+          {
+            name: 'Terme zusammenfassen',
+            skillExercises: [{ id: 4400 }],
+          },
+          {
+            name: 'Terme addieren/subtrahieren',
+            skillExercises: [{ id: 9554 }],
+          },
+          {
+            name: 'Terme multiplizieren',
+            skillExercises: [{ id: 9555 }],
+          },
+          {
+            name: 'Ausmultiplizieren',
+            skillExercises: [{ id: 4909 }],
+          },
+          {
+            name: 'Ausmultiplizieren 2',
+            skillExercises: [{ id: 4910 }],
+          },
+        ],
+      },
+      {
+        title: 'Einheiten',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Längen umrechnen',
+            skillExercises: [{ id: 9524 }],
+          },
+          {
+            name: 'Flächen umrechnen',
+            skillExercises: [{ id: 9525 }],
+          },
+          {
+            name: 'Volumen umrechnen',
+            skillExercises: [{ id: 9526 }],
+          },
+          {
+            name: 'Gewicht umrechnen',
+            skillExercises: [{ id: 9527 }],
+          },
+          {
+            name: 'Liter und Milliliter umrechnen',
+            skillExercises: [{ id: 9528 }],
+          },
+          {
+            name: 'Cent und Euro umrechnen',
+            skillExercises: [{ id: 9529 }],
+          },
+
+          {
+            name: 'Stunden in Minuten',
+            skillExercises: [{ id: 9540 }],
+          },
+          {
+            name: 'Dezimalstunden umwandeln',
+            skillExercises: [{ id: 9543 }],
+          },
+          {
+            name: 'Zeit addieren',
+            skillExercises: [{ id: 9541 }],
+          },
+          {
+            name: 'Bis zur Uhrzeit fertig?',
+            skillExercises: [{ id: 9542 }],
+          },
+          {
+            name: 'Zeitplan Schritt für Schritt',
+            skillExercises: [{ id: 9544 }],
+          },
+        ],
+      },
+      {
+        title: 'Figuren und Flächen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Fläche eines Rechtecks',
+            skillExercises: [{ id: 9531 }],
+          },
+        ],
+      },
+      {
+        title: 'Körper und Volumen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Volumen eines Quaders',
+            skillExercises: [{ id: 9532 }],
+          },
+          {
+            name: 'Volumen eines Zylinders',
+            skillExercises: [{ id: 9533 }],
+          },
+        ],
+      },
+      {
+        title: 'Bruchrechnen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
           {
             name: 'Bruchteil berechnen',
             skillExercises: [{ id: 9506 }],
@@ -730,27 +891,17 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Brüche addieren',
             skillExercises: [{ id: 9507 }],
           },
-          { name: 'Brüche subtrahieren',
+          {
+            name: 'Brüche subtrahieren',
             skillExercises: [{ id: 9508 }],
           },
-          { name: 'Brüche multiplizieren',
+          {
+            name: 'Brüche multiplizieren',
             skillExercises: [{ id: 9509 }],
           },
-          { name: 'Gesamtpreis berechnen',
-            skillExercises: [{ id: 9510 }],
-          },
-          { name: 'Preis berechnen',
-            skillExercises: [{ id: 9511 }],
-          },
-          { name: 'Gewinn berechnen',
-            skillExercises: [{ id: 9512 }],
-          },
-          
-          { name: 'Runden',
-            skillExercises: [{ id: 9514 }],
-          },
-           { name: 'Anteile berechnen',
-            skillExercises: [{ id: 9517 }],
+          {
+            name: 'Brüche dividieren',
+            skillExercises: [{ id: 9505 }],
           },
         ],
       },
@@ -758,109 +909,73 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Dreisatz',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{ name: 'Dreisatz',
+        skillGroups: [
+          {
+            name: 'Dreisatz',
             skillExercises: [{ id: 9515 }],
           },
-        { name: 'Umgekehrter Dreisatz',
+          {
+            name: 'Umgekehrter Dreisatz',
             skillExercises: [{ id: 9516 }],
           },
-       ],
+          {
+            name: 'Anteile aufteilen',
+            skillExercises: [{ id: 9517 }],
+          },
+        ],
       },
       {
-        title: 'Prozentrechnen',
+        title: 'Prozentrechnung',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{ name: 'Prozentwert berechnen',
+        skillGroups: [
+          {
+            name: 'Prozentwert berechnen',
             skillExercises: [{ id: 9518 }],
           },
-          { name: 'Prozent aus Diagramm ablesen',
+          {
+            name: 'Prozent aus Diagramm berechnen',
             skillExercises: [{ id: 9519 }],
           },
-          { name: 'Rabatt berechnen',
+          {
+            name: 'Rabatt berechnen',
             skillExercises: [{ id: 9520 }],
           },
-          { name: 'Restprozent berechnen',
+          {
+            name: 'Restprozent berechnen',
             skillExercises: [{ id: 9521 }],
-           },
-          { name: 'Kreisdiagramm auswerten',
+          },
+          {
+            name: 'Kreisdiagramm auswerten',
             skillExercises: [{ id: 9522 }],
           },
-          { name: 'Zinsen berechnen',
+          {
+            name: 'Zinsen berechnen',
             skillExercises: [{ id: 9523 }],
           },
         ],
       },
       {
-        title: 'Einheiten',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [{ name: 'Längen umrechnen',
-            skillExercises: [{ id: 9524 }],
-          },
-        { name: 'Flächen umrechnen',
-            skillExercises: [{ id: 9525 }],
-          },
-        { name: 'Volumen umrechnen',
-            skillExercises: [{ id: 9526 }],
-          },
-         { name: 'Gewicht umrechnen',
-            skillExercises: [{ id: 9527 }],
-          },
-         { name: 'Liter und Milliliter umrechnen',
-            skillExercises: [{ id: 9528 }],
-          },
-          { name: 'Cent und Euro',
-            skillExercises: [{ id: 9529 }],
-          },
-          { name: 'Stunden in Minuten',
-            skillExercises: [{ id: 9540 }],
-           },
-           { name: 'Zeit addieren',
-            skillExercises: [{ id: 9541 }],
-           },
-          
-           { name: 'Stunden umwandeln',
-            skillExercises: [{ id: 9543 }],
-           },
-           { name: 'Zeitplan',
-            skillExercises: [{ id: 9544 }],
-           },
-        ],
-      },
-      {
-        title: 'Geometrie',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [{ name: 'Fläche eines Rechtecks',
-            skillExercises: [{ id: 9531 }],
-          },
-        { name: 'Volumen eines Quaders',
-            skillExercises: [{ id: 9532 }],
-          },
-        { name: 'Volumen eines Zylinders',
-            skillExercises: [{ id: 9533 }],
-          },
-         
-        ],
-      },
-      {
-        title: 'Diagramme',
+        title: 'Diagramme und Daten',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-        { name: 'Säulendiagramm ablesen',
+          {
+            name: 'Säulendiagramm zeichnen',
             skillExercises: [{ id: 9535 }],
           },
-        { name: 'Kreisdiagramm ablesen',
+          {
+            name: 'Kreisdiagramm ablesen',
             skillExercises: [{ id: 9536 }],
           },
-          { name: 'Temperaturen eintragen',
+          {
+            name: 'Temperaturen eintragen',
             skillExercises: [{ id: 9537 }],
           },
-          { name: 'Temperaturen ablesen',
+          {
+            name: 'Temperaturen ablesen',
             skillExercises: [{ id: 9538 }],
           },
-         
         ],
       },
     ],

@@ -1,0 +1,64 @@
+// exercise9549.tsx
+import { Exercise } from '@/data/types'
+import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+
+interface DATA {
+  a: number
+  b: number
+  result: number
+}
+
+function round2(x: number) {
+  return Math.round(x * 100) / 100
+}
+
+export const exercise9549: Exercise<DATA> = {
+  title: 'Schriftliche Multiplikation',
+  source: 'Grundlagen',
+  useCalculator: false,
+  duration: 42,
+  points: 42,
+
+  generator(rng) {
+    const a = rng.randomItemFromArray([1.2, 1.5, 2.4, 3.6, 4.8, 12, 15, 24])
+    const b = rng.randomItemFromArray([3, 4, 5, 6, 8, 12, 15])
+    const result = round2(a * b)
+
+    return { a, b, result }
+  },
+
+  originalData: {
+    a: 2.4,
+    b: 6,
+    result: 14.4,
+  },
+
+  constraint({ data }) {
+    return data.result > 0
+  },
+
+  task({ data }) {
+    return (
+      <>
+        <p>Berechnen Sie:</p>
+        <InlineMath math={`${pp(data.a)}\\cdot ${pp(data.b)}`} />
+      </>
+    )
+  },
+
+  solution({ data }) {
+    return (
+      <>
+        <p>Multipliziere zuerst wie bei ganzen Zahlen.</p>
+        <p>Achte danach auf das Komma.</p>
+        <InlineMath
+          math={`${pp(data.a)}\\cdot ${pp(data.b)}=${pp(data.result)}`}
+        />
+        <p>
+          Ergebnis: <b>{pp(data.result)}</b>
+        </p>
+      </>
+    )
+  },
+}
