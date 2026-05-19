@@ -9,7 +9,6 @@ interface DATA {
   b: number
   c: number
   d: number
-  op: Op
   xCoeff: number
   constant: number
 }
@@ -25,8 +24,13 @@ function termPart(coeff: number, variable: string) {
   return `${coeff}${variable}`
 }
 
+function signedVariablePart(coeff: number, variable: string) {
+  if (coeff > 0) return `+${termPart(coeff, variable)}`
+  return termPart(coeff, variable)
+}
+
 export const exercise9554: Exercise<DATA> = {
-  title: 'Terme addieren und subtrahieren',
+  title: 'Terme addieren und subtrahieren (ohne Klammern)',
   source: 'Terme',
   useCalculator: false,
   duration: 42,
@@ -37,13 +41,16 @@ export const exercise9554: Exercise<DATA> = {
 
     const a = rng.randomIntBetween(-9, 9)
     const b = rng.randomIntBetween(-20, 20)
-    const c = rng.randomIntBetween(-9, 9)
-    const d = rng.randomIntBetween(-20, 20)
+    const rawC = rng.randomIntBetween(-9, 9)
+    const rawD = rng.randomIntBetween(-20, 20)
 
-    const xCoeff = op === '+' ? a + c : a - c
-    const constant = op === '+' ? b + d : b - d
+    const c = op === '+' ? rawC : -rawC
+    const d = op === '+' ? rawD : -rawD
 
-    return { a, b, c, d, op, xCoeff, constant }
+    const xCoeff = a + c
+    const constant = b + d
+
+    return { a, b, c, d, xCoeff, constant }
   },
 
   originalData: {
@@ -51,7 +58,6 @@ export const exercise9554: Exercise<DATA> = {
     b: 5,
     c: 2,
     d: 7,
-    op: '+',
     xCoeff: 5,
     constant: 12,
   },
@@ -63,12 +69,12 @@ export const exercise9554: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Fassen Sie den Term zusammen.</p>
+        <p>Schreiben Sie den Term so kurz wie möglich.</p>
         <InlineMath
-          math={`(${termPart(data.a, 'x')}${sign(data.b)})${data.op}(${termPart(
+          math={`${termPart(data.a, 'x')}${sign(data.b)}${signedVariablePart(
             data.c,
             'x',
-          )}${sign(data.d)})`}
+          )}${sign(data.d)}`}
         />
       </>
     )
@@ -77,46 +83,38 @@ export const exercise9554: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Gleichartige Teile werden zusammengefasst.</p>
-
-        {data.op === '+' ? (
-          <>
-            <p>Die Klammern können direkt weggelassen werden.</p>
-            <InlineMath
-              math={`(${termPart(data.a, 'x')}${sign(data.b)})+(${termPart(
-                data.c,
-                'x',
-              )}${sign(data.d)})`}
-            />
-            <br />
-            <InlineMath
-              math={`${termPart(data.a, 'x')}${sign(data.b)}${sign(data.c)}x${sign(
-                data.d,
-              )}`}
-            />
-          </>
-        ) : (
-          <>
-            <p>Bei Minus vor der Klammer ändern sich die Vorzeichen.</p>
-            <InlineMath
-              math={`(${termPart(data.a, 'x')}${sign(data.b)})-(${termPart(
-                data.c,
-                'x',
-              )}${sign(data.d)})`}
-            />
-            <br />
-            <InlineMath
-              math={`${termPart(data.a, 'x')}${sign(data.b)}${sign(-data.c)}x${sign(
-                -data.d,
-              )}`}
-            />
-          </>
-        )}
+        <p>Alle Terme mit x werden zusammengefasst und alle Zahlen:</p>
+        <InlineMath
+          math={`${termPart(data.a, 'x')}${sign(data.b)}${signedVariablePart(
+            data.c,
+            'x',
+          )}${sign(data.d)}`}
+        />
+        <br></br>
+        <InlineMath
+          math={`=${termPart(data.a, 'x')}${signedVariablePart(
+            data.c,
+            'x',
+          )}${sign(data.b)}${sign(data.d)}`}
+        />
 
         <br />
         <InlineMath
           math={`=${termPart(data.xCoeff, 'x')}${sign(data.constant)}`}
         />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/PKBC90ZwU8A"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

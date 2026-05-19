@@ -1,5 +1,6 @@
 // exercise9555.tsx
 import { Exercise } from '@/data/types'
+import { pp } from '@/helper/pretty-print'
 import { InlineMath } from 'react-katex'
 
 interface DATA {
@@ -14,6 +15,11 @@ function termPart(coeff: number, variable: string) {
   if (coeff === 1) return variable
   if (coeff === -1) return `-${variable}`
   return `${coeff}${variable}`
+}
+
+function factorTerm(coeff: number, variable: string) {
+  if (coeff === 1) return variable
+  return `${pp(coeff, 'embrace_neg')}${variable}`
 }
 
 function power(variable: string, exponent: number) {
@@ -71,17 +77,19 @@ export const exercise9555: Exercise<DATA> = {
 
         {data.mode === 'xTimesX' && (
           <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
+            math={`${factorTerm(data.a, 'x')}\\cdot ${factorTerm(data.b, 'x')}`}
           />
         )}
 
         {data.mode === 'numberTimesTerm' && (
-          <InlineMath math={`${data.a}\\cdot ${termPart(data.b, 'x')}`} />
+          <InlineMath
+            math={`${pp(data.a, 'embrace_neg')}\\cdot ${factorTerm(data.b, 'x')}`}
+          />
         )}
 
         {data.mode === 'monoTimesMono' && (
           <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
+            math={`${factorTerm(data.a, 'x')}\\cdot ${factorTerm(data.b, 'x')}`}
           />
         )}
       </>
@@ -97,12 +105,12 @@ export const exercise9555: Exercise<DATA> = {
         {data.mode === 'xTimesX' && (
           <>
             <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
+              math={`${factorTerm(data.a, 'x')}\\cdot ${factorTerm(
                 data.b,
                 'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
+              )}`}
             />
-            <br />
+
             <InlineMath
               math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
             />
@@ -112,9 +120,12 @@ export const exercise9555: Exercise<DATA> = {
         {data.mode === 'numberTimesTerm' && (
           <>
             <InlineMath
-              math={`${data.a}\\cdot ${termPart(data.b, 'x')}=${data.a}\\cdot ${data.b}\\cdot x`}
+              math={`${pp(data.a, 'embrace_neg')}\\cdot ${factorTerm(
+                data.b,
+                'x',
+              )}`}
             />
-            <br />
+
             <InlineMath
               math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
             />
@@ -124,17 +135,30 @@ export const exercise9555: Exercise<DATA> = {
         {data.mode === 'monoTimesMono' && (
           <>
             <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
+              math={`${factorTerm(data.a, 'x')}\\cdot ${factorTerm(
                 data.b,
                 'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
+              )}`}
             />
-            <br />
+
             <InlineMath
               math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
             />
           </>
         )}
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/hEp3-Yp9wQo"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

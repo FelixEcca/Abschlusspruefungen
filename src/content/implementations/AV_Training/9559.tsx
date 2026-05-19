@@ -53,6 +53,28 @@ export const exercise9559: Exercise<DATA> = {
             Durchmesser.
           </p>
         )}
+
+        <svg viewBox="0 0 320 180" className="mt-2 w-full max-w-sm">
+          <circle
+            cx="160"
+            cy="90"
+            r="60"
+            fill="none"
+            stroke="black"
+            strokeWidth="2"
+          />
+          <line
+            x1="100"
+            y1="90"
+            x2="220"
+            y2="90"
+            stroke="black"
+            strokeWidth="2"
+          />
+          <text x="160" y="80" textAnchor="middle" fontSize="14">
+            {data.mode === 'uGesucht' ? `d = ${data.d} cm` : 'd = ?'}
+          </text>
+        </svg>
       </>
     )
   },
@@ -75,7 +97,7 @@ export const exercise9559: Exercise<DATA> = {
       <>
         <p>Formel:</p>
         <InlineMath math="u=\pi\cdot d" />
-        <p>Nach dem Durchmesser umstellen:</p>
+        <p>Für den Durchmesser gilt dann:</p>
         <InlineMath math="d=\frac{u}{\pi}" />
         <br />
         <InlineMath

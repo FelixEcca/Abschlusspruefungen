@@ -743,7 +743,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9552 }],
           },
           {
-            name: 'Dividieren in Textsaufgaben',
+            name: 'Dividieren in Textaufgaben',
             skillExercises: [{ id: 9502 }],
           },
           {
@@ -769,37 +769,7 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
-      {
-        title: 'Terme',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Termwerte berechnen',
-            skillExercises: [{ id: 4906 }],
-          },
-          {
-            name: 'Terme zusammenfassen',
-            skillExercises: [{ id: 4400 }],
-          },
-          {
-            name: 'Terme addieren/subtrahieren',
-            skillExercises: [{ id: 9554 }],
-          },
-          {
-            name: 'Terme multiplizieren',
-            skillExercises: [{ id: 9555 }],
-          },
-          {
-            name: 'Ausmultiplizieren',
-            skillExercises: [{ id: 4909 }],
-          },
-          {
-            name: 'Ausmultiplizieren 2',
-            skillExercises: [{ id: 4910 }],
-          },
-        ],
-      },
+
       {
         title: 'Einheiten',
         headerColor: 'medium',
@@ -835,7 +805,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9540 }],
           },
           {
-            name: 'Dezimalstunden umwandeln',
+            name: 'Stundenzahl umwandeln',
             skillExercises: [{ id: 9543 }],
           },
           {
@@ -864,68 +834,56 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Eigenschaften von Figuren',
             skillExercises: [{ id: 9557 }],
-          },{
-            name: 'Fläche von zusammengesetzten Figuren',
+          },
+          {
+            name: 'Gemischte Aufgaben zum Umfang',
             skillExercises: [{ id: 9558 }],
-          },{
+          },
+          {
             name: 'Kreisumfang',
             skillExercises: [{ id: 9559 }],
-          },{
+          },
+          {
             name: 'Radius und Durchmesser',
             skillExercises: [{ id: 9560 }],
-          },{
-            name: 'Umfang von Kreisteilen',
-            skillExercises: [{ id: 9561 }],
-          },{
-            name: 'Figuren mit Kreisteilen',
-            skillExercises: [{ id: 9562 }],
-          },{
-            name: 'Kreisbogen',
-            skillExercises: [{ id: 9563 }],
-          },{
-            name: 'Term für den Umfang',
-            skillExercises: [{ id: 9564 }],
-          },{
-            name: 'Figur zeichnen für Term',
+          },
+          {
+            name: 'Fläche eines Quadrats',
             skillExercises: [{ id: 9565 }],
-          },{
-            name: 'Fläche eines Rechtecks',
-            skillExercises: [{ id: 9567 }],
-          },{
+          },
+
+          {
             name: 'Fläche eines Rechtecks',
             skillExercises: [{ id: 9531 }],
           },
           {
             name: 'Fläche eines Parallelogramms',
-            skillExercises: [{ id: 9566 }],
+            skillExercises: [{ id: 9564 }],
           },
-{
+          {
             name: 'Fläche eines Trapezes',
-            skillExercises: [{ id: 9568 }],
+            skillExercises: [{ id: 9567 }],
           },
           {
             name: 'Fläche von rechtwinkligen Dreiecken',
-            skillExercises: [{ id: 9569 }],
+            skillExercises: [{ id: 9568 }],
           },
           {
             name: 'Fläche eines Dreiecks',
-            skillExercises: [{ id: 9570 }],
+            skillExercises: [{ id: 9569 }],
           },
           {
             name: 'Fläche eines Kreises',
-            skillExercises: [{ id: 9571 }],
+            skillExercises: [{ id: 9570 }],
           },
           {
-            name: 'Fehlende Angabe bei Fläche berechnen',
+            name: 'Fläche von einer zusammengesetzten Figur',
             skillExercises: [{ id: 9572 }],
           },
-          {
-            name: 'Fläche von Kreisteilen',
-            skillExercises: [{ id: 9573 }],
-          },
+
           {
             name: 'Fläche von einem Kreisring',
-            skillExercises: [{ id: 9574 }],
+            skillExercises: [{ id: 9571 }],
           },
         ],
       },
@@ -937,29 +895,32 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Körper erkennen',
             skillExercises: [{ id: 9575 }],
-          },{
+          },
+          {
             name: 'Volumen eines Würfels',
             skillExercises: [{ id: 9576 }],
-          },{
+          },
+          {
             name: 'Volumen eines Quaders',
             skillExercises: [{ id: 9532 }],
-          },{
+          },
+          {
             name: 'Volumen eines Prismas',
             skillExercises: [{ id: 9577 }],
           },
-            {
-              name: 'Volumen eines Zylinders',
-              skillExercises: [{ id: 9533 }],
-            },
-            {
+          {
+            name: 'Volumen eines Zylinders',
+            skillExercises: [{ id: 9533 }],
+          },
+          {
             name: 'Volumen einer Pyramide',
             skillExercises: [{ id: 9579 }],
           },
-            {
-              name: 'Volumen eines Kegels',
-              skillExercises: [{ id: 9580 }],
-            },
-            {
+          {
+            name: 'Volumen eines Kegels',
+            skillExercises: [{ id: 9580 }],
+          },
+          {
             name: 'Volumen eines schiefen Körpers',
             skillExercises: [{ id: 9578 }],
           },
@@ -967,7 +928,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Volumen einer Kugel',
             skillExercises: [{ id: 9581 }],
           },
-{
+          {
             name: 'Oberfläche eines Würfels',
             skillExercises: [{ id: 9582 }],
           },
@@ -994,7 +955,6 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          
           {
             name: 'Zähler und Nenner',
             skillExercises: [{ id: 9587 }],
@@ -1047,7 +1007,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Bruchteil angeben',
             skillExercises: [{ id: 9595 }],
           },
-          
+
           {
             name: 'Bruchteil berechnen',
             skillExercises: [{ id: 9506 }],
@@ -1089,10 +1049,12 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Prozent in Kommazahl umwandeln',
             skillExercises: [{ id: 9598 }],
-          },{
+          },
+          {
             name: 'Prozent in Bruch umwandeln',
             skillExercises: [{ id: 9599 }],
-          },{
+          },
+          {
             name: 'Prozentwert berechnen',
             skillExercises: [{ id: 9600 }],
           },
@@ -1112,7 +1074,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zinseszins',
             skillExercises: [{ id: 9604 }],
           },
-          
         ],
       },
       {
@@ -1123,7 +1084,8 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Säulendiagramm ablesen',
             skillExercises: [{ id: 9534 }],
-          },{
+          },
+          {
             name: 'Säulendiagramm zeichnen',
             skillExercises: [{ id: 9535 }],
           },
@@ -1142,10 +1104,12 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Mittelwert berechnen',
             skillExercises: [{ id: 9605 }],
-          },{
+          },
+          {
             name: 'Daten vergleichen',
             skillExercises: [{ id: 9606 }],
-          },{
+          },
+          {
             name: 'Häufigkeiten',
             skillExercises: [{ id: 9607 }],
           },

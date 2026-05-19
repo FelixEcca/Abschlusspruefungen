@@ -193,10 +193,10 @@ export const exercise9558: Exercise<DATA> = {
               <text x="165" y="38" fontSize="15" textAnchor="middle">
                 {data.b} cm
               </text>
-              <text x="88" y="88" fontSize="15" textAnchor="middle">
+              <text x="68" y="88" fontSize="15" textAnchor="middle">
                 {data.c} cm
               </text>
-              <text x="240" y="88" fontSize="15" textAnchor="middle">
+              <text x="260" y="88" fontSize="15" textAnchor="middle">
                 {data.d} cm
               </text>
             </svg>
@@ -209,7 +209,7 @@ export const exercise9558: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Beim Umfang werden alle Außenkanten addiert.</p>
+        <p>Beim Umfang werden alle Seitenlängen addiert.</p>
 
         {data.figure === 'dreieck' && (
           <>
@@ -260,6 +260,19 @@ export const exercise9558: Exercise<DATA> = {
             />
           </>
         )}
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/avzLGPebVBc"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

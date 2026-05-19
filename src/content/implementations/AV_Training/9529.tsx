@@ -37,7 +37,7 @@ export const exercise9529: Exercise<DATA> = {
       from === '€'
         ? rng.randomItemFromArray([1.25, 2.5, 8.75, 12, 24.5])
         : rng.randomItemFromArray([125, 250, 875, 1200, 3500])
-    const result = Math.round((value * factor(from) / factor(to)) * 100) / 100
+    const result = Math.round(((value * factor(from)) / factor(to)) * 100) / 100
 
     return { value, from, to, result }
   },
@@ -65,11 +65,26 @@ export const exercise9529: Exercise<DATA> = {
 
   solution({ data }) {
     return (
-      <InlineMath
-        math={`${pp(data.value)}\\,${unit(data.from)}=${pp(
-          data.result,
-        )}\\,${unit(data.to)}`}
-      />
+      <>
+        <InlineMath
+          math={`${pp(data.value)}\\,${unit(data.from)}=${pp(
+            data.result,
+          )}\\,${unit(data.to)}`}
+        />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/GBGyn_SJ9Ig"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
+      </>
     )
   },
 }

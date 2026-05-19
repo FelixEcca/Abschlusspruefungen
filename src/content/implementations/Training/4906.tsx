@@ -127,10 +127,14 @@ export const exercise4906: Exercise<DATA> = {
               <InlineMath math={`${pp(data.t1)} - ${v}`} />
             )}
             {data.modeA === 'linear' && (
-              <InlineMath math={`${pp(data.t2)}${v} + ${pp(data.t1)}`} />
+              <InlineMath
+                math={`${pp(data.t2)}${v} + ${pp(data.t1, 'embrace_neg')}`}
+              />
             )}
             {data.modeA === 'quadratic' && (
-              <InlineMath math={`${pp(data.t3)}${v}^2 - ${pp(data.t1)}`} />
+              <InlineMath
+                math={`${pp(data.t3)}${v}^2 - ${pp(data.t1, 'embrace_neg')}`}
+              />
             )}
           </>
         )
@@ -144,7 +148,7 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeA === 'plus' && (
               <>
                 <InlineMath
-                  math={`${v} + ${pp(data.t1)} = ${pp(val)} + ${pp(data.t1)}`}
+                  math={`${v} + ${pp(data.t1, 'embrace_neg')} = ${pp(val)} + ${pp(data.t1, 'embrace_neg')}`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultA)}`} />
@@ -154,7 +158,7 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeA === 'minus' && (
               <>
                 <InlineMath
-                  math={`${pp(data.t1)} - ${v} = ${pp(data.t1)} - ${pp(val)}`}
+                  math={`${pp(data.t1)} - ${v} = ${pp(data.t1, 'embrace_neg')} - ${pp(val, 'embrace_neg')}`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultA)}`} />
@@ -164,9 +168,9 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeA === 'linear' && (
               <>
                 <InlineMath
-                  math={`${pp(data.t2)}${v} + ${pp(data.t1)} = ${pp(
+                  math={`${pp(data.t2)}${v} + ${pp(data.t1, 'embrace_neg')} = ${pp(
                     data.t2,
-                  )}\\cdot ${pp(val)} + ${pp(data.t1)}`}
+                  )}\\cdot ${pp(val, 'embrace_neg')} + ${pp(data.t1, 'embrace_neg')}`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultA)}`} />
@@ -176,14 +180,27 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeA === 'quadratic' && (
               <>
                 <InlineMath
-                  math={`${pp(data.t3)}${v}^2 - ${pp(data.t1)} = ${pp(
+                  math={`${pp(data.t3)}${v}^2 - ${pp(data.t1, 'embrace_neg')} = ${pp(
                     data.t3,
-                  )}\\cdot ${pp(val)}^2 - ${pp(data.t1)}`}
+                  )}\\cdot ${pp(val, 'embrace_neg')}^2 - ${pp(data.t1, 'embrace_neg')}`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultA)}`} />
               </>
             )}
+            <h2>Erklärvideo</h2>
+            <p>Hier gibt es noch ein Erklärungsvideo:</p>
+            <div className="my-4">
+              <iframe
+                width="100%"
+                height="220"
+                src="https://www.youtube.com/embed/Xen1pMKDmLw"
+                title="Erklärungsvideo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded border"
+              />
+            </div>
           </>
         )
       },
@@ -233,7 +250,8 @@ export const exercise4906: Exercise<DATA> = {
                 <InlineMath
                   math={`${pp(data.k1)}\\cdot (${v} + ${pp(
                     data.k2,
-                  )}) = ${pp(data.k1)}\\cdot (${pp(val)} + ${pp(data.k2)})`}
+                    'embrace_neg',
+                  )}) = ${pp(data.k1)}\\cdot (${pp(val, 'embrace_neg')} + ${pp(data.k2, 'embrace_neg')})`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultB)}`} />
@@ -243,9 +261,9 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeB === 'timesBracketMinus' && (
               <>
                 <InlineMath
-                  math={`${pp(data.k1)}\\cdot (${pp(data.k2)} - ${v}) = ${pp(
+                  math={`${pp(data.k1)}\\cdot (${pp(data.k2, 'embrace_neg')} - ${v}) = ${pp(
                     data.k1,
-                  )}\\cdot (${pp(data.k2)} - ${pp(val)})`}
+                  )}\\cdot (${pp(data.k2, 'embrace_neg')} - ${pp(val, 'embrace_neg')})`}
                 />
                 <br />
                 <InlineMath math={`= ${pp(data.resultB)}`} />
@@ -255,10 +273,12 @@ export const exercise4906: Exercise<DATA> = {
             {data.modeB === 'doubleBracket' && (
               <>
                 <InlineMath
-                  math={`(${v} + ${pp(data.k1)})\\cdot (${v} - ${pp(
+                  math={`(${v} + ${pp(data.k1, 'embrace_neg')})\\cdot (${v} - ${pp(
                     data.k3,
-                  )}) = (${pp(val)} + ${pp(data.k1)})\\cdot (${pp(val)} - ${pp(
+                    'embrace_neg',
+                  )}) = (${pp(val)} + ${pp(data.k1, 'embrace_neg')})\\cdot (${pp(val, 'embrace_neg')} - ${pp(
                     data.k3,
+                    'embrace_neg',
                   )})`}
                 />
                 <br />
@@ -266,18 +286,18 @@ export const exercise4906: Exercise<DATA> = {
               </>
             )}
             <h2>Erklärvideo</h2>
-        <p>Hier gibt es noch ein Erklärungsvideo zum Runden:</p>
-        <div className="my-4">
-          <iframe
-            width="100%"
-            height="220"
-            src="https://www.youtube.com/embed/Xen1pMKDmLw"
-            title="Erklärungsvideo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="rounded border"
-          />
-        </div>
+            <p>Hier gibt es noch ein Erklärungsvideo:</p>
+            <div className="my-4">
+              <iframe
+                width="100%"
+                height="220"
+                src="https://www.youtube.com/embed/Xen1pMKDmLw"
+                title="Erklärungsvideo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded border"
+              />
+            </div>
           </>
         )
       },

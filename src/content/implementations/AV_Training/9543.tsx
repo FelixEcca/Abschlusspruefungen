@@ -16,7 +16,9 @@ export const exercise9543: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const hours = rng.randomItemFromArray([1.25, 1.5, 1.75, 2.25, 2.5, 3.5, 4.75])
+    const hours = rng.randomItemFromArray([
+      1.25, 1.5, 1.75, 2.25, 2.5, 3.5, 4.75,
+    ])
     const h = Math.floor(hours)
     const m = Math.round((hours - h) * 60)
 
@@ -37,7 +39,9 @@ export const exercise9543: Exercise<DATA> = {
     return (
       <p>
         Wandeln Sie{' '}
-        <InlineMath math={`${String(data.hours).replace('.', ',')}\\,\\mathrm{h}`} />{' '}
+        <InlineMath
+          math={`${String(data.hours).replace('.', ',')}\\,\\mathrm{h}`}
+        />{' '}
         in Stunden und Minuten um.
       </p>
     )
@@ -49,6 +53,13 @@ export const exercise9543: Exercise<DATA> = {
         <b>
           {data.h} Stunden und {data.m} Minuten
         </b>
+        <p>
+          Für die Anzahl der Minuten kann man <br></br>
+          <InlineMath
+            math={`${String(data.hours - data.h).replace('.', ',')}\\cdot 60`}
+          />{' '}
+          rechnen.
+        </p>
       </p>
     )
   },

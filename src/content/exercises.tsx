@@ -315,19 +315,14 @@ import { exercise9557 } from './implementations/AV_Training/9557'
 import { exercise9558 } from './implementations/AV_Training/9558'
 import { exercise9559 } from './implementations/AV_Training/9559'
 import { exercise9560 } from './implementations/AV_Training/9560'
-import { exercise9561 } from './implementations/AV_Training/9561'
-import { exercise9562 } from './implementations/AV_Training/9562'
-import { exercise9563 } from './implementations/AV_Training/9563'
 import { exercise9564 } from './implementations/AV_Training/9564'
 import { exercise9565 } from './implementations/AV_Training/9565'
-import { exercise9566 } from './implementations/AV_Training/9566'
 import { exercise9567 } from './implementations/AV_Training/9567'
 import { exercise9568 } from './implementations/AV_Training/9568'
 import { exercise9569 } from './implementations/AV_Training/9569'
 import { exercise9570 } from './implementations/AV_Training/9570'
 import { exercise9571 } from './implementations/AV_Training/9571'
 import { exercise9572 } from './implementations/AV_Training/9572'
-import { exercise9573 } from './implementations/AV_Training/9573'
 import { exercise9574 } from './implementations/AV_Training/9574'
 import { exercise9575 } from './implementations/AV_Training/9575'
 import { exercise9577 } from './implementations/AV_Training/9577'
@@ -679,19 +674,14 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9558: exercise9558,
   9559: exercise9559,
   9560: exercise9560,
-  9561: exercise9561,
-  9562: exercise9562,
-  9563: exercise9563,
   9564: exercise9564,
   9565: exercise9565,
-  9566: exercise9566,
   9567: exercise9567,
   9568: exercise9568,
   9569: exercise9569,
   9570: exercise9570,
   9571: exercise9571,
   9572: exercise9572,
-  9573: exercise9573,
   9574: exercise9574,
   9575: exercise9575,
   9576: exercise9576,
@@ -726,7 +716,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9605: exercise9605,
   9606: exercise9606,
   9607: exercise9607,
-
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'
