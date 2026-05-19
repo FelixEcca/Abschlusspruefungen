@@ -158,6 +158,19 @@ export const exercise9503: Exercise<DATA> = {
             <InlineMath math={`=${pp(data.result)}`} />
           </>
         )}
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zur Punkt-vor-Strich-Regel:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/zEvWRs6BWos"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

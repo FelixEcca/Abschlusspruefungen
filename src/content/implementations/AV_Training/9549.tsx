@@ -50,14 +50,27 @@ export const exercise9549: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Multipliziere zuerst wie bei ganzen Zahlen.</p>
-        <p>Achte danach auf das Komma.</p>
+       
+        
+        <p>
+          Ergebnis zur Kontrolle: 
+        </p>
         <InlineMath
           math={`${pp(data.a)}\\cdot ${pp(data.b)}=${pp(data.result)}`}
         />
-        <p>
-          Ergebnis: <b>{pp(data.result)}</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zur Multiplikation mit Kommazahlen:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/b2MYpB_ZdRg"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -107,11 +107,11 @@ export const exercise9504: Exercise<DATA> = {
             <InlineMath math={term(data)} />
             <br />
             <InlineMath
-              math={`${data.a + data.b}\\cdot ${data.c}-${data.d}`}
+              math={`=${data.a + data.b}\\cdot ${data.c}-${data.d}`}
             />
             <br />
             <InlineMath
-              math={`${pp((data.a + data.b) * data.c)}-${data.d}`}
+              math={`=${pp((data.a + data.b) * data.c)}-${data.d}`}
             />
             <br />
             <InlineMath math={`=${pp(data.result)}`} />
@@ -161,6 +161,19 @@ export const exercise9504: Exercise<DATA> = {
             <InlineMath math={`=${pp(data.result)}`} />
           </>
         )}
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zu Klammern:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/pDiC2fr-EhM"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

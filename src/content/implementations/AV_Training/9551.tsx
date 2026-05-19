@@ -1,5 +1,6 @@
 // exercise9551.tsx
 import { Exercise } from '@/data/types'
+import { pp } from '@/helper/pretty-print'
 import { InlineMath } from 'react-katex'
 
 interface DATA {
@@ -51,9 +52,9 @@ export const exercise9551: Exercise<DATA> = {
       <>
         <p>Berechnen Sie:</p>
         {data.op === 'cdot' ? (
-          <InlineMath math={`${data.a}\\cdot ${data.b}`} />
+          <InlineMath math={`${pp(data.a,'embrace_neg')}\\cdot ${pp(data.b,'embrace_neg')}`} />
         ) : (
-          <InlineMath math={`${data.a}:${data.b}`} />
+          <InlineMath math={`${pp(data.a,'embrace_neg')}:${pp(data.b,'embrace_neg')}`} />
         )}
       </>
     )
@@ -68,13 +69,26 @@ export const exercise9551: Exercise<DATA> = {
           minus.
         </p>
         {data.op === 'cdot' ? (
-          <InlineMath math={`${data.a}\\cdot ${data.b}=${data.result}`} />
+          <InlineMath math={`${pp(data.a,'embrace_neg')}\\cdot ${pp(data.b,'embrace_neg')}=${pp(data.result,'embrace_neg')}`} />
         ) : (
-          <InlineMath math={`${data.a}:${data.b}=${data.result}`} />
+          <InlineMath math={`${pp(data.a,'embrace_neg')}:${pp(data.b,'embrace_neg')}=${pp(data.result,'embrace_neg')}`} />
         )}
         <p>
           Ergebnis: <b>{data.result}</b>
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen Zahlen:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/yAl7RYR-SHo"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

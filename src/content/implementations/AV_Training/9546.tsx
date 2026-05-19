@@ -43,15 +43,23 @@ export const exercise9546: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Rechne stellenweise von rechts nach links.</p>
-        <p>
-          Einer, Zehner, Hunderter und Tausender werden passend untereinander
-          geschrieben.
+       <p>
+          Ergebnis zur Kontrolle: 
         </p>
         <InlineMath math={`${data.a}+${data.b}=${data.result}`} />
-        <p>
-          Ergebnis: <b>{data.result}</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zur schriftlichen Addition:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/R1zmiQJqOJ4"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

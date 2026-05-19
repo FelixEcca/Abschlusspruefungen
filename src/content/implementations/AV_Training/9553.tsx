@@ -45,18 +45,29 @@ export const exercise9553: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Teile Schritt für Schritt von links nach rechts.</p>
-        <p>Kontrolle: Ergebnis mal Divisor ergibt wieder die Startzahl.</p>
+        
+        
+       
+        
+        <p>
+          Ergebnis zur Kontrolle: <b>{data.quotient}</b>
+        </p>
         <InlineMath
           math={`${data.dividend}:${data.divisor}=${data.quotient}`}
         />
-        <br />
-        <InlineMath
-          math={`${data.quotient}\\cdot ${data.divisor}=${data.dividend}`}
-        />
-        <p>
-          Ergebnis: <b>{data.quotient}</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum schriftlichen Dividieren:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/2A-9_-GCXrA"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

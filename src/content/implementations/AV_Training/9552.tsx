@@ -3,7 +3,7 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
-type Op = '+' | '-' | 'cdot' | ':'
+type Op = '+' | '-' 
 
 interface DATA {
   a: number
@@ -17,21 +17,16 @@ function round2(x: number) {
 }
 
 export const exercise9552: Exercise<DATA> = {
-  title: 'Rechnen mit Dezimalzahlen',
+  title: 'Rechnen mit Kommazahlen',
   source: 'Grundlagen',
   useCalculator: false,
   duration: 42,
   points: 42,
 
   generator(rng) {
-    const op = rng.randomItemFromArray(['+', '-', 'cdot', ':'] as const)
+    const op = rng.randomItemFromArray(['+', '-'] as const)
 
-    if (op === ':') {
-      const b = rng.randomItemFromArray([0.5, 1.5, 2.5, 4])
-      const result = rng.randomItemFromArray([1.2, 2.4, 3.6, 4.8, 6])
-      const a = round2(b * result)
-      return { a, b, op, result }
-    }
+   
 
     const a = rng.randomItemFromArray([1.2, 2.5, 3.75, 4.8, 6.25, 10.5])
     const b = rng.randomItemFromArray([0.5, 1.25, 2.4, 3.5, 4.75])
@@ -39,7 +34,6 @@ export const exercise9552: Exercise<DATA> = {
     let result = 0
     if (op === '+') result = round2(a + b)
     if (op === '-') result = round2(a - b)
-    if (op === 'cdot') result = round2(a * b)
 
     return { a, b, op, result }
   },
@@ -59,11 +53,7 @@ export const exercise9552: Exercise<DATA> = {
     return (
       <>
         <p>Berechnen Sie:</p>
-        {data.op === 'cdot' ? (
-          <InlineMath math={`${pp(data.a)}\\cdot ${pp(data.b)}`} />
-        ) : (
-          <InlineMath math={`${pp(data.a)}${data.op}${pp(data.b)}`} />
-        )}
+        <InlineMath math={`${pp(data.a)}${data.op}${pp(data.b)}`} />
       </>
     )
   },
@@ -71,19 +61,27 @@ export const exercise9552: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Achte genau auf das Komma.</p>
-        {data.op === 'cdot' ? (
-          <InlineMath
-            math={`${pp(data.a)}\\cdot ${pp(data.b)}=${pp(data.result)}`}
-          />
-        ) : (
+        
+        <p>
+          Ergebnis zur Kontrolle: 
+        </p>
           <InlineMath
             math={`${pp(data.a)}${data.op}${pp(data.b)}=${pp(data.result)}`}
           />
-        )}
-        <p>
-          Ergebnis: <b>{pp(data.result)}</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum Rechnen mit Kommazahlen:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/pT_6tNzVJZU"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
+        
       </>
     )
   },

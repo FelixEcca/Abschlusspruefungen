@@ -45,12 +45,24 @@ export const exercise9547: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Rechne stellenweise von rechts nach links.</p>
-        <p>Wenn oben eine kleinere Ziffer steht, muss geborgt werden.</p>
-        <InlineMath math={`${data.a}-${data.b}=${data.result}`} />
+        
+        
         <p>
-          Ergebnis: <b>{data.result}</b>
-        </p>
+          Ergebnis zur Kontrolle:         </p>
+        <InlineMath math={`${data.a}-${data.b}=${data.result}`} />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zur schriftlichen Subtraktion:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/FVKBfnkkLS8"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

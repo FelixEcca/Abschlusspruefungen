@@ -9,13 +9,26 @@ interface DATA {
   kontext: Kontext
   raw: number
   rounded: number
+  nachkommastellen: 1 | 2 | 3
+}
+
+function getFrageText(nachkommastellen: 1 | 2 | 3) {
+  if (nachkommastellen === 1) {
+    return 'Runden Sie auf eine Nachkommastelle.'
+  }
+
+  if (nachkommastellen === 2) {
+    return 'Runden Sie auf zwei Nachkommastellen.'
+  }
+
+  return 'Runden Sie auf drei Nachkommastellen.'
 }
 
 function getContext(data: DATA) {
   if (data.kontext === 'laenge') {
     return {
       text: `Eine Länge beträgt ${pp(data.raw)} m.`,
-      frage: 'Runden Sie auf zwei Nachkommastellen.',
+      frage: getFrageText(data.nachkommastellen),
       unit: 'm',
     }
   }
@@ -23,7 +36,7 @@ function getContext(data: DATA) {
   if (data.kontext === 'gewicht') {
     return {
       text: `Ein Gewicht beträgt ${pp(data.raw)} kg.`,
-      frage: 'Runden Sie auf zwei Nachkommastellen.',
+      frage: getFrageText(data.nachkommastellen),
       unit: 'kg',
     }
   }
@@ -31,14 +44,14 @@ function getContext(data: DATA) {
   if (data.kontext === 'preis') {
     return {
       text: `Ein Preis beträgt ${pp(data.raw)} €.`,
-      frage: 'Runden Sie auf zwei Nachkommastellen.',
+      frage: getFrageText(data.nachkommastellen),
       unit: '€',
     }
   }
 
   return {
     text: `Ein Geldbetrag beträgt ${pp(data.raw)} €.`,
-    frage: 'Runden Sie auf zwei Nachkommastellen.',
+    frage: getFrageText(data.nachkommastellen),
     unit: '€',
   }
 }
@@ -58,19 +71,23 @@ export const exercise9514: Exercise<DATA> = {
       'preis',
     ])
 
+    const nachkommastellen: 1 | 2 | 3 = rng.randomItemFromArray([1, 2, 3])
+
     const raw =
-      rng.randomIntBetween(1000, 9999) / 1000 +
+      rng.randomIntBetween(10000, 99999) / 10000 +
       rng.randomItemFromArray([0, 1, 2, 3, 4, 5])
 
-    const rounded = Math.round(raw * 100) / 100
+    const factor = 10 ** nachkommastellen
+    const rounded = Math.round(raw * factor) / factor
 
-    return { kontext, raw, rounded }
+    return { kontext, raw, rounded, nachkommastellen }
   },
 
   originalData: {
     kontext: 'geld',
     raw: 12.345,
     rounded: 12.35,
+    nachkommastellen: 2,
   },
 
   constraint({ data }) {
@@ -108,6 +125,19 @@ export const exercise9514: Exercise<DATA> = {
             Ergebnis: <b>{pp(data.rounded)} {context.unit}</b>
           </p>
         )}
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum Runden:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/QTQdAer2YnY"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

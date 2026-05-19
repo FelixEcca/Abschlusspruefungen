@@ -743,7 +743,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9552 }],
           },
           {
-            name: 'Dividieren in Anwendungsaufgaben',
+            name: 'Dividieren in Textsaufgaben',
             skillExercises: [{ id: 9502 }],
           },
           {
@@ -843,7 +843,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9541 }],
           },
           {
-            name: 'Bis zur Uhrzeit fertig?',
+            name: 'Wird es rechtzeitig fertig?',
             skillExercises: [{ id: 9542 }],
           },
           {
@@ -858,8 +858,74 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Figuren erkennen',
+            skillExercises: [{ id: 9556 }],
+          },
+          {
+            name: 'Eigenschaften von Figuren',
+            skillExercises: [{ id: 9557 }],
+          },{
+            name: 'Fläche von zusammengesetzten Figuren',
+            skillExercises: [{ id: 9558 }],
+          },{
+            name: 'Kreisumfang',
+            skillExercises: [{ id: 9559 }],
+          },{
+            name: 'Radius und Durchmesser',
+            skillExercises: [{ id: 9560 }],
+          },{
+            name: 'Umfang von Kreisteilen',
+            skillExercises: [{ id: 9561 }],
+          },{
+            name: 'Figuren mit Kreisteilen',
+            skillExercises: [{ id: 9562 }],
+          },{
+            name: 'Kreisbogen',
+            skillExercises: [{ id: 9563 }],
+          },{
+            name: 'Term für den Umfang',
+            skillExercises: [{ id: 9564 }],
+          },{
+            name: 'Figur zeichnen für Term',
+            skillExercises: [{ id: 9565 }],
+          },{
+            name: 'Fläche eines Rechtecks',
+            skillExercises: [{ id: 9567 }],
+          },{
             name: 'Fläche eines Rechtecks',
             skillExercises: [{ id: 9531 }],
+          },
+          {
+            name: 'Fläche eines Parallelogramms',
+            skillExercises: [{ id: 9566 }],
+          },
+{
+            name: 'Fläche eines Trapezes',
+            skillExercises: [{ id: 9568 }],
+          },
+          {
+            name: 'Fläche von rechtwinkligen Dreiecken',
+            skillExercises: [{ id: 9569 }],
+          },
+          {
+            name: 'Fläche eines Dreiecks',
+            skillExercises: [{ id: 9570 }],
+          },
+          {
+            name: 'Fläche eines Kreises',
+            skillExercises: [{ id: 9571 }],
+          },
+          {
+            name: 'Fehlende Angabe bei Fläche berechnen',
+            skillExercises: [{ id: 9572 }],
+          },
+          {
+            name: 'Fläche von Kreisteilen',
+            skillExercises: [{ id: 9573 }],
+          },
+          {
+            name: 'Fläche von einem Kreisring',
+            skillExercises: [{ id: 9574 }],
           },
         ],
       },
@@ -901,7 +967,26 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Volumen einer Kugel',
             skillExercises: [{ id: 9581 }],
           },
-
+{
+            name: 'Oberfläche eines Würfels',
+            skillExercises: [{ id: 9582 }],
+          },
+          {
+            name: 'Oberfläche eines Quaders',
+            skillExercises: [{ id: 9583 }],
+          },
+          {
+            name: 'Oberfläche eines Zylinders',
+            skillExercises: [{ id: 9584 }],
+          },
+          {
+            name: 'Oberfläche einer Pyramide',
+            skillExercises: [{ id: 9585 }],
+          },
+          {
+            name: 'Oberfläche eines Kegels',
+            skillExercises: [{ id: 9586 }],
+          },
         ],
       },
       {
@@ -909,10 +994,7 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          {
-            name: 'Bruchteil berechnen',
-            skillExercises: [{ id: 9506 }],
-          },
+          
           {
             name: 'Zähler und Nenner',
             skillExercises: [{ id: 9587 }],
@@ -965,12 +1047,17 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Bruchteil angeben',
             skillExercises: [{ id: 9595 }],
           },
+          
           {
             name: 'Bruchteil berechnen',
             skillExercises: [{ id: 9506 }],
           },
           {
-            name: 'Gesuchter Teil ermitteln',
+            name: 'Bruchteil berechnen 2',
+            skillExercises: [{ id: 9005 }],
+          },
+          {
+            name: 'Gesuchter Teil berechnen',
             skillExercises: [{ id: 9597 }],
           },
         ],
