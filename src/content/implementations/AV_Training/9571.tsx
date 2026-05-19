@@ -1,89 +1,100 @@
-// exercise9555.tsx
+// exercise9571.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+
+type Unit = 'cm' | 'dm' | 'm'
 
 interface DATA {
-  a: number
-  b: number
-  mode: 'xTimesX' | 'numberTimesTerm' | 'monoTimesMono'
-  resultCoeff: number
-  resultPower: number
+  rOuter: number
+  rInner: number
+  unit: Unit
+  areaOuter: number
+  areaInner: number
+  areaRing: number
 }
 
-function termPart(coeff: number, variable: string) {
-  if (coeff === 1) return variable
-  if (coeff === -1) return `-${variable}`
-  return `${coeff}${variable}`
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
-function power(variable: string, exponent: number) {
-  if (exponent === 1) return variable
-  return `${variable}^{${exponent}}`
+function unitLatex(unit: Unit) {
+  return `\\mathrm{${unit}}`
 }
 
 export const exercise9571: Exercise<DATA> = {
-  title: 'Terme multiplizieren',
-  source: 'Terme',
-  useCalculator: false,
+  title: 'Fläche Kreisring',
+  source: 'Figuren und Flächen',
+  useCalculator: true,
   duration: 42,
   points: 42,
 
   generator(rng) {
-    const mode = rng.randomItemFromArray([
-      'xTimesX',
-      'numberTimesTerm',
-      'monoTimesMono',
-    ] as const)
+    const unit: Unit = rng.randomItemFromArray(['cm', 'dm', 'm'])
 
-    const a = rng.randomIntBetween(-9, 9)
-    const b = rng.randomIntBetween(-9, 9)
+    const rOuter =
+      unit === 'cm'
+        ? rng.randomItemFromArray([5, 6, 8, 10, 12])
+        : unit === 'dm'
+          ? rng.randomItemFromArray([4, 5, 6, 8])
+          : rng.randomItemFromArray([2, 3, 4, 5])
 
-    if (mode === 'xTimesX') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 2 }
-    }
+    const rInner = rng.randomItemFromArray(
+      Array.from({ length: rOuter - 1 }, (_, i) => i + 1),
+    )
 
-    if (mode === 'numberTimesTerm') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 1 }
-    }
+    const areaOuter = round2(Math.PI * rOuter * rOuter)
+    const areaInner = round2(Math.PI * rInner * rInner)
+    const areaRing = round2(areaOuter - areaInner)
 
-    const resultCoeff = a * b
-    return { a, b, mode, resultCoeff, resultPower: 2 }
+    return { rOuter, rInner, unit, areaOuter, areaInner, areaRing }
   },
 
   originalData: {
-    a: 3,
-    b: 4,
-    mode: 'monoTimesMono',
-    resultCoeff: 12,
-    resultPower: 2,
+    rOuter: 8,
+    rInner: 5,
+    unit: 'cm',
+    areaOuter: 201.06,
+    areaInner: 78.54,
+    areaRing: 122.52,
   },
 
   constraint({ data }) {
-    return data.a !== 0 && data.b !== 0 && data.resultCoeff !== 0
+    return data.rOuter > data.rInner && data.areaRing > 0
   },
 
   task({ data }) {
     return (
       <>
-        <p>Multiplizieren Sie den Term.</p>
+        <p>Berechnen Sie den Flächeninhalt des Kreisrings.</p>
 
-        {data.mode === 'xTimesX' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
+        <svg viewBox="0 0 328 190">
+          <circle
+            cx="164"
+            cy="95"
+            r="70"
+            fill="#eee"
+            stroke="black"
+            strokeWidth="2"
           />
-        )}
-
-        {data.mode === 'numberTimesTerm' && (
-          <InlineMath math={`${data.a}\\cdot ${termPart(data.b, 'x')}`} />
-        )}
-
-        {data.mode === 'monoTimesMono' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
+          <circle
+            cx="164"
+            cy="95"
+            r="42"
+            fill="white"
+            stroke="black"
+            strokeWidth="2"
           />
-        )}
+          <line x1="164" y1="95" x2="234" y2="95" stroke="black" />
+          <line x1="164" y1="95" x2="206" y2="95" stroke="black" />
+
+          <text x="202" y="84" fontSize="14">
+            R = {pp(data.rOuter)} {data.unit}
+          </text>
+          <text x="172" y="118" fontSize="14">
+            r = {pp(data.rInner)} {data.unit}
+          </text>
+        </svg>
       </>
     )
   },
@@ -91,50 +102,36 @@ export const exercise9571: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Zahlen werden mit Zahlen multipliziert.</p>
-        <p>Variablen werden mit Variablen multipliziert.</p>
+        <p>Ein Kreisring besteht aus einem großen Kreis minus einem kleinen Kreis.</p>
 
-        {data.mode === 'xTimesX' && (
-          <>
-            <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
-            />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
-          </>
-        )}
+        <p>Großer Kreis:</p>
+        <InlineMath
+          math={`A_1=\\pi\\cdot ${pp(data.rOuter)}^2\\approx ${pp(
+            data.areaOuter,
+          )}\\,${unitLatex(data.unit)}^2`}
+        />
 
-        {data.mode === 'numberTimesTerm' && (
-          <>
-            <InlineMath
-              math={`${data.a}\\cdot ${termPart(data.b, 'x')}=${data.a}\\cdot ${data.b}\\cdot x`}
-            />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
-          </>
-        )}
+        <p>Kleiner Kreis:</p>
+        <InlineMath
+          math={`A_2=\\pi\\cdot ${pp(data.rInner)}^2\\approx ${pp(
+            data.areaInner,
+          )}\\,${unitLatex(data.unit)}^2`}
+        />
 
-        {data.mode === 'monoTimesMono' && (
-          <>
-            <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
-            />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
-          </>
-        )}
+        <p>Kreisring:</p>
+        <InlineMath
+          math={`A=A_1-A_2=${pp(data.areaOuter)}-${pp(data.areaInner)}=${pp(
+            data.areaRing,
+          )}\\,${unitLatex(data.unit)}^2`}
+        />
+
+        <p>
+          Der Flächeninhalt beträgt ungefähr{' '}
+          <b>
+            {pp(data.areaRing)} {data.unit}²
+          </b>
+          .
+        </p>
       </>
     )
   },

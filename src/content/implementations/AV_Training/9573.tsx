@@ -1,88 +1,100 @@
-// exercise9555.tsx
+// exercise9573.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+
+type Unit = 'cm' | 'dm' | 'm'
+type Figure = 'rechteck' | 'dreieck' | 'parallelogramm'
 
 interface DATA {
-  a: number
-  b: number
-  mode: 'xTimesX' | 'numberTimesTerm' | 'monoTimesMono'
-  resultCoeff: number
-  resultPower: number
+  figure: Figure
+  area: number
+  known: number
+  unit: Unit
+  missing: number
 }
 
-function termPart(coeff: number, variable: string) {
-  if (coeff === 1) return variable
-  if (coeff === -1) return `-${variable}`
-  return `${coeff}${variable}`
+function unitLatex(unit: Unit) {
+  return `\\mathrm{${unit}}`
 }
 
-function power(variable: string, exponent: number) {
-  if (exponent === 1) return variable
-  return `${variable}^{${exponent}}`
+function figureName(figure: Figure) {
+  if (figure === 'dreieck') return 'Dreieck'
+  if (figure === 'parallelogramm') return 'Parallelogramm'
+  return 'Rechteck'
 }
 
 export const exercise9573: Exercise<DATA> = {
-  title: 'Terme multiplizieren',
-  source: 'Terme',
-  useCalculator: false,
+  title: 'Fehlende Länge berechnen',
+  source: 'Figuren und Flächen',
+  useCalculator: true,
   duration: 42,
   points: 42,
 
   generator(rng) {
-    const mode = rng.randomItemFromArray([
-      'xTimesX',
-      'numberTimesTerm',
-      'monoTimesMono',
-    ] as const)
+    const unit: Unit = rng.randomItemFromArray(['cm', 'dm', 'm'])
+    const figure: Figure = rng.randomItemFromArray([
+      'rechteck',
+      'dreieck',
+      'parallelogramm',
+    ])
 
-    const a = rng.randomIntBetween(-9, 9)
-    const b = rng.randomIntBetween(-9, 9)
+    const known = rng.randomItemFromArray([3, 4, 5, 6, 8, 10, 12])
+    const missing = rng.randomItemFromArray([2, 3, 4, 5, 6, 8, 10])
 
-    if (mode === 'xTimesX') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 2 }
-    }
+    const area =
+      figure === 'dreieck' ? (known * missing) / 2 : known * missing
 
-    if (mode === 'numberTimesTerm') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 1 }
-    }
-
-    const resultCoeff = a * b
-    return { a, b, mode, resultCoeff, resultPower: 2 }
+    return { figure, area, known, unit, missing }
   },
 
   originalData: {
-    a: 3,
-    b: 4,
-    mode: 'monoTimesMono',
-    resultCoeff: 12,
-    resultPower: 2,
+    figure: 'rechteck',
+    area: 40,
+    known: 8,
+    unit: 'cm',
+    missing: 5,
   },
 
   constraint({ data }) {
-    return data.a !== 0 && data.b !== 0 && data.resultCoeff !== 0
+    return data.area > 0 && data.known > 0 && data.missing > 0
   },
 
   task({ data }) {
     return (
       <>
-        <p>Multiplizieren Sie den Term.</p>
+        <p>
+          Bei einem {figureName(data.figure)} ist der Flächeninhalt gegeben.
+        </p>
 
-        {data.mode === 'xTimesX' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
-          />
+        {data.figure === 'rechteck' && (
+          <>
+            <p>
+              Der Flächeninhalt beträgt {pp(data.area)} {data.unit}². Eine Seite
+              ist {pp(data.known)} {data.unit} lang.
+            </p>
+            <p>Berechnen Sie die fehlende Seite.</p>
+          </>
         )}
 
-        {data.mode === 'numberTimesTerm' && (
-          <InlineMath math={`${data.a}\\cdot ${termPart(data.b, 'x')}`} />
+        {data.figure === 'parallelogramm' && (
+          <>
+            <p>
+              Der Flächeninhalt beträgt {pp(data.area)} {data.unit}². Die
+              Grundseite ist {pp(data.known)} {data.unit} lang.
+            </p>
+            <p>Berechnen Sie die Höhe.</p>
+          </>
         )}
 
-        {data.mode === 'monoTimesMono' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
-          />
+        {data.figure === 'dreieck' && (
+          <>
+            <p>
+              Der Flächeninhalt beträgt {pp(data.area)} {data.unit}². Die
+              Grundseite ist {pp(data.known)} {data.unit} lang.
+            </p>
+            <p>Berechnen Sie die Höhe.</p>
+          </>
         )}
       </>
     )
@@ -91,50 +103,58 @@ export const exercise9573: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Zahlen werden mit Zahlen multipliziert.</p>
-        <p>Variablen werden mit Variablen multipliziert.</p>
-
-        {data.mode === 'xTimesX' && (
+        {data.figure === 'rechteck' && (
           <>
-            <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
-            />
+            <p>Beim Rechteck gilt:</p>
+            <InlineMath math={`A=a\\cdot b`} />
+            <p>Nach der fehlenden Seite umstellen:</p>
+            <InlineMath math={`b=A:a`} />
             <br />
             <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
+              math={`b=${pp(data.area)}:${pp(data.known)}=${pp(
+                data.missing,
+              )}\\,${unitLatex(data.unit)}`}
             />
           </>
         )}
 
-        {data.mode === 'numberTimesTerm' && (
+        {data.figure === 'parallelogramm' && (
           <>
-            <InlineMath
-              math={`${data.a}\\cdot ${termPart(data.b, 'x')}=${data.a}\\cdot ${data.b}\\cdot x`}
-            />
+            <p>Beim Parallelogramm gilt:</p>
+            <InlineMath math={`A=g\\cdot h`} />
+            <p>Nach der Höhe umstellen:</p>
+            <InlineMath math={`h=A:g`} />
             <br />
             <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
+              math={`h=${pp(data.area)}:${pp(data.known)}=${pp(
+                data.missing,
+              )}\\,${unitLatex(data.unit)}`}
             />
           </>
         )}
 
-        {data.mode === 'monoTimesMono' && (
+        {data.figure === 'dreieck' && (
           <>
-            <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
-            />
+            <p>Beim Dreieck gilt:</p>
+            <InlineMath math={`A=\\frac{g\\cdot h}{2}`} />
+            <p>Zuerst mal 2 rechnen, dann durch die Grundseite teilen:</p>
+            <InlineMath math={`h=\\frac{2\\cdot A}{g}`} />
             <br />
             <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
+              math={`h=\\frac{2\\cdot ${pp(data.area)}}{${pp(
+                data.known,
+              )}}=${pp(data.missing)}\\,${unitLatex(data.unit)}`}
             />
           </>
         )}
+
+        <p>
+          Die fehlende Länge beträgt{' '}
+          <b>
+            {pp(data.missing)} {data.unit}
+          </b>
+          .
+        </p>
       </>
     )
   },

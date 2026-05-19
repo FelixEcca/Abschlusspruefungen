@@ -1,88 +1,128 @@
-// exercise9555.tsx
+// exercise9574.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+
+type Unit = 'cm' | 'dm' | 'm'
+type Mode = 'areaToCost' | 'tilesNeeded' | 'paintNeeded'
 
 interface DATA {
-  a: number
-  b: number
-  mode: 'xTimesX' | 'numberTimesTerm' | 'monoTimesMono'
-  resultCoeff: number
-  resultPower: number
+  mode: Mode
+  length: number
+  width: number
+  unit: Unit
+  area: number
+  price: number
+  tileArea: number
+  bucketArea: number
+  result: number
 }
 
-function termPart(coeff: number, variable: string) {
-  if (coeff === 1) return variable
-  if (coeff === -1) return `-${variable}`
-  return `${coeff}${variable}`
+function round2(x: number) {
+  return Math.round(x * 100) / 100
 }
 
-function power(variable: string, exponent: number) {
-  if (exponent === 1) return variable
-  return `${variable}^{${exponent}}`
+function unitLatex(unit: Unit) {
+  return `\\mathrm{${unit}}`
 }
 
 export const exercise9574: Exercise<DATA> = {
-  title: 'Terme multiplizieren',
-  source: 'Terme',
-  useCalculator: false,
+  title: 'Fläche im Sachkontext',
+  source: 'Figuren und Flächen',
+  useCalculator: true,
   duration: 42,
   points: 42,
 
   generator(rng) {
-    const mode = rng.randomItemFromArray([
-      'xTimesX',
-      'numberTimesTerm',
-      'monoTimesMono',
-    ] as const)
+    const mode: Mode = rng.randomItemFromArray([
+      'areaToCost',
+      'tilesNeeded',
+      'paintNeeded',
+    ])
+    const unit: Unit = 'm'
 
-    const a = rng.randomIntBetween(-9, 9)
-    const b = rng.randomIntBetween(-9, 9)
+    const length = rng.randomItemFromArray([3, 4, 5, 6, 8, 10, 12])
+    const width = rng.randomItemFromArray([2, 3, 4, 5, 6])
+    const area = length * width
 
-    if (mode === 'xTimesX') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 2 }
+    const price = rng.randomItemFromArray([8.5, 10, 12.5, 15, 18])
+    const tileArea = rng.randomItemFromArray([0.25, 0.5, 1])
+    const bucketArea = rng.randomItemFromArray([8, 10, 12, 15])
+
+    let result = 0
+    if (mode === 'areaToCost') result = round2(area * price)
+    if (mode === 'tilesNeeded') result = Math.ceil(area / tileArea)
+    if (mode === 'paintNeeded') result = Math.ceil(area / bucketArea)
+
+    return {
+      mode,
+      length,
+      width,
+      unit,
+      area,
+      price,
+      tileArea,
+      bucketArea,
+      result,
     }
-
-    if (mode === 'numberTimesTerm') {
-      const resultCoeff = a * b
-      return { a, b, mode, resultCoeff, resultPower: 1 }
-    }
-
-    const resultCoeff = a * b
-    return { a, b, mode, resultCoeff, resultPower: 2 }
   },
 
   originalData: {
-    a: 3,
-    b: 4,
-    mode: 'monoTimesMono',
-    resultCoeff: 12,
-    resultPower: 2,
+    mode: 'areaToCost',
+    length: 6,
+    width: 4,
+    unit: 'm',
+    area: 24,
+    price: 12.5,
+    tileArea: 0.5,
+    bucketArea: 10,
+    result: 300,
   },
 
   constraint({ data }) {
-    return data.a !== 0 && data.b !== 0 && data.resultCoeff !== 0
+    return data.area > 0 && data.result > 0
   },
 
   task({ data }) {
     return (
       <>
-        <p>Multiplizieren Sie den Term.</p>
-
-        {data.mode === 'xTimesX' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
-          />
+        {data.mode === 'areaToCost' && (
+          <>
+            <p>
+              Ein rechteckiger Boden ist {pp(data.length)} m lang und{' '}
+              {pp(data.width)} m breit.
+            </p>
+            <p>
+              Ein Quadratmeter Bodenbelag kostet {pp(data.price)} €.
+              Berechnen Sie die Kosten.
+            </p>
+          </>
         )}
 
-        {data.mode === 'numberTimesTerm' && (
-          <InlineMath math={`${data.a}\\cdot ${termPart(data.b, 'x')}`} />
+        {data.mode === 'tilesNeeded' && (
+          <>
+            <p>
+              Ein rechteckiger Boden ist {pp(data.length)} m lang und{' '}
+              {pp(data.width)} m breit.
+            </p>
+            <p>
+              Eine Bodenplatte bedeckt {pp(data.tileArea)} m². Berechnen Sie,
+              wie viele Bodenplatten mindestens benötigt werden.
+            </p>
+          </>
         )}
 
-        {data.mode === 'monoTimesMono' && (
-          <InlineMath
-            math={`${termPart(data.a, 'x')}\\cdot ${termPart(data.b, 'x')}`}
-          />
+        {data.mode === 'paintNeeded' && (
+          <>
+            <p>
+              Eine rechteckige Wand ist {pp(data.length)} m lang und{' '}
+              {pp(data.width)} m hoch.
+            </p>
+            <p>
+              Ein Farbeimer reicht für {pp(data.bucketArea)} m². Berechnen Sie,
+              wie viele Farbeimer mindestens benötigt werden.
+            </p>
+          </>
         )}
       </>
     )
@@ -91,48 +131,55 @@ export const exercise9574: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Zahlen werden mit Zahlen multipliziert.</p>
-        <p>Variablen werden mit Variablen multipliziert.</p>
+        <p>Zuerst wird die Fläche berechnet.</p>
+        <InlineMath
+          math={`A=${pp(data.length)}\\cdot ${pp(data.width)}=${pp(
+            data.area,
+          )}\\,${unitLatex(data.unit)}^2`}
+        />
 
-        {data.mode === 'xTimesX' && (
+        {data.mode === 'areaToCost' && (
           <>
+            <p>Dann werden die Kosten berechnet.</p>
             <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
+              math={`${pp(data.area)}\\cdot ${pp(data.price)}=${pp(
+                data.result,
+              )}\\,€`}
             />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
+            <p>
+              Die Kosten betragen <b>{pp(data.result)} €</b>.
+            </p>
           </>
         )}
 
-        {data.mode === 'numberTimesTerm' && (
+        {data.mode === 'tilesNeeded' && (
           <>
+            <p>Dann wird durch die Fläche einer Bodenplatte geteilt.</p>
             <InlineMath
-              math={`${data.a}\\cdot ${termPart(data.b, 'x')}=${data.a}\\cdot ${data.b}\\cdot x`}
+              math={`${pp(data.area)}:${pp(data.tileArea)}=${pp(
+                data.area / data.tileArea,
+              )}`}
             />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
+            <p>Falls keine ganze Zahl herauskommt, muss aufgerundet werden.</p>
+            <p>
+              Es werden mindestens <b>{pp(data.result)} Bodenplatten</b>{' '}
+              benötigt.
+            </p>
           </>
         )}
 
-        {data.mode === 'monoTimesMono' && (
+        {data.mode === 'paintNeeded' && (
           <>
+            <p>Dann wird durch die Fläche geteilt, die ein Farbeimer schafft.</p>
             <InlineMath
-              math={`${termPart(data.a, 'x')}\\cdot ${termPart(
-                data.b,
-                'x',
-              )}=(${data.a}\\cdot ${data.b})\\cdot (x\\cdot x)`}
+              math={`${pp(data.area)}:${pp(data.bucketArea)}=${pp(
+                round2(data.area / data.bucketArea),
+              )}`}
             />
-            <br />
-            <InlineMath
-              math={`=${termPart(data.resultCoeff, power('x', data.resultPower))}`}
-            />
+            <p>Es muss auf ganze Farbeimer aufgerundet werden.</p>
+            <p>
+              Es werden mindestens <b>{pp(data.result)} Farbeimer</b> benötigt.
+            </p>
           </>
         )}
       </>

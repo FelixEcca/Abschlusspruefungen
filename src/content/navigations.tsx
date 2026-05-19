@@ -869,13 +869,39 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Körper erkennen',
+            skillExercises: [{ id: 9575 }],
+          },{
+            name: 'Volumen eines Würfels',
+            skillExercises: [{ id: 9576 }],
+          },{
             name: 'Volumen eines Quaders',
             skillExercises: [{ id: 9532 }],
+          },{
+            name: 'Volumen eines Prismas',
+            skillExercises: [{ id: 9577 }],
+          },
+            {
+              name: 'Volumen eines Zylinders',
+              skillExercises: [{ id: 9533 }],
+            },
+            {
+            name: 'Volumen einer Pyramide',
+            skillExercises: [{ id: 9579 }],
+          },
+            {
+              name: 'Volumen eines Kegels',
+              skillExercises: [{ id: 9580 }],
+            },
+            {
+            name: 'Volumen eines schiefen Körpers',
+            skillExercises: [{ id: 9578 }],
           },
           {
-            name: 'Volumen eines Zylinders',
-            skillExercises: [{ id: 9533 }],
+            name: 'Volumen einer Kugel',
+            skillExercises: [{ id: 9581 }],
           },
+
         ],
       },
       {
@@ -888,6 +914,26 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9506 }],
           },
           {
+            name: 'Zähler und Nenner',
+            skillExercises: [{ id: 9587 }],
+          },
+          {
+            name: 'Erweitern',
+            skillExercises: [{ id: 9588 }],
+          },
+          {
+            name: 'Brüche vergleichen',
+            skillExercises: [{ id: 9589 }],
+          },
+          {
+            name: 'Kürzen',
+            skillExercises: [{ id: 9590 }],
+          },
+          {
+            name: 'Gemischter Bruch umwandeln',
+            skillExercises: [{ id: 9591 }],
+          },
+          {
             name: 'Brüche addieren',
             skillExercises: [{ id: 9507 }],
           },
@@ -896,12 +942,36 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9508 }],
           },
           {
+            name: 'Brüche mit ganzen Zahlen multiplizieren',
+            skillExercises: [{ id: 9592 }],
+          },
+          {
             name: 'Brüche multiplizieren',
             skillExercises: [{ id: 9509 }],
           },
           {
             name: 'Brüche dividieren',
             skillExercises: [{ id: 9505 }],
+          },
+          {
+            name: 'Brüche auf dem Zahlenstrahl',
+            skillExercises: [{ id: 9593 }],
+          },
+          {
+            name: 'Bruch in Kommazahl umwandeln',
+            skillExercises: [{ id: 9594 }],
+          },
+          {
+            name: 'Bruchteil angeben',
+            skillExercises: [{ id: 9595 }],
+          },
+          {
+            name: 'Bruchteil berechnen',
+            skillExercises: [{ id: 9506 }],
+          },
+          {
+            name: 'Gesuchter Teil ermitteln',
+            skillExercises: [{ id: 9597 }],
           },
         ],
       },
@@ -930,29 +1000,32 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Prozent in Kommazahl umwandeln',
+            skillExercises: [{ id: 9598 }],
+          },{
+            name: 'Prozent in Bruch umwandeln',
+            skillExercises: [{ id: 9599 }],
+          },{
             name: 'Prozentwert berechnen',
-            skillExercises: [{ id: 9518 }],
+            skillExercises: [{ id: 9600 }],
           },
           {
-            name: 'Prozent aus Diagramm berechnen',
-            skillExercises: [{ id: 9519 }],
+            name: 'Prozensatz berechnen',
+            skillExercises: [{ id: 9601 }],
           },
           {
-            name: 'Rabatt berechnen',
-            skillExercises: [{ id: 9520 }],
-          },
-          {
-            name: 'Restprozent berechnen',
-            skillExercises: [{ id: 9521 }],
-          },
-          {
-            name: 'Kreisdiagramm auswerten',
-            skillExercises: [{ id: 9522 }],
+            name: 'Grundwert berechnen',
+            skillExercises: [{ id: 9602 }],
           },
           {
             name: 'Zinsen berechnen',
-            skillExercises: [{ id: 9523 }],
+            skillExercises: [{ id: 9603 }],
           },
+          {
+            name: 'Zinseszins',
+            skillExercises: [{ id: 9604 }],
+          },
+          
         ],
       },
       {
@@ -961,6 +1034,9 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Säulendiagramm ablesen',
+            skillExercises: [{ id: 9534 }],
+          },{
             name: 'Säulendiagramm zeichnen',
             skillExercises: [{ id: 9535 }],
           },
@@ -975,6 +1051,16 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Temperaturen ablesen',
             skillExercises: [{ id: 9538 }],
+          },
+          {
+            name: 'Mittelwert berechnen',
+            skillExercises: [{ id: 9605 }],
+          },{
+            name: 'Daten vergleichen',
+            skillExercises: [{ id: 9606 }],
+          },{
+            name: 'Häufigkeiten',
+            skillExercises: [{ id: 9607 }],
           },
         ],
       },
