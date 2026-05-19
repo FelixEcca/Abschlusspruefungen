@@ -115,38 +115,37 @@ export const exercise9517: Exercise<DATA> = {
   solution({ data }) {
     const context = getContext(data)
     const sum = data.a + data.b + data.c + data.d
-    const one = data.total / sum
+    const valueA = Math.round((data.total * data.a * 100) / sum) / 100
+    const valueB = Math.round((data.total * data.b * 100) / sum) / 100
+    const valueC = Math.round((data.total * data.c * 100) / sum) / 100
+    const valueD = Math.round((data.total * data.d * 100) / sum) / 100
 
     return (
       <>
         <p>Alle Teile zusammen:</p>
         <InlineMath math={`${data.a}+${data.b}+${data.c}+${data.d}=${sum}`} />
 
-        <p>Ein Teil:</p>
-        <InlineMath
-          math={`${pp(data.total)}:${sum}=${pp(one)}\\,\\mathrm{${context.unit}}`}
-        />
-
+        <p>Berechne jeweils den Anteil:</p>
         <p>
-          {context.items[0]}:{' '}
-          <b>
-            {pp(one * data.a)} {context.unit}
-          </b>
+          {data.a} {data.a === 1 ? 'Teil' : 'Teile'} {context.items[0]}:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.a}}{${sum}} \\approx ${pp(valueA)} \\text{ ${context.unit}}`}
+          />
           <br />
-          {context.items[1]}:{' '}
-          <b>
-            {pp(one * data.b)} {context.unit}
-          </b>
+          {data.b} Teile {context.items[1]}:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.b}}{${sum}} \\approx ${pp(valueB)} \\text{ ${context.unit}}`}
+          />
           <br />
-          {context.items[2]}:{' '}
-          <b>
-            {pp(one * data.c)} {context.unit}
-          </b>
+          {data.c} Teile {context.items[2]}:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.c}}{${sum}} \\approx ${pp(valueC)} \\text{ ${context.unit}}`}
+          />
           <br />
-          {context.items[3]}:{' '}
-          <b>
-            {pp(one * data.d)} {context.unit}
-          </b>
+          {data.d} {data.d === 1 ? 'Teil' : 'Teile'} {context.items[3]}:{' '}
+          <InlineMath
+            math={`${pp(data.total)} \\cdot \\frac{${data.d}}{${sum}} \\approx ${pp(valueD)} \\text{ ${context.unit}}`}
+          />
         </p>
       </>
     )

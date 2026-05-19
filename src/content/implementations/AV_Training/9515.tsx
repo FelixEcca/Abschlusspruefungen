@@ -112,20 +112,71 @@ export const exercise9515: Exercise<DATA> = {
     return (
       <>
         <p>Berechne mit dem Dreisatz:</p>
+
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            {context.einheit}
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            €
+          </text>
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            {data.anzahl1}
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.kosten1)} €
+          </text>
+
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(data.kostenProEinheit)} €
+          </text>
+
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {data.anzahl2}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.kosten2)} €
+          </text>
+
+          <text x="24" y="72" fontSize="14">
+            : {data.anzahl1}
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {data.anzahl2}
+          </text>
+
+          <text x="286" y="72" fontSize="14">
+            : {data.anzahl1}
+          </text>
+          <text x="284" y="123" fontSize="14">
+            · {data.anzahl2}
+          </text>
+        </svg>
+
         <p>
-          {data.anzahl1} {context.einheit} kosten {pp(data.kosten1)} €.
+          {data.anzahl2} {context.einheit} kosten <b>{pp(data.kosten2)} €</b>.
         </p>
-        <p>
-          1 {context.einheit} kostet {pp(data.kosten1)} € : {data.anzahl1} ={' '}
-          {pp(data.kostenProEinheit)} €.
-        </p>
-        <p>
-          {data.anzahl2} {context.einheit} kosten {pp(data.kostenProEinheit)} € ·{' '}
-          {data.anzahl2} = {pp(data.kosten2)} €.
-        </p>
-        <p>
-          Ergebnis: <b>{pp(data.kosten2)} €</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/IXCWLXdv6YQ"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

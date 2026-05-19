@@ -78,9 +78,25 @@ export const exercise9593: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Die Strecke von 0 bis 1 ist in {data.denominator} gleiche Teile geteilt.</p>
+        <p>
+          Die Strecke von 0 bis 1 ist in {data.denominator} gleiche Teile
+          geteilt.
+        </p>
         <p>Der Punkt liegt beim {data.numerator}. Teil.</p>
         <InlineMath math={`\\frac{${data.numerator}}{${data.denominator}}`} />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/nAWKr0dVx2Y"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

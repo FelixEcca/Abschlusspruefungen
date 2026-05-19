@@ -41,8 +41,22 @@ export const exercise9582: Exercise<DATA> = {
         <p>Berechnen Sie die Oberfläche des Würfels.</p>
 
         <svg viewBox="0 0 260 190">
-          <rect x="70" y="65" width="80" height="80" fill="#eee" stroke="black" />
-          <rect x="105" y="40" width="80" height="80" fill="#ddd" stroke="black" />
+          <rect
+            x="105"
+            y="40"
+            width="80"
+            height="80"
+            fill="#ddd"
+            stroke="black"
+          />
+          <rect
+            x="70"
+            y="65"
+            width="80"
+            height="80"
+            fill="#eee"
+            stroke="black"
+          />
           <line x1="70" y1="65" x2="105" y2="40" stroke="black" />
           <line x1="150" y1="65" x2="185" y2="40" stroke="black" />
           <line x1="150" y1="145" x2="185" y2="120" stroke="black" />
@@ -60,12 +74,33 @@ export const exercise9582: Exercise<DATA> = {
       <>
         <p>Ein Würfel hat 6 gleich große Quadrate.</p>
         <p>Eine Fläche:</p>
-        <InlineMath math={`A=${pp(data.a)}\\cdot ${pp(data.a)}=${pp(data.a * data.a)}\\,\\mathrm{${data.unit}}^2`} />
+        <InlineMath
+          math={`A=${pp(data.a)}\\cdot ${pp(data.a)}=${pp(data.a * data.a)}\\,\\mathrm{${data.unit}}^2`}
+        />
         <p>Alle 6 Flächen zusammen:</p>
-        <InlineMath math={`O=6\\cdot ${pp(data.a * data.a)}=${pp(data.surface)}\\,\\mathrm{${data.unit}}^2`} />
+        <InlineMath
+          math={`O=6\\cdot ${pp(data.a * data.a)}=${pp(data.surface)}\\,\\mathrm{${data.unit}}^2`}
+        />
         <p>
-          Die Oberfläche beträgt <b>{pp(data.surface)} {data.unit}²</b>.
+          Die Oberfläche beträgt{' '}
+          <b>
+            {pp(data.surface)} {data.unit}²
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/t2CwW27O1lw"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

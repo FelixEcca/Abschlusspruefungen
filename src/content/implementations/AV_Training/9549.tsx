@@ -13,6 +13,10 @@ function round2(x: number) {
   return Math.round(x * 100) / 100
 }
 
+function hasDecimal(x: number) {
+  return !Number.isInteger(x)
+}
+
 export const exercise9549: Exercise<DATA> = {
   title: 'Schriftliche Multiplikation',
   source: 'Grundlagen',
@@ -21,8 +25,13 @@ export const exercise9549: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const a = rng.randomItemFromArray([1.2, 1.5, 2.4, 3.6, 4.8, 12, 15, 24])
-    const b = rng.randomItemFromArray([3, 4, 5, 6, 8, 12, 15])
+    const bothDecimal = rng.randomItemFromArray([true, false])
+    const a = rng.randomItemFromArray([
+      1.2, 1.5, 2.4, 3.6, 4.8, 12.5, 15.2, 24.6,
+    ])
+    const b = bothDecimal
+      ? rng.randomItemFromArray([1.1, 1.4, 2.5, 3.2, 4.5, 6.8])
+      : rng.randomItemFromArray([3, 4, 5, 6, 8, 12, 15])
     const result = round2(a * b)
 
     return { a, b, result }
@@ -35,7 +44,7 @@ export const exercise9549: Exercise<DATA> = {
   },
 
   constraint({ data }) {
-    return data.result > 0
+    return data.result > 0 && (hasDecimal(data.a) || hasDecimal(data.b))
   },
 
   task({ data }) {
@@ -50,16 +59,15 @@ export const exercise9549: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-       
-        
-        <p>
-          Ergebnis zur Kontrolle: 
-        </p>
+        <p>Ergebnis zur Kontrolle:</p>
         <InlineMath
           math={`${pp(data.a)}\\cdot ${pp(data.b)}=${pp(data.result)}`}
         />
         <h2>Erklärvideo</h2>
-        <p>Hier gibt es noch ein Erklärungsvideo zur Multiplikation mit Kommazahlen:</p>
+        <p>
+          Hier gibt es noch ein Erklärungsvideo zur Multiplikation mit
+          Kommazahlen:
+        </p>
         <div className="my-4">
           <iframe
             width="100%"

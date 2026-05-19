@@ -4,10 +4,12 @@ import { pp } from '@/helper/pretty-print'
 import { InlineMath } from 'react-katex'
 
 interface DATA {
-  a: number
-  b: number
-  op: 'cdot' | ':'
-  result: number
+  mulA: number
+  mulB: number
+  mulResult: number
+  divA: number
+  divB: number
+  divResult: number
 }
 
 export const exercise9551: Exercise<DATA> = {
@@ -15,81 +17,137 @@ export const exercise9551: Exercise<DATA> = {
   source: 'Grundlagen',
   useCalculator: false,
   duration: 42,
-  points: 42,
 
   generator(rng) {
-    const op = rng.randomItemFromArray(['cdot', ':'] as const)
+    const mulA = rng.randomIntBetween(-12, 12)
+    let mulB = rng.randomIntBetween(-12, 12)
+    while (mulB === 0) mulB = rng.randomIntBetween(-12, 12)
+    const mulResult = mulA * mulB
 
-    if (op === 'cdot') {
-      const a = rng.randomIntBetween(-12, 12)
-      let b = rng.randomIntBetween(-12, 12)
-      while (b === 0) b = rng.randomIntBetween(-12, 12)
-      return { a, b, op, result: a * b }
-    }
-
-    const b = rng.randomItemFromArray([
+    const divB = rng.randomItemFromArray([
       -12, -10, -8, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 8, 10, 12,
     ])
-    const result = rng.randomIntBetween(-12, 12)
-    const a = b * result
+    const divResult = rng.randomIntBetween(-12, 12)
+    const divA = divB * divResult
 
-    return { a, b, op, result }
+    return { mulA, mulB, mulResult, divA, divB, divResult }
   },
 
   originalData: {
-    a: -24,
-    b: 6,
-    op: ':',
-    result: -4,
+    mulA: -4,
+    mulB: 6,
+    mulResult: -24,
+    divA: -24,
+    divB: 6,
+    divResult: -4,
   },
 
   constraint({ data }) {
-    return data.b !== 0
+    return data.mulB !== 0 && data.divB !== 0
   },
 
-  task({ data }) {
-    return (
-      <>
-        <p>Berechnen Sie:</p>
-        {data.op === 'cdot' ? (
-          <InlineMath math={`${pp(data.a,'embrace_neg')}\\cdot ${pp(data.b,'embrace_neg')}`} />
-        ) : (
-          <InlineMath math={`${pp(data.a,'embrace_neg')}:${pp(data.b,'embrace_neg')}`} />
-        )}
-      </>
-    )
+  intro() {
+    return null
   },
 
-  solution({ data }) {
-    return (
-      <>
-        <p>Achte zuerst auf die Vorzeichen.</p>
-        <p>
-          Gleiche Vorzeichen ergeben plus. Verschiedene Vorzeichen ergeben
-          minus.
-        </p>
-        {data.op === 'cdot' ? (
-          <InlineMath math={`${pp(data.a,'embrace_neg')}\\cdot ${pp(data.b,'embrace_neg')}=${pp(data.result,'embrace_neg')}`} />
-        ) : (
-          <InlineMath math={`${pp(data.a,'embrace_neg')}:${pp(data.b,'embrace_neg')}=${pp(data.result,'embrace_neg')}`} />
-        )}
-        <p>
-          Ergebnis: <b>{data.result}</b>
-        </p>
-        <h2>Erklärvideo</h2>
-        <p>Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen Zahlen:</p>
-        <div className="my-4">
-          <iframe
-            width="100%"
-            height="220"
-            src="https://www.youtube.com/embed/yAl7RYR-SHo"
-            title="Erklärungsvideo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="rounded border"
-          />
-        </div>
-      </>
-    )
-  },
+  tasks: [
+    {
+      points: 42,
+      intro() {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>Berechnen Sie:</p>
+            <InlineMath
+              math={`${pp(data.mulA, 'embrace_neg')}\\cdot ${pp(data.mulB, 'embrace_neg')}`}
+            />
+          </>
+        )
+      },
+      solution({ data }) {
+        return (
+          <>
+            <p>Achte zuerst auf die Vorzeichen.</p>
+            <p>
+              Gleiche Vorzeichen ergeben plus. Verschiedene Vorzeichen ergeben
+              minus.
+            </p>
+            <InlineMath
+              math={`${pp(data.mulA, 'embrace_neg')}\\cdot ${pp(data.mulB, 'embrace_neg')}=${pp(data.mulResult, 'embrace_neg')}`}
+            />
+            <p>
+              Ergebnis: <b>{data.mulResult}</b>
+            </p>
+            <h2>Erklärvideo</h2>
+            <p>
+              Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen
+              Zahlen:
+            </p>
+            <div className="my-4">
+              <iframe
+                width="100%"
+                height="220"
+                src="https://www.youtube.com/embed/yAl7RYR-SHo"
+                title="Erklärungsvideo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded border"
+              />
+            </div>
+          </>
+        )
+      },
+    },
+    {
+      points: 42,
+      intro() {
+        return null
+      },
+      task({ data }) {
+        return (
+          <>
+            <p>Berechnen Sie:</p>
+            <InlineMath
+              math={`${pp(data.divA, 'embrace_neg')}:${pp(data.divB, 'embrace_neg')}`}
+            />
+          </>
+        )
+      },
+      solution({ data }) {
+        return (
+          <>
+            <p>Achte zuerst auf die Vorzeichen.</p>
+            <p>
+              Gleiche Vorzeichen ergeben plus. Verschiedene Vorzeichen ergeben
+              minus.
+            </p>
+            <InlineMath
+              math={`${pp(data.divA, 'embrace_neg')}:${pp(data.divB, 'embrace_neg')}=${pp(data.divResult, 'embrace_neg')}`}
+            />
+            <p>
+              Ergebnis: <b>{data.divResult}</b>
+            </p>
+            <h2>Erklärvideo</h2>
+            <p>
+              Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen
+              Zahlen:
+            </p>
+            <div className="my-4">
+              <iframe
+                width="100%"
+                height="220"
+                src="https://www.youtube.com/embed/yAl7RYR-SHo"
+                title="Erklärungsvideo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded border"
+              />
+            </div>
+          </>
+        )
+      },
+    },
+  ],
 }

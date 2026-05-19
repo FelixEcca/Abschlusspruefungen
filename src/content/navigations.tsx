@@ -902,12 +902,9 @@ export const navigationData: { [key: number]: Navigation } = {
           },
           {
             name: 'Volumen eines Quaders',
-            skillExercises: [{ id: 9532 }],
-          },
-          {
-            name: 'Volumen eines Prismas',
             skillExercises: [{ id: 9577 }],
           },
+
           {
             name: 'Volumen eines Zylinders',
             skillExercises: [{ id: 9533 }],
@@ -920,10 +917,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Volumen eines Kegels',
             skillExercises: [{ id: 9580 }],
           },
-          {
-            name: 'Volumen eines schiefen Körpers',
-            skillExercises: [{ id: 9578 }],
-          },
+
           {
             name: 'Volumen einer Kugel',
             skillExercises: [{ id: 9581 }],
@@ -971,10 +965,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Kürzen',
             skillExercises: [{ id: 9590 }],
           },
-          {
-            name: 'Gemischter Bruch umwandeln',
-            skillExercises: [{ id: 9591 }],
-          },
+
           {
             name: 'Brüche addieren',
             skillExercises: [{ id: 9507 }],
@@ -1070,10 +1061,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zinsen berechnen',
             skillExercises: [{ id: 9603 }],
           },
-          {
-            name: 'Zinseszins',
-            skillExercises: [{ id: 9604 }],
-          },
         ],
       },
       {
@@ -1082,10 +1069,6 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Säulendiagramm ablesen',
-            skillExercises: [{ id: 9534 }],
-          },
-          {
             name: 'Säulendiagramm zeichnen',
             skillExercises: [{ id: 9535 }],
           },
@@ -1093,14 +1076,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Kreisdiagramm ablesen',
             skillExercises: [{ id: 9536 }],
           },
-          {
-            name: 'Temperaturen eintragen',
-            skillExercises: [{ id: 9537 }],
-          },
-          {
-            name: 'Temperaturen ablesen',
-            skillExercises: [{ id: 9538 }],
-          },
+
           {
             name: 'Mittelwert berechnen',
             skillExercises: [{ id: 9605 }],

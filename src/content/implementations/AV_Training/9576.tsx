@@ -48,8 +48,22 @@ export const exercise9576: Exercise<DATA> = {
         <p>Berechnen Sie das Volumen des Würfels.</p>
 
         <svg viewBox="0 0 240 180">
-          <rect x="60" y="55" width="80" height="80" fill="#eee" stroke="black" />
-          <rect x="90" y="35" width="80" height="80" fill="#ddd" stroke="black" />
+          <rect
+            x="90"
+            y="35"
+            width="80"
+            height="80"
+            fill="#ddd"
+            stroke="black"
+          />
+          <rect
+            x="60"
+            y="55"
+            width="80"
+            height="80"
+            fill="#eee"
+            stroke="black"
+          />
           <line x1="60" y1="55" x2="90" y2="35" stroke="black" />
           <line x1="140" y1="55" x2="170" y2="35" stroke="black" />
           <line x1="140" y1="135" x2="170" y2="115" stroke="black" />
@@ -76,8 +90,25 @@ export const exercise9576: Exercise<DATA> = {
         />
 
         <p>
-          Das Volumen beträgt <b>{data.volume} {data.unit}³</b>.
+          Das Volumen beträgt{' '}
+          <b>
+            {data.volume} {data.unit}³
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/OT0a3HJ71vU"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -111,52 +111,24 @@ export const exercise9597: Exercise<DATA> = {
     return (
       <>
         <p>a) Gesucht ist der Zähler.</p>
-        <InlineMath
-          math={`${data.wholeA}:${data.denominatorA}=${
-            data.wholeA / data.denominatorA
-          }`}
-        />
-        <br />
-        <InlineMath
-          math={`${data.partA}:${
-            data.wholeA / data.denominatorA
-          }=${data.numeratorA}`}
-        />
 
         <p>
-          Also:{' '}
           <InlineMath
             math={`\\frac{${data.numeratorA}}{${data.denominatorA}}\\;\\text{von}\\;${data.wholeA}=${data.partA}`}
           />
         </p>
 
         <p>b) Gesucht ist der Nenner.</p>
-        <InlineMath math={`${data.partB}:${data.numeratorB}=${data.partB / data.numeratorB}`} />
-        <br />
-        <InlineMath
-          math={`${data.wholeB}:${data.partB / data.numeratorB}=${data.denominatorB}`}
-        />
 
         <p>
-          Also:{' '}
           <InlineMath
             math={`\\frac{${data.numeratorB}}{${data.denominatorB}}\\;\\text{von}\\;${data.wholeB}=${data.partB}`}
           />
         </p>
 
         <p>c) Gesucht ist das Ganze.</p>
-        <InlineMath
-          math={`${data.partC}:${data.numeratorC}=${data.partC / data.numeratorC}`}
-        />
-        <br />
-        <InlineMath
-          math={`${data.partC / data.numeratorC}\\cdot ${
-            data.denominatorC
-          }=${data.wholeC}`}
-        />
 
         <p>
-          Also:{' '}
           <InlineMath
             math={`\\frac{${data.numeratorC}}{${data.denominatorC}}\\;\\text{von}\\;${data.wholeC}=${data.partC}`}
           />

@@ -49,10 +49,24 @@ export const exercise9580: Exercise<DATA> = {
         <p>Berechnen Sie das Volumen des Kegels.</p>
 
         <svg viewBox="0 0 260 190">
-          <ellipse cx="130" cy="145" rx="70" ry="22" fill="#eee" stroke="black" />
+          <ellipse
+            cx="130"
+            cy="145"
+            rx="70"
+            ry="22"
+            fill="#eee"
+            stroke="black"
+          />
           <line x1="60" y1="145" x2="130" y2="35" stroke="black" />
           <line x1="200" y1="145" x2="130" y2="35" stroke="black" />
-          <line x1="130" y1="35" x2="130" y2="145" stroke="black" strokeDasharray="5 4" />
+          <line
+            x1="130"
+            y1="35"
+            x2="130"
+            y2="145"
+            stroke="black"
+            strokeDasharray="5 4"
+          />
           <line x1="130" y1="145" x2="200" y2="145" stroke="black" />
 
           <text x="142" y="92" fontSize="14">
@@ -67,21 +81,46 @@ export const exercise9580: Exercise<DATA> = {
   },
 
   solution({ data }) {
+    const g = round2(Math.PI * data.r * data.r)
+
     return (
       <>
-        <p>Beim Kegel gilt:</p>
-        <InlineMath math="V=\frac{\pi\cdot r^2\cdot h}{3}" />
-
-        <p>Einsetzen:</p>
+        <p>Zuerst wird die Grundfläche berechnet:</p>
         <InlineMath
-          math={`V=\\frac{\\pi\\cdot ${pp(data.r)}^2\\cdot ${pp(
-            data.h,
-          )}}{3}\\approx ${pp(data.volume)}\\,\\mathrm{${data.unit}}^3`}
+          math={`G=\\pi\\cdot r^2=\\pi\\cdot ${pp(data.r)}^2\\approx ${pp(
+            g,
+          )}\\,\\mathrm{${data.unit}}^2`}
+        />
+
+        <p>Dann gilt für das Volumen:</p>
+        <InlineMath math="V=\frac{G\cdot h}{3}" />
+        <br></br>
+        <InlineMath
+          math={`V=\\frac{${pp(g)}\\cdot ${pp(data.h)}}{3}\\approx ${pp(
+            data.volume,
+          )}\\,\\mathrm{${data.unit}}^3`}
         />
 
         <p>
-          Das Volumen beträgt ungefähr <b>{pp(data.volume)} {data.unit}³</b>.
+          Das Volumen beträgt ungefähr{' '}
+          <b>
+            {pp(data.volume)} {data.unit}³
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/In0ewtaDpZQ"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -93,7 +93,10 @@ export const exercise9507: Exercise<DATA> = {
                 data.d2 * factor2,
               )} `}
             />
-            <br /><br />
+            <p>Dann addiert:</p>
+            <InlineMath
+              math={`${frac(data.n1, data.d1)}+${frac(data.n2, data.d2)}=${frac(a, den)}+${frac(b, den)}=${frac(a + b, den)}`}
+            />
           </>
         )}
         <InlineMath
@@ -102,8 +105,20 @@ export const exercise9507: Exercise<DATA> = {
             data.d2,
           )}=${frac(a, den)}+${frac(b, den)}=${frac(a + b, den)}`}
         />
-        
-              </>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/nrzpRozQnM4"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
+      </>
     )
   },
 }

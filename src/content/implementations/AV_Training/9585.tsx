@@ -51,12 +51,23 @@ export const exercise9585: Exercise<DATA> = {
         <p>Berechnen Sie die Oberfläche der quadratischen Pyramide.</p>
 
         <svg viewBox="0 0 300 210">
-          <polygon points="75,160 210,160 240,125 110,125" fill="#eee" stroke="black" />
+          <polygon
+            points="75,160 210,160 240,125 110,125"
+            fill="#eee"
+            stroke="black"
+          />
           <line x1="75" y1="160" x2="155" y2="40" stroke="black" />
           <line x1="210" y1="160" x2="155" y2="40" stroke="black" />
           <line x1="240" y1="125" x2="155" y2="40" stroke="black" />
           <line x1="110" y1="125" x2="155" y2="40" stroke="black" />
-          <line x1="155" y1="40" x2="142" y2="142" stroke="black" strokeDasharray="5 4" />
+          <line
+            x1="155"
+            y1="40"
+            x2="142"
+            y2="142"
+            stroke="black"
+            strokeDasharray="5 4"
+          />
 
           <text x="132" y="184" fontSize="14">
             a = {pp(data.a)} {data.unit}
@@ -90,8 +101,25 @@ export const exercise9585: Exercise<DATA> = {
         />
 
         <p>
-          Die Oberfläche beträgt <b>{pp(data.surface)} {data.unit}²</b>.
+          Die Oberfläche beträgt{' '}
+          <b>
+            {pp(data.surface)} {data.unit}²
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/kSxeMtSysqA"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

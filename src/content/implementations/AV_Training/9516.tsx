@@ -115,20 +115,72 @@ export const exercise9516: Exercise<DATA> = {
     return (
       <>
         <p>Mehr Personen brauchen weniger Zeit.</p>
-        <p>
-          {data.workers1} {context.unit}: {pp(data.hours1)} h
-        </p>
-        <p>
-          1 {context.unit}: {pp(data.hours1)} h · {data.workers1} ={' '}
-          {pp(totalWork)} h
-        </p>
-        <p>
-          {data.workers2} {context.unit}: {pp(totalWork)} h : {data.workers2} ={' '}
-          {pp(data.hours2)} h
-        </p>
+
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            {context.unit}
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            h
+          </text>
+
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            {data.workers1}
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.hours1)} h
+          </text>
+
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(totalWork)} h
+          </text>
+
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {data.workers2}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.hours2)} h
+          </text>
+
+          <text x="24" y="72" fontSize="14">
+            : {data.workers1}
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {data.workers2}
+          </text>
+
+          <text x="286" y="72" fontSize="14">
+            · {data.workers1}
+          </text>
+          <text x="284" y="123" fontSize="14">
+            : {data.workers2}
+          </text>
+        </svg>
+
         <p>
           {context.result} <b>{pp(data.hours2)} Stunden</b>.
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/ISGhREON0T4"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

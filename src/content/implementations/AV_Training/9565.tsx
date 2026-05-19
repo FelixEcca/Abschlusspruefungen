@@ -74,7 +74,6 @@ export const exercise9565: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Beim Quadrat sind alle Seiten gleich lang.</p>
         <p>Für den Flächeninhalt gilt:</p>
         <InlineMath math={`A=a\\cdot a`} />
 
@@ -92,6 +91,19 @@ export const exercise9565: Exercise<DATA> = {
           </b>
           .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/wrNIhANQIUE"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

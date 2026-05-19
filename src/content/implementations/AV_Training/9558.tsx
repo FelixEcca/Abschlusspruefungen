@@ -3,7 +3,7 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
-type FigureType = 'dreieck' | 'rechteck' | 'kreis' | 'halbkreis' | 'trapez'
+type FigureType = 'dreieck' | 'rechteck' | 'kreis' | 'trapez'
 
 interface DATA {
   figure: FigureType
@@ -23,7 +23,7 @@ function figureName(type: FigureType) {
   if (type === 'dreieck') return 'Dreieck'
   if (type === 'rechteck') return 'Rechteck'
   if (type === 'kreis') return 'Kreis'
-  if (type === 'halbkreis') return 'Halbkreis'
+
   return 'Trapez'
 }
 
@@ -39,7 +39,7 @@ export const exercise9558: Exercise<DATA> = {
       'dreieck',
       'rechteck',
       'kreis',
-      'halbkreis',
+
       'trapez',
     ])
 
@@ -61,12 +61,6 @@ export const exercise9558: Exercise<DATA> = {
     if (figure === 'kreis') {
       const r = rng.randomItemFromArray([2, 3, 4, 5, 6, 7, 8, 10])
       const result = round2(2 * Math.PI * r)
-      return { figure, a: 0, b: 0, c: 0, d: 0, r, result }
-    }
-
-    if (figure === 'halbkreis') {
-      const r = rng.randomItemFromArray([2, 3, 4, 5, 6, 7, 8, 10])
-      const result = round2(Math.PI * r + 2 * r)
       return { figure, a: 0, b: 0, c: 0, d: 0, r, result }
     }
 
@@ -161,23 +155,6 @@ export const exercise9558: Exercise<DATA> = {
           </>
         )}
 
-        {data.figure === 'halbkreis' && (
-          <>
-            <svg viewBox="0 0 328 170">
-              <path
-                d="M 85 120 A 79 79 0 0 1 243 120 L 85 120"
-                fill="#eee"
-                stroke="black"
-                strokeWidth="2"
-              />
-              <line x1="164" y1="120" x2="243" y2="120" stroke="black" />
-              <text x="192" y="112" fontSize="15">
-                r = {data.r} cm
-              </text>
-            </svg>
-          </>
-        )}
-
         {data.figure === 'trapez' && (
           <>
             <svg viewBox="0 0 328 170">
@@ -209,7 +186,9 @@ export const exercise9558: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Beim Umfang werden alle Seitenlängen addiert.</p>
+        {data.figure != 'kreis' && (
+          <p>Beim Umfang werden alle Seitenlängen addiert.</p>
+        )}
 
         {data.figure === 'dreieck' && (
           <>
@@ -236,18 +215,6 @@ export const exercise9558: Exercise<DATA> = {
             <br />
             <InlineMath
               math={`U=2\\cdot \\pi \\cdot ${data.r}\\approx ${pp(data.result)}\\,\\mathrm{cm}`}
-            />
-          </>
-        )}
-
-        {data.figure === 'halbkreis' && (
-          <>
-            <p>Beim Halbkreis gehört auch die gerade Seite zum Umfang.</p>
-            <p>Die gerade Seite ist der Durchmesser: $d=2\\cdot r$.</p>
-            <InlineMath math={`U=\\pi\\cdot r+2\\cdot r`} />
-            <br />
-            <InlineMath
-              math={`U=\\pi\\cdot ${data.r}+2\\cdot ${data.r}\\approx ${pp(data.result)}\\,\\mathrm{cm}`}
             />
           </>
         )}

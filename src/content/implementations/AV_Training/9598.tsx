@@ -17,7 +17,7 @@ export const exercise9598: Exercise<DATA> = {
 
   generator(rng) {
     const percent = rng.randomItemFromArray([
-      1, 2, 5, 10, 12.5, 20, 25, 40, 50, 75, 80, 100, 125, 150,
+      1, 2, 5, 10, 12.5, 20, 25, 40, 50, 75, 80, 125, 150,
     ])
     const decimal = percent / 100
 
@@ -51,6 +51,19 @@ export const exercise9598: Exercise<DATA> = {
             data.percent,
           )}}{100}=${pp(data.decimal)}`}
         />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/FbSG_MwL760"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

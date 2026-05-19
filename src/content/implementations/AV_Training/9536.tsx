@@ -1,6 +1,5 @@
 // exercise9536.tsx
 import { Exercise } from '@/data/types'
-import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 interface DATA {
@@ -12,7 +11,13 @@ interface DATA {
   target: number
 }
 
-function sectorPath(cx: number, cy: number, r: number, start: number, end: number) {
+function sectorPath(
+  cx: number,
+  cy: number,
+  r: number,
+  start: number,
+  end: number,
+) {
   const x1 = cx + r * Math.cos(start)
   const y1 = cy + r * Math.sin(start)
   const x2 = cx + r * Math.cos(end)
@@ -72,11 +77,15 @@ export const exercise9536: Exercise<DATA> = {
 
             return (
               <g key={i}>
-                <path d={d} fill={i % 2 === 0 ? '#ddd' : '#aaa'} stroke="black" />
-                <text x={tx} y={ty} fontSize="12" textAnchor="middle">
+                <path
+                  d={d}
+                  fill={i % 2 === 0 ? '#ddd' : '#aaa'}
+                  stroke="black"
+                />
+                <text x={tx} y={ty - 5} fontSize="12" textAnchor="middle">
                   {labels[i]}
                 </text>
-                <text x={tx} y={ty + 14} fontSize="12" textAnchor="middle">
+                <text x={tx} y={ty + 5} fontSize="12" textAnchor="middle">
                   {v}%
                 </text>
               </g>
@@ -99,7 +108,55 @@ export const exercise9536: Exercise<DATA> = {
 
     return (
       <>
-        <InlineMath math={`${data.total}\\cdot\\frac{${v}}{100}=${pp(result)}`} />
+        <p>Berechne mit dem Dreisatz:</p>
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            %
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            Personen
+          </text>
+
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            100
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.total)}
+          </text>
+
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(data.total / 100)}
+          </text>
+
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {v}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(result)}
+          </text>
+
+          <text x="24" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {v}
+          </text>
+
+          <text x="286" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="284" y="123" fontSize="14">
+            · {v}
+          </text>
+        </svg>
         <p>
           Das sind <b>{pp(result)} Personen</b>.
         </p>

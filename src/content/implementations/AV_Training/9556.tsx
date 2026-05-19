@@ -23,7 +23,7 @@ function label(figure: Figure) {
 }
 
 export const exercise9556: Exercise<DATA> = {
-  title: 'Figuren benennen',
+  title: 'Welche Figur ist das?',
   source: 'Figuren und Flächen',
   useCalculator: false,
   duration: 42,
@@ -50,7 +50,7 @@ export const exercise9556: Exercise<DATA> = {
   task({ data }) {
     return (
       <>
-        <p>Benennen Sie die dargestellte Figur.</p>
+        <p>Welche Figur ist das?</p>
 
         <svg viewBox="0 0 328 180">
           {data.figure === 'rechteck' && (

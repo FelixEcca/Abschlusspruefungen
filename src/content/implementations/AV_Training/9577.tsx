@@ -8,26 +8,27 @@ type Context = 'aquarium' | 'pool' | 'karton'
 
 interface DATA {
   context: Context
-  g: number
-  h: number
+  a: number
+  b: number
+  c: number
   unit: Unit
   volume: number
 }
 
 function getContext(context: Context) {
   if (context === 'aquarium') {
-    return 'Ein Aquarium hat eine rechteckige Grundfläche.'
+    return 'Ein Aquarium hat folgende Maße.'
   }
 
   if (context === 'pool') {
-    return 'Ein Pool hat eine rechteckige Grundfläche.'
+    return 'Ein Pool hat folgende Maße.'
   }
 
-  return 'Ein Karton hat eine rechteckige Grundfläche.'
+  return 'Ein Karton hat folgende Maße.'
 }
 
 export const exercise9577: Exercise<DATA> = {
-  title: 'Volumen Prisma',
+  title: 'Volumen Quader',
   source: 'Körper und Volumen',
   useCalculator: true,
   duration: 42,
@@ -42,31 +43,39 @@ export const exercise9577: Exercise<DATA> = {
 
     const unit: Unit = rng.randomItemFromArray(['cm', 'dm', 'm'])
 
-    const g =
+    const a =
       unit === 'cm'
         ? rng.randomItemFromArray([80, 100, 120, 150])
         : unit === 'dm'
           ? rng.randomItemFromArray([12, 15, 18, 20])
           : rng.randomItemFromArray([4, 5, 6, 8])
 
-    const h =
+    const b =
+      unit === 'cm'
+        ? rng.randomItemFromArray([30, 40, 50, 60])
+        : unit === 'dm'
+          ? rng.randomItemFromArray([6, 8, 10, 12])
+          : rng.randomItemFromArray([2, 3, 4, 5])
+
+    const c =
       unit === 'cm'
         ? rng.randomItemFromArray([20, 30, 40, 50])
         : unit === 'dm'
           ? rng.randomItemFromArray([4, 5, 6, 8])
           : rng.randomItemFromArray([2, 3, 4])
 
-    const volume = g * h
+    const volume = a * b * c
 
-    return { context, g, h, unit, volume }
+    return { context, a, b, c, unit, volume }
   },
 
   originalData: {
     context: 'aquarium',
-    g: 120,
-    h: 40,
+    a: 12,
+    b: 8,
+    c: 5,
     unit: 'cm',
-    volume: 4800,
+    volume: 480,
   },
 
   constraint() {
@@ -79,20 +88,38 @@ export const exercise9577: Exercise<DATA> = {
         <p>{getContext(data.context)}</p>
 
         <svg viewBox="0 0 260 180">
-          <rect x="50" y="70" width="120" height="60" fill="#eee" stroke="black" />
-          <rect x="85" y="45" width="120" height="60" fill="#ddd" stroke="black" />
+          <rect
+            x="85"
+            y="45"
+            width="120"
+            height="60"
+            fill="#ddd"
+            stroke="black"
+          />
+          <rect
+            x="50"
+            y="70"
+            width="120"
+            height="60"
+            fill="#eee"
+            stroke="black"
+          />
 
           <line x1="50" y1="70" x2="85" y2="45" stroke="black" />
           <line x1="170" y1="70" x2="205" y2="45" stroke="black" />
           <line x1="170" y1="130" x2="205" y2="105" stroke="black" />
           <line x1="205" y1="45" x2="205" y2="105" stroke="black" />
 
-          <text x="108" y="150" fontSize="14">
-            G = {pp(data.g)} {data.unit}²
+          <text x="98" y="148" fontSize="14">
+            a = {pp(data.a)} {data.unit}
           </text>
 
-          <text x="214" y="84" fontSize="14">
-            h = {pp(data.h)} {data.unit}
+          <text x="132" y="62" fontSize="14">
+            b = {pp(data.b)} {data.unit}
+          </text>
+
+          <text x="208" y="85" fontSize="14">
+            c = {pp(data.c)} {data.unit}
           </text>
         </svg>
 
@@ -104,21 +131,38 @@ export const exercise9577: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Beim Prisma gilt:</p>
+        <p>Beim Quader gilt:</p>
 
-        <InlineMath math={`V=G\\cdot h`} />
+        <InlineMath math={`V=a\\cdot b\\cdot c`} />
 
         <p>Einsetzen:</p>
 
         <InlineMath
-          math={`V=${pp(data.g)}\\cdot ${pp(data.h)}=${pp(
+          math={`V=${pp(data.a)}\\cdot ${pp(data.b)}\\cdot ${pp(data.c)}=${pp(
             data.volume,
           )}\\,\\mathrm{${data.unit}}^3`}
         />
 
         <p>
-          Das Volumen beträgt <b>{pp(data.volume)} {data.unit}³</b>.
+          Das Volumen beträgt{' '}
+          <b>
+            {pp(data.volume)} {data.unit}³
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/xFrFZieub44"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

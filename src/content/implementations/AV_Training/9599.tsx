@@ -55,9 +55,26 @@ export const exercise9599: Exercise<DATA> = {
     return (
       <>
         <p>Prozent bedeutet „von 100“.</p>
-        <InlineMath math={`${pp(data.percent)}\\%=\\frac{${data.percent}}{100}`} />
+        <InlineMath
+          math={`${pp(data.percent)}\\%=\\frac{${data.percent}}{100}`}
+        />
         <p>Dann wird der Bruch gekürzt.</p>
-        <InlineMath math={`\\frac{${data.percent}}{100}=\\frac{${data.numerator}}{${data.denominator}}`} />
+        <InlineMath
+          math={`\\frac{${data.percent}}{100}=\\frac{${data.numerator}}{${data.denominator}}`}
+        />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/FA5WUwMQ92Q"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

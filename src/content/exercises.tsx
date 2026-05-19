@@ -262,7 +262,6 @@ import { exercise9025 } from './implementations/AV_Prüfungen/9025'
 import { exercise9500 } from './implementations/AV_Training/9500'
 import { exercise9535 } from './implementations/AV_Training/9535'
 import { exercise9533 } from './implementations/AV_Training/9533'
-import { exercise9532 } from './implementations/AV_Training/9532'
 import { exercise9531 } from './implementations/AV_Training/9531'
 import { exercise9529 } from './implementations/AV_Training/9529'
 import { exercise9528 } from './implementations/AV_Training/9528'
@@ -327,7 +326,6 @@ import { exercise9574 } from './implementations/AV_Training/9574'
 import { exercise9575 } from './implementations/AV_Training/9575'
 import { exercise9577 } from './implementations/AV_Training/9577'
 import { exercise9576 } from './implementations/AV_Training/9576'
-import { exercise9578 } from './implementations/AV_Training/9578'
 import { exercise9579 } from './implementations/AV_Training/9579'
 import { exercise9581 } from './implementations/AV_Training/9581'
 import { exercise9580 } from './implementations/AV_Training/9580'
@@ -340,7 +338,6 @@ import { exercise9587 } from './implementations/AV_Training/9587'
 import { exercise9588 } from './implementations/AV_Training/9588'
 import { exercise9589 } from './implementations/AV_Training/9589'
 import { exercise9590 } from './implementations/AV_Training/9590'
-import { exercise9591 } from './implementations/AV_Training/9591'
 import { exercise9592 } from './implementations/AV_Training/9592'
 import { exercise9593 } from './implementations/AV_Training/9593'
 import { exercise9594 } from './implementations/AV_Training/9594'
@@ -353,7 +350,6 @@ import { exercise9600 } from './implementations/AV_Training/9600'
 import { exercise9601 } from './implementations/AV_Training/9601'
 import { exercise9602 } from './implementations/AV_Training/9602'
 import { exercise9603 } from './implementations/AV_Training/9603'
-import { exercise9604 } from './implementations/AV_Training/9604'
 import { exercise9606 } from './implementations/AV_Training/9606'
 import { exercise9605 } from './implementations/AV_Training/9605'
 import { exercise9607 } from './implementations/AV_Training/9607'
@@ -648,7 +644,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9528: exercise9528,
   9529: exercise9529,
   9531: exercise9531,
-  9532: exercise9532,
   9533: exercise9533,
   9535: exercise9535,
   9536: exercise9536,
@@ -686,7 +681,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9575: exercise9575,
   9576: exercise9576,
   9577: exercise9577,
-  9578: exercise9578,
   9579: exercise9579,
   9580: exercise9580,
   9581: exercise9581,
@@ -699,7 +693,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9588: exercise9588,
   9589: exercise9589,
   9590: exercise9590,
-  9591: exercise9591,
   9592: exercise9592,
   9593: exercise9593,
   9594: exercise9594,
@@ -712,7 +705,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9601: exercise9601,
   9602: exercise9602,
   9603: exercise9603,
-  9604: exercise9604,
   9605: exercise9605,
   9606: exercise9606,
   9607: exercise9607,

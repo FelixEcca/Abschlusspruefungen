@@ -62,12 +62,23 @@ export const exercise9579: Exercise<DATA> = {
         <p>Berechnen Sie das Volumen der Pyramide.</p>
 
         <svg viewBox="0 0 300 190">
-          <polygon points="70,140 210,140 245,105 110,105" fill="#eee" stroke="black" />
+          <polygon
+            points="70,140 210,140 245,105 110,105"
+            fill="#eee"
+            stroke="black"
+          />
           <line x1="70" y1="140" x2="155" y2="35" stroke="black" />
           <line x1="210" y1="140" x2="155" y2="35" stroke="black" />
           <line x1="245" y1="105" x2="155" y2="35" stroke="black" />
           <line x1="110" y1="105" x2="155" y2="35" stroke="black" />
-          <line x1="155" y1="35" x2="155" y2="122" stroke="black" strokeDasharray="5 4" />
+          <line
+            x1="155"
+            y1="35"
+            x2="155"
+            y2="122"
+            stroke="black"
+            strokeDasharray="5 4"
+          />
 
           <text x="122" y="165" fontSize="14">
             G = {pp(data.g)} {data.unit}²
@@ -94,8 +105,25 @@ export const exercise9579: Exercise<DATA> = {
         />
 
         <p>
-          Das Volumen beträgt <b>{pp(data.volume)} {data.unit}³</b>.
+          Das Volumen beträgt{' '}
+          <b>
+            {pp(data.volume)} {data.unit}³
+          </b>
+          .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/bAW92gLFCiQ"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -33,7 +33,11 @@ export const exercise9550: Exercise<DATA> = {
   },
 
   constraint({ data }) {
-    return data.a!=0 && data.b!=0
+    return (
+      data.a != 0 &&
+      data.b != 0 &&
+      !(data.op === '+' && data.a > 0 && data.b > 0)
+    )
   },
 
   task({ data }) {
@@ -58,7 +62,9 @@ export const exercise9550: Exercise<DATA> = {
           Ergebnis: <b>{data.result}</b>
         </p>
         <h2>Erklärvideo</h2>
-        <p>Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen Zahlen:</p>
+        <p>
+          Hier gibt es noch ein Erklärungsvideo zum Rechnen mit ganzen Zahlen:
+        </p>
         <div className="my-4">
           <iframe
             width="100%"

@@ -86,12 +86,12 @@ export const exercise9571: Exercise<DATA> = {
             strokeWidth="2"
           />
           <line x1="164" y1="95" x2="234" y2="95" stroke="black" />
-          <line x1="164" y1="95" x2="206" y2="95" stroke="black" />
+          <line x1="164" y1="95" x2="164" y2="137" stroke="black" />
 
-          <text x="202" y="84" fontSize="14">
+          <text x="185" y="90" fontSize="16">
             R = {pp(data.rOuter)} {data.unit}
           </text>
-          <text x="172" y="118" fontSize="14">
+          <text x="150" y="110" fontSize="16">
             r = {pp(data.rInner)} {data.unit}
           </text>
         </svg>
@@ -102,7 +102,10 @@ export const exercise9571: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <p>Ein Kreisring besteht aus einem großen Kreis minus einem kleinen Kreis.</p>
+        <p>
+          Ein Kreisring besteht aus einem großen Kreis minus einem kleinen
+          Kreis.
+        </p>
 
         <p>Großer Kreis:</p>
         <InlineMath
@@ -132,6 +135,19 @@ export const exercise9571: Exercise<DATA> = {
           </b>
           .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/f4P0vTc7XpA"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

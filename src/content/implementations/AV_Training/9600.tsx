@@ -109,20 +109,75 @@ export const exercise9600: Exercise<DATA> = {
     return (
       <>
         <p>Berechne mit dem Dreisatz:</p>
+
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            %
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            {context.unit}
+          </text>
+
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            100
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.total)} {context.unit}
+          </text>
+
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(data.onePercent)} {context.unit}
+          </text>
+
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.percent)}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.result)} {context.unit}
+          </text>
+
+          <text x="24" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {pp(data.percent)}
+          </text>
+
+          <text x="286" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="284" y="123" fontSize="14">
+            · {pp(data.percent)}
+          </text>
+        </svg>
+
         <p>
-          100 % entsprechen {pp(data.total)} {context.unit}.
+          Ergebnis:{' '}
+          <b>
+            {pp(data.result)} {context.unit}
+          </b>
         </p>
-        <p>
-          1 % entspricht {pp(data.total)} : 100 = {pp(data.onePercent)}{' '}
-          {context.unit}.
-        </p>
-        <p>
-          {pp(data.percent)} % entsprechen {pp(data.onePercent)} ·{' '}
-          {pp(data.percent)} = {pp(data.result)} {context.unit}.
-        </p>
-        <p>
-          Ergebnis: <b>{pp(data.result)} {context.unit}</b>
-        </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/w4c6fNktgx0"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

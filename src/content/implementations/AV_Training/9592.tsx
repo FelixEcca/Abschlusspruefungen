@@ -77,6 +77,19 @@ export const exercise9592: Exercise<DATA> = {
         <InlineMath
           math={`=${frac(data.resultNumerator, data.resultDenominator)}`}
         />
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/-Bw6PKmDcIE"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

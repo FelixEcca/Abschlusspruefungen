@@ -81,7 +81,7 @@ export const exercise9564: Exercise<DATA> = {
           <text x="162" y="153" fontSize="15" textAnchor="middle">
             g = {pp(data.g)} {data.unit}
           </text>
-          <text x="220" y="95" fontSize="15">
+          <text x="210" y="95" fontSize="15">
             h = {pp(data.h)} {data.unit}
           </text>
         </svg>
@@ -109,6 +109,19 @@ export const exercise9564: Exercise<DATA> = {
           </b>
           .
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/gIiY0eQ6Kzo"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

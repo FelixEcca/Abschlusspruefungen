@@ -122,7 +122,10 @@ export const exercise9514: Exercise<DATA> = {
         )}
         {context.unit !== '€' && (
           <p>
-            Ergebnis: <b>{pp(data.rounded)} {context.unit}</b>
+            Ergebnis:{' '}
+            <b>
+              {pp(data.rounded)} {context.unit}
+            </b>
           </p>
         )}
         <h2>Erklärvideo</h2>

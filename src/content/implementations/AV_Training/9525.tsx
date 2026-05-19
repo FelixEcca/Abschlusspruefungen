@@ -77,6 +77,14 @@ export const exercise9525: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
+        <svg viewBox="0 0 328 100">
+          <image
+            href="/content/AV_Prüfungen/fläche.png"
+            height="100"
+            width="328"
+          />
+        </svg>
+        <br></br>
         <InlineMath
           math={`${pp(data.value)}\\,${unit(data.from)}=${pp(
             data.result,

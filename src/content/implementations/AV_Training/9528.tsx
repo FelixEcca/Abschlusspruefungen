@@ -72,6 +72,13 @@ export const exercise9528: Exercise<DATA> = {
 
     return (
       <>
+        <svg viewBox="0 0 328 100">
+          <image
+            href="/content/AV_Prüfungen/ml_l.png"
+            height="100"
+            width="328"
+          />
+        </svg>
         <p>{instruction}</p>
         <InlineMath
           math={`${pp(data.value)}\\,${unit(data.from)}=${pp(

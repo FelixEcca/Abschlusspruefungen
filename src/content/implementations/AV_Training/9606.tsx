@@ -105,21 +105,30 @@ export const exercise9606: Exercise<DATA> = {
 
   solution({ data }) {
     const context = getContext(data)
+    const biggerLabel = data.bigger === 'a' ? context.itemA : context.itemB
+    const biggerValue = data.bigger === 'a' ? data.a : data.b
 
     return (
       <>
         <p>
           Größer ist:{' '}
-          <b>{data.bigger === 'a' ? context.itemA : context.itemB}</b>.
+          <b>
+            {biggerLabel} mit {biggerValue} {context.unit}
+          </b>
+          .
         </p>
-        <p>Der Unterschied wird durch Subtraktion berechnet.</p>
+        <p>Der Unterschied wird mit Minus berechnet.</p>
         <InlineMath
           math={`${Math.max(data.a, data.b)}-${Math.min(data.a, data.b)}=${
             data.difference
           }`}
         />
         <p>
-          Der Unterschied beträgt <b>{data.difference} {context.unit}</b>.
+          Der Unterschied beträgt{' '}
+          <b>
+            {data.difference} {context.unit}
+          </b>
+          .
         </p>
       </>
     )

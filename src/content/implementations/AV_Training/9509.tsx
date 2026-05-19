@@ -58,10 +58,7 @@ export const exercise9509: Exercise<DATA> = {
       <>
         <p>Berechnen Sie:</p>
         <InlineMath
-          math={`${frac(data.n1, data.d1)}\\cdot ${frac(
-            data.n2,
-            data.d2,
-          )}`}
+          math={`${frac(data.n1, data.d1)}\\cdot ${frac(data.n2, data.d2)}`}
         />
       </>
     )
@@ -70,6 +67,7 @@ export const exercise9509: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
+        <p>Multipliziere die Zähler miteinander und die Nenner miteinander:</p>
         <InlineMath
           math={`${frac(data.n1, data.d1)}\\cdot ${frac(
             data.n2,
@@ -78,7 +76,19 @@ export const exercise9509: Exercise<DATA> = {
             data.d2
           }}=\\frac{${data.n1 * data.n2}}{${data.d1 * data.d2}}`}
         />
-        
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/LA3VrJBGyNE"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -1,13 +1,7 @@
 // exercise9575.tsx
 import { Exercise } from '@/data/types'
 
-type Body =
-  | 'würfel'
-  | 'quader'
-  | 'zylinder'
-  | 'kegel'
-  | 'kugel'
-  | 'pyramide'
+type Body = 'würfel' | 'quader' | 'zylinder' | 'kegel' | 'kugel' | 'pyramide'
 
 interface DATA {
   body: Body
@@ -57,8 +51,22 @@ export const exercise9575: Exercise<DATA> = {
 
         {data.body === 'würfel' && (
           <svg viewBox="0 0 220 180">
-            <rect x="50" y="50" width="80" height="80" fill="#eee" stroke="black" />
-            <rect x="80" y="30" width="80" height="80" fill="#ddd" stroke="black" />
+            <rect
+              x="80"
+              y="30"
+              width="80"
+              height="80"
+              fill="#ddd"
+              stroke="black"
+            />
+            <rect
+              x="50"
+              y="50"
+              width="80"
+              height="80"
+              fill="#eee"
+              stroke="black"
+            />
             <line x1="50" y1="50" x2="80" y2="30" stroke="black" />
             <line x1="130" y1="50" x2="160" y2="30" stroke="black" />
             <line x1="130" y1="130" x2="160" y2="110" stroke="black" />
@@ -68,8 +76,22 @@ export const exercise9575: Exercise<DATA> = {
 
         {data.body === 'quader' && (
           <svg viewBox="0 0 260 180">
-            <rect x="40" y="60" width="120" height="70" fill="#eee" stroke="black" />
-            <rect x="80" y="35" width="120" height="70" fill="#ddd" stroke="black" />
+            <rect
+              x="80"
+              y="35"
+              width="120"
+              height="70"
+              fill="#ddd"
+              stroke="black"
+            />
+            <rect
+              x="40"
+              y="60"
+              width="120"
+              height="70"
+              fill="#eee"
+              stroke="black"
+            />
             <line x1="40" y1="60" x2="80" y2="35" stroke="black" />
             <line x1="160" y1="60" x2="200" y2="35" stroke="black" />
             <line x1="160" y1="130" x2="200" y2="105" stroke="black" />
@@ -79,15 +101,43 @@ export const exercise9575: Exercise<DATA> = {
 
         {data.body === 'zylinder' && (
           <svg viewBox="0 0 220 180">
-            <ellipse cx="110" cy="45" rx="50" ry="18" fill="#ddd" stroke="black" />
-            <rect x="60" y="45" width="100" height="90" fill="#eee" stroke="black" />
-            <ellipse cx="110" cy="135" rx="50" ry="18" fill="#eee" stroke="black" />
+            <rect
+              x="60"
+              y="45"
+              width="100"
+              height="90"
+              fill="#eee"
+              stroke="black"
+            />
+            <ellipse
+              cx="110"
+              cy="45"
+              rx="50"
+              ry="18"
+              fill="#ddd"
+              stroke="black"
+            />
+            <ellipse
+              cx="110"
+              cy="135"
+              rx="50"
+              ry="18"
+              fill="#eee"
+              stroke="black"
+            />
           </svg>
         )}
 
         {data.body === 'kegel' && (
           <svg viewBox="0 0 220 180">
-            <ellipse cx="110" cy="135" rx="55" ry="18" fill="#eee" stroke="black" />
+            <ellipse
+              cx="110"
+              cy="135"
+              rx="55"
+              ry="18"
+              fill="#eee"
+              stroke="black"
+            />
             <line x1="55" y1="135" x2="110" y2="35" stroke="black" />
             <line x1="165" y1="135" x2="110" y2="35" stroke="black" />
           </svg>
