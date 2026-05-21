@@ -259,6 +259,7 @@ import { exercise9022 } from './implementations/AV_Prüfungen/9022'
 import { exercise9023 } from './implementations/AV_Prüfungen/9023'
 import { exercise9024 } from './implementations/AV_Prüfungen/9024'
 import { exercise9025 } from './implementations/AV_Prüfungen/9025'
+
 import { exercise9500 } from './implementations/AV_Training/9500'
 import { exercise9535 } from './implementations/AV_Training/9535'
 import { exercise9533 } from './implementations/AV_Training/9533'
@@ -353,6 +354,31 @@ import { exercise9603 } from './implementations/AV_Training/9603'
 import { exercise9606 } from './implementations/AV_Training/9606'
 import { exercise9605 } from './implementations/AV_Training/9605'
 import { exercise9607 } from './implementations/AV_Training/9607'
+import { exercise9026 } from './implementations/AV_Prüfungen/9026'
+import { exercise9027 } from './implementations/AV_Prüfungen/9027'
+import { exercise9028 } from './implementations/AV_Prüfungen/9028'
+import { exercise9029 } from './implementations/AV_Prüfungen/9029'
+import { exercise9030 } from './implementations/AV_Prüfungen/9030'
+import { exercise9032 } from './implementations/AV_Prüfungen/9032'
+import { exercise9031 } from './implementations/AV_Prüfungen/9031'
+import { exercise9035 } from './implementations/AV_Prüfungen/9035'
+import { exercise9034 } from './implementations/AV_Prüfungen/9034'
+import { exercise9033 } from './implementations/AV_Prüfungen/9033'
+import { exercise9036 } from './implementations/AV_Prüfungen/9036'
+import { exercise9037 } from './implementations/AV_Prüfungen/9037'
+import { exercise9038 } from './implementations/AV_Prüfungen/9038'
+import { exercise9039 } from './implementations/AV_Prüfungen/9039'
+import { exercise9040 } from './implementations/AV_Prüfungen/9040'
+import { exercise9043 } from './implementations/AV_Prüfungen/9043'
+import { exercise9042 } from './implementations/AV_Prüfungen/9042'
+import { exercise9041 } from './implementations/AV_Prüfungen/9041'
+import { exercise9044 } from './implementations/AV_Prüfungen/9044'
+import { exercise9050 } from './implementations/AV_Prüfungen/9050'
+import { exercise9049 } from './implementations/AV_Prüfungen/9049'
+import { exercise9048 } from './implementations/AV_Prüfungen/9048'
+import { exercise9047 } from './implementations/AV_Prüfungen/9047'
+import { exercise9046 } from './implementations/AV_Prüfungen/9046'
+import { exercise9045 } from './implementations/AV_Prüfungen/9045'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -614,6 +640,32 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9023: exercise9023,
   9024: exercise9024,
   9025: exercise9025,
+  9026: exercise9026,
+  9027: exercise9027,
+  9028: exercise9028,
+  9029: exercise9029,
+  9030: exercise9030,
+  9031: exercise9031,
+  9032: exercise9032,
+  9033: exercise9033,
+  9034: exercise9034,
+  9035: exercise9035,
+  9036: exercise9036,
+  9037: exercise9037,
+  9038: exercise9038,
+  9039: exercise9039,
+  9040: exercise9040,
+  9041: exercise9041,
+  9042: exercise9042,
+  9043: exercise9043,
+  9044: exercise9044,
+  9045: exercise9045,
+  9046: exercise9046,
+  9047: exercise9047,
+  9048: exercise9048,
+  9049: exercise9049,
+  9050: exercise9050,
+
   9500: exercise9500,
   9501: exercise9501,
   9502: exercise9502,
