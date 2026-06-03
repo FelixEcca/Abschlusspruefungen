@@ -103,10 +103,7 @@ export const exercise9033: Exercise<DATA> = {
         <InlineMath
           math={`=${firstDivision}-${data.m}-${secondBracket}+${data.g}+${lastMultiplication}`}
         />
-        <br />
-        <InlineMath
-          math={`=${firstDivision}-${secondBracket}+${combinedConstant}`}
-        />
+
         <br />
         <InlineMath math={`=${data.result}`} />
         <h2>Erklärvideo</h2>

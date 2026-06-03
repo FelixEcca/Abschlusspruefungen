@@ -78,7 +78,7 @@ export const exercise9038: Exercise<DATA> = {
 
   originalData: {
     labels: ['A', 'B', 'C', 'D'],
-    values: [-3.1, -0.6, 2.1, 3.5],
+    values: [-3.2, -0.6, 2.1, 3.5],
 
     e: -1.4,
     f: 0.8,
@@ -196,10 +196,13 @@ export const exercise9038: Exercise<DATA> = {
             <p>
               <InlineMath math={`E=${numberLatex(data.e)}`} />
               {'  '}
+              <br></br>
               <InlineMath math={`F=${numberLatex(data.f)}`} />
               {'  '}
+              <br></br>
               <InlineMath math={`G=${mixedNumber(data.g)}`} />
               {'  '}
+              <br></br>
               <InlineMath math={`H=${numberLatex(data.h)}`} />
             </p>
           </>

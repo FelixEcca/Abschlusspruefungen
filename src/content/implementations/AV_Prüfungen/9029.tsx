@@ -51,8 +51,10 @@ export const exercise9029: Exercise<DATA> = {
       'snacks',
     ])
 
-    const count = rng.randomItemFromArray([8, 9, 11, 12, 15])
-    const unitPrice = rng.randomItemFromArray([1.5, 2.5, 3.5, 4.5, 5.5])
+    const count = rng.randomItemFromArray([8, 10, 12, 14, 16])
+    const unitPrice = rng.randomItemFromArray([
+      1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5,
+    ])
     const total = round2(count * unitPrice)
 
     return { kontext, count, total, unitPrice }
@@ -73,7 +75,15 @@ export const exercise9029: Exercise<DATA> = {
     return (
       <>
         <p>{getContext(data)}</p>
-        <p>Berechnen Sie, wie viel eine Packung kostet.</p>
+        <p>
+          Berechnen Sie, wie viel eine{' '}
+          {data.kontext === 'pizza'
+            ? 'Pizza'
+            : data.kontext === 'saft'
+              ? 'Flasche Saft'
+              : `Packung ${data.kontext}`}{' '}
+          kostet.
+        </p>
       </>
     )
   },
@@ -86,7 +96,12 @@ export const exercise9029: Exercise<DATA> = {
           math={`${pp(data.total)}:${data.count}=${pp(data.unitPrice)}\\,€`}
         />
         <p>
-          Eine Packung kostet <b>{pp(data.unitPrice)} €</b>.
+          {data.kontext === 'pizza'
+            ? 'Eine Pizza kostet'
+            : data.kontext === 'saft'
+              ? 'Eine Flasche Saft kostet'
+              : `Eine Packung ${data.kontext} kostet`}{' '}
+          <b>{pp(data.unitPrice)} €</b>.
         </p>
         <h2>Erklärvideo</h2>
         <p>Hier gibt es noch ein Erklärungsvideo:</p>

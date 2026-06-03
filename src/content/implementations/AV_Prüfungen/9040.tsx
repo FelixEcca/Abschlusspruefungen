@@ -1,6 +1,5 @@
 // exercise9040.tsx
 import { Exercise } from '@/data/types'
-import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 type Kontext = 'kaninchen' | 'hunde' | 'katzen' | 'vögel'
@@ -64,7 +63,7 @@ export const exercise9040: Exercise<DATA> = {
     return (
       <>
         <p>
-          Der Futtervorrat im Geschäft würde für {data.animals1} {animal} für{' '}
+          Der Futtervorrat im Zoogeschäft würde für {data.animals1} {animal} für{' '}
           {data.days1} Tage reichen.
         </p>
         <p>
@@ -78,24 +77,79 @@ export const exercise9040: Exercise<DATA> = {
   },
 
   solution({ data }) {
+    const animal = getAnimal(data)
+    const totalAnimalDays = data.animals1 * data.days1
+
     return (
       <>
-        <p>Die Futtermenge bleibt gleich.</p>
-        <p>Zuerst berechnen wir die Tier-Tage:</p>
-        <InlineMath
-          math={`${data.animals1}\\cdot ${data.days1}=${data.animals1 * data.days1}`}
-        />
+        <p>Berechne mit dem umgekehrten Dreisatz:</p>
 
-        <p>Danach teilen wir durch die neue Anzahl der Tiere:</p>
-        <InlineMath
-          math={`${data.animals1 * data.days1}:${data.animals2}=${pp(
-            data.days2,
-          )}`}
-        />
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            {animal}
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            Tage
+          </text>
+
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            {data.animals1}
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {data.days1}
+          </text>
+
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(totalAnimalDays)}
+          </text>
+
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {data.animals2}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.days2)}
+          </text>
+
+          <text x="30" y="72" fontSize="14">
+            : {data.animals1}
+          </text>
+          <text x="30" y="123" fontSize="14">
+            · {data.animals2}
+          </text>
+
+          <text x="286" y="72" fontSize="14">
+            · {data.animals1}
+          </text>
+          <text x="286" y="123" fontSize="14">
+            : {data.animals2}
+          </text>
+        </svg>
 
         <p>
           Der Futtervorrat reicht für <b>{pp(data.days2)} Tage</b>.
         </p>
+        <h2>Erklärvideo</h2>
+        <p>Hier gibt es noch ein Erklärungsvideo zum umgekehrten Dreisatz:</p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/ISGhREON0T4"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

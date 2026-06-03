@@ -130,6 +130,21 @@ export const exercise9042: Exercise<DATA> = {
               : 'Der Käfig ist nicht groß genug.'}
           </b>
         </p>
+        <h2>Erklärvideo</h2>
+        <p>
+          Hier gibt es noch ein Erklärungsvideo zum Volumen von einem Quader:
+        </p>
+        <div className="my-4">
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/yCORC007Ytc"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

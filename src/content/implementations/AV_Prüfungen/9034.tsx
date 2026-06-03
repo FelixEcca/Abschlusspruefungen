@@ -96,7 +96,7 @@ export const exercise9034: Exercise<DATA> = {
         <br />
         <InlineMath math={`${pp(data.km2)}\\,km=${pp(data.m2)}\\,m`} />
         <br />
-        <InlineMath math={`${data.cm_2}\\,cm=${pp(data.m_2)}\\,m`} />
+        <InlineMath math={`${pp(data.cm_2)}\\,cm=${pp(data.m_2)}\\,m`} />
         <h2>Erklärvideo</h2>
         <p>Hier gibt es noch ein Erklärungsvideo zu Klammern:</p>
         <div className="my-4">
