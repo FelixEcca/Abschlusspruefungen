@@ -1,16 +1,55 @@
 // exercise9048.tsx
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+
+type Kontext = 'smartphone' | 'laptop' | 'fahrrad' | 'reise' | 'fuehrerschein'
 
 interface DATA {
+  kontext: Kontext
   income: number
-  rent: number
-  food: number
-  ticket: number
-  leisure: number
+  cost1: number
+  cost2: number
+  cost3: number
+  cost4: number
   savings: number
-  phone: number
+  goal: number
   months: number
+}
+
+function getContext(kontext: Kontext) {
+  if (kontext === 'laptop') {
+    return {
+      item: 'einen Laptop',
+      costs: ['Miete', 'Lebensmittel', 'Monatskarte', 'Freizeit'],
+    }
+  }
+
+  if (kontext === 'fahrrad') {
+    return {
+      item: 'ein E-Bike',
+      costs: ['Miete', 'Lebensmittel', 'Handyvertrag', 'Freizeit'],
+    }
+  }
+
+  if (kontext === 'reise') {
+    return {
+      item: 'eine Reise',
+      costs: ['Miete', 'Lebensmittel', 'Monatskarte', 'Kleidung'],
+    }
+  }
+
+  if (kontext === 'fuehrerschein') {
+    return {
+      item: 'einen Führerschein',
+      costs: ['Miete', 'Lebensmittel', 'Handyvertrag', 'Freizeit'],
+    }
+  }
+
+  return {
+    item: 'ein Smartphone',
+    costs: ['Miete', 'Lebensmittel', 'Monatskarte', 'Freizeit'],
+  }
 }
 
 export const exercise9048: Exercise<DATA> = {
@@ -21,38 +60,57 @@ export const exercise9048: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const income = rng.randomItemFromArray([1000, 1150, 1300])
-    const rent = rng.randomItemFromArray([350, 420, 485])
-    const food = rng.randomItemFromArray([180, 240, 280])
-    const ticket = rng.randomItemFromArray([39, 49, 59])
-    const leisure = rng.randomItemFromArray([120, 150, 185])
+    const kontext: Kontext = rng.randomItemFromArray([
+      'smartphone',
+      'laptop',
+      'fahrrad',
+      'reise',
+      'fuehrerschein',
+    ])
 
-    const savings = income - rent - food - ticket - leisure
+    const income = rng.randomItemFromArray([1000, 1150, 1300, 1450, 1600])
+    const cost1 = rng.randomItemFromArray([350, 420, 485, 520])
+    const cost2 = rng.randomItemFromArray([180, 240, 280, 320])
+    const cost3 = rng.randomItemFromArray([39, 49, 59, 69])
+    const cost4 = rng.randomItemFromArray([120, 150, 185, 220])
 
-    const phone = rng.randomItemFromArray([900, 1000, 1200])
+    const savings = income - cost1 - cost2 - cost3 - cost4
 
-    const months = Math.ceil(phone / savings)
+    const goal =
+      kontext === 'smartphone'
+        ? rng.randomItemFromArray([900, 1000, 1200])
+        : kontext === 'laptop'
+          ? rng.randomItemFromArray([800, 1000, 1400])
+          : kontext === 'fahrrad'
+            ? rng.randomItemFromArray([1200, 1500, 1800])
+            : kontext === 'reise'
+              ? rng.randomItemFromArray([750, 1000, 1250])
+              : rng.randomItemFromArray([1800, 2200, 2500])
+
+    const months = Math.ceil(goal / savings)
 
     return {
+      kontext,
       income,
-      rent,
-      food,
-      ticket,
-      leisure,
+      cost1,
+      cost2,
+      cost3,
+      cost4,
       savings,
-      phone,
+      goal,
       months,
     }
   },
 
   originalData: {
+    kontext: 'smartphone',
     income: 1150,
-    rent: 485,
-    food: 280,
-    ticket: 49,
-    leisure: 185,
+    cost1: 485,
+    cost2: 280,
+    cost3: 49,
+    cost4: 185,
     savings: 151,
-    phone: 1200,
+    goal: 1200,
     months: 8,
   },
 
@@ -61,45 +119,61 @@ export const exercise9048: Exercise<DATA> = {
   },
 
   task({ data }) {
+    const context = getContext(data.kontext)
+
     return (
       <>
-        <p>Monatlich stehen insgesamt {data.income} € zur Verfügung.</p>
+        <p>Sie haben monatlich insgesamt {pp(data.income)} €.</p>
+        <p>Sie haben monatlich folgende Kosten:</p>
 
         <p>
-          Miete: {data.rent} €
+          {context.costs[0]}: {pp(data.cost1)} €
           <br />
-          Lebensmittel: {data.food} €
+          {context.costs[1]}: {pp(data.cost2)} €
           <br />
-          Monatskarte: {data.ticket} €
+          {context.costs[2]}: {pp(data.cost3)} €
           <br />
-          Freizeit: {data.leisure} €
+          {context.costs[3]}: {pp(data.cost4)} €
         </p>
 
+        <p>Ihr restliches Geld sparen Sie.</p>
+
         <p>
-          Berechnen Sie, wie viele Monate gespart werden müssen, um ein
-          Smartphone für {data.phone} € zu kaufen.
+          Berechnen Sie, wie viele Monate gespart werden müssen, um{' '}
+          {context.item} für {pp(data.goal)} € zu kaufen.
         </p>
       </>
     )
   },
 
   solution({ data }) {
+    const context = getContext(data.kontext)
+    const exactMonths = data.goal / data.savings
+
     return (
       <>
         <p>Monatliche Ersparnis:</p>
 
         <InlineMath
-          math={`${data.income}-${data.rent}-${data.food}-${data.ticket}-${data.leisure}=${data.savings}`}
+          math={`${pp(data.income)}-${pp(data.cost1)}-${pp(data.cost2)}-${pp(
+            data.cost3,
+          )}-${pp(data.cost4)}=${pp(data.savings)}\\,€`}
         />
 
         <p>Benötigte Monate:</p>
 
         <InlineMath
-          math={`${data.phone}:${data.savings}\\approx ${data.months}`}
+          math={`${pp(data.goal)}:${pp(data.savings)}\\approx ${pp(
+            exactMonths,
+          )}`}
         />
 
         <p>
-          Es müssen <b>{data.months} Monate</b> gespart werden.
+          Da man nicht einen Teil eines Monats sparen kann, wird aufgerundet.
+        </p>
+
+        <p>
+          Für {context.item} müssen <b>{data.months} Monate</b> gespart werden.
         </p>
       </>
     )
