@@ -379,6 +379,12 @@ import { exercise9048 } from './implementations/AV_Prüfungen/9048'
 import { exercise9047 } from './implementations/AV_Prüfungen/9047'
 import { exercise9046 } from './implementations/AV_Prüfungen/9046'
 import { exercise9045 } from './implementations/AV_Prüfungen/9045'
+import { exercise6014 } from './implementations/TG11_Physik/6014'
+import { exercise6015 } from './implementations/TG11_Physik/6015'
+import { exercise6016 } from './implementations/TG11_Physik/6016'
+import { exercise6017 } from './implementations/TG11_Physik/6017'
+import { exercise6018 } from './implementations/TG11_Physik/6018'
+import { exercise6019 } from './implementations/TG11_Physik/6019'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -760,6 +766,12 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9605: exercise9605,
   9606: exercise9606,
   9607: exercise9607,
+  6014: exercise6014,
+  6015: exercise6015,
+  6016: exercise6016,
+  6017: exercise6017,
+  6018: exercise6018,
+  6019: exercise6019,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

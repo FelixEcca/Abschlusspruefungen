@@ -5,7 +5,7 @@ import { FaIcon } from '../ui/FaIcon'
 import {
   faTrash,
   faPaperPlane,
-  faXmark,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { exercisesData } from '@/content/exercises'
 import { extractor } from './extractor/extractor'
@@ -28,40 +28,80 @@ export function ScribbleOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
   const [lastFeedback, setLastFeedback] = useState<string | null>(null)
+  const [historyLength, setHistoryLength] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const isDrawingRef = useRef(false)
   const lastPosRef = useRef<{ x: number; y: number } | null>(null)
+  const historyRef = useRef<ImageData[]>([])
 
   useEffect(() => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
+    if (chatOverlay !== 'scribble') return
 
-      canvas.width = canvas.clientWidth
-      canvas.height = canvas.clientHeight
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-      ctx.lineWidth = 3
-      ctx.lineCap = 'round'
-      ctx.strokeStyle = '#111827'
-    }
-  }, [])
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const rect = canvas.getBoundingClientRect()
+    const dpr = window.devicePixelRatio || 1
+
+    canvas.width = Math.round(rect.width * dpr)
+    canvas.height = Math.round(rect.height * dpr)
+
+    ctx.scale(dpr, dpr)
+    ctx.lineWidth = 3
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+    ctx.strokeStyle = '#111827'
+  }, [chatOverlay])
 
   if (chatOverlay !== 'scribble') return null
+
+  const saveHistory = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    historyRef.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height))
+
+    if (historyRef.current.length > 20) {
+      historyRef.current.shift()
+    }
+
+    setHistoryLength(historyRef.current.length)
+  }
+
+  const undoCanvas = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const previous = historyRef.current.pop()
+    if (!previous) return
+
+    ctx.putImageData(previous, 0, 0)
+    setHistoryLength(historyRef.current.length)
+    setLastFeedback(null)
+  }
 
   const getCanvasPos = (e: MouseEvent | TouchEvent) => {
     const canvas = canvasRef.current
     if (!canvas) return { x: 0, y: 0 }
+
     const rect = canvas.getBoundingClientRect()
 
     if ('touches' in e) {
       const t = e.touches[0]
       return { x: t.clientX - rect.left, y: t.clientY - rect.top }
-    } else {
-      const me = e as MouseEvent
-      return { x: me.clientX - rect.left, y: me.clientY - rect.top }
     }
+
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top }
   }
 
   const handleStart = (
@@ -70,13 +110,15 @@ export function ScribbleOverlay() {
       | React.TouchEvent<HTMLCanvasElement>,
   ) => {
     e.preventDefault()
+    saveHistory()
+
     const ev =
       'touches' in e
         ? (e.nativeEvent as TouchEvent)
         : (e.nativeEvent as MouseEvent)
-    const pos = getCanvasPos(ev)
+
     isDrawingRef.current = true
-    lastPosRef.current = pos
+    lastPosRef.current = getCanvasPos(ev)
   }
 
   const handleMove = (
@@ -86,10 +128,12 @@ export function ScribbleOverlay() {
   ) => {
     if (!isDrawingRef.current || !canvasRef.current) return
     e.preventDefault()
+
     const ev =
       'touches' in e
         ? (e.nativeEvent as TouchEvent)
         : (e.nativeEvent as MouseEvent)
+
     const pos = getCanvasPos(ev)
     const last = lastPosRef.current
     if (!last) {
@@ -104,6 +148,7 @@ export function ScribbleOverlay() {
     ctx.moveTo(last.x, last.y)
     ctx.lineTo(pos.x, pos.y)
     ctx.stroke()
+
     lastPosRef.current = pos
   }
 
@@ -120,8 +165,11 @@ export function ScribbleOverlay() {
   const clearCanvas = () => {
     const canvas = canvasRef.current
     if (!canvas) return
+
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+
+    saveHistory()
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     setLastFeedback(null)
   }
@@ -154,39 +202,38 @@ export function ScribbleOverlay() {
       includeCorrectionHints: false,
     })
 
-    const msgs: IMessage[] = []
-
-    msgs.push({
-      id: 'context',
-      role: 'system',
-      content: exerciseContext,
-    })
-
-    msgs.push({
-      id: 'prompt',
-      role: 'system',
-      content: `
+    const msgs: IMessage[] = [
+      {
+        id: 'context',
+        role: 'system',
+        content: exerciseContext,
+      },
+      {
+        id: 'prompt',
+        role: 'system',
+        content: `
 Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Mathematikaufgabe.
 
-- Sei sehr kulant und beharre nicht auf Kleinigkeiten. Wenn der Inhalt richtig ist, melde gutes Feedback zurück.
+- Wenn der Inhalt richtig ist, melde gutes Feedback zurück. Überprüfe jedoch die fachliche Korrektheit genau.
+- Überprüfe ob mit der Eingabe die Aufgabe vollständig gelöst wurde. Melde es andernfalls zurück, wenn Aufgabenteile fehlen und bewerte das, was vorhanden ist.
 - Fasse dich sehr sehr kurz mit wenigen Worten.
 - Falls etwas falsch ist, erkläre es in 1-2 Sätzen.
 - Antworte auf deutsch oder alternativ in der Sprache auf der ich geschrieben habe.
 - Gib danach keine weiteren Vorschläge oder Fragen mehr.
 - Deine Antwort wird als Markdown mit LaTeX gerendert (\`$...$\` / \`$$...$$\`).
-      `.trim(),
-    })
-
-    msgs.push({
-      id: 'user-image',
-      role: 'user',
-      content: [
-        {
-          type: 'image',
-          image: base64,
-        },
-      ],
-    } as any)
+        `.trim(),
+      },
+      {
+        id: 'user-image',
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            image: base64,
+          },
+        ],
+      } as any,
+    ]
 
     try {
       const { text } = await makePost('/va89kjds', msgs)
@@ -227,29 +274,12 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
   }
 
   return (
-    <div className="px-3 pb-2">
-      <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-3 space-y-3">
-        <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
-          <span>Scribble – Gib deine Rechnung oder Lösung an.</span>
-          <button
-            onClick={() =>
-              ExerciseViewStore.update(s => {
-                s.chatOverlay = null
-              })
-            }
-          >
-            <FaIcon icon={faXmark} />
-          </button>
-        </div>
-
-        <p className="text-xs text-gray-600">
-          Tippe auf <b>Senden</b>, um Feedback von der KI zu erhalten.
-        </p>
-
+    <div className="px-1 pb-1">
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5">
         <div className="border rounded-xl overflow-hidden bg-white">
           <canvas
             ref={canvasRef}
-            className="w-full h-40 touch-none"
+            className="w-full h-[52vh] min-h-[300px] max-h-[560px] touch-none"
             onMouseDown={handleStart}
             onMouseMove={handleMove}
             onMouseUp={handleEnd}
@@ -260,15 +290,26 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
           />
         </div>
 
-        <div className="flex justify-between items-center">
-          <button
-            type="button"
-            className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1"
-            onClick={clearCanvas}
-            disabled={pending}
-          >
-            <FaIcon icon={faTrash} /> Löschen
-          </button>
+        <div className="flex justify-between items-center gap-2">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
+              onClick={clearCanvas}
+              disabled={pending}
+            >
+              <FaIcon icon={faTrash} /> Löschen
+            </button>
+
+            <button
+              type="button"
+              className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
+              onClick={undoCanvas}
+              disabled={pending || historyLength === 0}
+            >
+              <FaIcon icon={faRotateLeft} /> Undo
+            </button>
+          </div>
 
           <button
             type="button"
@@ -281,7 +322,7 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
         </div>
 
         {lastFeedback && (
-          <div className="mt-2 text-xs bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
+          <div className="text-xs bg-gray-50 border border-gray-200 rounded-xl px-2 py-1.5">
             <ReactMarkdown
               remarkPlugins={[remarkMath]}
               rehypePlugins={[rehypeKatex]}

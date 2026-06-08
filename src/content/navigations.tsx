@@ -614,6 +614,62 @@ export const navigationData: { [key: number]: Navigation } = {
               },
             ],
           },
+          {
+            name: 'Bewegungsgesetz F=ma 2',
+            skillExercises: [
+              {
+                id: 6014,
+              },
+            ],
+          },
+          {
+            name: "Newton'sche Mechanik",
+            skillExercises: [
+              {
+                id: 6015,
+              },
+            ],
+          },
+          {
+            name: 'Raketenphysik (Kraftstoß)',
+            skillExercises: [
+              {
+                id: 6016,
+              },
+            ],
+          },
+
+          {
+            name: 'Federkraft',
+            skillExercises: [
+              {
+                id: 6019,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Energie',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Energiemengen berechnen',
+            skillExercises: [
+              {
+                id: 6017,
+              },
+            ],
+          },
+          {
+            name: 'Energieerhaltung',
+            skillExercises: [
+              {
+                id: 6018,
+              },
+            ],
+          },
         ],
       },
     ],

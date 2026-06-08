@@ -1,4 +1,4 @@
-# physikprüfungen Prototyp und dynamische Aufgaben
+# Prototyp und dynamische Aufgaben
 
 ## Mitarbeit und Installation
 
