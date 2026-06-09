@@ -450,6 +450,25 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
+      {
+        title: 'Exponentialfunktion',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Welcher Vorgang liegt vor?',
+            skillExercises: [{ id: 5119 }],
+          },
+          {
+            name: 'Asymptote bestimmen',
+            skillExercises: [{ id: 5120 }],
+          },
+          {
+            name: 'Parameter a, d und q bestimmen',
+            skillExercises: [{ id: 5121 }],
+          },
+        ],
+      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
