@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import { lists } from '../../../mock'
 import { exercisesData } from '@/content/exercises'
 import { navigationData } from '@/content/navigations'
 
@@ -17,9 +16,7 @@ export async function generateStaticParams() {
     { all: ['app', 'training'] },
     { all: ['app', 'profile'] },
     { all: ['feed'] },
-    { all: ['lists'] },
     { all: ['exercise', '123456'] },
-    ...lists.map(list => ({ all: ['lists', list.id] })),
     { all: ['settings'] },
     ...[6, 1, 2, 3, 4, 5].map(t => ({ all: ['topic', t.toString()] })),
     ...Array.from({ length: navigationData[2].topics.length }).map((_, i) => ({
