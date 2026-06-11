@@ -172,7 +172,7 @@ export function Start() {
     <IonPage className="sm:max-w-[375px] mx-auto">
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Abschlussprüfungen</IonTitle>
+          <IonTitle>Gewerbliche Schule Lahr</IonTitle>
         </IonToolbar>
       </IonHeader>
 

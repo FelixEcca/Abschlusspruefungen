@@ -1,5 +1,6 @@
 // src/components/exercise-view/ScribbleOverlay.tsx
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import { FaIcon } from '../ui/FaIcon'
 import {
@@ -15,6 +16,18 @@ import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 
+type Point = {
+  x: number
+  y: number
+}
+
+type Stroke = {
+  points: Point[]
+}
+
+const scribbleStorage = new Map<string, Stroke[]>()
+const STORAGE_PREFIX = 'scribble-overlay-strokes:'
+
 function normalizeMathForMarkdown(text: string): string {
   let t = text
   t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
@@ -24,49 +37,227 @@ function normalizeMathForMarkdown(text: string): string {
   return t
 }
 
+function cloneStrokes(strokes: Stroke[]) {
+  return strokes.map(stroke => ({
+    points: stroke.points.map(point => ({ ...point })),
+  }))
+}
+
+function readStoredStrokes(key: string): Stroke[] {
+  const memoryValue = scribbleStorage.get(key)
+  if (memoryValue) return cloneStrokes(memoryValue)
+
+  try {
+    const raw = window.sessionStorage.getItem(`${STORAGE_PREFIX}${key}`)
+    if (!raw) return []
+
+    const parsed = JSON.parse(raw) as Stroke[]
+    const strokes = Array.isArray(parsed) ? parsed : []
+
+    scribbleStorage.set(key, cloneStrokes(strokes))
+    return cloneStrokes(strokes)
+  } catch {
+    return []
+  }
+}
+
+function writeStoredStrokes(key: string, strokes: Stroke[]) {
+  const cloned = cloneStrokes(strokes)
+  scribbleStorage.set(key, cloned)
+
+  try {
+    window.sessionStorage.setItem(
+      `${STORAGE_PREFIX}${key}`,
+      JSON.stringify(cloned),
+    )
+  } catch {
+    // sessionStorage may be unavailable or full
+  }
+}
+
+function deleteStoredStrokes(key: string) {
+  scribbleStorage.delete(key)
+
+  try {
+    window.sessionStorage.removeItem(`${STORAGE_PREFIX}${key}`)
+  } catch {
+    // sessionStorage may be unavailable
+  }
+}
+
+function drawStrokesToCanvas(
+  canvas: HTMLCanvasElement,
+  strokes: Stroke[],
+  options?: { whiteBackground?: boolean },
+) {
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  const rect = canvas.getBoundingClientRect()
+  const dpr =
+    rect.width > 0 ? canvas.width / rect.width : window.devicePixelRatio || 1
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  if (options?.whiteBackground) {
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+  }
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0)
+  ctx.lineWidth = 2 * dpr
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+  ctx.strokeStyle = '#111827'
+  ctx.globalAlpha = 0.95
+
+  strokes.forEach(stroke => {
+    if (stroke.points.length < 2) return
+
+    ctx.beginPath()
+    ctx.moveTo(
+      stroke.points[0].x * canvas.width,
+      stroke.points[0].y * canvas.height,
+    )
+
+    stroke.points.slice(1).forEach(point => {
+      ctx.lineTo(point.x * canvas.width, point.y * canvas.height)
+    })
+
+    ctx.stroke()
+  })
+}
+
 export function ScribbleOverlay() {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
+  const navIndicatorPosition = ExerciseViewStore.useState(
+    s => s.navIndicatorPosition,
+  )
+  const currentExerciseId = ExerciseViewStore.useState(s => s.id)
+  const pages = ExerciseViewStore.useState(s => s.pages)
+  const exerciseIDs = ExerciseViewStore.useState(s => s._exerciseIDs)
+
   const [lastFeedback, setLastFeedback] = useState<string | null>(null)
   const [historyLength, setHistoryLength] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  const [useSideCanvas, setUseSideCanvas] = useState(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const isDrawingRef = useRef(false)
-  const lastPosRef = useRef<{ x: number; y: number } | null>(null)
-  const historyRef = useRef<ImageData[]>([])
+  const strokesRef = useRef<Stroke[]>([])
+  const currentStrokeRef = useRef<Stroke | null>(null)
+  const historyRef = useRef<Stroke[][]>([])
+  const currentKeyRef = useRef<string>('')
 
-  useEffect(() => {
-    if (chatOverlay !== 'scribble') return
+  const scribbleKey = useMemo(() => {
+    const page = pages[navIndicatorPosition]
+    const contextIndex = page?.context
+    const exerciseId = contextIndex
+      ? exerciseIDs[parseInt(contextIndex) - 1]
+      : currentExerciseId
+
+    return `${exerciseId}-${contextIndex ?? 'main'}`
+  }, [pages, navIndicatorPosition, exerciseIDs, currentExerciseId])
+
+  const saveCurrentStrokes = (key = currentKeyRef.current) => {
+    if (!key) return
+    writeStoredStrokes(key, strokesRef.current)
+  }
+
+  const loadStrokesForKey = (key: string) => {
+    strokesRef.current = readStoredStrokes(key)
+    historyRef.current = []
+    setHistoryLength(0)
 
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (canvas) drawStrokesToCanvas(canvas, strokesRef.current)
+  }
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
     const rect = canvas.getBoundingClientRect()
     const dpr = window.devicePixelRatio || 1
 
-    canvas.width = Math.round(rect.width * dpr)
-    canvas.height = Math.round(rect.height * dpr)
+    const width = Math.round(rect.width * dpr)
+    const height = Math.round(rect.height * dpr)
 
-    ctx.scale(dpr, dpr)
-    ctx.lineWidth = 3
-    ctx.lineCap = 'round'
-    ctx.lineJoin = 'round'
-    ctx.strokeStyle = '#111827'
-  }, [chatOverlay])
+    if (width <= 0 || height <= 0) return
 
-  if (chatOverlay !== 'scribble') return null
+    const sizeChanged = canvas.width !== width || canvas.height !== height
 
-  const saveHistory = () => {
+    if (sizeChanged) {
+      canvas.width = width
+      canvas.height = height
+    }
+
+    drawStrokesToCanvas(canvas, strokesRef.current)
+  }
+
+  useEffect(() => {
+    setMounted(true)
+
+    const mq = window.matchMedia('(min-width: 1250px)')
+
+    const update = () => {
+      saveCurrentStrokes()
+      setUseSideCanvas(mq.matches)
+    }
+
+    update()
+    mq.addEventListener('change', update)
+
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    if (chatOverlay !== 'scribble') return
+
+    const oldKey = currentKeyRef.current
+
+    if (oldKey && oldKey !== scribbleKey) {
+      saveCurrentStrokes(oldKey)
+    }
+
+    currentKeyRef.current = scribbleKey
+    loadStrokesForKey(scribbleKey)
+
+    requestAnimationFrame(resizeCanvas)
+  }, [scribbleKey, chatOverlay])
+
+  useEffect(() => {
+    if (chatOverlay !== 'scribble') return
+
+    currentKeyRef.current = scribbleKey
+
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const frame = requestAnimationFrame(() => {
+      resizeCanvas()
+      loadStrokesForKey(scribbleKey)
+      resizeCanvas()
+    })
 
-    historyRef.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height))
+    const observer = new ResizeObserver(() => {
+      resizeCanvas()
+    })
+
+    observer.observe(canvas)
+
+    return () => {
+      saveCurrentStrokes()
+      cancelAnimationFrame(frame)
+      observer.disconnect()
+    }
+  }, [chatOverlay, useSideCanvas, scribbleKey])
+
+  if (chatOverlay !== 'scribble') return null
+
+  const pushHistory = () => {
+    historyRef.current.push(cloneStrokes(strokesRef.current))
 
     if (historyRef.current.length > 20) {
       historyRef.current.shift()
@@ -76,110 +267,150 @@ export function ScribbleOverlay() {
   }
 
   const undoCanvas = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
     const previous = historyRef.current.pop()
     if (!previous) return
 
-    ctx.putImageData(previous, 0, 0)
+    strokesRef.current = cloneStrokes(previous)
+    currentStrokeRef.current = null
+    isDrawingRef.current = false
+
+    const canvas = canvasRef.current
+    if (canvas) drawStrokesToCanvas(canvas, strokesRef.current)
+
+    saveCurrentStrokes()
     setHistoryLength(historyRef.current.length)
     setLastFeedback(null)
   }
 
-  const getCanvasPos = (e: MouseEvent | TouchEvent) => {
+  const getCanvasPoint = (e: PointerEvent<HTMLCanvasElement>): Point => {
     const canvas = canvasRef.current
     if (!canvas) return { x: 0, y: 0 }
 
     const rect = canvas.getBoundingClientRect()
 
-    if ('touches' in e) {
-      const t = e.touches[0]
-      return { x: t.clientX - rect.left, y: t.clientY - rect.top }
+    return {
+      x: Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)),
+      y: Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height)),
     }
-
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top }
   }
 
-  const handleStart = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
+  const handlePointerDown = (e: PointerEvent<HTMLCanvasElement>) => {
     e.preventDefault()
-    saveHistory()
 
-    const ev =
-      'touches' in e
-        ? (e.nativeEvent as TouchEvent)
-        : (e.nativeEvent as MouseEvent)
+    const canvas = canvasRef.current
+    if (!canvas) return
 
+    canvas.setPointerCapture(e.pointerId)
+
+    pushHistory()
+
+    const point = getCanvasPoint(e)
+    const stroke: Stroke = { points: [point] }
+
+    currentStrokeRef.current = stroke
+    strokesRef.current.push(stroke)
     isDrawingRef.current = true
-    lastPosRef.current = getCanvasPos(ev)
+
+    drawStrokesToCanvas(canvas, strokesRef.current)
   }
 
-  const handleMove = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    if (!isDrawingRef.current || !canvasRef.current) return
+  const handlePointerMove = (e: PointerEvent<HTMLCanvasElement>) => {
+    if (!isDrawingRef.current) return
+
     e.preventDefault()
 
-    const ev =
-      'touches' in e
-        ? (e.nativeEvent as TouchEvent)
-        : (e.nativeEvent as MouseEvent)
+    const canvas = canvasRef.current
+    const stroke = currentStrokeRef.current
+    if (!canvas || !stroke) return
 
-    const pos = getCanvasPos(ev)
-    const last = lastPosRef.current
-    if (!last) {
-      lastPosRef.current = pos
-      return
+    const point = getCanvasPoint(e)
+    const lastPoint = stroke.points[stroke.points.length - 1]
+
+    const dx = point.x - lastPoint.x
+    const dy = point.y - lastPoint.y
+    const distance = Math.sqrt(dx * dx + dy * dy)
+
+    if (distance < 0.0015) return
+
+    stroke.points.push(point)
+    drawStrokesToCanvas(canvas, strokesRef.current)
+  }
+
+  const handlePointerEnd = (e: PointerEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
+
+    const canvas = canvasRef.current
+
+    if (canvas?.hasPointerCapture(e.pointerId)) {
+      canvas.releasePointerCapture(e.pointerId)
     }
 
-    const ctx = canvasRef.current.getContext('2d')
-    if (!ctx) return
-
-    ctx.beginPath()
-    ctx.moveTo(last.x, last.y)
-    ctx.lineTo(pos.x, pos.y)
-    ctx.stroke()
-
-    lastPosRef.current = pos
-  }
-
-  const handleEnd = (
-    e:
-      | React.MouseEvent<HTMLCanvasElement>
-      | React.TouchEvent<HTMLCanvasElement>,
-  ) => {
-    e.preventDefault()
     isDrawingRef.current = false
-    lastPosRef.current = null
+    currentStrokeRef.current = null
+    saveCurrentStrokes()
   }
 
   const clearCanvas = () => {
+    pushHistory()
+
+    strokesRef.current = []
+    currentStrokeRef.current = null
+    isDrawingRef.current = false
+
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (canvas) drawStrokesToCanvas(canvas, strokesRef.current)
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    saveHistory()
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    deleteStoredStrokes(currentKeyRef.current)
     setLastFeedback(null)
   }
 
-  const sendScribble = async () => {
+  const createExportDataUrl = () => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas) return null
 
-    const dataUrl = canvas.toDataURL('image/png')
-    const base64 = dataUrl.split(',')[1]
+    const exportCanvas = document.createElement('canvas')
+    exportCanvas.width = canvas.width
+    exportCanvas.height = canvas.height
+
+    const exportCtx = exportCanvas.getContext('2d')
+    if (!exportCtx) return null
+
+    exportCtx.fillStyle = '#ffffff'
+    exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+
+    exportCtx.lineWidth = 2 * (window.devicePixelRatio || 1)
+    exportCtx.lineCap = 'round'
+    exportCtx.lineJoin = 'round'
+    exportCtx.strokeStyle = '#111827'
+    exportCtx.globalAlpha = 0.95
+
+    strokesRef.current.forEach(stroke => {
+      if (stroke.points.length < 2) return
+
+      exportCtx.beginPath()
+      exportCtx.moveTo(
+        stroke.points[0].x * exportCanvas.width,
+        stroke.points[0].y * exportCanvas.height,
+      )
+
+      stroke.points.slice(1).forEach(point => {
+        exportCtx.lineTo(
+          point.x * exportCanvas.width,
+          point.y * exportCanvas.height,
+        )
+      })
+
+      exportCtx.stroke()
+    })
+
+    return exportCanvas.toDataURL('image/png')
+  }
+
+  const sendScribble = async () => {
+    saveCurrentStrokes()
+
+    const dataUrl = createExportDataUrl()
+    const base64 = dataUrl?.split(',')[1]
     if (!base64) return
 
     const state = ExerciseViewStore.getRawState()
@@ -214,11 +445,12 @@ export function ScribbleOverlay() {
         content: `
 Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Mathematikaufgabe.
 
-- Wenn der Inhalt richtig ist, melde gutes Feedback zurück. Überprüfe jedoch die fachliche Korrektheit genau.
-- Überprüfe ob mit der Eingabe die Aufgabe vollständig gelöst wurde. Melde es andernfalls zurück, wenn Aufgabenteile fehlen und bewerte das, was vorhanden ist.
-- Fasse dich sehr sehr kurz mit wenigen Worten.
+- Wenn der Inhalt richtig ist, melde gutes Feedback zurück. Überprüfe jedoch die fachliche Korrektheit genau. Weise freundlich auf Fehler hin.
+- Überprüfe, ob mit der Eingabe die entsprechende Teilaufgabe vollständig gelöst wurde.
+- Falls Ergebnisse fehlen, melde das kurz zurück und motiviere weiterzumachen.
+- Fasse dich sehr kurz.
 - Falls etwas falsch ist, erkläre es in 1-2 Sätzen.
-- Antworte auf deutsch oder alternativ in der Sprache auf der ich geschrieben habe.
+- Antworte auf Deutsch oder in der Sprache der Eingabe.
 - Gib danach keine weiteren Vorschläge oder Fragen mehr.
 - Deine Antwort wird als Markdown mit LaTeX gerendert (\`$...$\` / \`$$...$$\`).
         `.trim(),
@@ -273,65 +505,72 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
     }
   }
 
-  return (
-    <div className="px-1 pb-1">
-      <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5">
-        <div className="border rounded-xl overflow-hidden bg-white">
-          <canvas
-            ref={canvasRef}
-            className="w-full h-[52vh] min-h-[300px] max-h-[560px] touch-none"
-            onMouseDown={handleStart}
-            onMouseMove={handleMove}
-            onMouseUp={handleEnd}
-            onMouseLeave={handleEnd}
-            onTouchStart={handleStart}
-            onTouchMove={handleMove}
-            onTouchEnd={handleEnd}
-          />
-        </div>
+  const content = (
+    <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5 h-full flex flex-col">
+      <div className="border rounded-xl overflow-hidden bg-white flex-1 min-h-0">
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full min-h-[320px] touch-none"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          onPointerLeave={handlePointerEnd}
+        />
+      </div>
 
-        <div className="flex justify-between items-center gap-2">
-          <div className="flex gap-2">
-            <button
-              type="button"
-              className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
-              onClick={clearCanvas}
-              disabled={pending}
-            >
-              <FaIcon icon={faTrash} /> Löschen
-            </button>
-
-            <button
-              type="button"
-              className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
-              onClick={undoCanvas}
-              disabled={pending || historyLength === 0}
-            >
-              <FaIcon icon={faRotateLeft} /> Undo
-            </button>
-          </div>
+      <div className="flex justify-between items-center gap-2">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
+            onClick={clearCanvas}
+            disabled={pending}
+          >
+            <FaIcon icon={faTrash} /> Löschen
+          </button>
 
           <button
             type="button"
-            className="px-3 py-1 text-xs rounded-xl bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-1 disabled:opacity-50"
-            onClick={sendScribble}
-            disabled={pending}
+            className="px-3 py-1 text-xs rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center gap-1 disabled:opacity-50"
+            onClick={undoCanvas}
+            disabled={pending || historyLength === 0}
           >
-            <FaIcon icon={faPaperPlane} /> Senden
+            <FaIcon icon={faRotateLeft} /> Undo
           </button>
         </div>
 
-        {lastFeedback && (
-          <div className="text-xs bg-gray-50 border border-gray-200 rounded-xl px-2 py-1.5">
-            <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex]}
-            >
-              {lastFeedback}
-            </ReactMarkdown>
-          </div>
-        )}
+        <button
+          type="button"
+          className="px-3 py-1 text-xs rounded-xl bg-blue-500 text-white hover:bg-blue-600 flex items-center gap-1 disabled:opacity-50"
+          onClick={sendScribble}
+          disabled={pending}
+        >
+          <FaIcon icon={faPaperPlane} /> Senden
+        </button>
       </div>
+
+      {lastFeedback && (
+        <div className="text-xs bg-gray-50 border border-gray-200 rounded-xl px-2 py-1.5 max-h-28 overflow-y-auto">
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+          >
+            {lastFeedback}
+          </ReactMarkdown>
+        </div>
+      )}
     </div>
   )
+
+  if (useSideCanvas && mounted) {
+    return createPortal(
+      <div className="fixed top-2 bottom-2 right-4 z-[9999] w-[360px]">
+        {content}
+      </div>,
+      document.body,
+    )
+  }
+
+  return <div className="px-1 pb-1 h-[52vh] min-h-[360px]">{content}</div>
 }
