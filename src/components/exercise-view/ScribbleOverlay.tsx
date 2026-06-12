@@ -489,20 +489,25 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
         s.chatPending = false
         s.chatOverlay = 'chat'
       })
-    } catch (error) {
-      console.error('Error fetching AI response (scribble):', error)
-      ExerciseViewStore.update(s => {
-        s.chatMessages.push({
-          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-          role: 'assistant',
-          content:
-            'Es ist ein Fehler bei der Analyse der Skizze aufgetreten. Bitte versuche es später noch einmal.',
-          createdAt: Date.now(),
-        })
-        s.chatPending = false
-        s.chatOverlay = 'chat'
-      })
-    }
+    } catch (error: any) {
+  console.error('SCRIBBLE ERROR', error)
+
+  const msg =
+    error?.message ??
+    JSON.stringify(error) ??
+    'Unbekannter Fehler'
+
+  ExerciseViewStore.update(s => {
+    s.chatMessages.push({
+      id: crypto.randomUUID(),
+      role: 'assistant',
+      content: `Fehler: ${msg}`,
+      createdAt: Date.now(),
+    })
+
+    s.chatPending = false
+  })
+}
   }
 
   const content = (

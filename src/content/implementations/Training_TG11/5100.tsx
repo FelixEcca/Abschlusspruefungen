@@ -33,7 +33,7 @@ function globalBehaviorText(n: number, sign: Sign) {
 function buildPowerPolyline(n: number, sign: Sign) {
   const pts: string[] = []
   // im KS: x ungefähr [-3,3], damit y nicht explodiert
-  for (let x = -3; x <= 3; x += 0.05) {
+  for (let x = -8; x <= 7; x += 0.1) {
     const y = sign * Math.pow(x, n)
     // clamp fürs Zeichnen, damit es nicht komplett aus dem Bild fliegt
     const yClamped = Math.max(-9.5, Math.min(9.5, y))
