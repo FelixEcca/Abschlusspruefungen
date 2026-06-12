@@ -154,7 +154,7 @@ async function callOpenAI(oaiMessages: any[]) {
       })
 
       if (attempt < 3) {
-        await sleep(600 * attempt)
+        await sleep(900 * attempt)
         continue
       }
 

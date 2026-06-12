@@ -511,11 +511,11 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
   }
 
   const content = (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5 h-full flex flex-col">
-      <div className="border rounded-xl overflow-hidden bg-white flex-1 min-h-0">
+<div className="select-none rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5 h-full flex flex-col">      <div className="select-none touch-none border rounded-xl overflow-hidden bg-white flex-1 min-h-0">
         <canvas
-          ref={canvasRef}
-          className="w-full h-full min-h-[320px] touch-none"
+        
+  ref={canvasRef}
+  className="select-none touch-none w-full h-full min-h-[320px]"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerEnd}
