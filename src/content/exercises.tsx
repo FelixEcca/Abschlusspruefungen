@@ -379,6 +379,31 @@ import { exercise9048 } from './implementations/AV_Prüfungen/9048'
 import { exercise9047 } from './implementations/AV_Prüfungen/9047'
 import { exercise9046 } from './implementations/AV_Prüfungen/9046'
 import { exercise9045 } from './implementations/AV_Prüfungen/9045'
+import { exercise9051 } from './implementations/AV_Prüfungen/9051'
+import { exercise9052 } from './implementations/AV_Prüfungen/9052'
+import { exercise9053 } from './implementations/AV_Prüfungen/9053'
+import { exercise9054 } from './implementations/AV_Prüfungen/9054'
+import { exercise9055 } from './implementations/AV_Prüfungen/9055'
+import { exercise9056 } from './implementations/AV_Prüfungen/9056'
+import { exercise9057 } from './implementations/AV_Prüfungen/9057'
+import { exercise9058 } from './implementations/AV_Prüfungen/9058'
+import { exercise9059 } from './implementations/AV_Prüfungen/9059'
+import { exercise9060 } from './implementations/AV_Prüfungen/9060'
+import { exercise9061 } from './implementations/AV_Prüfungen/9061'
+import { exercise9062 } from './implementations/AV_Prüfungen/9062'
+import { exercise9063 } from './implementations/AV_Prüfungen/9063'
+import { exercise9064 } from './implementations/AV_Prüfungen/9064'
+import { exercise9065 } from './implementations/AV_Prüfungen/9065'
+import { exercise9066 } from './implementations/AV_Prüfungen/9066'
+import { exercise9067 } from './implementations/AV_Prüfungen/9067'
+import { exercise9068 } from './implementations/AV_Prüfungen/9068'
+import { exercise9069 } from './implementations/AV_Prüfungen/9069'
+import { exercise9070 } from './implementations/AV_Prüfungen/9070'
+import { exercise9071 } from './implementations/AV_Prüfungen/9071'
+import { exercise9072 } from './implementations/AV_Prüfungen/9072'
+import { exercise9073 } from './implementations/AV_Prüfungen/9073'
+import { exercise9074 } from './implementations/AV_Prüfungen/9074'
+import { exercise9075 } from './implementations/AV_Prüfungen/9075'
 import { exercise6014 } from './implementations/TG11_Physik/6014'
 import { exercise6015 } from './implementations/TG11_Physik/6015'
 import { exercise6016 } from './implementations/TG11_Physik/6016'
@@ -677,6 +702,31 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9048: exercise9048,
   9049: exercise9049,
   9050: exercise9050,
+  9051: exercise9051,
+  9052: exercise9052,
+  9053: exercise9053,
+  9054: exercise9054,
+  9055: exercise9055,
+  9056: exercise9056,
+  9057: exercise9057,
+  9058: exercise9058,
+  9059: exercise9059,
+  9060: exercise9060,
+  9061: exercise9061,
+  9062: exercise9062,
+  9063: exercise9063,
+  9064: exercise9064,
+  9065: exercise9065,
+  9066: exercise9066,
+  9067: exercise9067,
+  9068: exercise9068,
+  9069: exercise9069,
+  9070: exercise9070,
+  9071: exercise9071,
+  9072: exercise9072,
+  9073: exercise9073,
+  9074: exercise9074,
+  9075: exercise9075,
 
   9500: exercise9500,
   9501: exercise9501,
