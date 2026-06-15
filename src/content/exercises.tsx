@@ -388,6 +388,9 @@ import { exercise6019 } from './implementations/TG11_Physik/6019'
 import { exercise5119 } from './implementations/Training_TG11/5119'
 import { exercise5120 } from './implementations/Training_TG11/5120'
 import { exercise5121 } from './implementations/Training_TG11/5121'
+import { exercise5122 } from './implementations/Training_TG11/5122'
+import { exercise5123 } from './implementations/Training_TG11/5123'
+import { exercise5124 } from './implementations/Training_TG11/5124'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -778,6 +781,9 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   5119: exercise5119,
   5120: exercise5120,
   5121: exercise5121,
+  5122: exercise5122,
+  5123: exercise5123,
+  5124: exercise5124,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

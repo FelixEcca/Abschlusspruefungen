@@ -467,6 +467,18 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Parameter a, d und q bestimmen',
             skillExercises: [{ id: 5121 }],
           },
+          {
+            name: 'Logarithmieren',
+            skillExercises: [{ id: 5122 }],
+          },
+          {
+            name: 'Gleichungen mit e^x',
+            skillExercises: [{ id: 5123 }],
+          },
+          {
+            name: 'Als e-Funktion schreiben',
+            skillExercises: [{ id: 5124 }],
+          },
         ],
       },
     ],
