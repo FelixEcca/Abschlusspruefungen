@@ -31,7 +31,15 @@ export const exercise9067: Exercise<DATA> = {
     const sum = round2(expenses + surchargeAmount)
     const pricePerGlass = round2(sum / glasses)
     const roundedPrice = Math.ceil(pricePerGlass)
-    return { expenses, surchargePercent, surchargeAmount, sum, glasses, pricePerGlass, roundedPrice }
+    return {
+      expenses,
+      surchargePercent,
+      surchargeAmount,
+      sum,
+      glasses,
+      pricePerGlass,
+      roundedPrice,
+    }
   },
 
   originalData: {
@@ -68,9 +76,13 @@ export const exercise9067: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        <InlineMath math={`${pp(data.expenses)}+${pp(data.surchargeAmount)}=${pp(data.sum)}\\,€`} />
+        <InlineMath
+          math={`${pp(data.expenses)}+${pp(data.surchargeAmount)}=${pp(data.sum)}\\,€`}
+        />
         <br />
-        <InlineMath math={`${pp(data.sum)}:${data.glasses}=${pp(data.pricePerGlass)}\\,€`} />
+        <InlineMath
+          math={`${pp(data.sum)}:${data.glasses}=${pp(data.pricePerGlass)}\\,€`}
+        />
         <p>Gerundeter Verkaufspreis: {pp(data.roundedPrice)} €.</p>
       </>
     )

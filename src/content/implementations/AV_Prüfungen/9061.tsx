@@ -68,11 +68,17 @@ export const exercise9061: Exercise<DATA> = {
     return (
       <>
         <p>
+          Mit dem Gewinn aus einem Tag der offenen Tür möchte Ihre Klasse einen
+          Ausflug machen. Sie fahren von Tauberbischofsheim mit dem Zug nach
+          Stuttgart, um in ein Museum zu gehen.
+        </p>
+        <p>
           Ihre Klasse hat {data.students} Schülerinnen und Schüler. Für{' '}
-          {data.groupSize} Personen kostet ein Gruppenticket{' '}
-          {pp(data.groupTicket)} €. Der Eintritt kostet {pp(data.entry)} €
-          pro Person. Für ein Geschenk geben Sie {pp(data.gift)} € aus. Der
-          Gewinn von {pp(data.profit)} € wird abgezogen.
+          {data.groupSize} Personen kostet ein Gruppenticket für die Zugfahrt{' '}
+          {pp(data.groupTicket)} €. Der Eintritt kostet {pp(data.entry)} € pro
+          Person. Für ein Geschenk an den Museumsführer geben Sie{' '}
+          {pp(data.gift)} € aus. Der Gewinn von {pp(data.profit)} € wird
+          abgezogen.
         </p>
         <p>Berechnen Sie, wie viel jeder einzelne noch bezahlen muss.</p>
       </>
@@ -82,6 +88,10 @@ export const exercise9061: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
+        <p>
+          Sie brauchen {data.groups} Gruppentickets für je{' '}
+          {pp(data.groupTicket)} €.
+        </p>
         <InlineMath
           math={`${data.groups}\\cdot ${data.groupTicket}+${data.students}\\cdot ${data.entry}+${data.gift}=${data.totalCost}`}
         />
@@ -91,6 +101,7 @@ export const exercise9061: Exercise<DATA> = {
             data.perStudent,
           )}\\,€`}
         />
+        <p>Jeder Schüler muss noch {pp(data.perStudent)} € bezahlen.</p>
       </>
     )
   },

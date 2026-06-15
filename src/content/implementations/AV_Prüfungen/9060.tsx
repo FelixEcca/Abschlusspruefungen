@@ -78,11 +78,60 @@ export const exercise9060: Exercise<DATA> = {
   },
 
   solution({ data }) {
+    const conversions = [
+      { original: `${data.dm} dm`, result: `${pp(data.m)} m` },
+      { original: `${pp(data.cm)} cm`, result: `${pp(data.mm)} mm` },
+      { original: `${data.m2} m`, result: `${pp(data.dm2)} dm` },
+      { original: `${pp(data.dm3)} dm`, result: `${pp(data.cm3)} cm` },
+      { original: `${data.mm2} mm`, result: `${pp(data.cm2)} cm` },
+    ]
+
     return (
-      <p>
-        {pp(data.m)} m, {pp(data.mm)} mm, {pp(data.dm2)} dm, {pp(data.cm3)} cm,{' '}
-        {pp(data.cm2)} cm
-      </p>
+      <>
+        <p style={{ marginBottom: '20px' }}>Die Lösungen:</p>
+        <div
+          style={{
+            display: 'grid',
+            gap: '12px',
+          }}
+        >
+          {conversions.map((conv, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                padding: '12px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '6px',
+                border: '1px solid #ddd',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  minWidth: '120px',
+                }}
+              >
+                {conv.original}
+              </span>
+              <span style={{ fontSize: '18px', color: '#0066cc' }}>→</span>
+              <span
+                style={{
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  color: '#0066cc',
+                  flex: 1,
+                }}
+              >
+                {conv.result}
+              </span>
+            </div>
+          ))}
+        </div>
+      </>
     )
   },
 }
