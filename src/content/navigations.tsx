@@ -280,7 +280,6 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
-
   2: {
     longTitle: '1BK2T - Physik',
     shortTitle: '1BK2T - Physik',

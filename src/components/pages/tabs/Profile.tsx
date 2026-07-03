@@ -34,11 +34,7 @@ export function Profile() {
   const profile = useProfile()
 
   const examKeys = React.useMemo(
-    () =>
-      Object.keys(navigationData)
-        .map(n => Number(n))
-        .filter(n => !Number.isNaN(n))
-        .sort((a, b) => a - b),
+    () => [6, 1, 5, 3, 4, 2].filter(n => Object.keys(navigationData).includes(String(n))),
     [],
   )
 
