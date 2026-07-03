@@ -34,7 +34,7 @@ export function Profile() {
   const profile = useProfile()
 
   const examKeys = React.useMemo(
-    () => [6, 1, 5, 3, 4, 2].filter(n => Object.keys(navigationData).includes(String(n))),
+    () => [6,7,8, 1, 5, 3, 4,13,14,15,16, 10,11,12,2,17,18,19,20].filter(n => Object.keys(navigationData).includes(String(n))),
     [],
   )
 
@@ -64,7 +64,7 @@ export function Profile() {
           {/* Prüfungsauswahl */}
           <div className="flex flex-col space-y-2">
             <label className="text-lg font-semibold" htmlFor="exam-select">
-              Prüfung
+              Fach
             </label>
             {/* Controlled erst nach Mount → verhindert SSR/CSR-Mismatch */}
             {clientReady ? (

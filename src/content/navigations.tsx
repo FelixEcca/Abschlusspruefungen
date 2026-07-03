@@ -1182,4 +1182,412 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+   7: {
+    longTitle: 'AV - BFK - Metall',
+    shortTitle: 'AV - BFK - Metall',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  8: {
+    longTitle: 'AV - BFK - Elektrotechnik',
+    shortTitle: 'AV - BFK - Elektro',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+   9: {
+    longTitle: 'AV - BFK - Elektrotechnik',
+    shortTitle: 'AV - BFK - Elektro',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  10: {
+    longTitle: '1BK1T - Mathematik',
+    shortTitle: '1BK1T - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  11: {
+    longTitle: '1BK1T - Grundlagen der Technik',
+    shortTitle: '1BK1T - GT',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  12: {
+    longTitle: '1BK2T - Mathematik',
+    shortTitle: '1BK2T - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+   13: {
+    longTitle: 'TG12 - Mathematik gAN',
+    shortTitle: 'TG12 - Mathe gAN',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+ 14: {
+    longTitle: 'TG12 - Mathematik eAN',
+    shortTitle: 'TG12 - Mathe eAN',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+   15: {
+    longTitle: 'TG13 - Mathematik gAN',
+    shortTitle: 'TG13 - Mathe gAN',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+   16: {
+    longTitle: 'TG13 - Mathematik eAN',
+    shortTitle: 'TG13 - Mathe eAN',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  17: {
+    longTitle: 'FTM - Technische Mathematik',
+    shortTitle: 'FTM - TM',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  18: {
+    longTitle: '3BKGD1 - Mathematik',
+    shortTitle: '3BKGD1 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  19: {
+    longTitle: '3BKGD2 - Mathematik',
+    shortTitle: '3BKGD2 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  20: {
+    longTitle: '3BKGD3 - Mathematik',
+    shortTitle: '3BKGD3 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  21: {
+    longTitle: '3BKM/R1 - Mathematik',
+    shortTitle: '3BKM/R1 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  22: {
+    longTitle: '3BKM/R2 - Mathematik',
+    shortTitle: '3BKM/R2 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  23: {
+    longTitle: '3BKM/R3 - Mathematik',
+    shortTitle: '3BKM/R3 - Mathe',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 1000 }],
+          },
+          
+        ],
+      },
+
+        
+      
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }
