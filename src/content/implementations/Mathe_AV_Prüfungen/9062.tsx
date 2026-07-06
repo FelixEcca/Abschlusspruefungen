@@ -75,7 +75,7 @@ export const exercise9062: Exercise<DATA> = {
       <>
         <svg viewBox="0 0 328 400">
           <image
-            href="/content/AV_Prüfungen/Zugfahrt.png"
+            href="/content/Mathe_AV/Zugfahrt.png"
             height="400"
             width="328"
           />

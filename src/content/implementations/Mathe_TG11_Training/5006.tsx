@@ -86,9 +86,11 @@ export const exercise5006: Exercise<DATA> = {
 
     return (
       <>
-      <p>Schematische Skizze:</p>
-      <svg viewBox="0 0 328 200"><image href="/content/BW_TG11/5006.jpg" height="200" width="328" /></svg>
-      <p>Bestimme den Vektor, der auf M zeigt:</p>
+        <p>Schematische Skizze:</p>
+        <svg viewBox="0 0 328 200">
+          <image href="/content/Mathe_TG11/5006.jpg" height="200" width="328" />
+        </svg>
+        <p>Bestimme den Vektor, der auf M zeigt:</p>
         <BlockMath math="\overrightarrow{M} = \overrightarrow{A} + \tfrac{1}{2}\,\overrightarrow{AB}" />
         <BlockMath
           math={String.raw`
@@ -143,7 +145,10 @@ export const exercise5006: Exercise<DATA> = {
             \end{pmatrix}
           `}
         />
-        <p>Der Punkt M hat damit die Koordinaten: <InlineMath math={`M\\,(${pp(Mx)}\\mid ${pp(My)}\\mid ${pp(Mz)})`} /></p>
+        <p>
+          Der Punkt M hat damit die Koordinaten:{' '}
+          <InlineMath math={`M\\,(${pp(Mx)}\\mid ${pp(My)}\\mid ${pp(Mz)})`} />
+        </p>
       </>
     )
   },

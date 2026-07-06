@@ -94,7 +94,7 @@ export const exercise9603: Exercise<DATA> = {
         <p>Berechne mit dem Dreisatz zuerst die Jahreszinsen:</p>
         <svg viewBox="0 0 328 185">
           <image
-            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            href="/content/Mathe_AV/Dreisatz.PNG"
             height="185"
             width="328"
           />
@@ -144,7 +144,7 @@ export const exercise9603: Exercise<DATA> = {
         <p>Dann werden die Zinsen für {data.months} Monate berechnet:</p>
         <svg viewBox="0 0 328 185">
           <image
-            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            href="/content/Mathe_AV/Dreisatz.PNG"
             height="185"
             width="328"
           />

@@ -84,7 +84,7 @@ export const exercise9526: Exercise<DATA> = {
       <>
         <svg viewBox="0 0 328 100">
           <image
-            href="/content/AV_Prüfungen/volumen.png"
+            href="/content/Mathe_AV/volumen.png"
             height="100"
             width="328"
           />

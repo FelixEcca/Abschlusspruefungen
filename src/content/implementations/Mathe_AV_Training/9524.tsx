@@ -81,11 +81,7 @@ export const exercise9524: Exercise<DATA> = {
     return (
       <>
         <svg viewBox="0 0 328 100">
-          <image
-            href="/content/AV_Prüfungen/länge.png"
-            height="100"
-            width="328"
-          />
+          <image href="/content/Mathe_AV/länge.png" height="100" width="328" />
         </svg>
         <br></br>
         <InlineMath

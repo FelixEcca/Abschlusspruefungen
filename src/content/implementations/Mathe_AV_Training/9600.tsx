@@ -112,7 +112,7 @@ export const exercise9600: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 185">
           <image
-            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            href="/content/Mathe_AV/Dreisatz.PNG"
             height="185"
             width="328"
           />

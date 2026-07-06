@@ -98,7 +98,7 @@ export const exercise9601: Exercise<DATA> = {
         <p>Berechne mit dem Dreisatz:</p>
         <svg viewBox="0 0 328 185">
           <image
-            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            href="/content/Mathe_AV/Dreisatz.PNG"
             height="185"
             width="328"
           />

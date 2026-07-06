@@ -69,7 +69,9 @@ export const exercise9002: Exercise<DATA> = {
     let anzahl2 = rng.randomIntBetween(4, 12)
     while (anzahl2 === anzahl1) anzahl2 = rng.randomIntBetween(4, 12)
 
-    const kostenProEinheit = rng.randomItemFromArray([18, 21, 24, 27, 30, 36, 42, 48, 54, 63])
+    const kostenProEinheit = rng.randomItemFromArray([
+      18, 21, 24, 27, 30, 36, 42, 48, 54, 63,
+    ])
     const kosten1 = anzahl1 * kostenProEinheit
     const kosten2 = anzahl2 * kostenProEinheit
 
@@ -115,11 +117,11 @@ export const exercise9002: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 185">
           <image
-            href="/content/AV_Prüfungen/Dreisatz.PNG"
+            href="/content/Mathe_AV/Dreisatz.PNG"
             height="185"
             width="328"
           />
-<text x="120" y="12" fontSize="15" textAnchor="middle">
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
             {context.einheit}
           </text>
           <text x="205" y="12" fontSize="15" textAnchor="middle">
@@ -127,7 +129,7 @@ export const exercise9002: Exercise<DATA> = {
           </text>
           {/* obere Zeile */}
           <text x="120" y="42" fontSize="15" textAnchor="middle">
-            {data.anzahl1} 
+            {data.anzahl1}
           </text>
           <text x="200" y="42" fontSize="15" textAnchor="middle">
             {pp(data.kosten1)} €
@@ -172,16 +174,16 @@ export const exercise9002: Exercise<DATA> = {
         <h2>Erklärvideo</h2>
         <p>Hier gibt es noch ein Erklärungsvideo zum Dreisatz:</p>
         <div className="my-4">
-        <iframe
-          width="100%"
-          height="220"
-          src="https://www.youtube.com/embed/IXCWLXdv6YQ"
-          title="Erklärungsvideo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="rounded border"
-        />
-      </div>
+          <iframe
+            width="100%"
+            height="220"
+            src="https://www.youtube.com/embed/IXCWLXdv6YQ"
+            title="Erklärungsvideo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="rounded border"
+          />
+        </div>
       </>
     )
   },

@@ -210,7 +210,7 @@ export const exercise9023: Exercise<DATA> = {
 
             <svg viewBox="0 0 328 190">
               <image
-                href={`/content/AV_Prüfungen/${context.image}`}
+                href={`/content/Mathe_AV/${context.image}`}
                 height="190"
                 width="328"
               />
