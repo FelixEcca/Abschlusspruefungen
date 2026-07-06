@@ -54,7 +54,7 @@ function baseMath(eq: EEquation) {
 
 function standardMath(eq: EEquation) {
   const q = baseMath(eq)
-  return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}${q}^x ${pp(
+  return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}\\cdot${q}^x ${pp(
     eq.c,
     'merge_op',
   )}=0`
@@ -64,11 +64,11 @@ function equationMath(eq: EEquation) {
   const q = baseMath(eq)
 
   if (eq.form === 'moveC') {
-    return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}${q}^x=${pp(-eq.c)}`
+    return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}\\cdot ${q}^x=${pp(-eq.c)}`
   }
 
   if (eq.form === 'moveBC') {
-    return `${coeff(eq.a)}${q}^{2x}=${pp(-eq.c)} ${pp(-eq.b, 'koeff')}${q}^x`
+    return `${coeff(eq.a)}${q}^{2x}=${pp(-eq.c)} ${pp(-eq.b, 'koeff')}\\cdot ${q}^x`
   }
 
   return standardMath(eq)
@@ -90,9 +90,9 @@ function solutionSteps(eq: EEquation) {
         u,
       )})\\approx ${pp(x)}`
     }
-    return `${q}^x=${pp(u)}\\;\\Rightarrow\\; x_{${index}}=\\frac{\\ln(${pp(
+    return `${q}^x=${pp(u)}\\;\\Rightarrow\\; x_{${index}}=\\ln_${q}(${pp(
       u,
-    )})}{\\ln(${q})}\\approx ${pp(x)}`
+    )})\\approx ${pp(x)}`
   }
 
   return (
