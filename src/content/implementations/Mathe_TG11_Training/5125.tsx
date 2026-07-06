@@ -5,12 +5,15 @@ import { pp } from '@/helper/pretty-print'
 
 type EquationForm = 'standard' | 'moveC' | 'moveBC'
 
+type Base = 'e' | number
+
 interface EEquation {
   a: number
   b: number
   c: number
   u1: number
   u2: number
+  base: Base
   form: EquationForm
 }
 
@@ -31,6 +34,7 @@ function buildEquation(
   a: number,
   u1: number,
   u2: number,
+  base: Base,
   form: EquationForm,
 ): EEquation {
   return {
@@ -39,36 +43,57 @@ function buildEquation(
     c: a * u1 * u2,
     u1,
     u2,
+    base,
     form,
   }
 }
 
+function baseMath(eq: EEquation) {
+  return eq.base === 'e' ? 'e' : pp(eq.base)
+}
+
 function standardMath(eq: EEquation) {
-  return `${coeff(eq.a)}e^{2x} ${pp(eq.b, 'koeff')}e^x ${pp(
+  const q = baseMath(eq)
+  return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}${q}^x ${pp(
     eq.c,
     'merge_op',
   )}=0`
 }
 
 function equationMath(eq: EEquation) {
+  const q = baseMath(eq)
+
   if (eq.form === 'moveC') {
-    return `${coeff(eq.a)}e^{2x} ${pp(eq.b, 'koeff')}e^x=${pp(-eq.c)}`
+    return `${coeff(eq.a)}${q}^{2x} ${pp(eq.b, 'koeff')}${q}^x=${pp(-eq.c)}`
   }
 
   if (eq.form === 'moveBC') {
-    return `${coeff(eq.a)}e^{2x}=${pp(-eq.c)} ${pp(-eq.b, 'koeff')}e^x`
+    return `${coeff(eq.a)}${q}^{2x}=${pp(-eq.c)} ${pp(-eq.b, 'koeff')}${q}^x`
   }
 
   return standardMath(eq)
 }
 
 function solutionSteps(eq: EEquation) {
+  const q = baseMath(eq)
+  const lnBase = eq.base === 'e' ? 1 : Math.log(eq.base)
   const sqrtD = eq.a * Math.abs(eq.u1 - eq.u2)
   const d = sqrtD * sqrtD
   const uPlus = Math.max(eq.u1, eq.u2)
   const uMinus = Math.min(eq.u1, eq.u2)
-  const x1 = round4(Math.log(uPlus))
-  const x2 = uMinus > 0 ? round4(Math.log(uMinus)) : null
+  const x1 = round4(Math.log(uPlus) / lnBase)
+  const x2 = uMinus > 0 ? round4(Math.log(uMinus) / lnBase) : null
+
+  function xMath(u: number, x: number, index: number) {
+    if (eq.base === 'e') {
+      return `e^x=${pp(u)}\\;\\Rightarrow\\; x_{${index}}=\\ln(${pp(
+        u,
+      )})\\approx ${pp(x)}`
+    }
+    return `${q}^x=${pp(u)}\\;\\Rightarrow\\; x_{${index}}=\\frac{\\ln(${pp(
+      u,
+    )})}{\\ln(${q})}\\approx ${pp(x)}`
+  }
 
   return (
     <>
@@ -82,19 +107,19 @@ function solutionSteps(eq: EEquation) {
         </>
       )}
       <p>
-        Substitution <InlineMath math={`u=e^x`} /> (damit ist{' '}
-        <InlineMath math={`e^{2x}=u^2`} />
+        Substitution <InlineMath math={`z=${q}^x`} /> (damit ist{' '}
+        <InlineMath math={`${q}^{2x}=z^2`} />
         ):
       </p>
       <InlineMath
-        math={`${coeff(eq.a)}u^2 ${pp(eq.b, 'koeff')}u ${pp(
+        math={`${coeff(eq.a)}z^2 ${pp(eq.b, 'koeff')}z ${pp(
           eq.c,
           'merge_op',
         )}=0`}
       />
       <p>Mit der Mitternachtsformel lösen:</p>
       <InlineMath
-        math={`u_{1,2}=\\frac{${pp(-eq.b)}\\pm\\sqrt{(${pp(
+        math={`z_{1,2}=\\frac{${pp(-eq.b)}\\pm\\sqrt{(${pp(
           eq.b,
           'embrace_neg',
         )})^2-4\\cdot ${pp(eq.a, 'embrace_neg')}\\cdot ${pp(
@@ -105,30 +130,22 @@ function solutionSteps(eq: EEquation) {
         )}}}{${pp(2 * eq.a)}}`}
       />
       <p>
-        <InlineMath math={`u_1=${pp(uPlus)}`} /> und{' '}
-        <InlineMath math={`u_2=${pp(uMinus)}`} />
+        <InlineMath math={`z_1=${pp(uPlus)}`} /> und{' '}
+        <InlineMath math={`z_2=${pp(uMinus)}`} />
       </p>
       <p>
-        Rücksubstitution <InlineMath math={`e^x=u`} />:
+        Rücksubstitution <InlineMath math={`${q}^x=z`} />:
       </p>
       <p>
-        <InlineMath
-          math={`e^x=${pp(uPlus)}\\;\\Rightarrow\\; x_1=\\ln(${pp(
-            uPlus,
-          )})\\approx ${pp(x1)}`}
-        />
+        <InlineMath math={xMath(uPlus, x1, 1)} />
       </p>
       <p>
         {x2 !== null ? (
-          <InlineMath
-            math={`e^x=${pp(uMinus)}\\;\\Rightarrow\\; x_2=\\ln(${pp(
-              uMinus,
-            )})\\approx ${pp(x2)}`}
-          />
+          <InlineMath math={xMath(uMinus, x2, 2)} />
         ) : (
           <>
-            <InlineMath math={`e^x=${pp(uMinus)}`} /> hat keine Lösung, da{' '}
-            <InlineMath math={`e^x>0`} /> für alle x.
+            <InlineMath math={`${q}^x=${pp(uMinus)}`} /> hat keine Lösung, da{' '}
+            <InlineMath math={`${q}^x>0`} /> für alle x.
           </>
         )}
       </p>
@@ -157,21 +174,23 @@ export const exercise5125: Exercise<DATA> = {
     const a1 = rng.randomItemFromArray([1, 2, 3])
     const u11 = rng.randomIntBetween(2, 5)
     const u12 = rng.randomItemFromArray([-4, -3, -2, -1, 1, 2, 3, 4])
+    const base1 = rng.randomItemFromArray<Base>(['e', 'e', 2, 3, 5, 7, 10])
 
     const a2 = rng.randomItemFromArray([1, 2, 3])
     const u21 = rng.randomIntBetween(2, 5)
     const u22 = rng.randomItemFromArray([-4, -3, -2, -1, 1, 2, 3, 4])
+    const base2 = rng.randomItemFromArray<Base>(['e', 'e', 2, 3, 5, 7, 10])
     const form2 = rng.randomItemFromArray<EquationForm>(['moveC', 'moveBC'])
 
     return {
-      eq1: buildEquation(a1, u11, u12, 'standard'),
-      eq2: buildEquation(a2, u21, u22, form2),
+      eq1: buildEquation(a1, u11, u12, base1, 'standard'),
+      eq2: buildEquation(a2, u21, u22, base2, form2),
     }
   },
 
   originalData: {
-    eq1: { a: 2, b: -4, c: -6, u1: 3, u2: -1, form: 'standard' },
-    eq2: { a: 1, b: -6, c: 8, u1: 4, u2: 2, form: 'moveC' },
+    eq1: { a: 2, b: -4, c: -6, u1: 3, u2: -1, base: 'e', form: 'standard' },
+    eq2: { a: 1, b: -6, c: 8, u1: 4, u2: 2, base: 7, form: 'moveC' },
   },
 
   constraint({ data }) {
@@ -198,7 +217,7 @@ export const exercise5125: Exercise<DATA> = {
           <>
             <p>
               Lösen Sie die Gleichung mit der Substitution{' '}
-              <InlineMath math={`u=e^x`} />.
+              <InlineMath math={`z=${baseMath(data.eq1)}^x`} />.
             </p>
             <p>
               <InlineMath math={equationMath(data.eq1)} />
