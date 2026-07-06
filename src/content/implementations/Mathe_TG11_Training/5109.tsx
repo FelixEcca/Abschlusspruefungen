@@ -157,7 +157,7 @@ export const exercise5109: Exercise<DATA> = {
 
             <svg viewBox="0 0 328 328" className="my-2">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />

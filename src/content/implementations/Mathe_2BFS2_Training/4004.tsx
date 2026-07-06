@@ -129,7 +129,7 @@ export const exercise4004: Exercise<DATA> = {
         <div className="mt-2">
           <svg viewBox="0 0 328 328" className="w-full max-w-xs">
             <image
-              href="/content/BW_2BFS/ksgroßmitachsen.png"
+              href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
               height="328"
               width="328"
             />

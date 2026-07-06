@@ -199,7 +199,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="1">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -220,7 +220,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="2">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -241,7 +241,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="3">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -310,7 +310,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="0">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -331,7 +331,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="1">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -352,7 +352,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
           <li key="2">
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -379,7 +379,7 @@ y &= \dfrac{${fracLatex(c - b * data.x)}}{${a}} \;=\; ${fracLatex(data.y)}
             <p>Richtig ist die Abbildung {correctIndex + 1}.</p>
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />

@@ -84,7 +84,11 @@ export const exercise3004: Exercise<DATA> = {
           unvollständiges Baumdiagramm:
         </p>
         <svg viewBox="0 0 328 190">
-          <image href="/content/BW_2BFS/3004.png" height="190" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3004.png"
+            height="190"
+            width="328"
+          />
 
           <FractionInSvg x={90} y={18} n={data.h} d={summe} />
           <FractionInSvg x={180} y={18} n={data.k} d={summe} />
@@ -130,7 +134,7 @@ export const exercise3004: Exercise<DATA> = {
 
             <svg viewBox="0 0 328 190">
               <image
-                href="/content/BW_2BFS/3004.png"
+                href="/content/Mathe_2BFS2/3004.png"
                 height="190"
                 width="328"
               />
@@ -160,7 +164,7 @@ export const exercise3004: Exercise<DATA> = {
 
             <svg viewBox="0 0 328 190">
               <image
-                href="/content/BW_2BFS/3004.png"
+                href="/content/Mathe_2BFS2/3004.png"
                 height="190"
                 width="328"
               />

@@ -166,7 +166,7 @@ export const exercise3111: Exercise<DATA3111> = {
         return (
           <svg viewBox="0 0 328 328" width="328" height="328">
             <image
-              href="/content/BW_2BFS/ksgroßmitachsen.png"
+              href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
               width="328"
               height="328"
             />

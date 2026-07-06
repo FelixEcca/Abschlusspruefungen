@@ -121,7 +121,11 @@ export const exercise3160: Exercise<DATA> = {
         return (
           <>
             <svg viewBox="0 0 328 260">
-              <image href="/content/BW_2BFS/310.png" height="230" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/310.png"
+                height="230"
+                width="328"
+              />
               <polyline
                 points={parabolaPoints}
                 stroke="blue"
@@ -192,7 +196,11 @@ export const exercise3160: Exercise<DATA> = {
           <>
             <p>Lies den Schnittpunkt aus dem Koordinatensystem ab:</p>
             <svg viewBox="0 0 328 260">
-              <image href="/content/BW_2BFS/310.png" height="230" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/310.png"
+                height="230"
+                width="328"
+              />
               <text
                 x={toX(0) + 20}
                 y={toY(data.b) + 4}

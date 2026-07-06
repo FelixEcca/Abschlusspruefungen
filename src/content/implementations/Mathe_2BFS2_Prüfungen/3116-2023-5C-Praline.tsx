@@ -53,7 +53,7 @@ export const exercise3116: Exercise<DATA3116> = {
           Eine Hobbybäckerin macht eine bekannte, halbkugelförmige Praline nach.
         </p>
         <img
-          src="/content/BW_2BFS/3116.png"
+          src="/content/Mathe_2BFS2/3116.png"
           width={200}
           alt="Pralinen-Skizze"
         />

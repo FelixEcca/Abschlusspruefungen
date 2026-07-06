@@ -105,7 +105,7 @@ export const exercise5000: Exercise<DATA> = {
               className="border rounded"
             >
               <image
-                href="/content/BW_2BFS/3dksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/3dksgroßmitachsen.png"
                 width="328"
                 height="328"
               />
@@ -125,7 +125,7 @@ export const exercise5000: Exercise<DATA> = {
               className="border rounded"
             >
               <image
-                href="/content/BW_2BFS/3dksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/3dksgroßmitachsen.png"
                 width="328"
                 height="328"
               />
@@ -193,7 +193,7 @@ export const exercise5000: Exercise<DATA> = {
               className="border rounded"
             >
               <image
-                href="/content/BW_2BFS/3dksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/3dksgroßmitachsen.png"
                 width="328"
                 height="328"
               />

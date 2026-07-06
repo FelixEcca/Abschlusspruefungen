@@ -68,7 +68,11 @@ export const exercise3157: Exercise<DATA> = {
           <>
             <p>Tipp: Oft ist es hilfreich sich eine Skizze anzulegen.</p>
             <svg viewBox="0 0 328 180">
-              <image href="/content/BW_2BFS/307.png" height="180" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/307.png"
+                height="180"
+                width="328"
+              />
               <text
                 x={225}
                 y={120}
@@ -262,7 +266,7 @@ export const exercise3157: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 110">
               <image
-                href="/content/BW_2BFS/307_2.png"
+                href="/content/Mathe_2BFS2/307_2.png"
                 height="110"
                 width="328"
               />
@@ -303,7 +307,7 @@ export const exercise3157: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 110">
               <image
-                href="/content/BW_2BFS/307_3.png"
+                href="/content/Mathe_2BFS2/307_3.png"
                 height="110"
                 width="328"
               />

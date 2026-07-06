@@ -40,7 +40,11 @@ export const exercise3107: Exercise<DATA3107> = {
           <InlineMath math="r" />.
         </p>
         <svg viewBox="0 0 328 120">
-          <image href="/content/BW_2BFS/3107.png" height="120" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3107.png"
+            height="120"
+            width="328"
+          />
         </svg>
       </>
     )

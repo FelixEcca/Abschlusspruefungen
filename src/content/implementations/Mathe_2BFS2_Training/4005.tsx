@@ -48,7 +48,8 @@ export const exercise4005: Exercise<DATA> = {
       Math.abs(h) <= 7 &&
       Math.abs(h + m) <= 8 &&
       Math.abs(h - m) <= 8 &&
-      Math.abs(y0) <= 8 && Math.abs(data.k) <= 8
+      Math.abs(y0) <= 8 &&
+      Math.abs(data.k) <= 8
     )
   },
 
@@ -70,7 +71,7 @@ export const exercise4005: Exercise<DATA> = {
         </p>
         <svg viewBox="0 0 328 328" className="w-full max-w-xs">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />
@@ -98,7 +99,8 @@ export const exercise4005: Exercise<DATA> = {
           />
         </p>
         <p>
-          Schnittpunkt mit der y-Achse: <br></br><InlineMath math={`SP_{y}(0\\mid ${pp(y0)})`} />
+          Schnittpunkt mit der y-Achse: <br></br>
+          <InlineMath math={`SP_{y}(0\\mid ${pp(y0)})`} />
         </p>
       </>
     )

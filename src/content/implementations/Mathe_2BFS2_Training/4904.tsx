@@ -70,7 +70,7 @@ export const exercise4904: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 180">
-          <image href="/content/BW_2BFS/302.png" height="180" width="328" />
+          <image href="/content/Mathe_2BFS2/302.png" height="180" width="328" />
           {/* P(R) */}
           <foreignObject x={105} y={20} width={24} height={45}>
             <div style={{ fontSize: '16px' }}>
@@ -187,7 +187,7 @@ export const exercise4904: Exercise<DATA> = {
           <b>Baumdiagramm ergänzen</b>
         </p>
         <svg viewBox="0 0 328 180">
-          <image href="/content/BW_2BFS/302.png" height="180" width="328" />
+          <image href="/content/Mathe_2BFS2/302.png" height="180" width="328" />
           {/* P(R) */}
           <foreignObject x={105} y={20} width={24} height={45}>
             <div style={{ fontSize: '16px', color: 'green' }}>

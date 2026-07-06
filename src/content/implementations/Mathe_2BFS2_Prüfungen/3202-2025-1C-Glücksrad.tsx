@@ -118,7 +118,7 @@ export const exercise3202: Exercise<DATA> = {
       },
       solution({ data }) {
         // Hintergrundbild + Brüche per foreignObject
-        // Koordinaten der Labels auf dem Baum (für /content/BW_2BFS/3202.png):
+        // Koordinaten der Labels auf dem Baum (für /content/Mathe_2BFS2/3202.png):
         // Root ~ (40,165), Level1-Zweige nach (~130,115) und (~130,215)
         // Level2 je zwei Zweige rechts davon; Brüche an die Äste gelegt.
         const labels = data.pattern.split('') as ('1' | '2')[]
@@ -136,7 +136,7 @@ export const exercise3202: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 250" width="328" height="250">
               <image
-                href="/content/BW_2BFS/3202.png"
+                href="/content/Mathe_2BFS2/3202.png"
                 height="250"
                 width="328"
               />

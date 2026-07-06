@@ -55,7 +55,7 @@ export const exercise4924: Exercise<DATA> = {
   points: 42,
 
   generator(rng) {
-    const count = rng.randomItemFromArray<Count>([1,2])
+    const count = rng.randomItemFromArray<Count>([1, 2])
 
     if (count === 2) {
       const a = rng.randomItemFromArray([1, -1])
@@ -67,10 +67,10 @@ export const exercise4924: Exercise<DATA> = {
       const n = rng.randomIntBetween(-3, 3)
 
       const A = a
-const xsum = r1 + r2
-const xprod = r1 * r2
-const b = m - A * xsum
-const c = n + A * xprod
+      const xsum = r1 + r2
+      const xprod = r1 * r2
+      const b = m - A * xsum
+      const c = n + A * xprod
 
       const y1 = round2(m * r1 + n)
       const y2 = round2(m * r2 + n)
@@ -85,7 +85,7 @@ const c = n + A * xprod
       const n = rng.randomIntBetween(-3, 3)
 
       const b = m - 2 * a * xs
-const c = m * xs + n - a * xs * xs - b * xs
+      const c = m * xs + n - a * xs * xs - b * xs
       const ys = round2(m * xs + n)
 
       return { a, b, c, m, n, count, x1: xs, x2: xs, y1: ys, y2: ys }
@@ -99,23 +99,31 @@ const c = m * xs + n - a * xs * xs - b * xs
     return { a, b, c, m, n, count, x1: 0, x2: 0, y1: 0, y2: 0 }
   },
 
- originalData: {
-  a: 1,
-  b: -2,
-  c: 4,
-  m: 2,
-  n: 1,
-  count: 2,
-  x1: 1,
-  x2: 3,
-  y1: 3,
-  y2: 7,
-},
+  originalData: {
+    a: 1,
+    b: -2,
+    c: 4,
+    m: 2,
+    n: 1,
+    count: 2,
+    x1: 1,
+    x2: 3,
+    y1: 3,
+    y2: 7,
+  },
 
   constraint({ data }) {
     const B = data.b - data.m
     const C = data.c - data.n
-    return data.a !== 0 && data.b !== 0 && data.c !== 0 && data.m !== 0 && data.n !== 0 && B!=0 && C!=0
+    return (
+      data.a !== 0 &&
+      data.b !== 0 &&
+      data.c !== 0 &&
+      data.m !== 0 &&
+      data.n !== 0 &&
+      B != 0 &&
+      C != 0
+    )
   },
 
   task({ data }) {
@@ -144,7 +152,10 @@ const c = m * xs + n - a * xs * xs - b * xs
 
     return (
       <>
-        <p>Setze die beiden Terme gleich, die Parabel links und die Gerade rechts.</p>
+        <p>
+          Setze die beiden Terme gleich, die Parabel links und die Gerade
+          rechts.
+        </p>
         <InlineMath
           math={`${pp(data.a)}x^2${pp(data.b, 'merge_op')}x${pp(
             data.c,
@@ -160,14 +171,18 @@ const c = m * xs + n - a * xs * xs - b * xs
         <InlineMath math={`x_{1,2}=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}`} />
         <br />
         <InlineMath
-          math={`x_{1,2}=\\frac{${pp(-B)}\\pm\\sqrt{${pp(B,'embrace_neg')}^2-4\\cdot${pp(
-            A,'embrace_neg'
-          )}\\cdot${pp(C,'embrace_neg')}}}{2\\cdot${pp(A,'embrace_neg')}}`}
+          math={`x_{1,2}=\\frac{${pp(-B)}\\pm\\sqrt{${pp(B, 'embrace_neg')}^2-4\\cdot${pp(
+            A,
+            'embrace_neg',
+          )}\\cdot${pp(C, 'embrace_neg')}}}{2\\cdot${pp(A, 'embrace_neg')}}`}
         />
 
         {data.count === 0 && (
           <>
-            <p>Es gibt keine Schnittpunkte, weil der Wert unter der Wurzel negativ ist.</p>
+            <p>
+              Es gibt keine Schnittpunkte, weil der Wert unter der Wurzel
+              negativ ist.
+            </p>
           </>
         )}
 
@@ -175,8 +190,12 @@ const c = m * xs + n - a * xs * xs - b * xs
           <>
             <br />
             <InlineMath math={`x=${pp(data.x1)}`} />
-<p>Setze den Wert in eine der Gleichungen ein und berechne y.
-  </p>            <InlineMath math={`y=${pp(data.m)}\\cdot${pp(data.x1)}${pp(data.n, 'merge_op')}=${pp(data.y1)}`} />
+            <p>
+              Setze den Wert in eine der Gleichungen ein und berechne y.
+            </p>{' '}
+            <InlineMath
+              math={`y=${pp(data.m)}\\cdot${pp(data.x1)}${pp(data.n, 'merge_op')}=${pp(data.y1)}`}
+            />
             <p>
               <b>
                 <InlineMath math={`S(${pp(data.x1)}\\mid${pp(data.y1)})`} />
@@ -190,16 +209,17 @@ const c = m * xs + n - a * xs * xs - b * xs
             <br />
             <InlineMath
               math={`x_1=${pp(data.x1)},\\quad x_2=${pp(data.x2)}`}
-            />            <p>Setze die Werte in einer der Gleichungen ein und berechne y.</p>
+            />{' '}
+            <p>Setze die Werte in einer der Gleichungen ein und berechne y.</p>
             <InlineMath
-              math={`y_1=${pp(data.m)}\\cdot${pp(data.x1,'embrace_neg')}${pp(
+              math={`y_1=${pp(data.m)}\\cdot${pp(data.x1, 'embrace_neg')}${pp(
                 data.n,
                 'merge_op',
               )}=${pp(data.y1)}`}
             />
             <br />
             <InlineMath
-              math={`y_2=${pp(data.m)}\\cdot${pp(data.x2,'embrace_neg')}${pp(
+              math={`y_2=${pp(data.m)}\\cdot${pp(data.x2, 'embrace_neg')}${pp(
                 data.n,
                 'merge_op',
               )}=${pp(data.y2)}`}
@@ -218,7 +238,7 @@ const c = m * xs + n - a * xs * xs - b * xs
 
         <svg viewBox="0 0 328 328">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />

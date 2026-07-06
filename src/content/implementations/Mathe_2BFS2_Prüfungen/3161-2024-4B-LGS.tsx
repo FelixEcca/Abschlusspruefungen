@@ -219,7 +219,7 @@ export const exercise3161: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 310">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="310"
                 width="328"
               />
@@ -330,7 +330,7 @@ export const exercise3161: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 310">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="310"
                 width="328"
               />

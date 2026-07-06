@@ -45,7 +45,7 @@ export const exercise4801: Exercise<D4801> = {
         </p>
         <svg viewBox="0 0 320 220" className="w-full max-w-xs mt-1">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />

@@ -54,7 +54,11 @@ export const exercise3015: Exercise<DATA> = {
           <InlineMath math="h" />.
         </p>
         <svg viewBox="0 0 328 328">
-          <image href="/content/BW_2BFS/3015.png" height="328" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3015.png"
+            height="328"
+            width="328"
+          />
           <line
             x1={toX(-3)}
             y1={toY(f(-3))}
@@ -135,7 +139,7 @@ export const exercise3015: Exercise<DATA> = {
                 </marker>
               </defs>
               <image
-                href="/content/BW_2BFS/3015.png"
+                href="/content/Mathe_2BFS2/3015.png"
                 height="328"
                 width="328"
               />
@@ -339,7 +343,7 @@ export const exercise3015: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/3015.png"
+                href="/content/Mathe_2BFS2/3015.png"
                 height="328"
                 width="328"
               />

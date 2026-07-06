@@ -123,7 +123,11 @@ export const exercise4914: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 120">
-          <image href="/content/BW_2BFS/4914.png" height="120" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/4914.png"
+            height="120"
+            width="328"
+          />
           <text x={145} y={35} fontSize={10} textAnchor="middle" stroke="black">
             {label('topRight', data.topRight)}
           </text>

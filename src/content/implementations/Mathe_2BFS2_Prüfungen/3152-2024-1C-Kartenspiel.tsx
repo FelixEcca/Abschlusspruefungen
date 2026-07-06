@@ -34,7 +34,7 @@ export const exercise3152: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 180">
-          <image href="/content/BW_2BFS/302.png" height="180" width="328" />
+          <image href="/content/Mathe_2BFS2/302.png" height="180" width="328" />
 
           {/* P(R) */}
           <foreignObject x={105} y={20} width={20} height={45}>
@@ -85,7 +85,11 @@ export const exercise3152: Exercise<DATA> = {
           <>
             {/* Schritt 3: zweiter Ast nach Rot im 1. Zug */}
             <svg viewBox="0 0 328 180">
-              <image href="/content/BW_2BFS/302.png" height="180" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/302.png"
+                height="180"
+                width="328"
+              />
 
               {/* P(R) */}
               <foreignObject x={105} y={20} width={20} height={45}>
@@ -237,7 +241,11 @@ export const exercise3152: Exercise<DATA> = {
 
             {/* Markierung der relevanten Äste */}
             <svg viewBox="0 0 328 180">
-              <image href="/content/BW_2BFS/302.png" height="180" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/302.png"
+                height="180"
+                width="328"
+              />
 
               {/* P(R) */}
               <foreignObject x={105} y={20} width={20} height={45}>

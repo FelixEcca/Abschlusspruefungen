@@ -110,7 +110,7 @@ export const exercise3205: Exercise<DATA> = {
         {/* Geometrie-Grafik: unverändertes Hintergrundbild */}
         <svg viewBox="0 0 328 250" className="w-full border rounded">
           <image
-            href="/content/BW_2BFS/3205.png"
+            href="/content/Mathe_2BFS2/3205.png"
             x="0"
             y="0"
             width="328"
@@ -242,7 +242,7 @@ export const exercise3205: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 250">
               <image
-                href="/content/BW_2BFS/3205_2.png"
+                href="/content/Mathe_2BFS2/3205_2.png"
                 x="0"
                 y="0"
                 width="328"

@@ -107,7 +107,7 @@ h &= \dfrac{3\cdot ${data.volume}}{${A}} \\
             <p>Die Skizze zeigt die Pyramide von der Seite.</p>
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/3009.png"
+                href="/content/Mathe_2BFS2/3009.png"
                 height="328"
                 width="328"
               />

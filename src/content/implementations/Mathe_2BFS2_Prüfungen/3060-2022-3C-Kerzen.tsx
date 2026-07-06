@@ -247,7 +247,7 @@ export const exercise3060: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 80">
-          <image href="/content/BW_2BFS/3060.png" height="80" width="328" />
+          <image href="/content/Mathe_2BFS2/3060.png" height="80" width="328" />
         </svg>
 
         <CandleGraphSvg

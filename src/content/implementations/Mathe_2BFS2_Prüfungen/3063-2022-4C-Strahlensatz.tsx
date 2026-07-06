@@ -45,7 +45,11 @@ export const exercise3063: Exercise<DATA> = {
         <p>Gegeben sind eine Strahlensatzfigur und eine Gleichung:</p>
 
         <svg viewBox="0 0 328 180">
-          <image href="/content/BW_2BFS/3063.png" height="180" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3063.png"
+            height="180"
+            width="328"
+          />
           <text x={290} y={90} fontSize={15} textAnchor="middle" stroke="black">
             {data.totalHeight} cm
           </text>
@@ -81,7 +85,7 @@ export const exercise3063: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 180">
               <image
-                href="/content/BW_2BFS/3063.png"
+                href="/content/Mathe_2BFS2/3063.png"
                 height="180"
                 width="328"
               />

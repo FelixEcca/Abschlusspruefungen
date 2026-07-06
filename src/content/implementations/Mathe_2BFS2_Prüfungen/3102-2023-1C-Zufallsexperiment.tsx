@@ -90,7 +90,11 @@ export const exercise3102: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 240">
-          <image href="/content/BW_2BFS/3052.png" height="240" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3052.png"
+            height="240"
+            width="328"
+          />
 
           <FractionInSvg x={90} y={40} n={data.pNum} d={data.pDen} />
           <FractionInSvg x={90} y={160} n={data.qNum} d={data.pDen} />

@@ -82,7 +82,7 @@ export const exercise3204: Exercise<DATA> = {
             <svg viewBox="0 0 328 250" width="328" height="250">
               {/* Hintergrundbild */}
               <image
-                href="/content/BW_2BFS/3204.png"
+                href="/content/Mathe_2BFS2/3204.png"
                 height="250"
                 width="328"
               />

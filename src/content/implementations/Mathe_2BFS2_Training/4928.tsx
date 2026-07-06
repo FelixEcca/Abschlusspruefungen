@@ -20,7 +20,14 @@ function toY(y: number) {
   return 163 - y * ((94.5 * 2) / 10)
 }
 
-function fValue(a: number, n: number, h: number, k: number, v: number, x: number) {
+function fValue(
+  a: number,
+  n: number,
+  h: number,
+  k: number,
+  v: number,
+  x: number,
+) {
   return a * Math.pow(x - h, n) + v * (x - h) + k
 }
 
@@ -41,11 +48,16 @@ function SmallGraph(props: { points: string }) {
   return (
     <svg viewBox="0 0 328 328">
       <image
-        href="/content/BW_2BFS/ksgroßmitachsen.png"
+        href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
         height="328"
         width="328"
       />
-      <polyline points={props.points} fill="none" stroke="black" strokeWidth="2" />
+      <polyline
+        points={props.points}
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
+      />
     </svg>
   )
 }
@@ -112,7 +124,7 @@ export const exercise4928: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 328">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />

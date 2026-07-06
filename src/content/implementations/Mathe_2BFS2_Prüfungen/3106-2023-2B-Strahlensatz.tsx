@@ -102,7 +102,11 @@ export const exercise3106: Exercise<DATA3106> = {
         <p>Die Geraden f und g sind parallel.</p>
         {/* Grafik mit eingeblendeten Längenangaben wie im Original */}
         <svg viewBox="0 0 328 180" width="328" height="180">
-          <image href="/content/BW_2BFS/3106.png" height="180" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3106.png"
+            height="180"
+            width="328"
+          />
           {/* Wertepositionen grob wie im Scan */}
           <text x="65" y="90" fontSize="16" stroke="black" textAnchor="middle">
             {pp(data.a)}
@@ -223,7 +227,7 @@ export const exercise3106: Exercise<DATA3106> = {
             {/* Grafik erneut mit Herkunft von a (Gegenkathete) und b (Ankathete) */}
             <svg viewBox="0 0 328 180" width="328" height="180">
               <image
-                href="/content/BW_2BFS/3106.png"
+                href="/content/Mathe_2BFS2/3106.png"
                 height="180"
                 width="328"
               />

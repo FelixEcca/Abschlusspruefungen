@@ -63,7 +63,7 @@ export const exercise3052: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 160">
           <image
-            href="/content/BW_2BFS/3052_Baum.png"
+            href="/content/Mathe_2BFS2/3052_Baum.png"
             height="160"
             width="328"
           />
@@ -131,7 +131,7 @@ export const exercise3052: Exercise<DATA> = {
         return (
           <svg viewBox="0 0 328 160">
             <image
-              href="/content/BW_2BFS/3052_Baum.png"
+              href="/content/Mathe_2BFS2/3052_Baum.png"
               height="160"
               width="328"
             />

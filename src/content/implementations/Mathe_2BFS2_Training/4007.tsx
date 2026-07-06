@@ -35,10 +35,15 @@ export const exercise4007: Exercise<DATA> = {
   },
 
   originalData: { kind: 'shift', c: 2, h: -1, k: 1 },
-constraint({ data }) {
-    
+  constraint({ data }) {
     return (
-      data.c!=0 && data.h!=0 && data.k!=0 && data.h!=data.k && Math.abs(data.c)<=5 && Math.abs(data.h)<=5 && Math.abs(data.k)<=5
+      data.c != 0 &&
+      data.h != 0 &&
+      data.k != 0 &&
+      data.h != data.k &&
+      Math.abs(data.c) <= 5 &&
+      Math.abs(data.h) <= 5 &&
+      Math.abs(data.k) <= 5
     )
   },
   task({ data }) {
@@ -56,7 +61,7 @@ constraint({ data }) {
         </p>
         <svg viewBox="0 0 328 328" className="border rounded">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />
@@ -85,7 +90,7 @@ constraint({ data }) {
         </p>
         <svg viewBox="0 0 328 328" className="border rounded">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />

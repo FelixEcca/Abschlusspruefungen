@@ -28,7 +28,7 @@ export const exercise3003: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 140">
               <image
-                href="/content/BW_2BFS/3003_1.png"
+                href="/content/Mathe_2BFS2/3003_1.png"
                 height="140"
                 width="328"
               />
@@ -40,7 +40,7 @@ export const exercise3003: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 200">
               <image
-                href="/content/BW_2BFS/3003_2.JPG"
+                href="/content/Mathe_2BFS2/3003_2.JPG"
                 height="200"
                 width="328"
               />
@@ -52,7 +52,7 @@ export const exercise3003: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 200">
               <image
-                href="/content/BW_2BFS/3003_3.JPG"
+                href="/content/Mathe_2BFS2/3003_3.JPG"
                 height="200"
                 width="328"
               />
@@ -64,7 +64,7 @@ export const exercise3003: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 200">
               <image
-                href="/content/BW_2BFS/3003_4.JPG"
+                href="/content/Mathe_2BFS2/3003_4.JPG"
                 height="200"
                 width="328"
               />
@@ -76,7 +76,7 @@ export const exercise3003: Exercise<DATA> = {
           <>
             <svg viewBox="0 0 328 328">
               <image
-                href="/content/BW_2BFS/3003_5.JPG"
+                href="/content/Mathe_2BFS2/3003_5.JPG"
                 height="328"
                 width="328"
               />
@@ -218,7 +218,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 140">
                   <image
-                    href="/content/BW_2BFS/3003_1_sol.JPG"
+                    href="/content/Mathe_2BFS2/3003_1_sol.JPG"
                     height="140"
                     width="328"
                   />
@@ -230,7 +230,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 200">
                   <image
-                    href="/content/BW_2BFS/3003_2_sol.JPG"
+                    href="/content/Mathe_2BFS2/3003_2_sol.JPG"
                     height="200"
                     width="328"
                   />
@@ -242,7 +242,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 200">
                   <image
-                    href="/content/BW_2BFS/3003_3_sol.JPG"
+                    href="/content/Mathe_2BFS2/3003_3_sol.JPG"
                     height="200"
                     width="328"
                   />
@@ -254,7 +254,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 200">
                   <image
-                    href="/content/BW_2BFS/3003_4_sol.JPG"
+                    href="/content/Mathe_2BFS2/3003_4_sol.JPG"
                     height="200"
                     width="328"
                   />
@@ -266,7 +266,7 @@ export const exercise3003: Exercise<DATA> = {
               <>
                 <svg viewBox="0 0 328 328">
                   <image
-                    href="/content/BW_2BFS/3003_5_sol.JPG"
+                    href="/content/Mathe_2BFS2/3003_5_sol.JPG"
                     height="328"
                     width="328"
                   />

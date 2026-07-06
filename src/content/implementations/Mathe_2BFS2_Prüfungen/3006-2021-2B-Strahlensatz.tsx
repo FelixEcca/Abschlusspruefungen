@@ -65,7 +65,11 @@ export const exercise3006: Exercise<DATA> = {
 
         {/* SVG-Beschriftungen bleiben unverändert */}
         <svg viewBox="0 0 328 250">
-          <image href="/content/BW_2BFS/3006.png" height="250" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3006.png"
+            height="250"
+            width="328"
+          />
           <text
             x={190}
             y={230}

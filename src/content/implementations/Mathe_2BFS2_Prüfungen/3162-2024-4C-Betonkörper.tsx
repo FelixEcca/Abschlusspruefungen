@@ -40,7 +40,7 @@ export const exercise3162: Exercise<DATA> = {
           <InlineMath math={`${pp(data.länge)}\\,\\text{m}`} />.
         </p>
         <svg viewBox="0 0 328 80">
-          <image href="/content/BW_2BFS/312.png" height="80" width="328" />
+          <image href="/content/Mathe_2BFS2/312.png" height="80" width="328" />
         </svg>
         <p>
           Die weiteren Maße des Körpers sind: <br />
@@ -217,7 +217,7 @@ export const exercise3162: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 80">
               <image
-                href="/content/BW_2BFS/312_3.png"
+                href="/content/Mathe_2BFS2/312_3.png"
                 height="80"
                 width="328"
               />
@@ -225,7 +225,7 @@ export const exercise3162: Exercise<DATA> = {
             <p>Von oben:</p>
             <svg viewBox="0 0 328 80">
               <image
-                href="/content/BW_2BFS/312_4.png"
+                href="/content/Mathe_2BFS2/312_4.png"
                 height="80"
                 width="328"
               />

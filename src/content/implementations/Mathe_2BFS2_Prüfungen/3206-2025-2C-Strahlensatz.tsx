@@ -139,7 +139,7 @@ export const exercise3206: Exercise<DATA> = {
         >
           {/* Hintergrundbild */}
           <image
-            href="/content/BW_2BFS/3206.png"
+            href="/content/Mathe_2BFS2/3206.png"
             x="0"
             y="0"
             width="328"

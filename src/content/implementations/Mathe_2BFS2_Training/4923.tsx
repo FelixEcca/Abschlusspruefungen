@@ -45,7 +45,8 @@ export const exercise4923: Exercise<DATA> = {
     const a = rng.randomItemFromArray([1, 2, -1, -2])
     const r1 = rng.randomItemFromArray([-4, -3, -2, -1, 0, 1, 2])
     let r2 = rng.randomItemFromArray([-4, -3, -2, -1, 0, 1, 2, 3, 4])
-    while (r2 === r1) r2 = rng.randomItemFromArray([-4, -3, -2, -1, 0, 1, 2, 3, 4])
+    while (r2 === r1)
+      r2 = rng.randomItemFromArray([-4, -3, -2, -1, 0, 1, 2, 3, 4])
     const b = -a * (r1 + r2)
     const c = a * r1 * r2
     const x1 = Math.min(r1, r2)
@@ -66,13 +67,11 @@ export const exercise4923: Exercise<DATA> = {
   },
 
   task({ data }) {
-    
-
     return (
       <>
         <p>
-          Berechnen Sie die Schnittpunkte der Parabel mit der x-Achse.
-          Verwenden Sie die abc-Formel:
+          Berechnen Sie die Schnittpunkte der Parabel mit der x-Achse. Verwenden
+          Sie die abc-Formel:
         </p>
         <InlineMath math={`x_{1,2}=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}`} />
         <br />
@@ -82,8 +81,6 @@ export const exercise4923: Exercise<DATA> = {
             'merge_op',
           )}`}
         />
-
-        
       </>
     )
   },
@@ -94,22 +91,24 @@ export const exercise4923: Exercise<DATA> = {
 
     return (
       <>
-        <InlineMath math={`0=${pp(data.a)}x^2${pp(data.b, 'merge_op')}x${pp(
-          data.c,
-          'merge_op',
-        )}`} />
+        <InlineMath
+          math={`0=${pp(data.a)}x^2${pp(data.b, 'merge_op')}x${pp(
+            data.c,
+            'merge_op',
+          )}`}
+        />
         <br />
         <InlineMath
-          math={`x_{1,2}=\\frac{-${pp(data.b,'embrace_neg')}\\pm\\sqrt{${pp(data.b,'embrace_neg')}^2-4\\cdot${pp(
-            data.a,'embrace_neg'
-          )}\\cdot${pp(data.c,'embrace_neg')}}}{2\\cdot${pp(data.a,'embrace_neg')}}`}
+          math={`x_{1,2}=\\frac{-${pp(data.b, 'embrace_neg')}\\pm\\sqrt{${pp(data.b, 'embrace_neg')}^2-4\\cdot${pp(
+            data.a,
+            'embrace_neg',
+          )}\\cdot${pp(data.c, 'embrace_neg')}}}{2\\cdot${pp(data.a, 'embrace_neg')}}`}
         />
         <br />
         <InlineMath
           math={`x_{1,2}=\\frac{${pp(-data.b)}\\pm\\sqrt{${pp(D)}}}{${pp(
-            2 * data.a
+            2 * data.a,
           )}}`}
-          
         />
         <br />
         <InlineMath
@@ -124,7 +123,7 @@ export const exercise4923: Exercise<DATA> = {
         </p>
         <svg viewBox="0 0 328 328">
           <image
-            href="/content/BW_2BFS/ksgroßmitachsen.png"
+            href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
             height="328"
             width="328"
           />

@@ -50,7 +50,7 @@ export const exercise5100: Exercise<DATA> = {
   points: 4,
 
   generator(rng) {
-    const n = rng.randomItemFromArray([1, 2, 3, 4, 5,6,7,8,9])
+    const n = rng.randomItemFromArray([1, 2, 3, 4, 5, 6, 7, 8, 9])
     const sign: Sign = rng.randomItemFromArray<Sign>([1, -1])
     return { n, sign }
   },
@@ -79,18 +79,22 @@ export const exercise5100: Exercise<DATA> = {
         return (
           <>
             <p>
-              Gegeben ist das Schaubild einer Potenzfunktion. Beschreibe
-              das Globalverhalten:
+              Gegeben ist das Schaubild einer Potenzfunktion. Beschreibe das
+              Globalverhalten:
             </p>
             <p>
-              <InlineMath math={`\\text{Für } x\\to \\infty\\,\\text{ gilt } f(x)\\to \\;\\square`} />
+              <InlineMath
+                math={`\\text{Für } x\\to \\infty\\,\\text{ gilt } f(x)\\to \\;\\square`}
+              />
               <br />
-              <InlineMath math={`\\text{Für } x\\to -\\infty\\,\\text{ gilt } f(x)\\to \\;\\square`} />
+              <InlineMath
+                math={`\\text{Für } x\\to -\\infty\\,\\text{ gilt } f(x)\\to \\;\\square`}
+              />
             </p>
 
             <svg viewBox="0 0 328 328" className="my-2">
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 height="328"
                 width="328"
               />
@@ -135,9 +139,13 @@ export const exercise5100: Exercise<DATA> = {
               Beschreibe das Globalverhalten:
             </p>
             <p>
-              <InlineMath math={`\\text{Für } x\\to \\infty\\,\\text{ gilt } f(x)\\to \\;\\square`} />
+              <InlineMath
+                math={`\\text{Für } x\\to \\infty\\,\\text{ gilt } f(x)\\to \\;\\square`}
+              />
               <br />
-              <InlineMath math={`\\text{Für } x\\to -\\infty\\,\\text{ gilt } f(x)\\to \\;\\square`} />
+              <InlineMath
+                math={`\\text{Für } x\\to -\\infty\\,\\text{ gilt } f(x)\\to \\;\\square`}
+              />
             </p>
           </>
         )

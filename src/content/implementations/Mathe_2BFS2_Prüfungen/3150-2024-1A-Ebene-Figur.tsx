@@ -32,7 +32,7 @@ export const exercise3150: Exercise<DATA> = {
       <>
         <p>Gegeben ist die symmetrische Figur.</p>
         <svg viewBox="0 0 328 260">
-          <image href="/content/BW_2BFS/300.png" height="230" width="328" />
+          <image href="/content/Mathe_2BFS2/300.png" height="230" width="328" />
           <text x={70} y={175} fontSize={20} textAnchor="right" stroke="black">
             {data.länge} cm
           </text>

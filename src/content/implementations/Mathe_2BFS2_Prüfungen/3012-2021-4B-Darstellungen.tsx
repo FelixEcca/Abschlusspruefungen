@@ -22,62 +22,62 @@ const beschreibungen = [
 const darstellungen = [
   <>
     <svg viewBox="0 0 328 70">
-      <image href="/content/BW_2BFS/3012_1.png" height="70" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_1.png" height="70" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 100">
-      <image href="/content/BW_2BFS/3012_2.png" height="100" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_2.png" height="100" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 150">
-      <image href="/content/BW_2BFS/3012_3.png" height="150" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_3.png" height="150" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 200">
-      <image href="/content/BW_2BFS/3012_4.png" height="200" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_4.png" height="200" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 200">
-      <image href="/content/BW_2BFS/3012_5.png" height="200" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_5.png" height="200" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 200">
-      <image href="/content/BW_2BFS/3012_6.png" height="200" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_6.png" height="200" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 30">
-      <image href="/content/BW_2BFS/3012_7.png" height="30" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_7.png" height="30" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 30">
-      <image href="/content/BW_2BFS/3012_8.png" height="30" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_8.png" height="30" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 30">
-      <image href="/content/BW_2BFS/3012_9.png" height="30" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_9.png" height="30" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 50">
-      <image href="/content/BW_2BFS/3012_10.png" height="50" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_10.png" height="50" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 50">
-      <image href="/content/BW_2BFS/3012_11.png" height="50" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_11.png" height="50" width="328" />
     </svg>
   </>,
   <>
     <svg viewBox="0 0 328 50">
-      <image href="/content/BW_2BFS/3012_12.png" height="50" width="328" />
+      <image href="/content/Mathe_2BFS2/3012_12.png" height="50" width="328" />
     </svg>
   </>,
 ]

@@ -86,7 +86,7 @@ export const exercise3110: Exercise<DATA3110> = {
             return (
               <svg viewBox="0 0 328 328" width="328" height="328">
                 <image
-                  href="/content/BW_2BFS/Blanko.png"
+                  href="/content/Mathe_2BFS2/Blanko.png"
                   width="328"
                   height="328"
                 />
@@ -190,7 +190,7 @@ export const exercise3110: Exercise<DATA3110> = {
               return (
                 <svg viewBox="0 0 328 328" width="328" height="328">
                   <image
-                    href="/content/BW_2BFS/Blanko.png"
+                    href="/content/Mathe_2BFS2/Blanko.png"
                     width="328"
                     height="328"
                   />

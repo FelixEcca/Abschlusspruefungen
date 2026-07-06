@@ -68,7 +68,11 @@ export const exercise3056: Exercise<DATA> = {
         </p>
 
         <svg viewBox="0 0 328 180">
-          <image href="/content/BW_2BFS/3056.png" height="180" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3056.png"
+            height="180"
+            width="328"
+          />
           <text x={100} y={45} fontSize={15} textAnchor="middle" stroke="black">
             {data.wallSide} cm
           </text>

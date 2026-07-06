@@ -66,7 +66,7 @@ export const exercise3154: Exercise<DATA> = {
           erneut eine Kugel.
         </p>
         <svg viewBox="0 0 328 90">
-          <image href="/content/BW_2BFS/304.png" height="90" width="328" />
+          <image href="/content/Mathe_2BFS2/304.png" height="90" width="328" />
           <text x={92} y={51} fontSize={20} textAnchor="right" stroke="black">
             {data.zahl1}
           </text>
@@ -189,7 +189,7 @@ export const exercise3154: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 190">
               <image
-                href="/content/BW_2BFS/304_2.png"
+                href="/content/Mathe_2BFS2/304_2.png"
                 height="190"
                 width="328"
               />

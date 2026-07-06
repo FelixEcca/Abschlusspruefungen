@@ -130,7 +130,11 @@ export const exercise3050: Exercise<DATA> = {
           height="140"
           className="border rounded"
         >
-          <image href="/content/BW_2BFS/3050.png" height="140" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3050.png"
+            height="140"
+            width="328"
+          />
           {/* Dynamically render side labels based on the selected pool */}
           {(() => {
             // Extract the variable and numbers from the selected pool

@@ -125,7 +125,7 @@ export const exercise3109: Exercise<DATA3109> = {
               className="border rounded"
             >
               <image
-                href="/content/BW_2BFS/ksgroßmitachsen.png"
+                href="/content/Mathe_2BFS2/ksgroßmitachsen.png"
                 width="328"
                 height="328"
               />

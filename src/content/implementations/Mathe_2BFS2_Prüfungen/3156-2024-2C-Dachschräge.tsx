@@ -36,7 +36,7 @@ export const exercise3156: Exercise<DATA> = {
           Schrank einzubauen.
         </p>
         <svg viewBox="0 0 328 230">
-          <image href="/content/BW_2BFS/306.png" height="230" width="328" />
+          <image href="/content/Mathe_2BFS2/306.png" height="230" width="328" />
           <text x={100} y={200} fontSize={15} textAnchor="right" stroke="black">
             {pp(data.gesamt)} m
           </text>
@@ -84,7 +84,7 @@ export const exercise3156: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 230">
               <image
-                href="/content/BW_2BFS/306_2.png"
+                href="/content/Mathe_2BFS2/306_2.png"
                 height="230"
                 width="328"
               />
@@ -222,7 +222,7 @@ export const exercise3156: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 230">
               <image
-                href="/content/BW_2BFS/306_3.png"
+                href="/content/Mathe_2BFS2/306_3.png"
                 height="230"
                 width="328"
               />

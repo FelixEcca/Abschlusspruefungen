@@ -200,7 +200,7 @@ function GraphKS({ data }: { data: DATA }) {
   return (
     <svg viewBox="0 0 328 328" width="328" height="328" className="my-2">
       <image
-        href="/content/BW_2BFS/kskleinmitachsen.png"
+        href="/content/Mathe_2BFS2/kskleinmitachsen.png"
         height="328"
         width="328"
       />

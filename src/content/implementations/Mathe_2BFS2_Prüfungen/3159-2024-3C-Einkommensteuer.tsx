@@ -64,7 +64,7 @@ export const exercise3159: Exercise<DATA> = {
           Berechnung der Einkommensteuer.
         </p>
         <svg viewBox="0 0 328 210">
-          <image href="/content/BW_2BFS/309.png" height="210" width="328" />
+          <image href="/content/Mathe_2BFS2/309.png" height="210" width="328" />
           <line
             x1={toX(0)}
             y1={toY(0)}
@@ -183,7 +183,11 @@ export const exercise3159: Exercise<DATA> = {
               <InlineMath math={`${data.einkommen}\\,\\text{€}`} />.
             </p>
             <svg viewBox="0 0 328 210">
-              <image href="/content/BW_2BFS/309.png" height="210" width="328" />
+              <image
+                href="/content/Mathe_2BFS2/309.png"
+                height="210"
+                width="328"
+              />
               <line
                 x1={toX(0)}
                 y1={toY(0)}

@@ -54,7 +54,11 @@ export const exercise3016: Exercise<DATA> = {
           <InlineMath math="y" />.
         </p>
         <svg viewBox="0 0 328 280 ">
-          <image href="/content/BW_2BFS/3016.png" height="280" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/3016.png"
+            height="280"
+            width="328"
+          />
           <text
             x={70}
             y={120}
@@ -113,7 +117,7 @@ export const exercise3016: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 190 ">
               <image
-                href="/content/BW_2BFS/3016_2.png"
+                href="/content/Mathe_2BFS2/3016_2.png"
                 height="190"
                 width="328"
               />

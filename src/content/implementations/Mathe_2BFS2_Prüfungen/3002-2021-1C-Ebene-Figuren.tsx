@@ -308,7 +308,11 @@ export const exercise3002: Exercise<DATA> = {
     return (
       <>
         <svg viewBox="0 0 328 328" width="328" height="328">
-          <image href="/content/BW_2BFS/Blanko.png" height="328" width="328" />
+          <image
+            href="/content/Mathe_2BFS2/Blanko.png"
+            height="328"
+            width="328"
+          />
           {data.figures.map(f => (
             <g key={f.id}>
               <polygon
