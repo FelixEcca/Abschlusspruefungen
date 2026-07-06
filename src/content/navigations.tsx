@@ -478,6 +478,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Als e-Funktion schreiben',
             skillExercises: [{ id: 5124 }],
           },
+          {
+            name: 'Gleichungen mit Substitution',
+            skillExercises: [{ id: 5125 }],
+          },
         ],
       },
     ],
