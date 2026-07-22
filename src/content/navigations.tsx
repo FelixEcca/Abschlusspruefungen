@@ -1508,8 +1508,8 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: 'Break-Even-Point',
+            skillExercises: [{ id: 10000 }],
           },
           
         ],
