@@ -89,10 +89,7 @@ function normalizeMathForMarkdown(text: string): string {
 
 function stripInternalPromptMarkers(text: string) {
   return text
-    .replace(
-      /(?:AUFGABENSTELLUNG|INTERNE_MUSTERLOESUNG)_(?:BEGINN|ENDE)/g,
-      '',
-    )
+    .replace(/(?:AUFGABENSTELLUNG|INTERNE_MUSTERLOESUNG)_(?:BEGINN|ENDE)/g, '')
     .replace(/\n{3,}/g, '\n\n')
 }
 
@@ -119,7 +116,8 @@ function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => resolve(String(reader.result ?? ''))
-    reader.onerror = () => reject(new Error('Datei konnte nicht gelesen werden.'))
+    reader.onerror = () =>
+      reject(new Error('Datei konnte nicht gelesen werden.'))
     reader.readAsDataURL(file)
   })
 }
@@ -131,7 +129,8 @@ async function prepareImage(file: File) {
     const image = await new Promise<HTMLImageElement>((resolve, reject) => {
       const element = new Image()
       element.onload = () => resolve(element)
-      element.onerror = () => reject(new Error('Bild konnte nicht geladen werden.'))
+      element.onerror = () =>
+        reject(new Error('Bild konnte nicht geladen werden.'))
       element.src = original
     })
 
@@ -198,7 +197,10 @@ function getModeCardCopy(mode: LearningMode) {
     case 'schwer':
       return { title: 'Schwerer machen', intro: 'Schwierigere Aufgabe' }
     case 'schritt':
-      return { title: 'Schritt für Schritt', intro: 'Hilfe bekommen und verstehen' }
+      return {
+        title: 'Schritt für Schritt',
+        intro: 'Hilfe bekommen und verstehen',
+      }
     case 'tipp':
       return { title: 'Tipp bekommen', intro: '' }
     case 'humor':
@@ -213,8 +215,7 @@ function getLearningCopy(mode: LearningMode) {
     case 'leicht':
       return {
         title: 'Leichtere Aufgabe',
-        intro:
-          '',
+        intro: '',
         starter:
           'Erstelle eine leichtere Variante derselben Aufgabe. Halte den Aufgabentyp gleich und vereinfache nur Zahlen, Formen oder Werte. Gib mir die neue Aufgabe, nicht die Lösung der Originalaufgabe.',
       }
@@ -237,8 +238,7 @@ function getLearningCopy(mode: LearningMode) {
     case 'tipp':
       return {
         title: 'Gib mir einen guten Tipp',
-        intro:
-          'Nur ein klarer, hilfreicher Hinweis. Keine komplette Lösung.',
+        intro: 'Nur ein klarer, hilfreicher Hinweis. Keine komplette Lösung.',
         starter:
           'Gib mir genau einen nützlichen Tipp zur Originalaufgabe. Leite den Tipp aus dem ersten fachlich sinnvollen Schritt der internen Musterlösung ab. Hilf mir, diesen Schritt selbst zu erkennen, ohne ihn auszurechnen oder das Ergebnis zu verraten. Antworte kurz, klar und in einfacher Sprache.',
       }
@@ -252,8 +252,7 @@ function getLearningCopy(mode: LearningMode) {
     case 'pruefen':
       return {
         title: 'Prüfe meinen Lösungsweg',
-        intro:
-          'Die KI überprüft deine Idee.',
+        intro: 'Die KI überprüft deine Idee.',
         starter:
           'Schicke mir jetzt deinen Lösungsweg. Du kannst ihn schreiben, scribbeln oder fotografieren.',
       }
@@ -263,7 +262,7 @@ function getLearningCopy(mode: LearningMode) {
 function getModeSystemInstruction(mode: LearningMode) {
   switch (mode) {
     case 'leicht':
-      return 'Vereinfache nur den Aufgabentyp selbst. Nutze kleinere Zahlen, leichtere Formen, einfachere Werte und weniger Rechenschritte. Die fachliche Struktur muss gleich bleiben.'
+      return 'Vereinfache die Aufgabe deutlich. Nutze kleinere Zahlen, leichtere Formen, einfachere Werte und einfache Sprache.'
     case 'schwer':
       return 'Erhöhe nur die Schwierigkeit derselben Aufgabensorte. Nutze größere Zahlen, anspruchsvollere Zahlenräume, eventuell Dezimalzahlen, zusätzliche Schritte oder etwas komplexere Formen. Die fachliche Struktur muss gleich bleiben.'
     case 'schritt':
@@ -302,9 +301,7 @@ function ModeCard(props: {
       onClick={() => props.onClick(props.mode)}
     >
       <div className="flex items-center gap-2">
-        <div
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white"
-        >
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white">
           <FaIcon icon={icon} className="h-3.5 w-3.5" />
         </div>
         <div className="min-w-0 text-sm font-semibold leading-4 text-slate-900">
@@ -349,14 +346,18 @@ function MarkdownBubble({
               </div>
               {attachment.review ? (
                 <div className="rounded-lg bg-white/95 px-2 py-1 text-xs font-semibold text-red-700">
-                  Erkannter Fehler: {attachment.review.label || attachment.review.targetText}
+                  Erkannter Fehler:{' '}
+                  {attachment.review.label || attachment.review.targetText}
                 </div>
               ) : null}
             </div>
           ) : null}
         </div>
       ) : (
-        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+        <ReactMarkdown
+          remarkPlugins={[remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+        >
           {normalizeMathForMarkdown(stripInternalPromptMarkers(content))}
         </ReactMarkdown>
       )}
@@ -448,7 +449,9 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const exerciseId = contextIndex
     ? exerciseIDs[parseInt(contextIndex, 10) - 1]
     : currentExerciseId
-  const currentData = contextIndex ? exerciseDataPerExercise[contextIndex] : exerciseData
+  const currentData = contextIndex
+    ? exerciseDataPerExercise[contextIndex]
+    : exerciseData
   const exercise = exercisesData[exerciseId]
 
   const setMode = (nextMode: LearningMode | null) => {
@@ -656,7 +659,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
     ]
 
     if (extraUser || extraAttachment) {
-      const content = makePromptContent(extraUser ?? '', extraAttachment ?? null)
+      const content = makePromptContent(
+        extraUser ?? '',
+        extraAttachment ?? null,
+      )
       out.push({
         role: 'user',
         content,
@@ -1073,11 +1079,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
       }
     })
 
-    submitReplyRef.current(
-      submission.content,
-      submission.attachment,
-      'pruefen',
-    )
+    submitReplyRef.current(submission.content, submission.attachment, 'pruefen')
   }, [queuedChatSubmission, pending])
 
   useEffect(() => {
@@ -1228,7 +1230,9 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
               ))}
 
               {pending && !draft && (
-                <div className="text-xs italic text-slate-400">KI denkt nach …</div>
+                <div className="text-xs italic text-slate-400">
+                  KI denkt nach …
+                </div>
               )}
             </div>
 

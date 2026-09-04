@@ -93,7 +93,7 @@ export const exercise6016: Exercise<DATA> = {
 
         <svg viewBox="0 0 328 220">
           <image
-            href="/content/TG11_Physik/Rakete.png"
+            href="/content/Physik_TG11/Rakete.png"
             width="328"
             height="220"
           />
