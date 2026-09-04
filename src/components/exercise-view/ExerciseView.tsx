@@ -16,9 +16,12 @@ export function ExerciseView({ id }: ExerciseViewProps) {
     if (ExerciseViewStore.getRawState().id !== id) {
       const hash = window.location.hash
       if (hash) {
-        const obj = JSON.parse(decodeURIComponent(hash.substring(1)))
-        console.log('parse it', obj)
-        setupExercise(id, obj.name, obj.pages, !!obj.toHome)
+        try {
+          const obj = JSON.parse(decodeURIComponent(hash.substring(1)))
+          setupExercise(id, obj.name, obj.pages, !!obj.toHome)
+        } catch {
+          setupExercise(id)
+        }
       } else {
         setupExercise(id)
       }

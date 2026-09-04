@@ -7,7 +7,6 @@ export function constrainedGeneration<T>(
   for (;;) {
     const data = gen()
     if (constraint(data)) {
-      // console.log('found in', 1000 - limit, 'attempts')
       return data
     }
 
@@ -15,7 +14,6 @@ export function constrainedGeneration<T>(
       if (warn) {
         alert('Contraint konnte nach 1000 Versuchen nicht erfüllt werden')
       }
-      console.log('generator exhausted')
       break
     }
   }

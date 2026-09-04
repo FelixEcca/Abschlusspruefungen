@@ -19,9 +19,15 @@ export async function makePost(route: string, body: object) {
   })
 
   if (!res.ok) {
-    const text = await res.text()
-    console.error('makePost error', res.status, text)
-    throw new Error(`Request failed with status ${res.status}`)
+    const payload = (await res.json().catch(() => null)) as {
+      error?: string
+      detail?: string
+    } | null
+    throw new Error(
+      payload?.detail ??
+        payload?.error ??
+        `Request failed with status ${res.status}`,
+    )
   }
 
   return res.json()

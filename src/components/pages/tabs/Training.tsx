@@ -74,11 +74,13 @@ function ExerciseRow({
   onOpen: (idNum: number) => void
 }) {
   const st = useProgress(ex.id)
-  const cls = st?.flagged
-    ? 'bg-yellow-100 border-yellow-400'
-    : st?.solved
-      ? 'bg-green-100 border-green-400'
-      : 'bg-white border-gray-200'
+  const cls = st?.reviewLater
+    ? 'bg-red-100 border-red-400'
+    : st?.flagged
+      ? 'bg-amber-100 border-amber-400'
+      : st?.solved
+        ? 'bg-green-100 border-green-400'
+        : 'bg-white border-gray-200'
 
   return (
     <div

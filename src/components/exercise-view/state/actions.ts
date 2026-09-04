@@ -4,9 +4,7 @@ import { generateSeed } from '@/data/generate-seed'
 import { constrainedGeneration } from '@/helper/constrained-generation'
 import { isDeepEqual } from '@/helper/is-deep-equal'
 import { ExerciseViewStore } from './exercise-view-store'
-import { extractor } from '../extractor/extractor'
-import { IMessage, SkillExercise, SkillExercisePage } from '@/data/types'
-import { makePost } from '@/helper/make-post'
+import { SkillExercise, SkillExercisePage } from '@/data/types'
 import { countLetter } from '@/helper/count-letter'
 import {
   PlayerProfileStore,

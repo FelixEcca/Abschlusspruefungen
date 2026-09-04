@@ -77,11 +77,13 @@ function SuggestionCard({
   onPick: (id: number) => void
 }) {
   const prog = useProgress(suggestion.id)
-  const cls = prog?.flagged
-    ? 'bg-yellow-100 border-yellow-400'
-    : prog?.solved
-      ? 'bg-green-100 border-green-400'
-      : 'bg-white border-gray-200'
+  const cls = prog?.reviewLater
+    ? 'bg-red-100 border-red-400'
+    : prog?.flagged
+      ? 'bg-amber-100 border-amber-400'
+      : prog?.solved
+        ? 'bg-green-100 border-green-400'
+        : 'bg-white border-gray-200'
 
   return (
     <div

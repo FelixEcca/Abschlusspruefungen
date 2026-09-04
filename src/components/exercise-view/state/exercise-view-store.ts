@@ -2,11 +2,29 @@
 import { SkillExercisePage } from '@/data/types'
 import { Store } from 'pullstate'
 
+export type ChatLearningMode =
+  | 'leicht'
+  | 'schwer'
+  | 'schritt'
+  | 'tipp'
+  | 'humor'
+  | 'pruefen'
+
 export type ChatMessage = {
   id: string
   role: 'user' | 'assistant'
   content: string
   createdAt: number
+  attachment?: {
+    kind: 'image'
+    src: string
+    name?: string
+    review?: {
+      confidence: number
+      label: string
+      targetText: string
+    }
+  }
 }
 
 export type IExerciseViewStore = {
@@ -28,6 +46,16 @@ export type IExerciseViewStore = {
   // Chat
   chatMessages: ChatMessage[]
   chatPending: boolean
+  chatMode: ChatLearningMode | null
+  queuedChatSubmission: {
+    id: string
+    content: string
+    attachment: {
+      kind: 'image'
+      src: string
+      name?: string
+    }
+  } | null
 }
 
 export const ExerciseViewStore = new Store<IExerciseViewStore>({
@@ -48,4 +76,6 @@ export const ExerciseViewStore = new Store<IExerciseViewStore>({
 
   chatMessages: [],
   chatPending: false,
+  chatMode: null,
+  queuedChatSubmission: null,
 })

@@ -5,34 +5,28 @@ import {
   faArrowLeft,
   faMedal,
   faWandMagicSparkles,
-  faBolt,
-  faCheckCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '@/components/ui/FaIcon'
 import { useHistory } from 'react-router'
-import { navigationData } from '@/content/navigations'
-import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { reseed } from './state/actions'
-import { useProgress, toggleFlag } from '../../../store/progress-store'
+import { useProgress } from '../../../store/progress-store'
+import { ExerciseMarkMenu } from './ExerciseMarkMenu'
 
 export function ExerciseViewHeader() {
   const id = ExerciseViewStore.useState(s => s.id)
   const skill = ExerciseViewStore.useState(s => s.skill)
   const toHome = ExerciseViewStore.useState(s => s.toHome)
-  const exam = PlayerProfileStore.useState(s => s.currentExam)
   const navIndicatorPosition = ExerciseViewStore.useState(
     s => s.navIndicatorPosition,
   )
   const pages = ExerciseViewStore.useState(s => s.pages)
-
-  const content =
-    pages && pages[navIndicatorPosition].context
-      ? exercisesData[
-          ExerciseViewStore.getRawState()._exerciseIDs[
-            parseInt(pages[navIndicatorPosition].context!) - 1
-          ]
-        ]
-      : exercisesData[id]
+  const exerciseIds = ExerciseViewStore.useState(s => s._exerciseIDs)
+  const context = pages[navIndicatorPosition]?.context
+  const contextPosition = context ? Number.parseInt(context, 10) - 1 : -1
+  const contextExerciseId =
+    contextPosition >= 0 ? exerciseIds[contextPosition] : undefined
+  const activeExerciseId = contextExerciseId ?? id
+  const content = exercisesData[activeExerciseId] ?? exercisesData[id]
 
   const history = useHistory()
 
@@ -45,25 +39,29 @@ export function ExerciseViewHeader() {
     window.location.href = 'https://abschlusspruefungen.vercel.app/app/start'
   }
 
-  // reaktiver Fortschritt
-  const progress = useProgress(id)
+  const progress = useProgress(activeExerciseId)
   const flagged = !!progress?.flagged
+  const reviewLater = !!progress?.reviewLater
   const solved = !!progress?.solved
 
-  // ⚠️ Priorität: flagged > solved > default
-  const headerBoxCls = flagged
-    ? 'mt-3 mb-1 mx-3 border border-yellow-500 bg-yellow-50 shadow-md px-4 py-2 rounded-lg'
-    : solved
-      ? 'mt-3 mb-1 mx-3 border border-green-500 bg-green-50 shadow-md px-4 py-2 rounded-lg'
-      : 'mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white'
+  if (!content) return null
+
+  // Die Kartenfarbe macht den aktuellen Lernstatus auch bei geschlossenem Menü sichtbar.
+  const headerBoxCls = reviewLater
+    ? 'mt-3 mb-1 mx-3 border border-red-500 bg-red-50 shadow-md px-4 py-2 rounded-lg'
+    : flagged
+      ? 'mt-3 mb-1 mx-3 border border-amber-400 bg-amber-50 shadow-md px-4 py-2 rounded-lg'
+      : solved
+        ? 'mt-3 mb-1 mx-3 border border-green-500 bg-green-50 shadow-md px-4 py-2 rounded-lg'
+        : 'mt-3 mb-1 mx-3 border shadow-md px-4 py-2 rounded-lg bg-white'
 
   return (
     <>
       <div className={headerBoxCls} onClick={handleBack}>
         <div className="flex items-center justify-between">
-          <button className="whitespace-nowrap text-ellipsis overflow-hidden max-w-full inline-flex items-center gap-2">
+          <button className="inline-flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis">
             <FaIcon icon={faArrowLeft} />
-            <span>
+            <span className="min-w-0 truncate text-left">
               {skill ? (
                 <>
                   <b>{skill}</b>{' '}
@@ -81,63 +79,45 @@ export function ExerciseViewHeader() {
             </span>
           </button>
 
-          {/* Badge rechts */}
-          {flagged ? (
-            <span className="ml-3 inline-flex items-center gap-1 text-yellow-700 text-sm font-medium">
-              <FaIcon icon={faBolt} /> Markiert
-            </span>
-          ) : solved ? (
-            <span className="ml-3 inline-flex items-center gap-1 text-green-700 text-sm font-medium">
-              <FaIcon icon={faCheckCircle} /> Gelöst
-            </span>
-          ) : null}
         </div>
       </div>
 
       <div className="text-left mt-2">
         <button
-          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          className="group ml-3 rounded-xl bg-gray-200 px-3 py-1 transition-transform duration-150 hover:bg-gray-300 active:scale-95 motion-reduce:transform-none"
           onClick={() => {
-            ExerciseViewStore.update(s => {
-              s.chatOverlay = 'solution'
-            })
             ExerciseViewStore.update(s => {
               if (content.originalData) s.data = content.originalData
               s.chatOverlay = null
             })
           }}
         >
-          <FaIcon icon={faMedal} /> Original
+          <FaIcon
+            icon={faMedal}
+            className="transition-transform duration-150 group-active:scale-125 motion-reduce:transform-none"
+          />{' '}
+          Original
         </button>
 
         <button
-          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-xl ml-3"
+          className="group ml-3 rounded-xl bg-gray-200 px-3 py-1 transition-transform duration-150 hover:bg-gray-300 active:scale-95 motion-reduce:transform-none"
           onClick={() => {
             reseed()
-            ExerciseViewStore.update(s => {
-              s.chatOverlay = 'solution'
-            })
             ExerciseViewStore.update(s => {
               s.chatOverlay = null
             })
           }}
         >
-          <FaIcon icon={faWandMagicSparkles} /> Nochmal
+          <FaIcon
+            icon={faWandMagicSparkles}
+            className="transition-transform duration-150 group-active:rotate-12 group-active:scale-110 motion-reduce:transform-none"
+          />{' '}
+          Nochmal
         </button>
 
-        <button
-          className={`px-3 py-1 rounded-xl ml-3 ${
-            flagged
-              ? 'bg-yellow-200 hover:bg-yellow-300'
-              : 'bg-gray-200 hover:bg-gray-300'
-          }`}
-          onClick={() => {
-            toggleFlag(id) // Header reagiert sofort über useProgress
-          }}
-          title="Als herausfordernd markieren"
-        >
-          <FaIcon icon={faBolt} /> {flagged ? 'Markiert' : 'Markieren'}
-        </button>
+        <div className="ml-3 inline-block align-top">
+          <ExerciseMarkMenu exerciseId={activeExerciseId} />
+        </div>
       </div>
     </>
   )

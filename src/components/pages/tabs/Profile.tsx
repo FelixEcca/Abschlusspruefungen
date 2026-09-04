@@ -152,11 +152,13 @@ export function Profile() {
   const entries = Object.values(profile.exercises ?? {}) as Array<{
     solved?: boolean
     flagged?: boolean
+    reviewLater?: boolean
     timeMs?: number
   }>
   const workedOn = entries.length
   const solved = entries.filter(e => e.solved).length
   const flagged = entries.filter(e => e.flagged).length
+  const reviewLater = entries.filter(e => e.reviewLater).length
   const totalTimeMs = profile.totalTimeMs ?? 0
 
   return (
@@ -279,7 +281,12 @@ export function Profile() {
               </IonItem>
               <IonItem>
                 <IonLabel>
-                  Markiert (gelb): <b>{flagged}</b>
+                  Später wiederholen (gelb): <b>{flagged}</b>
+                </IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonLabel>
+                  Wieder versuchen (rot): <b>{reviewLater}</b>
                 </IonLabel>
               </IonItem>
               <IonItem>

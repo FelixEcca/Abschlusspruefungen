@@ -28,11 +28,10 @@ yarn-error.log*
 tsconfig.tsbuildinfo
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+!.env.example
 
 # vercel
 .vercel
+.claude/
 backend/db.sqlite

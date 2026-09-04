@@ -1,11 +1,7 @@
 import { exercisesData } from '@/content/exercises'
 import { ExerciseViewStore } from './state/exercise-view-store'
 import clsx from 'clsx'
-import {
-  faCalculator,
-  faClock,
-  faSlash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator, faSlash } from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '../ui/FaIcon'
 import { proseWrapper } from '@/helper/prose-wrapper'
 import { countLetter } from '@/helper/count-letter'
@@ -235,6 +231,7 @@ export function ExerciseViewContent() {
     alternativeKey?: string,
   ) {
     const showNumbering = toHome && numbering
+
     return (
       <div
       
@@ -290,7 +287,7 @@ export function ExerciseViewContent() {
                 </>
               </div>
             </div>
-            <div>
+            <div className="flex items-center gap-1">
               <button className="cursor-default px-2 py-0.5 rounded-md bg-gray-100 inline-block relative h-[25px] w-8 mt-0.5 mr-1 align-top">
                 <div className="inset-0 absolute">
                   <FaIcon icon={faCalculator} />

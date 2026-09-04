@@ -8,6 +8,7 @@ export type ExtractorOptions = {
   includeSolution?: boolean
   includeCorrectionHints?: boolean
   includeIntroLabel?: boolean
+  pageIndex?: string
 }
 
 // returning html string
@@ -20,6 +21,7 @@ export function extractor(
     includeSolution = true,
     includeCorrectionHints = true,
     includeIntroLabel = true,
+    pageIndex,
   } = options ?? {}
 
   ExtractorStore.active = true
@@ -32,7 +34,13 @@ export function extractor(
     output += renderToStaticMarkup(exercise.intro({ data }))
 
     exercise.tasks.forEach((t, i) => {
-      output += '\n\nTeilaufgabe ' + countLetter('a', i) + ')\n\n'
+      const taskIndex = countLetter('a', i)
+      if (pageIndex && taskIndex !== pageIndex) return
+
+      output += '\n\nTeilaufgabe ' + taskIndex + ')\n\n'
+      if (t.intro) {
+        output += renderToStaticMarkup(t.intro({ data })) + '\n\n'
+      }
       output += renderToStaticMarkup(t.task({ data }))
 
       if (includeSolution) {
@@ -61,7 +69,6 @@ export function extractor(
     }
   }
 
-  console.log(output)
-  ExtractorStore.active = true
+  ExtractorStore.active = false
   return output
 }

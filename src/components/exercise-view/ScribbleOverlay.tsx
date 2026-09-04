@@ -11,7 +11,6 @@ import {
 import { exercisesData } from '@/content/exercises'
 import { extractor } from './extractor/extractor'
 import { makePost } from '@/helper/make-post'
-import { IMessage } from '@/data/types'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -23,6 +22,12 @@ type Point = {
 
 type Stroke = {
   points: Point[]
+}
+
+type ScribbleApiMessage = {
+  id: string
+  role: 'system' | 'user'
+  content: string | Array<{ type: 'image'; image: string }>
 }
 
 const scribbleStorage = new Map<string, Stroke[]>()
@@ -128,7 +133,7 @@ function drawStrokesToCanvas(
   })
 }
 
-export function ScribbleOverlay() {
+export function ScribbleOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
   const navIndicatorPosition = ExerciseViewStore.useState(
@@ -415,6 +420,28 @@ export function ScribbleOverlay() {
 
     const state = ExerciseViewStore.getRawState()
 
+    const canForwardToChat = Object.prototype.hasOwnProperty.call(
+      state,
+      'queuedChatSubmission',
+    )
+
+    if (canForwardToChat) {
+      ExerciseViewStore.update(s => {
+        s.chatMode = 'pruefen'
+        s.queuedChatSubmission = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          content: '',
+          attachment: {
+            kind: 'image',
+            src: dataUrl,
+            name: 'Scribble',
+          },
+        }
+        s.chatOverlay = 'chat'
+      })
+      return
+    }
+
     ExerciseViewStore.update(s => {
       s.chatPending = true
     })
@@ -433,7 +460,7 @@ export function ScribbleOverlay() {
       includeCorrectionHints: false,
     })
 
-    const msgs: IMessage[] = [
+    const msgs: ScribbleApiMessage[] = [
       {
         id: 'context',
         role: 'system',
@@ -464,7 +491,7 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
             image: base64,
           },
         ],
-      } as any,
+      },
     ]
 
     try {
@@ -489,33 +516,29 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
         s.chatPending = false
         s.chatOverlay = 'chat'
       })
-    } catch (error: any) {
-  console.error('SCRIBBLE ERROR', error)
+    } catch (error) {
+      console.error('[ScribbleOverlay] request failed', error)
+      const message =
+        error instanceof Error ? error.message : 'Unbekannter Fehler'
 
-  const msg =
-    error?.message ??
-    JSON.stringify(error) ??
-    'Unbekannter Fehler'
-
-  ExerciseViewStore.update(s => {
-    s.chatMessages.push({
-      id: crypto.randomUUID(),
-      role: 'assistant',
-      content: `Fehler: ${msg}`,
-      createdAt: Date.now(),
-    })
-
-    s.chatPending = false
-  })
-}
+      ExerciseViewStore.update(s => {
+        s.chatMessages.push({
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content: `Fehler: ${message}`,
+          createdAt: Date.now(),
+        })
+        s.chatPending = false
+      })
+    }
   }
 
   const content = (
-<div className="select-none rounded-2xl border border-gray-200 bg-white shadow-inner p-1.5 space-y-1.5 h-full flex flex-col">      <div className="select-none touch-none border rounded-xl overflow-hidden bg-white flex-1 min-h-0">
+    <div className="flex h-full select-none flex-col space-y-1.5 rounded-2xl border border-gray-200 bg-white p-1.5 shadow-inner">
+      <div className="min-h-0 flex-1 touch-none select-none overflow-hidden rounded-xl border bg-white">
         <canvas
-        
-  ref={canvasRef}
-  className="select-none touch-none w-full h-full min-h-[320px]"
+          ref={canvasRef}
+          className="h-full min-h-0 w-full touch-none select-none"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerEnd}
@@ -577,5 +600,15 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
     )
   }
 
-  return <div className="px-1 pb-1 h-[52vh] min-h-[360px]">{content}</div>
+  return (
+    <div
+      className="min-h-0 px-1 pb-1"
+      style={{
+        height: `${mobileHeightVh}dvh`,
+        maxHeight: 'calc(100dvh - 7rem)',
+      }}
+    >
+      {content}
+    </div>
+  )
 }

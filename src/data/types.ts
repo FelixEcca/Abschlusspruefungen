@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import { Rng } from '../helper/rng'
-import { CoreMessage } from 'ai'
 
 export interface SingleExercise<T = unknown> {
   title: string
@@ -103,8 +102,19 @@ export interface SkillExercisePage {
   displayIndex?: string
 }
 
-export type IMessage = CoreMessage & {
+export type IMessage = {
   id: string
+  role: 'system' | 'user' | 'assistant'
+  content:
+    | string
+    | Array<
+        | { type: 'text'; text: string }
+        | {
+            type: 'image'
+            image: string | Uint8Array | ArrayBuffer | Blob
+            mimeType?: string
+          }
+      >
 }
 
 export interface Chat extends Record<string, any> {

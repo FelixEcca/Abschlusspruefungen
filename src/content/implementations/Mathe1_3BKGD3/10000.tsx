@@ -28,8 +28,8 @@ export const exercise10000: Exercise<DATA> = {
   },
   task({ data }) {
     return <><p>Sie arbeiten für das Unternehmen xy. Sie produzieren Flyer.</p>
-    <p>Die fixen Kosten der Produktion betragen <InlineMath math={`K_f=${data.fixkosten}`} /> € und der Verkaufspreis beträgt <InlineMath math={`K_f=${data.verkaufspreis} €`} /> pro Stück.</p>
-    <p>Berechnen Sie die erforderliche Stückzahl <InlineMath math={`x`} />, wenn die variablen Kosten <InlineMath math={`K_f=${data.variabel}`} /> € betragen.</p></>
+    <p>Die fixen Kosten der Produktion betragen <InlineMath math={`K_f=${data.fixkosten}`} /> € und der Verkaufspreis beträgt <InlineMath math={`p=${data.verkaufspreis} €`} /> pro Stück.</p>
+    <p>Berechnen Sie die erforderliche Stückzahl <InlineMath math={`x`} />, wenn die variablen Kosten <InlineMath math={`K_v=${data.variabel}`} /> € betragen.</p></>
   },
   solution({ data }) {
     const ergebnis = Math.ceil(data.fixkosten/(data.verkaufspreis-data.variabel))

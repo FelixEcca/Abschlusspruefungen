@@ -48,16 +48,18 @@ function ExerciseRow({
   onOpen: (idNum: number, id: string) => void
 }) {
   const st = useProgress(idNum)
-  // gelb hat Vorrang (flagged überschreibt solved)
-  const cls = st?.flagged
-    ? 'bg-yellow-100 border-yellow-400'
-    : st?.solved
-      ? 'bg-green-100 border-green-400'
-      : 'bg-white border-gray-200'
+  // Die drei Lernstatus werden in der Liste mit denselben Farben dargestellt.
+  const cls = st?.reviewLater
+    ? 'bg-red-100 border-red-400 hover:bg-red-200'
+    : st?.flagged
+      ? 'bg-amber-100 border-amber-400 hover:bg-amber-200'
+      : st?.solved
+        ? 'bg-green-100 border-green-400 hover:bg-green-200'
+        : 'bg-white border-gray-200 hover:bg-gray-50'
 
   return (
     <div
-      className={`my-2 cursor-pointer rounded-lg p-2 border hover:bg-gray-50 ${cls}`}
+      className={`my-2 cursor-pointer rounded-lg p-2 border ${cls}`}
       onClick={() => onOpen(idNum, id)}
     >
       <div>

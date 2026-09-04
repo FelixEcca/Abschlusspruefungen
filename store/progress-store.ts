@@ -3,6 +3,7 @@ import * as React from 'react'
 const KEY = 'ap-progress-v1'
 
 export type ExerciseId = number
+export type ExerciseLearningStatus = 'solved' | 'later' | 'retry'
 
 export interface ExerciseProgress {
   attempts: number
@@ -10,6 +11,7 @@ export interface ExerciseProgress {
   solved: boolean
   solvedAt?: number
   flagged?: boolean
+  reviewLater?: boolean
   streak?: number     // per-Exercise optional (lassen wir unangetastet)
   mastery?: number
   timeMs?: number
@@ -119,12 +121,18 @@ function ensureExercise(id: ExerciseId) {
       correct: 0,
       solved: false,
       flagged: false,
+      reviewLater: false,
       streak: 0,
       mastery: 0,
       timeMs: 0,
     }
-  } else if (typeof cache.exercises[id].timeMs !== 'number') {
-    cache.exercises[id].timeMs = 0
+  } else {
+    if (typeof cache.exercises[id].timeMs !== 'number') {
+      cache.exercises[id].timeMs = 0
+    }
+    if (typeof cache.exercises[id].reviewLater !== 'boolean') {
+      cache.exercises[id].reviewLater = false
+    }
   }
 }
 
@@ -163,6 +171,34 @@ function updateDailyStreakOnSolved() {
   }
 }
 
+export function setExerciseLearningStatus(
+  id: ExerciseId,
+  status: ExerciseLearningStatus | null,
+) {
+  ensureExercise(id)
+  const current = cache.exercises[id]
+  const solved = status === 'solved'
+
+  cache.exercises[id] = {
+    ...current,
+    solved,
+    solvedAt: solved ? Date.now() : undefined,
+    flagged: status === 'later',
+    reviewLater: status === 'retry',
+    streak:
+      solved && !current.solved
+        ? (current.streak ?? 0) + 1
+        : current.streak,
+  }
+
+  if (solved && !current.solved) {
+    updateDailyStreakOnSolved()
+  }
+
+  saveProfile(cache)
+  notify()
+}
+
 export function markSolved(id: ExerciseId, solved = true) {
   ensureExercise(id)
   const e = cache.exercises[id]
@@ -170,13 +206,14 @@ export function markSolved(id: ExerciseId, solved = true) {
     ...e,
     solved,
     solvedAt: solved ? Date.now() : undefined,
-    streak: solved ? (e.streak ?? 0) + 1 : e.streak,
+    streak: solved && !e.solved ? (e.streak ?? 0) + 1 : e.streak,
     // Regel: sobald gelöst → Markierung weg; beim Rückgängig bleibt flagged wie es war
-    flagged: solved ? false : e.flagged,
+    flagged: false,
+    reviewLater: false,
   }
   cache.exercises[id] = next
 
-  if (solved) {
+  if (solved && !e.solved) {
     updateDailyStreakOnSolved()
   }
 
@@ -187,7 +224,13 @@ export function markSolved(id: ExerciseId, solved = true) {
 export function toggleFlag(id: ExerciseId) {
   ensureExercise(id)
   const e = cache.exercises[id]
-  const next: ExerciseProgress = { ...e, flagged: !e.flagged }
+  const next: ExerciseProgress = {
+    ...e,
+    solved: false,
+    solvedAt: undefined,
+    flagged: !e.flagged,
+    reviewLater: false,
+  }
   cache.exercises[id] = next
   saveProfile(cache); notify()
 }
@@ -262,12 +305,17 @@ export function mergeProfile(incoming: Profile) {
     const id = Number(k) as ExerciseId
     ensureExercise(id)
     const cur = cache.exercises[id]
+    const solved = Boolean(cur.solved || v.solved)
+    const reviewLater = !solved && Boolean(cur.reviewLater || v.reviewLater)
+    const flagged =
+      !solved && !reviewLater && Boolean(cur.flagged || v.flagged)
     cache.exercises[id] = {
       attempts: (cur.attempts ?? 0) + (v.attempts ?? 0),
       correct: (cur.correct ?? 0) + (v.correct ?? 0),
-      solved: Boolean(cur.solved || v.solved),
+      solved,
       solvedAt: Math.max(cur.solvedAt ?? 0, v.solvedAt ?? 0) || undefined,
-      flagged: Boolean(cur.flagged || v.flagged),
+      flagged,
+      reviewLater,
       streak: Math.max(cur.streak ?? 0, v.streak ?? 0),
       mastery: Math.max(cur.mastery ?? 0, v.mastery ?? 0),
       timeMs: (cur.timeMs ?? 0) + (v.timeMs ?? 0),
