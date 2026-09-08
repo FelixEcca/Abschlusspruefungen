@@ -502,23 +502,63 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Gleichförmige Bewegung',
             skillExercises: [
               {
-                id: 7000,
+                id: 6020,
               },
             ],
           },
           {
-            name: 'Gleichmäßig beschleunigte Bewegung',
+            name: 'Gleichmäßig beschleunigte Bewegung 1',
             skillExercises: [
               {
-                id: 7001,
+                id: 6022,
               },
             ],
           },
           {
-            name: 'Bewegungsdiagramme',
+            name: 'Gleichmäßig beschleunigte Bewegung 2',
+            skillExercises: [
+              {
+                id: 6025,
+              },
+            ],
+          },
+          {
+            name: 'Gleichmäßig beschleunigte Bewegung 3',
+            skillExercises: [
+              {
+                id: 6026,
+              },
+            ],
+          },
+          {
+            name: 'Geschwindigkeitseinheiten',
+            skillExercises: [
+              {
+                id: 6024,
+              },
+            ],
+          },
+          {
+            name: 'Bewegungsdiagramme 1',
             skillExercises: [
               {
                 id: 6007,
+              },
+            ],
+          },
+          {
+            name: 'Bewegungsdiagramme 2',
+            skillExercises: [
+              {
+                id: 6021,
+              },
+            ],
+          },
+          {
+            name: 'Bewegungsdiagramme 3',
+            skillExercises: [
+              {
+                id: 6029,
               },
             ],
           },
@@ -531,7 +571,15 @@ export const navigationData: { [key: number]: Navigation } = {
             ],
           },
           {
-            name: 'Freier Fall',
+            name: 'Reaktionsweg und Bremsweg',
+            skillExercises: [
+              {
+                id: 6023,
+              },
+            ],
+          },
+          {
+            name: 'Freier Fall 1',
             skillExercises: [
               {
                 id: 7002,
@@ -539,10 +587,34 @@ export const navigationData: { [key: number]: Navigation } = {
             ],
           },
           {
-            name: 'Geschwindigkeit in mehreren Dimensionen',
+            name: 'Freier Fall 2',
+            skillExercises: [
+              {
+                id: 6027,
+              },
+            ],
+          },
+          {
+            name: 'Freier Fall 3',
+            skillExercises: [
+              {
+                id: 6028,
+              },
+            ],
+          },
+          {
+            name: 'Geschwindigkeit in mehreren Dimensionen 1',
             skillExercises: [
               {
                 id: 6000,
+              },
+            ],
+          },
+          {
+            name: 'Geschwindigkeit in mehreren Dimensionen 2',
+            skillExercises: [
+              {
+                id: 6030,
               },
             ],
           },
@@ -574,6 +646,30 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [
               {
                 id: 6001,
+              },
+            ],
+          },
+          {
+            name: 'Kraftstoß 1',
+            skillExercises: [
+              {
+                id: 6034,
+              },
+            ],
+          },
+          {
+            name: 'Kraftstoß 2',
+            skillExercises: [
+              {
+                id: 6035,
+              },
+            ],
+          },
+          {
+            name: 'Kraftstoß 3',
+            skillExercises: [
+              {
+                id: 6036,
               },
             ],
           },
@@ -632,6 +728,7 @@ export const navigationData: { [key: number]: Navigation } = {
               },
             ],
           },
+
           {
             name: 'Kräfte an der schiefen Ebene',
             skillExercises: [
@@ -640,8 +737,9 @@ export const navigationData: { [key: number]: Navigation } = {
               },
             ],
           },
+
           {
-            name: 'Bewegungsgesetz F=ma',
+            name: 'Bewegungsgesetz F=ma 1',
             skillExercises: [
               {
                 id: 6013,
@@ -650,6 +748,14 @@ export const navigationData: { [key: number]: Navigation } = {
           },
           {
             name: 'Bewegungsgesetz F=ma 2',
+            skillExercises: [
+              {
+                id: 6031,
+              },
+            ],
+          },
+          {
+            name: 'Schiefe Ebene und Bewegungsgesetz',
             skillExercises: [
               {
                 id: 6014,
@@ -665,6 +771,30 @@ export const navigationData: { [key: number]: Navigation } = {
             ],
           },
           {
+            name: "Newton'sche Mechanik 2",
+            skillExercises: [
+              {
+                id: 6056,
+              },
+            ],
+          },
+          {
+            name: "Newton'sche Mechanik 3",
+            skillExercises: [
+              {
+                id: 6057,
+              },
+            ],
+          },
+          {
+            name: 'Fallschirmspringer mit Kräften',
+            skillExercises: [
+              {
+                id: 6058,
+              },
+            ],
+          },
+          {
             name: 'Raketenphysik (Kraftstoß)',
             skillExercises: [
               {
@@ -674,10 +804,98 @@ export const navigationData: { [key: number]: Navigation } = {
           },
 
           {
-            name: 'Federkraft',
+            name: 'Federkraft 1',
             skillExercises: [
               {
                 id: 6019,
+              },
+            ],
+          },
+          {
+            name: 'Federkraft 2',
+            skillExercises: [
+              {
+                id: 6042,
+              },
+            ],
+          },
+          {
+            name: 'Federkraft 3',
+            skillExercises: [
+              {
+                id: 6053,
+              },
+            ],
+          },
+          {
+            name: 'Federkraft 4',
+            skillExercises: [
+              {
+                id: 6054,
+              },
+            ],
+          },
+          {
+            name: 'Federkraft 5',
+            skillExercises: [
+              {
+                id: 6055,
+              },
+            ],
+          },
+          {
+            name: 'Reibung 1',
+            skillExercises: [
+              {
+                id: 6032,
+              },
+            ],
+          },
+          {
+            name: 'Reibung 2',
+            skillExercises: [
+              {
+                id: 6049,
+              },
+            ],
+          },
+          {
+            name: 'Reibung 3',
+            skillExercises: [
+              {
+                id: 6050,
+              },
+            ],
+          },
+          {
+            name: 'Reibung 4',
+            skillExercises: [
+              {
+                id: 6051,
+              },
+            ],
+          },
+          {
+            name: 'Reibung 5',
+            skillExercises: [
+              {
+                id: 6052,
+              },
+            ],
+          },
+          {
+            name: 'Kräfte auf Rampen',
+            skillExercises: [
+              {
+                id: 6033,
+              },
+            ],
+          },
+          {
+            name: 'Newtonsche Ideen',
+            skillExercises: [
+              {
+                id: 6043,
               },
             ],
           },
@@ -689,7 +907,7 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Energiemengen berechnen',
+            name: 'Energiemengen berechnen 1',
             skillExercises: [
               {
                 id: 6017,
@@ -697,10 +915,156 @@ export const navigationData: { [key: number]: Navigation } = {
             ],
           },
           {
-            name: 'Energieerhaltung',
+            name: 'Energiemengen berechnen 2',
+            skillExercises: [
+              {
+                id: 6037,
+              },
+            ],
+          },
+
+          {
+            name: 'Energiemengen berechnen 3',
+            skillExercises: [
+              {
+                id: 6040,
+              },
+            ],
+          },
+          {
+            name: 'Energiemengen berechnen 4',
+            skillExercises: [
+              {
+                id: 6041,
+              },
+            ],
+          },
+          {
+            name: 'Energiemengen berechnen 5',
+            skillExercises: [
+              {
+                id: 6060,
+              },
+            ],
+          },
+
+          {
+            name: 'Energieerhaltung 1',
             skillExercises: [
               {
                 id: 6018,
+              },
+            ],
+          },
+          {
+            name: 'Energieerhaltung 2',
+            skillExercises: [
+              {
+                id: 6045,
+              },
+            ],
+          },
+          {
+            name: 'Energieerhaltung 3',
+            skillExercises: [
+              {
+                id: 6061,
+              },
+            ],
+          },
+          {
+            name: 'Energieerhaltung 4',
+            skillExercises: [
+              {
+                id: 6062,
+              },
+            ],
+          },
+
+          {
+            name: 'Leistung 1',
+            skillExercises: [
+              {
+                id: 6038,
+              },
+            ],
+          },
+          {
+            name: 'Leistung 2',
+            skillExercises: [
+              {
+                id: 6063,
+              },
+            ],
+          },
+          {
+            name: 'Elektrische Leistung',
+            skillExercises: [
+              {
+                id: 6064,
+              },
+            ],
+          },
+          {
+            name: 'Wirkungsgrad 1',
+            skillExercises: [
+              {
+                id: 6039,
+              },
+            ],
+          },
+          {
+            name: 'Wirkungsgrad 2',
+            skillExercises: [
+              {
+                id: 6065,
+              },
+            ],
+          },
+          {
+            name: 'Systemleistung bewerten',
+            skillExercises: [
+              {
+                id: 6066,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Vernetzung',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Mechanikformeln auswählen',
+            skillExercises: [
+              {
+                id: 6044,
+              },
+            ],
+          },
+          {
+            name: 'Impuls, Kraft und Newton verknüpfen',
+            skillExercises: [
+              {
+                id: 6067,
+              },
+            ],
+          },
+          {
+            name: 'Kraftzerlegung, Reibung und Energie verknüpfen',
+            skillExercises: [
+              {
+                id: 6068,
+              },
+            ],
+          },
+          {
+            name: 'Fehlerhafte Schülerlösung bewerten',
+            skillExercises: [
+              {
+                id: 6069,
               },
             ],
           },
@@ -790,7 +1154,7 @@ export const navigationData: { [key: number]: Navigation } = {
           },
           {
             name: 'Runden',
-            skillExercises: [{ id: 9514 }],
+            skillExercises: [{ id: 9514 }, { id: 9608 }],
           },
           {
             name: 'Schriftliches Addieren',
@@ -809,8 +1173,16 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9503 }],
           },
           {
+            name: 'Überschlag mit Preisen',
+            skillExercises: [{ id: 9637 }],
+          },
+          {
             name: 'Rechnen mit Klammern',
             skillExercises: [{ id: 9504 }],
+          },
+          {
+            name: 'Klammern im Sachkontext',
+            skillExercises: [{ id: 9638 }],
           },
           {
             name: 'Schriftlich Multiplizieren',
@@ -833,8 +1205,20 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9552 }],
           },
           {
+            name: 'Kommazahlen mit Längen',
+            skillExercises: [{ id: 9639 }],
+          },
+          {
+            name: 'Preis mit Kommazahlen',
+            skillExercises: [{ id: 9640 }],
+          },
+          {
             name: 'Dividieren in Textaufgaben',
             skillExercises: [{ id: 9502 }],
+          },
+          {
+            name: 'Gerecht verteilen',
+            skillExercises: [{ id: 9636 }],
           },
           {
             name: 'Rechnen mit Geld 1',
@@ -856,6 +1240,14 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Rechnen mit Geld 5',
             skillExercises: [{ id: 9512 }],
+          },
+          {
+            name: 'Rückgeld berechnen',
+            skillExercises: [{ id: 9609 }],
+          },
+          {
+            name: 'Rechenregeln in Prüfungsform',
+            skillExercises: [{ id: 9634 }],
           },
         ],
       },
@@ -886,7 +1278,7 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9528 }],
           },
           {
-            name: 'Cent und Euro umrechnen',
+            name: 'Cent und € umrechnen',
             skillExercises: [{ id: 9529 }],
           },
 
@@ -909,6 +1301,30 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Zeitplan Schritt für Schritt',
             skillExercises: [{ id: 9544 }],
+          },
+          {
+            name: 'Endzeiten berechnen',
+            skillExercises: [{ id: 9610 }],
+          },
+          {
+            name: 'Maßstab im Plan',
+            skillExercises: [{ id: 9631 }],
+          },
+          {
+            name: 'Liter in Milliliter',
+            skillExercises: [{ id: 9632 }],
+          },
+          {
+            name: 'Zeit über Mitternacht',
+            skillExercises: [{ id: 9641 }],
+          },
+          {
+            name: 'Meter und Zentimeter verbinden',
+            skillExercises: [{ id: 9642 }],
+          },
+          {
+            name: 'Quadratzentimeter in Quadratmeter',
+            skillExercises: [{ id: 9643 }],
           },
         ],
       },
@@ -975,6 +1391,26 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Fläche von einem Kreisring',
             skillExercises: [{ id: 9571 }],
           },
+          {
+            name: 'Rechteck im Alltag',
+            skillExercises: [{ id: 9611 }],
+          },
+          {
+            name: 'Wandfläche und Kosten',
+            skillExercises: [{ id: 9612 }],
+          },
+          {
+            name: 'Fliesen für einen Boden',
+            skillExercises: [{ id: 9613 }],
+          },
+          {
+            name: 'Durchmesser, Radius und Umfang',
+            skillExercises: [{ id: 9633 }],
+          },
+          {
+            name: 'Restfläche berechnen',
+            skillExercises: [{ id: 9644 }],
+          },
         ],
       },
       {
@@ -1031,6 +1467,22 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Oberfläche eines Kegels',
             skillExercises: [{ id: 9586 }],
+          },
+          {
+            name: 'Volumen einer Kiste',
+            skillExercises: [{ id: 9614 }],
+          },
+          {
+            name: 'Oberfläche eines Pakets',
+            skillExercises: [{ id: 9615 }],
+          },
+          {
+            name: 'Volumen eines Prismas mit Grundfläche',
+            skillExercises: [{ id: 9645 }],
+          },
+          {
+            name: 'Behältervolumen in Litern',
+            skillExercises: [{ id: 9646 }],
           },
         ],
       },
@@ -1101,6 +1553,30 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Gesuchter Teil berechnen',
             skillExercises: [{ id: 9597 }],
           },
+          {
+            name: 'Bruchteil von einer Menge',
+            skillExercises: [{ id: 9616 }],
+          },
+          {
+            name: 'Brüche im Vergleich',
+            skillExercises: [{ id: 9617 }],
+          },
+          {
+            name: 'Gemischten Bruch aufteilen',
+            skillExercises: [{ id: 9618 }],
+          },
+          {
+            name: 'Anteil als gekürzter Bruch',
+            skillExercises: [{ id: 9647 }],
+          },
+          {
+            name: 'Brüche mit gleichem Nenner addieren',
+            skillExercises: [{ id: 9648 }],
+          },
+          {
+            name: 'Markierte Felder als Bruch',
+            skillExercises: [{ id: 9649 }],
+          },
         ],
       },
       {
@@ -1119,6 +1595,34 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Anteile aufteilen',
             skillExercises: [{ id: 9517 }],
+          },
+          {
+            name: 'Rezept umrechnen',
+            skillExercises: [{ id: 9619 }],
+          },
+          {
+            name: 'Mischung im Verhältnis',
+            skillExercises: [{ id: 9620 }],
+          },
+          {
+            name: 'Material proportional berechnen',
+            skillExercises: [{ id: 9621 }],
+          },
+          {
+            name: 'Arbeitszeit umgekehrt proportional',
+            skillExercises: [{ id: 9622 }],
+          },
+          {
+            name: 'Kilopreis berechnen',
+            skillExercises: [{ id: 9650 }],
+          },
+          {
+            name: 'Maschinen und Arbeitszeit',
+            skillExercises: [{ id: 9651 }],
+          },
+          {
+            name: 'Geld im Verhältnis aufteilen',
+            skillExercises: [{ id: 9652 }],
           },
         ],
       },
@@ -1151,6 +1655,38 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zinsen berechnen',
             skillExercises: [{ id: 9603 }],
           },
+          {
+            name: 'Rabatt berechnen',
+            skillExercises: [{ id: 9623 }],
+          },
+          {
+            name: 'Preissteigerung berechnen',
+            skillExercises: [{ id: 9624 }],
+          },
+          {
+            name: 'Prozentsatz aus Anteil',
+            skillExercises: [{ id: 9625 }],
+          },
+          {
+            name: 'Ursprünglichen Preis berechnen',
+            skillExercises: [{ id: 9626 }],
+          },
+          {
+            name: 'Zinsen für einige Monate',
+            skillExercises: [{ id: 9627 }],
+          },
+          {
+            name: 'Beschädigte Teile berechnen',
+            skillExercises: [{ id: 9653 }],
+          },
+          {
+            name: 'Zwei Angebote vergleichen',
+            skillExercises: [{ id: 9654 }],
+          },
+          {
+            name: 'Prozent, Dezimalzahl und Bruch',
+            skillExercises: [{ id: 9655 }],
+          },
         ],
       },
       {
@@ -1179,6 +1715,69 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Häufigkeiten',
             skillExercises: [{ id: 9607 }],
           },
+          {
+            name: 'Mittelwert aus vier Werten',
+            skillExercises: [{ id: 9628 }],
+          },
+          {
+            name: 'Spannweite bestimmen',
+            skillExercises: [{ id: 9629 }],
+          },
+          {
+            name: 'Tabelle auswerten',
+            skillExercises: [{ id: 9630 }],
+          },
+          {
+            name: 'Winkel im Kreisdiagramm',
+            skillExercises: [{ id: 9656 }],
+          },
+          {
+            name: 'Säulenwerte vergleichen',
+            skillExercises: [{ id: 9657 }],
+          },
+          {
+            name: 'Daten aus Text ordnen',
+            skillExercises: [{ id: 9658 }],
+          },
+        ],
+      },
+      {
+        title: 'Prüfungsvorbereitung',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Prozent und Aufteilen verknüpfen',
+            skillExercises: [{ id: 9635 }],
+          },
+          {
+            name: 'Fläche mit Prozentanteil',
+            skillExercises: [{ id: 9659 }],
+          },
+          {
+            name: 'Einkauf mit Rabatt und Rückgeld',
+            skillExercises: [{ id: 9660 }],
+          },
+          {
+            name: 'Rezept und Portionen',
+            skillExercises: [{ id: 9661 }],
+          },
+          {
+            name: 'Mehrere Pakete und Volumen',
+            skillExercises: [{ id: 9662 }],
+          },
+          {
+            name: 'Zeitplan in Schritten',
+            skillExercises: [{ id: 9663 }],
+          },
+          {
+            name: 'Daten mit Prozentanteil',
+            skillExercises: [{ id: 9664 }],
+          },
+          {
+            name: 'Rechenmix in zwei Schritten',
+            skillExercises: [{ id: 9665 }],
+          },
         ],
       },
     ],
@@ -1186,7 +1785,7 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
-   7: {
+  7: {
     longTitle: 'AV - BFK - Metall',
     shortTitle: 'AV - BFK - Metall',
     topics: [
@@ -1199,12 +1798,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1223,18 +1818,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
     path: [],
   },
-   9: {
+  9: {
     longTitle: 'AV - BFK - Elektrotechnik',
     shortTitle: 'AV - BFK - Elektro',
     topics: [
@@ -1247,12 +1838,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1271,12 +1858,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1295,12 +1878,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1319,18 +1898,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
     path: [],
   },
-   13: {
+  13: {
     longTitle: 'TG12 - Mathematik gAN',
     shortTitle: 'TG12 - Mathe gAN',
     topics: [
@@ -1343,18 +1918,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
     path: [],
   },
- 14: {
+  14: {
     longTitle: 'TG12 - Mathematik eAN',
     shortTitle: 'TG12 - Mathe eAN',
     topics: [
@@ -1367,18 +1938,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
     path: [],
   },
-   15: {
+  15: {
     longTitle: 'TG13 - Mathematik gAN',
     shortTitle: 'TG13 - Mathe gAN',
     topics: [
@@ -1391,18 +1958,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
     path: [],
   },
-   16: {
+  16: {
     longTitle: 'TG13 - Mathematik eAN',
     shortTitle: 'TG13 - Mathe eAN',
     topics: [
@@ -1415,12 +1978,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1439,12 +1998,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1463,12 +2018,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1487,12 +2038,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1511,12 +2058,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Break-Even-Point',
             skillExercises: [{ id: 10000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1535,12 +2078,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1559,12 +2098,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
@@ -1583,12 +2118,8 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Testaufgabe',
             skillExercises: [{ id: 1000 }],
           },
-          
         ],
       },
-
-        
-      
     ],
     mapHeight: 0,
     breakPoints: [0, 0],

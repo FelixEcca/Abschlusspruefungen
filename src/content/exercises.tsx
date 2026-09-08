@@ -354,6 +354,68 @@ import { exercise9603 } from './implementations/Mathe_AV_Training/9603'
 import { exercise9606 } from './implementations/Mathe_AV_Training/9606'
 import { exercise9605 } from './implementations/Mathe_AV_Training/9605'
 import { exercise9607 } from './implementations/Mathe_AV_Training/9607'
+import {
+  exercise9608,
+  exercise9609,
+  exercise9610,
+  exercise9611,
+  exercise9612,
+  exercise9613,
+  exercise9614,
+  exercise9615,
+  exercise9616,
+  exercise9617,
+  exercise9618,
+  exercise9619,
+  exercise9620,
+  exercise9621,
+  exercise9622,
+  exercise9623,
+  exercise9624,
+  exercise9625,
+  exercise9626,
+  exercise9627,
+  exercise9628,
+  exercise9629,
+  exercise9630,
+  exercise9631,
+  exercise9632,
+  exercise9633,
+  exercise9634,
+  exercise9635,
+} from './implementations/Mathe_AV_Training/AV_Ergaenzungen_9608_9635'
+import {
+  exercise9636,
+  exercise9637,
+  exercise9638,
+  exercise9639,
+  exercise9640,
+  exercise9641,
+  exercise9642,
+  exercise9643,
+  exercise9644,
+  exercise9645,
+  exercise9646,
+  exercise9647,
+  exercise9648,
+  exercise9649,
+  exercise9650,
+  exercise9651,
+  exercise9652,
+  exercise9653,
+  exercise9654,
+  exercise9655,
+  exercise9656,
+  exercise9657,
+  exercise9658,
+  exercise9659,
+  exercise9660,
+  exercise9661,
+  exercise9662,
+  exercise9663,
+  exercise9664,
+  exercise9665,
+} from './implementations/Mathe_AV_Training/AV_Ergaenzungen_9636_9665'
 import { exercise9026 } from './implementations/Mathe_AV_Prüfungen/9026'
 import { exercise9027 } from './implementations/Mathe_AV_Prüfungen/9027'
 import { exercise9028 } from './implementations/Mathe_AV_Prüfungen/9028'
@@ -410,6 +472,52 @@ import { exercise6016 } from './implementations/Physik_TG11_Training/6016'
 import { exercise6017 } from './implementations/Physik_TG11_Training/6017'
 import { exercise6018 } from './implementations/Physik_TG11_Training/6018'
 import { exercise6019 } from './implementations/Physik_TG11_Training/6019'
+import { exercise6020 } from './implementations/Physik_TG11_Training/6020'
+import { exercise6021 } from './implementations/Physik_TG11_Training/6021'
+import { exercise6022 } from './implementations/Physik_TG11_Training/6022'
+import { exercise6023 } from './implementations/Physik_TG11_Training/6023'
+import { exercise6024 } from './implementations/Physik_TG11_Training/6024'
+import { exercise6025 } from './implementations/Physik_TG11_Training/6025'
+import { exercise6026 } from './implementations/Physik_TG11_Training/6026'
+import { exercise6027 } from './implementations/Physik_TG11_Training/6027'
+import { exercise6028 } from './implementations/Physik_TG11_Training/6028'
+import { exercise6029 } from './implementations/Physik_TG11_Training/6029'
+import { exercise6030 } from './implementations/Physik_TG11_Training/6030'
+import { exercise6031 } from './implementations/Physik_TG11_Training/6031'
+import { exercise6032 } from './implementations/Physik_TG11_Training/6032'
+import { exercise6033 } from './implementations/Physik_TG11_Training/6033'
+import { exercise6034 } from './implementations/Physik_TG11_Training/6034'
+import { exercise6035 } from './implementations/Physik_TG11_Training/6035'
+import { exercise6036 } from './implementations/Physik_TG11_Training/6036'
+import { exercise6037 } from './implementations/Physik_TG11_Training/6037'
+import { exercise6038 } from './implementations/Physik_TG11_Training/6038'
+import { exercise6039 } from './implementations/Physik_TG11_Training/6039'
+import { exercise6040 } from './implementations/Physik_TG11_Training/6040'
+import { exercise6041 } from './implementations/Physik_TG11_Training/6041'
+import { exercise6042 } from './implementations/Physik_TG11_Training/6042'
+import { exercise6043 } from './implementations/Physik_TG11_Training/6043'
+import { exercise6044 } from './implementations/Physik_TG11_Training/6044'
+import { exercise6045 } from './implementations/Physik_TG11_Training/6045'
+import { exercise6049 } from './implementations/Physik_TG11_Training/6049'
+import { exercise6050 } from './implementations/Physik_TG11_Training/6050'
+import { exercise6051 } from './implementations/Physik_TG11_Training/6051'
+import { exercise6052 } from './implementations/Physik_TG11_Training/6052'
+import { exercise6053 } from './implementations/Physik_TG11_Training/6053'
+import { exercise6054 } from './implementations/Physik_TG11_Training/6054'
+import { exercise6055 } from './implementations/Physik_TG11_Training/6055'
+import { exercise6056 } from './implementations/Physik_TG11_Training/6056'
+import { exercise6057 } from './implementations/Physik_TG11_Training/6057'
+import { exercise6058 } from './implementations/Physik_TG11_Training/6058'
+import { exercise6060 } from './implementations/Physik_TG11_Training/6060'
+import { exercise6061 } from './implementations/Physik_TG11_Training/6061'
+import { exercise6062 } from './implementations/Physik_TG11_Training/6062'
+import { exercise6063 } from './implementations/Physik_TG11_Training/6063'
+import { exercise6064 } from './implementations/Physik_TG11_Training/6064'
+import { exercise6065 } from './implementations/Physik_TG11_Training/6065'
+import { exercise6066 } from './implementations/Physik_TG11_Training/6066'
+import { exercise6067 } from './implementations/Physik_TG11_Training/6067'
+import { exercise6068 } from './implementations/Physik_TG11_Training/6068'
+import { exercise6069 } from './implementations/Physik_TG11_Training/6069'
 import { exercise5119 } from './implementations/Mathe_TG11_Training/5119'
 import { exercise5120 } from './implementations/Mathe_TG11_Training/5120'
 import { exercise5121 } from './implementations/Mathe_TG11_Training/5121'
@@ -824,12 +932,116 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9605: exercise9605,
   9606: exercise9606,
   9607: exercise9607,
+  9608: exercise9608,
+  9609: exercise9609,
+  9610: exercise9610,
+  9611: exercise9611,
+  9612: exercise9612,
+  9613: exercise9613,
+  9614: exercise9614,
+  9615: exercise9615,
+  9616: exercise9616,
+  9617: exercise9617,
+  9618: exercise9618,
+  9619: exercise9619,
+  9620: exercise9620,
+  9621: exercise9621,
+  9622: exercise9622,
+  9623: exercise9623,
+  9624: exercise9624,
+  9625: exercise9625,
+  9626: exercise9626,
+  9627: exercise9627,
+  9628: exercise9628,
+  9629: exercise9629,
+  9630: exercise9630,
+  9631: exercise9631,
+  9632: exercise9632,
+  9633: exercise9633,
+  9634: exercise9634,
+  9635: exercise9635,
+  9636: exercise9636,
+  9637: exercise9637,
+  9638: exercise9638,
+  9639: exercise9639,
+  9640: exercise9640,
+  9641: exercise9641,
+  9642: exercise9642,
+  9643: exercise9643,
+  9644: exercise9644,
+  9645: exercise9645,
+  9646: exercise9646,
+  9647: exercise9647,
+  9648: exercise9648,
+  9649: exercise9649,
+  9650: exercise9650,
+  9651: exercise9651,
+  9652: exercise9652,
+  9653: exercise9653,
+  9654: exercise9654,
+  9655: exercise9655,
+  9656: exercise9656,
+  9657: exercise9657,
+  9658: exercise9658,
+  9659: exercise9659,
+  9660: exercise9660,
+  9661: exercise9661,
+  9662: exercise9662,
+  9663: exercise9663,
+  9664: exercise9664,
+  9665: exercise9665,
   6014: exercise6014,
   6015: exercise6015,
   6016: exercise6016,
   6017: exercise6017,
   6018: exercise6018,
   6019: exercise6019,
+  6020: exercise6020,
+  6021: exercise6021,
+  6022: exercise6022,
+  6023: exercise6023,
+  6024: exercise6024,
+  6025: exercise6025,
+  6026: exercise6026,
+  6027: exercise6027,
+  6028: exercise6028,
+  6029: exercise6029,
+  6030: exercise6030,
+  6031: exercise6031,
+  6032: exercise6032,
+  6033: exercise6033,
+  6034: exercise6034,
+  6035: exercise6035,
+  6036: exercise6036,
+  6037: exercise6037,
+  6038: exercise6038,
+  6039: exercise6039,
+  6040: exercise6040,
+  6041: exercise6041,
+  6042: exercise6042,
+  6043: exercise6043,
+  6044: exercise6044,
+  6045: exercise6045,
+  6049: exercise6049,
+  6050: exercise6050,
+  6051: exercise6051,
+  6052: exercise6052,
+  6053: exercise6053,
+  6054: exercise6054,
+  6055: exercise6055,
+  6056: exercise6056,
+  6057: exercise6057,
+  6058: exercise6058,
+  6060: exercise6060,
+  6061: exercise6061,
+  6062: exercise6062,
+  6063: exercise6063,
+  6064: exercise6064,
+  6065: exercise6065,
+  6066: exercise6066,
+  6067: exercise6067,
+  6068: exercise6068,
+  6069: exercise6069,
   5119: exercise5119,
   5120: exercise5120,
   5121: exercise5121,
