@@ -70,10 +70,7 @@ export const exercise6001: Exercise<DATA> = {
 
     return (
       <>
-        <p>
-          Ein Körper bewegt sich geradlinig. Bestimme die fehlende Größe zum
-          Impuls.
-        </p>
+        <p>Ein Körper bewegt sich geradlinig.</p>
         <p>{askText}</p>
         <p>Gegeben:</p>
         <ul className="list-disc ml-6">
