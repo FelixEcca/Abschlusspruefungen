@@ -11,6 +11,10 @@ import { ExerciseWithSubtasks, SingleExercise } from '@/data/types'
 export function ExerciseViewContent() {
   const toHome = ExerciseViewStore.useState(s => s.toHome)
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
+  const id = ExerciseViewStore.useState(s => s.id)
+  const exerciseIDs = ExerciseViewStore.useState(s => s._exerciseIDs)
+  const data = ExerciseViewStore.useState(s => s.data)
+  const dataPerExercise = ExerciseViewStore.useState(s => s.dataPerExercise)
   const pages = ExerciseViewStore.useState(s => s.pages)
   const navIndicatorExternalUpdate = ExerciseViewStore.useState(
     s => s.navIndicatorExternalUpdate,
@@ -59,11 +63,7 @@ export function ExerciseViewContent() {
 
   const useCalculator =
     exercisesData[
-      pages[0].context
-        ? ExerciseViewStore.getRawState()._exerciseIDs[
-            parseInt(pages[0].context) - 1
-          ]
-        : ExerciseViewStore.getRawState().id
+      pages[0]?.context ? exerciseIDs[parseInt(pages[0].context) - 1] : id
     ].useCalculator
 
   // 👉 zentrale Farbe hier einstellen
@@ -105,16 +105,14 @@ export function ExerciseViewContent() {
         <div className="h-2 "></div>
 
         {pages.map((page, i) => {
-          const id = page.context
-            ? ExerciseViewStore.getRawState()._exerciseIDs[
-                parseInt(page.context) - 1
-              ]
-            : ExerciseViewStore.getRawState().id
+          const exerciseId = page.context
+            ? exerciseIDs[parseInt(page.context) - 1]
+            : id
 
-          const exercise = exercisesData[id]
-          const data = page.context
-            ? ExerciseViewStore.getRawState().dataPerExercise[page.context]
-            : ExerciseViewStore.getRawState().data
+          const exercise = exercisesData[exerciseId]
+          const exerciseData = page.context
+            ? dataPerExercise[page.context]
+            : data
 
           if (page.index == 'single') {
             const singleExercise = exercise as SingleExercise<any>
@@ -129,7 +127,7 @@ export function ExerciseViewContent() {
                       singleExercise.task({
                         data: singleExercise.exampleData
                           ? singleExercise.exampleData
-                          : data,
+                          : exerciseData,
                       }),
                     )}
                   </>,
@@ -161,11 +159,11 @@ export function ExerciseViewContent() {
             }
             const introComps = intros.map((intro, i) =>
               intro == 'global'
-                ? subtasks.intro({ data })
+                ? subtasks.intro({ data: exerciseData })
                 : intro == 'local' && task.intro
-                  ? task.intro({ data })
+                  ? task.intro({ data: exerciseData })
                   : intro == 'skill' && task.skillIntro
-                    ? task.skillIntro({ data })
+                    ? task.skillIntro({ data: exerciseData })
                     : null,
             )
 
@@ -196,7 +194,9 @@ export function ExerciseViewContent() {
                     {renderContentElement(
                       <div>
                         {task.task({
-                          data: exercise.exampleData ? exercise.exampleData : data,
+                          data: exercise.exampleData
+                            ? exercise.exampleData
+                            : exerciseData,
                         })}
                       </div>,
                     )}

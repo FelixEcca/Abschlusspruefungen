@@ -87,7 +87,13 @@ export function ExerciseViewHeader() {
           className="group ml-3 rounded-xl bg-gray-200 px-3 py-1 transition-transform duration-150 hover:bg-gray-300 active:scale-95 motion-reduce:transform-none"
           onClick={() => {
             ExerciseViewStore.update(s => {
-              if (content.originalData) s.data = content.originalData
+              if (content.originalData) {
+                if (context) {
+                  s.dataPerExercise[context] = content.originalData
+                } else {
+                  s.data = content.originalData
+                }
+              }
               s.chatOverlay = null
             })
           }}
