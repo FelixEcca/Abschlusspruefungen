@@ -49,7 +49,7 @@ export const exercise9540: Exercise<DATA> = {
       <>
         <p>Rechne mal 60:</p>
         <InlineMath
-          math={`${String(data.hours).replace('.', ',')}\\,\\mathrm{h}=${data.minutes}\\,\\mathrm{min}`}
+          math={`${String(data.hours).replace('.', ',')}\\,\\mathrm{h}\\,\\widehat{=}\\,${data.minutes}\\,\\mathrm{min}`}
         />
       </>
     )

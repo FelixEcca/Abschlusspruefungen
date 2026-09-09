@@ -1153,8 +1153,12 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9545 }],
           },
           {
-            name: 'Runden',
-            skillExercises: [{ id: 9514 }, { id: 9608 }],
+            name: 'Runden 1',
+            skillExercises: [{ id: 9608 }],
+          },
+          {
+            name: 'Runden 2',
+            skillExercises: [{ id: 9514 }],
           },
           {
             name: 'Schriftliches Addieren',
@@ -1172,16 +1176,13 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Punkt vor Strich',
             skillExercises: [{ id: 9503 }],
           },
-          {
-            name: 'Überschlag mit Preisen',
-            skillExercises: [{ id: 9637 }],
-          },
+
           {
             name: 'Rechnen mit Klammern',
             skillExercises: [{ id: 9504 }],
           },
           {
-            name: 'Klammern im Sachkontext',
+            name: 'Rechnen im Sachkontext',
             skillExercises: [{ id: 9638 }],
           },
           {
@@ -1245,10 +1246,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Rückgeld berechnen',
             skillExercises: [{ id: 9609 }],
           },
-          {
-            name: 'Rechenregeln in Prüfungsform',
-            skillExercises: [{ id: 9634 }],
-          },
         ],
       },
 
@@ -1262,8 +1259,16 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9524 }],
           },
           {
+            name: 'Maßstab im Plan',
+            skillExercises: [{ id: 9631 }],
+          },
+          {
             name: 'Flächen umrechnen',
             skillExercises: [{ id: 9525 }],
+          },
+          {
+            name: 'Quadratzentimeter in Quadratmeter',
+            skillExercises: [{ id: 9643 }],
           },
           {
             name: 'Volumen umrechnen',
@@ -1276,6 +1281,10 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Liter und Milliliter umrechnen',
             skillExercises: [{ id: 9528 }],
+          },
+          {
+            name: 'Liter in Milliliter',
+            skillExercises: [{ id: 9632 }],
           },
           {
             name: 'Cent und € umrechnen',
@@ -1294,10 +1303,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zeit addieren',
             skillExercises: [{ id: 9541 }],
           },
-          {
-            name: 'Wird es rechtzeitig fertig?',
-            skillExercises: [{ id: 9542 }],
-          },
+
           {
             name: 'Zeitplan Schritt für Schritt',
             skillExercises: [{ id: 9544 }],
@@ -1306,25 +1312,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Endzeiten berechnen',
             skillExercises: [{ id: 9610 }],
           },
-          {
-            name: 'Maßstab im Plan',
-            skillExercises: [{ id: 9631 }],
-          },
-          {
-            name: 'Liter in Milliliter',
-            skillExercises: [{ id: 9632 }],
-          },
+
           {
             name: 'Zeit über Mitternacht',
             skillExercises: [{ id: 9641 }],
-          },
-          {
-            name: 'Meter und Zentimeter verbinden',
-            skillExercises: [{ id: 9642 }],
-          },
-          {
-            name: 'Quadratzentimeter in Quadratmeter',
-            skillExercises: [{ id: 9643 }],
           },
         ],
       },

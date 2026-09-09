@@ -380,15 +380,12 @@ import { exercise9630 } from './implementations/Mathe_AV_Training/9630'
 import { exercise9631 } from './implementations/Mathe_AV_Training/9631'
 import { exercise9632 } from './implementations/Mathe_AV_Training/9632'
 import { exercise9633 } from './implementations/Mathe_AV_Training/9633'
-import { exercise9634 } from './implementations/Mathe_AV_Training/9634'
 import { exercise9635 } from './implementations/Mathe_AV_Training/9635'
 import { exercise9636 } from './implementations/Mathe_AV_Training/9636'
-import { exercise9637 } from './implementations/Mathe_AV_Training/9637'
 import { exercise9638 } from './implementations/Mathe_AV_Training/9638'
 import { exercise9639 } from './implementations/Mathe_AV_Training/9639'
 import { exercise9640 } from './implementations/Mathe_AV_Training/9640'
 import { exercise9641 } from './implementations/Mathe_AV_Training/9641'
-import { exercise9642 } from './implementations/Mathe_AV_Training/9642'
 import { exercise9643 } from './implementations/Mathe_AV_Training/9643'
 import { exercise9644 } from './implementations/Mathe_AV_Training/9644'
 import { exercise9645 } from './implementations/Mathe_AV_Training/9645'
@@ -954,15 +951,12 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9631: exercise9631,
   9632: exercise9632,
   9633: exercise9633,
-  9634: exercise9634,
   9635: exercise9635,
   9636: exercise9636,
-  9637: exercise9637,
   9638: exercise9638,
   9639: exercise9639,
   9640: exercise9640,
   9641: exercise9641,
-  9642: exercise9642,
   9643: exercise9643,
   9644: exercise9644,
   9645: exercise9645,

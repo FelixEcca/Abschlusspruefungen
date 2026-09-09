@@ -64,7 +64,7 @@ const originalData = makeData({
 })
 
 export const exercise9638: Exercise<DATA> = {
-  title: 'Klammern im Sachkontext',
+  title: 'Rechnen im Sachkontext',
   source: 'Grundlagen',
   useCalculator: true,
   duration: 42,
