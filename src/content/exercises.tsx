@@ -354,68 +354,64 @@ import { exercise9603 } from './implementations/Mathe_AV_Training/9603'
 import { exercise9606 } from './implementations/Mathe_AV_Training/9606'
 import { exercise9605 } from './implementations/Mathe_AV_Training/9605'
 import { exercise9607 } from './implementations/Mathe_AV_Training/9607'
-import {
-  exercise9608,
-  exercise9609,
-  exercise9610,
-  exercise9611,
-  exercise9612,
-  exercise9613,
-  exercise9614,
-  exercise9615,
-  exercise9616,
-  exercise9617,
-  exercise9618,
-  exercise9619,
-  exercise9620,
-  exercise9621,
-  exercise9622,
-  exercise9623,
-  exercise9624,
-  exercise9625,
-  exercise9626,
-  exercise9627,
-  exercise9628,
-  exercise9629,
-  exercise9630,
-  exercise9631,
-  exercise9632,
-  exercise9633,
-  exercise9634,
-  exercise9635,
-} from './implementations/Mathe_AV_Training/AV_Ergaenzungen_9608_9635'
-import {
-  exercise9636,
-  exercise9637,
-  exercise9638,
-  exercise9639,
-  exercise9640,
-  exercise9641,
-  exercise9642,
-  exercise9643,
-  exercise9644,
-  exercise9645,
-  exercise9646,
-  exercise9647,
-  exercise9648,
-  exercise9649,
-  exercise9650,
-  exercise9651,
-  exercise9652,
-  exercise9653,
-  exercise9654,
-  exercise9655,
-  exercise9656,
-  exercise9657,
-  exercise9658,
-  exercise9659,
-  exercise9660,
-  exercise9661,
-  exercise9662,
-  exercise9663,
-  exercise9664,
-  exercise9665,
-} from './implementations/Mathe_AV_Training/AV_Ergaenzungen_9636_9665'
+import { exercise9608 } from './implementations/Mathe_AV_Training/9608'
+import { exercise9609 } from './implementations/Mathe_AV_Training/9609'
+import { exercise9610 } from './implementations/Mathe_AV_Training/9610'
+import { exercise9611 } from './implementations/Mathe_AV_Training/9611'
+import { exercise9612 } from './implementations/Mathe_AV_Training/9612'
+import { exercise9613 } from './implementations/Mathe_AV_Training/9613'
+import { exercise9614 } from './implementations/Mathe_AV_Training/9614'
+import { exercise9615 } from './implementations/Mathe_AV_Training/9615'
+import { exercise9616 } from './implementations/Mathe_AV_Training/9616'
+import { exercise9617 } from './implementations/Mathe_AV_Training/9617'
+import { exercise9618 } from './implementations/Mathe_AV_Training/9618'
+import { exercise9619 } from './implementations/Mathe_AV_Training/9619'
+import { exercise9620 } from './implementations/Mathe_AV_Training/9620'
+import { exercise9621 } from './implementations/Mathe_AV_Training/9621'
+import { exercise9622 } from './implementations/Mathe_AV_Training/9622'
+import { exercise9623 } from './implementations/Mathe_AV_Training/9623'
+import { exercise9624 } from './implementations/Mathe_AV_Training/9624'
+import { exercise9625 } from './implementations/Mathe_AV_Training/9625'
+import { exercise9626 } from './implementations/Mathe_AV_Training/9626'
+import { exercise9627 } from './implementations/Mathe_AV_Training/9627'
+import { exercise9628 } from './implementations/Mathe_AV_Training/9628'
+import { exercise9629 } from './implementations/Mathe_AV_Training/9629'
+import { exercise9630 } from './implementations/Mathe_AV_Training/9630'
+import { exercise9631 } from './implementations/Mathe_AV_Training/9631'
+import { exercise9632 } from './implementations/Mathe_AV_Training/9632'
+import { exercise9633 } from './implementations/Mathe_AV_Training/9633'
+import { exercise9634 } from './implementations/Mathe_AV_Training/9634'
+import { exercise9635 } from './implementations/Mathe_AV_Training/9635'
+import { exercise9636 } from './implementations/Mathe_AV_Training/9636'
+import { exercise9637 } from './implementations/Mathe_AV_Training/9637'
+import { exercise9638 } from './implementations/Mathe_AV_Training/9638'
+import { exercise9639 } from './implementations/Mathe_AV_Training/9639'
+import { exercise9640 } from './implementations/Mathe_AV_Training/9640'
+import { exercise9641 } from './implementations/Mathe_AV_Training/9641'
+import { exercise9642 } from './implementations/Mathe_AV_Training/9642'
+import { exercise9643 } from './implementations/Mathe_AV_Training/9643'
+import { exercise9644 } from './implementations/Mathe_AV_Training/9644'
+import { exercise9645 } from './implementations/Mathe_AV_Training/9645'
+import { exercise9646 } from './implementations/Mathe_AV_Training/9646'
+import { exercise9647 } from './implementations/Mathe_AV_Training/9647'
+import { exercise9648 } from './implementations/Mathe_AV_Training/9648'
+import { exercise9649 } from './implementations/Mathe_AV_Training/9649'
+import { exercise9650 } from './implementations/Mathe_AV_Training/9650'
+import { exercise9651 } from './implementations/Mathe_AV_Training/9651'
+import { exercise9652 } from './implementations/Mathe_AV_Training/9652'
+import { exercise9653 } from './implementations/Mathe_AV_Training/9653'
+import { exercise9654 } from './implementations/Mathe_AV_Training/9654'
+import { exercise9655 } from './implementations/Mathe_AV_Training/9655'
+import { exercise9656 } from './implementations/Mathe_AV_Training/9656'
+import { exercise9657 } from './implementations/Mathe_AV_Training/9657'
+import { exercise9658 } from './implementations/Mathe_AV_Training/9658'
+import { exercise9659 } from './implementations/Mathe_AV_Training/9659'
+import { exercise9660 } from './implementations/Mathe_AV_Training/9660'
+import { exercise9661 } from './implementations/Mathe_AV_Training/9661'
+import { exercise9662 } from './implementations/Mathe_AV_Training/9662'
+import { exercise9663 } from './implementations/Mathe_AV_Training/9663'
+import { exercise9664 } from './implementations/Mathe_AV_Training/9664'
+import { exercise9665 } from './implementations/Mathe_AV_Training/9665'
 import { exercise9026 } from './implementations/Mathe_AV_Prüfungen/9026'
 import { exercise9027 } from './implementations/Mathe_AV_Prüfungen/9027'
 import { exercise9028 } from './implementations/Mathe_AV_Prüfungen/9028'

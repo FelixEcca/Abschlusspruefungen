@@ -79,7 +79,7 @@ export const exercise6000: Exercise<DATA> = {
         <p>Eine Kugel befindet sich im waagerechten Wurf.</p>
         <svg viewBox="0 0 328 140">
           <image
-            href="/content/TG11_Physik/6000_3.png"
+            href="/content/Physik_TG11/6000_3.png"
             height="140"
             width="328"
           />
@@ -200,7 +200,7 @@ export const exercise6000: Exercise<DATA> = {
         <>
           <svg viewBox="0 0 328 140">
             <image
-              href="/content/TG11_Physik/6000_4.png"
+              href="/content/Physik_TG11/6000_4.png"
               height="140"
               width="328"
             />
@@ -232,7 +232,7 @@ export const exercise6000: Exercise<DATA> = {
         </p>
         <svg viewBox="0 0 328 140">
           <image
-            href="/content/TG11_Physik/6000_2.png"
+            href="/content/Physik_TG11/6000_2.png"
             height="140"
             width="328"
           />

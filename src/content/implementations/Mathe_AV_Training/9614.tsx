@@ -1,0 +1,93 @@
+import { Exercise } from '@/data/types'
+import { InlineMath } from 'react-katex'
+import { pp } from '@/helper/pretty-print'
+import { round2, pick } from './_avTrainingShared'
+
+type Kind = 'boxVolume'
+
+interface DATA {
+  kind: Kind
+  a: number
+  b: number
+  c: number
+  d: number
+  result: number
+  result2: number
+  label: string
+}
+
+const kind: Kind = 'boxVolume'
+
+function makeData(rng: any): DATA {
+  const a = rng.randomItemFromArray([20, 30, 40, 50])
+  const b = rng.randomItemFromArray([10, 20, 25, 30])
+  const c = rng.randomItemFromArray([8, 10, 15, 20])
+  return {
+    kind,
+    a,
+    b,
+    c,
+    d: 0,
+    result: a * b * c,
+    result2: round2((a * b * c) / 1000),
+    label: pick(rng, [
+      'Kiste',
+      'Versandkarton',
+      'Aufbewahrungsbox',
+      'Werkzeugbox',
+    ]),
+  }
+}
+
+function taskFor(data: DATA) {
+  return (
+    <>
+      Ein Behälter ({data.label}) ist{' '}
+      <InlineMath math={`${pp(data.a)}\\,\\mathrm{cm}`} /> lang,{' '}
+      <InlineMath math={`${pp(data.b)}\\,\\mathrm{cm}`} /> breit und{' '}
+      <InlineMath math={`${pp(data.c)}\\,\\mathrm{cm}`} /> hoch. Berechne das
+      Volumen in <InlineMath math={`\\mathrm{cm^3}`} /> und Litern.
+    </>
+  )
+}
+
+function solutionFor(data: DATA) {
+  return (
+    <>
+      <InlineMath
+        math={`V=${pp(data.a)}\\cdot${pp(data.b)}\\cdot${pp(data.c)}=${pp(data.result)}\\,\\mathrm{cm^3}`}
+      />
+      <br />
+      <InlineMath
+        math={`${pp(data.result)}\\,\\mathrm{cm^3}=${pp(data.result2)}\\,\\mathrm l`}
+      />
+    </>
+  )
+}
+
+const originalData = makeData({
+  randomItemFromArray<T>(arr: T[]) {
+    return arr[0]
+  },
+})
+
+export const exercise9614: Exercise<DATA> = {
+  title: 'Volumen einer Kiste',
+  source: 'Körper und Volumen',
+  useCalculator: true,
+  duration: 42,
+  points: 42,
+  generator(rng) {
+    return makeData(rng)
+  },
+  originalData,
+  constraint({ data }) {
+    return data.kind === kind && Number.isFinite(data.result)
+  },
+  task({ data }) {
+    return <p>{taskFor(data)}</p>
+  },
+  solution({ data }) {
+    return <>{solutionFor(data)}</>
+  },
+}

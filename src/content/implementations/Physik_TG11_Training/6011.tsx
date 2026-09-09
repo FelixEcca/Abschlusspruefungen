@@ -412,7 +412,7 @@ export const exercise6011: Exercise<DATA> = {
             </p>
             <svg viewBox="0 0 328 200">
               <image
-                href="/content/TG11_Physik/6011.png"
+                href="/content/Physik_TG11/6011.png"
                 height="200"
                 width="328"
               />
