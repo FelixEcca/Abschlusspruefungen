@@ -358,8 +358,19 @@ function MarkdownBubble({
                 </div>
               ) : null}
               {attachment.analysis?.observation ? (
-                <div className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-slate-700">
-                  Bildanalyse: {attachment.analysis.observation}
+                <div className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-slate-700 [&_p]:m-0">
+                  <span>Bildanalyse: </span>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                    components={{
+                      p: ({ children }) => <span>{children}</span>,
+                    }}
+                  >
+                    {normalizeMathForMarkdown(
+                      attachment.analysis.observation,
+                    )}
+                  </ReactMarkdown>
                 </div>
               ) : null}
             </div>
