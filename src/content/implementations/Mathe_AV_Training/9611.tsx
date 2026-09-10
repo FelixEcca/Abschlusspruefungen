@@ -32,31 +32,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein rechteckiger Garten ist{' '}
-      <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} /> lang und{' '}
-      <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> breit. Berechne Umfang
-      und Fläche.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`U=2\\cdot(${pp(data.a)}+${pp(data.b)})=${pp(data.result)}\\,\\mathrm m`}
-      />
-      <br />
-      <InlineMath
-        math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result2)}\\,\\mathrm{m^2}`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -77,9 +52,26 @@ export const exercise9611: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein rechteckiger Garten ist{' '}
+        <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} /> lang und{' '}
+        <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> breit. Berechne
+        Umfang und Fläche.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`U=2\\cdot(${pp(data.a)}+${pp(data.b)})=${pp(data.result)}\\,\\mathrm m`}
+        />
+        <br />
+        <InlineMath
+          math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result2)}\\,\\mathrm{m^2}`}
+        />
+      </>
+    )
   },
 }

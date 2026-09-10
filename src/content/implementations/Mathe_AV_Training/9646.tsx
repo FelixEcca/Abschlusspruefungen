@@ -35,30 +35,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein {data.label} ist <b>{data.a} cm</b> lang, <b>{data.b} cm</b> breit und{' '}
-      <b>{data.c} cm</b> hoch. Berechne das Volumen in{' '}
-      <InlineMath math={`\\mathrm{cm^3}`} /> und Litern.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`V=${data.a}\\cdot${data.b}\\cdot${data.c}=${data.result}\\,\\mathrm{cm^3}`}
-      />
-      <br />
-      <InlineMath
-        math={`${data.result}\\,\\mathrm{cm^3}=${pp(data.result2)}\\,\\mathrm l`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -79,9 +55,25 @@ export const exercise9646: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <>
+        Ein {data.label} ist <b>{data.a} cm</b> lang, <b>{data.b} cm</b> breit
+        und <b>{data.c} cm</b> hoch. Berechne das Volumen in{' '}
+        <InlineMath math={`\\mathrm{cm^3}`} /> und Litern.
+      </>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`V=${data.a}\\cdot${data.b}\\cdot${data.c}=${data.result}\\,\\mathrm{cm^3}`}
+        />
+        <p>Ein Liter entspricht 1 dm³, also 1000 cm³.</p>
+        <InlineMath
+          math={`${data.result}\\,\\mathrm{cm^3}=${pp(data.result2)}\\,\\mathrm l`}
+        />
+      </>
+    )
   },
 }

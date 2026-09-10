@@ -1398,10 +1398,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Durchmesser, Radius und Umfang',
             skillExercises: [{ id: 9633 }],
           },
-          {
-            name: 'Restfläche berechnen',
-            skillExercises: [{ id: 9644 }],
-          },
         ],
       },
       {
@@ -1459,14 +1455,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Oberfläche eines Kegels',
             skillExercises: [{ id: 9586 }],
           },
-          {
-            name: 'Volumen einer Kiste',
-            skillExercises: [{ id: 9614 }],
-          },
-          {
-            name: 'Oberfläche eines Pakets',
-            skillExercises: [{ id: 9615 }],
-          },
+
           {
             name: 'Volumen eines Prismas mit Grundfläche',
             skillExercises: [{ id: 9645 }],
@@ -1491,6 +1480,10 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9588 }],
           },
           {
+            name: 'Brüche im Vergleich',
+            skillExercises: [{ id: 9617 }],
+          },
+          {
             name: 'Brüche vergleichen',
             skillExercises: [{ id: 9589 }],
           },
@@ -1498,7 +1491,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Kürzen',
             skillExercises: [{ id: 9590 }],
           },
-
+          {
+            name: 'Brüche mit gleichem Nenner addieren',
+            skillExercises: [{ id: 9648 }],
+          },
           {
             name: 'Brüche addieren',
             skillExercises: [{ id: 9507 }],
@@ -1531,7 +1527,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Bruchteil angeben',
             skillExercises: [{ id: 9595 }],
           },
-
+          {
+            name: 'Markierte Felder als Bruch',
+            skillExercises: [{ id: 9649 }],
+          },
           {
             name: 'Bruchteil berechnen',
             skillExercises: [{ id: 9506 }],
@@ -1548,10 +1547,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Bruchteil von einer Menge',
             skillExercises: [{ id: 9616 }],
           },
-          {
-            name: 'Brüche im Vergleich',
-            skillExercises: [{ id: 9617 }],
-          },
+
           {
             name: 'Gemischten Bruch aufteilen',
             skillExercises: [{ id: 9618 }],
@@ -1559,14 +1555,6 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Anteil als gekürzter Bruch',
             skillExercises: [{ id: 9647 }],
-          },
-          {
-            name: 'Brüche mit gleichem Nenner addieren',
-            skillExercises: [{ id: 9648 }],
-          },
-          {
-            name: 'Markierte Felder als Bruch',
-            skillExercises: [{ id: 9649 }],
           },
         ],
       },
@@ -1595,25 +1583,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Mischung im Verhältnis',
             skillExercises: [{ id: 9620 }],
           },
-          {
-            name: 'Material proportional berechnen',
-            skillExercises: [{ id: 9621 }],
-          },
-          {
-            name: 'Arbeitszeit umgekehrt proportional',
-            skillExercises: [{ id: 9622 }],
-          },
-          {
-            name: 'Kilopreis berechnen',
-            skillExercises: [{ id: 9650 }],
-          },
+
           {
             name: 'Maschinen und Arbeitszeit',
             skillExercises: [{ id: 9651 }],
-          },
-          {
-            name: 'Geld im Verhältnis aufteilen',
-            skillExercises: [{ id: 9652 }],
           },
         ],
       },
@@ -1698,10 +1671,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Mittelwert berechnen',
             skillExercises: [{ id: 9605 }],
           },
-          {
-            name: 'Daten vergleichen',
-            skillExercises: [{ id: 9606 }],
-          },
+
           {
             name: 'Häufigkeiten',
             skillExercises: [{ id: 9607 }],
@@ -1714,60 +1684,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Spannweite bestimmen',
             skillExercises: [{ id: 9629 }],
           },
-          {
-            name: 'Tabelle auswerten',
-            skillExercises: [{ id: 9630 }],
-          },
+
           {
             name: 'Winkel im Kreisdiagramm',
             skillExercises: [{ id: 9656 }],
-          },
-          {
-            name: 'Säulenwerte vergleichen',
-            skillExercises: [{ id: 9657 }],
-          },
-          {
-            name: 'Daten aus Text ordnen',
-            skillExercises: [{ id: 9658 }],
-          },
-        ],
-      },
-      {
-        title: 'Prüfungsvorbereitung',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Prozent und Aufteilen verknüpfen',
-            skillExercises: [{ id: 9635 }],
-          },
-          {
-            name: 'Fläche mit Prozentanteil',
-            skillExercises: [{ id: 9659 }],
-          },
-          {
-            name: 'Einkauf mit Rabatt und Rückgeld',
-            skillExercises: [{ id: 9660 }],
-          },
-          {
-            name: 'Rezept und Portionen',
-            skillExercises: [{ id: 9661 }],
-          },
-          {
-            name: 'Mehrere Pakete und Volumen',
-            skillExercises: [{ id: 9662 }],
-          },
-          {
-            name: 'Zeitplan in Schritten',
-            skillExercises: [{ id: 9663 }],
-          },
-          {
-            name: 'Daten mit Prozentanteil',
-            skillExercises: [{ id: 9664 }],
-          },
-          {
-            name: 'Rechenmix in zwei Schritten',
-            skillExercises: [{ id: 9665 }],
           },
         ],
       },
@@ -2001,13 +1921,331 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: '3BKGD1 - Mathe',
     topics: [
       {
+        title: 'Fachrechnen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Point, Pica und Inch umrechnen',
+            skillExercises: [{ id: 10000 }],
+          },
+          {
+            name: 'Typografische Maße vergleichen',
+            skillExercises: [{ id: 10001 }],
+          },
+          {
+            name: 'Schriftgröße, Zeilenabstand und Layoutmaß berechnen',
+            skillExercises: [{ id: 10002 }],
+          },
+          {
+            name: 'Seitenverhältnis aus Breite und Höhe angeben',
+            skillExercises: [{ id: 10003 }],
+          },
+          {
+            name: 'Fehlende Seitenlänge bei Seitenverhältnis berechnen',
+            skillExercises: [{ id: 10004 }],
+          },
+          {
+            name: 'Bildformat auf passendes Seitenverhältnis prüfen',
+            skillExercises: [{ id: 10005 }],
+          },
+          {
+            name: 'Seitenlängen aus Diagonale und Seitenverhältnis berechnen',
+            skillExercises: [{ id: 10060 }],
+          },
+          {
+            name: 'Seitenverhältnis aus Seite und Diagonale bestimmen',
+            skillExercises: [{ id: 10061 }],
+          },
+
+          {
+            name: 'Maßstab aus Originalmaß und Abbildungsmaß berechnen',
+            skillExercises: [{ id: 10006 }],
+          },
+          {
+            name: 'Originallänge aus Maßstab und Zeichnung berechnen',
+            skillExercises: [{ id: 10007 }],
+          },
+          {
+            name: 'Zeichnungsgröße bei gegebenem Maßstab berechnen',
+            skillExercises: [{ id: 10008 }],
+          },
+          {
+            name: 'Layout mit Maßstab und Seitenverhältnis berechnen',
+            skillExercises: [{ id: 10009 }],
+          },
+        ],
+      },
+      {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: 'Brüche erweitern und kürzen',
+            skillExercises: [{ id: 9588 }, { id: 9590 }],
+          },
+          {
+            name: 'Brüche vergleichen und ordnen',
+            skillExercises: [{ id: 9617 }, { id: 9589 }],
+          },
+          {
+            name: 'Bruch in Dezimalzahl umwandeln',
+            skillExercises: [{ id: 9594 }],
+          },
+          {
+            name: 'Dezimalzahl, Prozent und Bruch zuordnen',
+            skillExercises: [{ id: 9655 }],
+          },
+          {
+            name: 'Brüche addieren und subtrahieren',
+            skillExercises: [{ id: 9507 }, { id: 9508 }],
+          },
+          {
+            name: 'Brüche multiplizieren und dividieren',
+            skillExercises: [{ id: 9509 }, { id: 9505 }],
+          },
+          {
+            name: 'Gleichartige Terme zusammenfassen',
+            skillExercises: [{ id: 9554 }, { id: 4400 }],
+          },
+          {
+            name: 'Klammern auflösen',
+            skillExercises: [{ id: 4201 }, { id: 4909 }],
+          },
+          {
+            name: 'Ausmultiplizieren mit einer Klammer',
+            skillExercises: [{ id: 4910 }],
+          },
+          {
+            name: 'Binomische Formeln erkennen und anwenden',
+            skillExercises: [{ id: 4401 }],
+          },
+          {
+            name: 'Fehler in einer Termumformung finden und korrigieren',
+            skillExercises: [{ id: 10020 }],
+          },
+          {
+            name: 'Potenzgesetze anwenden',
+            skillExercises: [{ id: 4403 }],
+          },
+          {
+            name: 'Potenzen mit negativen Exponenten umformen',
+            skillExercises: [{ id: 10022 }],
+          },
+          {
+            name: 'Sachaufgabe mit Zehnerpotenzen lösen',
+            skillExercises: [{ id: 10023 }],
+          },
+          {
+            name: 'Lineare Gleichung lösen',
+            skillExercises: [{ id: 4907 }, { id: 4200 }],
+          },
+          {
+            name: 'Gleichung mit Klammern lösen',
+            skillExercises: [{ id: 4201 }],
+          },
+          {
+            name: 'Gleichung mit Brüchen lösen',
+            skillExercises: [{ id: 4912 }, { id: 4913 }],
+          },
+          {
+            name: 'LGS lösen',
+            skillExercises: [{ id: 4800 }],
+          },
+          {
+            name: 'LGS zeichnerisch deuten',
+            skillExercises: [{ id: 10028 }],
+          },
+          {
+            name: 'Sachaufgabe als LGS modellieren',
+            skillExercises: [{ id: 10029 }],
+          },
+          {
+            name: 'Prozentrechenregel anwenden',
+            skillExercises: [{ id: 10030 }],
+          },
+          {
+            name: 'Prozentwert, Grundwert oder Prozentsatz',
+            skillExercises: [{ id: 9600 }, { id: 9601 }, { id: 9602 }],
+          },
+        ],
+      },
+      {
+        title: 'Lineare Funktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Steigung und Funktionsgleichung am Graphen bestimmen',
+            skillExercises: [{ id: 4100 }],
+          },
+          {
+            name: 'Steigung aus zwei Punkten berechnen',
+            skillExercises: [{ id: 10032 }],
+          },
+          {
+            name: 'Geradengleichung aus Steigung und Punkt bestimmen',
+            skillExercises: [{ id: 4101 }],
+          },
+          {
+            name: 'Geradengleichung aus zwei Punkten bestimmen',
+            skillExercises: [{ id: 10034 }],
+          },
+          {
+            name: 'Graph und Funktionsgleichung zuordnen',
+            skillExercises: [{ id: 4100 }, { id: 4504 }],
+          },
+          {
+            name: 'Punktprobe bei einer linearen Funktion durchführen',
+            skillExercises: [{ id: 10035 }],
+          },
+          {
+            name: 'Nullstelle einer linearen Funktion berechnen',
+            skillExercises: [{ id: 10036 }],
+          },
+          {
+            name: 'Schnittpunkt zweier Geraden berechnen',
+            skillExercises: [{ id: 4801 }],
+          },
+          {
+            name: 'Schnittpunkte mit den Koordinatenachsen bestimmen',
+            skillExercises: [{ id: 10039 }],
+          },
+          {
+            name: 'Sachaufgabe mit linearen Modellen',
+            skillExercises: [{ id: 4504 }, { id: 4505 }],
+          },
+        ],
+      },
+      {
+        title: 'Quadratische Funktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Parabel aus Funktionsgleichung skizzieren',
+            skillExercises: [{ id: 4007 }],
+          },
+          {
+            name: 'Scheitelpunkt aus Scheitelpunktform ablesen',
+            skillExercises: [{ id: 4000 }],
+          },
+          {
+            name: 'Nullstellen einer Parabel berechnen',
+            skillExercises: [{ id: 4923 }],
+          },
+          {
+            name: 'Punktprobe bei einer quadratischen Funktion durchführen',
+            skillExercises: [{ id: 10044 }],
+          },
+          {
+            name: 'Schnittpunkte von Parabel und Gerade berechnen',
+            skillExercises: [{ id: 4924 }, { id: 4006 }],
+          },
+          {
+            name: 'Schnittpunkte von zwei Parabeln berechnen',
+            skillExercises: [{ id: 4925 }],
+          },
+          {
+            name: 'Anwendungsaufgabe: Flugbahn oder Bogen modellieren',
+            skillExercises: [{ id: 10046 }],
+          },
+        ],
+      },
+      {
+        title: 'Potenzfunktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Potenzfunktion f(x)=a·x³ auswerten und skizzieren',
+            skillExercises: [{ id: 10047 }],
+          },
+          {
+            name: 'Symmetrie von Potenzfunktionen beschreiben',
+            skillExercises: [{ id: 10048 }],
+          },
+          {
+            name: 'Potenzfunktion mit negativen Exponenten auswerten',
+            skillExercises: [{ id: 10049 }],
+          },
+          {
+            name: 'Parameter einer Potenzfunktion untersuchen',
+            skillExercises: [{ id: 10050 }],
+          },
+          {
+            name: 'Lagebeziehung zweier Kurven beschreiben',
+            skillExercises: [{ id: 10051 }],
+          },
+          {
+            name: 'Potenzgesetze anwenden',
+            skillExercises: [{ id: 4403 }],
+          },
+        ],
+      },
+      {
+        title: 'Polynomfunktionen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Grad, Koeffizienten und konstantes Glied angeben',
+            skillExercises: [{ id: 10053 }],
+          },
+          {
+            name: 'Globalverhalten einer Polynomfunktion beschreiben',
+            skillExercises: [{ id: 10054 }],
+          },
+          {
+            name: 'Symmetrie von Polynomfunktionen untersuchen',
+            skillExercises: [{ id: 10055 }],
+          },
+          {
+            name: 'Polynomfunktion auswerten',
+            skillExercises: [{ id: 10052 }],
+          },
+          {
+            name: 'Graphen von Polynomfunktionen skizzieren',
+            skillExercises: [{ id: 10056 }],
+          },
+          {
+            name: 'Polynomfunktion über das Globalverhalten skizzieren',
+            skillExercises: [{ id: 10063 }],
+          },
+        ],
+      },
+      {
+        title: 'Klassenarbeit',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Gemischte Übung: Brüche, Terme und LGS',
+            skillExercises: [
+              { id: 9588 },
+              { id: 9590 },
+              { id: 9507 },
+              { id: 9508 },
+              { id: 4400 },
+              { id: 4201 },
+              { id: 4800 },
+            ],
+          },
+          {
+            name: 'Gemischte Übung: Geraden, Parabeln und Schnittpunkte',
+            skillExercises: [
+              { id: 4100 },
+              { id: 4101 },
+              { id: 4007 },
+              { id: 4923 },
+              { id: 4801 },
+              { id: 4924 },
+            ],
+          },
+          {
+            name: 'Fehlerhafte Schülerlösung prüfen und verbessern',
+            skillExercises: [{ id: 10059 }],
           },
         ],
       },
@@ -2047,7 +2285,7 @@ export const navigationData: { [key: number]: Navigation } = {
         skillGroups: [
           {
             name: 'Break-Even-Point',
-            skillExercises: [{ id: 10000 }],
+            skillExercises: [{ id: 12000 }],
           },
         ],
       },

@@ -34,23 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Für <b>{data.a}</b> Personen braucht man <b>{data.b} g</b> {data.label}.
-      Wie viel {data.label} braucht man für <b>{data.c}</b> Personen?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`${data.b}:${data.a}\\cdot${data.c}=${pp(data.result)}\\,\\mathrm g`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -71,9 +54,18 @@ export const exercise9619: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Für <b>{data.a}</b> Personen braucht man <b>{data.b} g</b> {data.label}.
+        Wie viel {data.label} braucht man für <b>{data.c}</b> Personen?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`${data.b}:${data.a}\\cdot${data.c}=${pp(data.result)}\\,\\mathrm g`}
+      />
+    )
   },
 }

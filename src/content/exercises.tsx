@@ -351,7 +351,6 @@ import { exercise9600 } from './implementations/Mathe_AV_Training/9600'
 import { exercise9601 } from './implementations/Mathe_AV_Training/9601'
 import { exercise9602 } from './implementations/Mathe_AV_Training/9602'
 import { exercise9603 } from './implementations/Mathe_AV_Training/9603'
-import { exercise9606 } from './implementations/Mathe_AV_Training/9606'
 import { exercise9605 } from './implementations/Mathe_AV_Training/9605'
 import { exercise9607 } from './implementations/Mathe_AV_Training/9607'
 import { exercise9608 } from './implementations/Mathe_AV_Training/9608'
@@ -360,15 +359,11 @@ import { exercise9610 } from './implementations/Mathe_AV_Training/9610'
 import { exercise9611 } from './implementations/Mathe_AV_Training/9611'
 import { exercise9612 } from './implementations/Mathe_AV_Training/9612'
 import { exercise9613 } from './implementations/Mathe_AV_Training/9613'
-import { exercise9614 } from './implementations/Mathe_AV_Training/9614'
-import { exercise9615 } from './implementations/Mathe_AV_Training/9615'
 import { exercise9616 } from './implementations/Mathe_AV_Training/9616'
 import { exercise9617 } from './implementations/Mathe_AV_Training/9617'
 import { exercise9618 } from './implementations/Mathe_AV_Training/9618'
 import { exercise9619 } from './implementations/Mathe_AV_Training/9619'
 import { exercise9620 } from './implementations/Mathe_AV_Training/9620'
-import { exercise9621 } from './implementations/Mathe_AV_Training/9621'
-import { exercise9622 } from './implementations/Mathe_AV_Training/9622'
 import { exercise9623 } from './implementations/Mathe_AV_Training/9623'
 import { exercise9624 } from './implementations/Mathe_AV_Training/9624'
 import { exercise9625 } from './implementations/Mathe_AV_Training/9625'
@@ -376,39 +371,26 @@ import { exercise9626 } from './implementations/Mathe_AV_Training/9626'
 import { exercise9627 } from './implementations/Mathe_AV_Training/9627'
 import { exercise9628 } from './implementations/Mathe_AV_Training/9628'
 import { exercise9629 } from './implementations/Mathe_AV_Training/9629'
-import { exercise9630 } from './implementations/Mathe_AV_Training/9630'
 import { exercise9631 } from './implementations/Mathe_AV_Training/9631'
 import { exercise9632 } from './implementations/Mathe_AV_Training/9632'
 import { exercise9633 } from './implementations/Mathe_AV_Training/9633'
-import { exercise9635 } from './implementations/Mathe_AV_Training/9635'
 import { exercise9636 } from './implementations/Mathe_AV_Training/9636'
 import { exercise9638 } from './implementations/Mathe_AV_Training/9638'
 import { exercise9639 } from './implementations/Mathe_AV_Training/9639'
 import { exercise9640 } from './implementations/Mathe_AV_Training/9640'
 import { exercise9641 } from './implementations/Mathe_AV_Training/9641'
 import { exercise9643 } from './implementations/Mathe_AV_Training/9643'
-import { exercise9644 } from './implementations/Mathe_AV_Training/9644'
 import { exercise9645 } from './implementations/Mathe_AV_Training/9645'
 import { exercise9646 } from './implementations/Mathe_AV_Training/9646'
 import { exercise9647 } from './implementations/Mathe_AV_Training/9647'
 import { exercise9648 } from './implementations/Mathe_AV_Training/9648'
 import { exercise9649 } from './implementations/Mathe_AV_Training/9649'
-import { exercise9650 } from './implementations/Mathe_AV_Training/9650'
 import { exercise9651 } from './implementations/Mathe_AV_Training/9651'
-import { exercise9652 } from './implementations/Mathe_AV_Training/9652'
 import { exercise9653 } from './implementations/Mathe_AV_Training/9653'
 import { exercise9654 } from './implementations/Mathe_AV_Training/9654'
 import { exercise9655 } from './implementations/Mathe_AV_Training/9655'
 import { exercise9656 } from './implementations/Mathe_AV_Training/9656'
-import { exercise9657 } from './implementations/Mathe_AV_Training/9657'
-import { exercise9658 } from './implementations/Mathe_AV_Training/9658'
-import { exercise9659 } from './implementations/Mathe_AV_Training/9659'
-import { exercise9660 } from './implementations/Mathe_AV_Training/9660'
-import { exercise9661 } from './implementations/Mathe_AV_Training/9661'
-import { exercise9662 } from './implementations/Mathe_AV_Training/9662'
-import { exercise9663 } from './implementations/Mathe_AV_Training/9663'
-import { exercise9664 } from './implementations/Mathe_AV_Training/9664'
-import { exercise9665 } from './implementations/Mathe_AV_Training/9665'
+
 import { exercise9026 } from './implementations/Mathe_AV_Prüfungen/9026'
 import { exercise9027 } from './implementations/Mathe_AV_Prüfungen/9027'
 import { exercise9028 } from './implementations/Mathe_AV_Prüfungen/9028'
@@ -518,6 +500,43 @@ import { exercise5122 } from './implementations/Mathe_TG11_Training/5122'
 import { exercise5123 } from './implementations/Mathe_TG11_Training/5123'
 import { exercise5124 } from './implementations/Mathe_TG11_Training/5124'
 import { exercise5125 } from './implementations/Mathe_TG11_Training/5125'
+import { exercise10000 } from './implementations/Mathe1_3BKGD1/10000'
+import { exercise10001 } from './implementations/Mathe1_3BKGD1/10001'
+import { exercise10002 } from './implementations/Mathe1_3BKGD1/10002'
+import { exercise10003 } from './implementations/Mathe1_3BKGD1/10003'
+import { exercise10004 } from './implementations/Mathe1_3BKGD1/10004'
+import { exercise10005 } from './implementations/Mathe1_3BKGD1/10005'
+import { exercise10006 } from './implementations/Mathe1_3BKGD1/10006'
+import { exercise10007 } from './implementations/Mathe1_3BKGD1/10007'
+import { exercise10008 } from './implementations/Mathe1_3BKGD1/10008'
+import { exercise10009 } from './implementations/Mathe1_3BKGD1/10009'
+import { exercise10020 } from './implementations/Mathe1_3BKGD1/10020'
+import { exercise10022 } from './implementations/Mathe1_3BKGD1/10022'
+import { exercise10023 } from './implementations/Mathe1_3BKGD1/10023'
+import { exercise10028 } from './implementations/Mathe1_3BKGD1/10028'
+import { exercise10029 } from './implementations/Mathe1_3BKGD1/10029'
+import { exercise10030 } from './implementations/Mathe1_3BKGD1/10030'
+import { exercise10032 } from './implementations/Mathe1_3BKGD1/10032'
+import { exercise10034 } from './implementations/Mathe1_3BKGD1/10034'
+import { exercise10035 } from './implementations/Mathe1_3BKGD1/10035'
+import { exercise10036 } from './implementations/Mathe1_3BKGD1/10036'
+import { exercise10039 } from './implementations/Mathe1_3BKGD1/10039'
+import { exercise10044 } from './implementations/Mathe1_3BKGD1/10044'
+import { exercise10046 } from './implementations/Mathe1_3BKGD1/10046'
+import { exercise10047 } from './implementations/Mathe1_3BKGD1/10047'
+import { exercise10048 } from './implementations/Mathe1_3BKGD1/10048'
+import { exercise10049 } from './implementations/Mathe1_3BKGD1/10049'
+import { exercise10050 } from './implementations/Mathe1_3BKGD1/10050'
+import { exercise10051 } from './implementations/Mathe1_3BKGD1/10051'
+import { exercise10052 } from './implementations/Mathe1_3BKGD1/10052'
+import { exercise10053 } from './implementations/Mathe1_3BKGD1/10053'
+import { exercise10054 } from './implementations/Mathe1_3BKGD1/10054'
+import { exercise10055 } from './implementations/Mathe1_3BKGD1/10055'
+import { exercise10056 } from './implementations/Mathe1_3BKGD1/10056'
+import { exercise10059 } from './implementations/Mathe1_3BKGD1/10059'
+import { exercise10060 } from './implementations/Mathe1_3BKGD1/10060'
+import { exercise10061 } from './implementations/Mathe1_3BKGD1/10061'
+import { exercise10063 } from './implementations/Mathe1_3BKGD1/10063'
 import { exercise12000 } from './implementations/Mathe1_3BKGD3/12000'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
@@ -923,7 +942,6 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9602: exercise9602,
   9603: exercise9603,
   9605: exercise9605,
-  9606: exercise9606,
   9607: exercise9607,
   9608: exercise9608,
   9609: exercise9609,
@@ -931,15 +949,11 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9611: exercise9611,
   9612: exercise9612,
   9613: exercise9613,
-  9614: exercise9614,
-  9615: exercise9615,
   9616: exercise9616,
   9617: exercise9617,
   9618: exercise9618,
   9619: exercise9619,
   9620: exercise9620,
-  9621: exercise9621,
-  9622: exercise9622,
   9623: exercise9623,
   9624: exercise9624,
   9625: exercise9625,
@@ -947,39 +961,25 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9627: exercise9627,
   9628: exercise9628,
   9629: exercise9629,
-  9630: exercise9630,
   9631: exercise9631,
   9632: exercise9632,
   9633: exercise9633,
-  9635: exercise9635,
   9636: exercise9636,
   9638: exercise9638,
   9639: exercise9639,
   9640: exercise9640,
   9641: exercise9641,
   9643: exercise9643,
-  9644: exercise9644,
   9645: exercise9645,
   9646: exercise9646,
   9647: exercise9647,
   9648: exercise9648,
   9649: exercise9649,
-  9650: exercise9650,
   9651: exercise9651,
-  9652: exercise9652,
   9653: exercise9653,
   9654: exercise9654,
   9655: exercise9655,
   9656: exercise9656,
-  9657: exercise9657,
-  9658: exercise9658,
-  9659: exercise9659,
-  9660: exercise9660,
-  9661: exercise9661,
-  9662: exercise9662,
-  9663: exercise9663,
-  9664: exercise9664,
-  9665: exercise9665,
   6014: exercise6014,
   6015: exercise6015,
   6016: exercise6016,
@@ -1039,6 +1039,43 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   5123: exercise5123,
   5124: exercise5124,
   5125: exercise5125,
+  10000: exercise10000,
+  10001: exercise10001,
+  10002: exercise10002,
+  10003: exercise10003,
+  10004: exercise10004,
+  10005: exercise10005,
+  10006: exercise10006,
+  10007: exercise10007,
+  10008: exercise10008,
+  10009: exercise10009,
+  10020: exercise10020,
+  10022: exercise10022,
+  10023: exercise10023,
+  10028: exercise10028,
+  10029: exercise10029,
+  10030: exercise10030,
+  10032: exercise10032,
+  10034: exercise10034,
+  10035: exercise10035,
+  10036: exercise10036,
+  10039: exercise10039,
+  10044: exercise10044,
+  10046: exercise10046,
+  10047: exercise10047,
+  10048: exercise10048,
+  10049: exercise10049,
+  10050: exercise10050,
+  10051: exercise10051,
+  10052: exercise10052,
+  10053: exercise10053,
+  10054: exercise10054,
+  10055: exercise10055,
+  10056: exercise10056,
+  10059: exercise10059,
+  10060: exercise10060,
+  10061: exercise10061,
+  10063: exercise10063,
   12000: exercise12000,
 }
 

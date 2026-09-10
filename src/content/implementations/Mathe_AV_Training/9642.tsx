@@ -33,32 +33,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Wandle{' '}
-      <b>
-        {data.a} m {data.b} cm
-      </b>{' '}
-      in Zentimeter und in Meter um.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`${data.a}\\,\\mathrm m=${data.a * 100}\\,\\mathrm{cm}`}
-      />
-      <br />
-      <InlineMath
-        math={`${data.a * 100}+${data.b}=${data.result}\\,\\mathrm{cm}=${pp(data.result2)}\\,\\mathrm m`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -79,9 +53,27 @@ export const exercise9642: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Wandle{' '}
+        <b>
+          {data.a} m {data.b} cm
+        </b>{' '}
+        in Zentimeter und in Meter um.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`${data.a}\\,\\mathrm m=${data.a * 100}\\,\\mathrm{cm}`}
+        />
+        <br />
+        <InlineMath
+          math={`${data.a * 100}+${data.b}=${data.result}\\,\\mathrm{cm}=${pp(data.result2)}\\,\\mathrm m`}
+        />
+      </>
+    )
   },
 }

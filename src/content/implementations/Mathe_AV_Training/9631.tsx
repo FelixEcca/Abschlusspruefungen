@@ -33,30 +33,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Auf einem {data.label} entsprechen <b>1 cm</b> in Wirklichkeit{' '}
-      <b>{data.b} cm</b>. Eine Strecke ist auf dem Plan <b>{data.a} cm</b> lang.
-      Berechne die echte Länge in cm und m.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`${data.a}\\cdot${data.b}=${pp(data.result)}\\,\\mathrm{cm}`}
-      />
-      <br />
-      <InlineMath
-        math={`${pp(data.result)}\\,\\mathrm{cm}=${pp(data.result2)}\\,\\mathrm m`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -77,9 +53,25 @@ export const exercise9631: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Auf einem {data.label} entsprechen <b>1 cm</b> in Wirklichkeit{' '}
+        <b>{data.b} cm</b>. Eine Strecke ist auf dem Plan <b>{data.a} cm</b>{' '}
+        lang. Berechne die echte Länge in cm und m.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`${data.a}\\cdot${data.b}=${pp(data.result)}\\,\\mathrm{cm}`}
+        />
+        <br />
+        <InlineMath
+          math={`${pp(data.result)}\\,\\mathrm{cm}=${pp(data.result2)}\\,\\mathrm m`}
+        />
+      </>
+    )
   },
 }

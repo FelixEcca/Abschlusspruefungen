@@ -48,34 +48,32 @@ export const exercise9583: Exercise<DATA> = {
 
         <svg viewBox="0 0 300 200">
           <rect
-            x="95"
-            y="45"
-            width="140"
-            height="80"
-            fill="#ddd"
-            stroke="black"
-          />
-          <rect
-            x="55"
-            y="75"
-            width="140"
-            height="80"
+            x="40"
+            y="60"
+            width="120"
+            height="65"
             fill="#eee"
             stroke="black"
           />
 
-          <line x1="55" y1="75" x2="95" y2="45" stroke="black" />
-          <line x1="195" y1="75" x2="235" y2="45" stroke="black" />
-          <line x1="195" y1="155" x2="235" y2="125" stroke="black" />
-          <line x1="235" y1="45" x2="235" y2="125" stroke="black" />
+          <polygon
+            points="200,100 160,125  160,60 200,35"
+            fill="#ddd"
+            stroke="black"
+          />
+          <polygon
+            points="80,35 40,60  160,60 200,35"
+            fill="#ddd"
+            stroke="black"
+          />
 
-          <text x="120" y="178" fontSize="14">
+          <text x="80" y="140" fontSize="14">
             a = {pp(data.a)} {data.unit}
           </text>
-          <text x="22" y="118" fontSize="14">
+          <text x="22" y="90" fontSize="14">
             b = {pp(data.b)} {data.unit}
           </text>
-          <text x="220" y="165" fontSize="14">
+          <text x="190" y="130" fontSize="14">
             c = {pp(data.c)} {data.unit}
           </text>
         </svg>

@@ -41,34 +41,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Es gibt <InlineMath math={`${data.a}\\frac{${data.c}}{${data.b}}`} />{' '}
-      Liter {data.label}. {data.label} wird gleichmäßig auf <b>{data.d}</b>{' '}
-      Flaschen verteilt. Wie viel Liter kommen in eine Flasche?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`${data.a}\\frac{${data.c}}{${data.b}}=\\frac{${data.result2}}{${data.b}}`}
-      />
-      <br />
-      <InlineMath
-        math={`\\frac{${data.result2}}{${data.b}}:${data.d}=\\frac{${data.result}}{${data.b}}`}
-      />
-      <p>
-        In eine Flasche kommen{' '}
-        <InlineMath math={`\\frac{${data.result}}{${data.b}}`} /> Liter.
-      </p>
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -93,9 +65,41 @@ export const exercise9618: Exercise<DATA> = {
     )
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Es gibt <InlineMath math={`${data.a}\\frac{${data.c}}{${data.b}}`} />{' '}
+        Liter {data.label}. {data.label} wird gleichmäßig auf <b>{data.d}</b>{' '}
+        Flaschen verteilt. Wie viel Liter kommen in eine Flasche?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <p>Schreibe zuerst den gemischten Bruch als unechten Bruch.</p>
+
+        <InlineMath
+          math={`\\color{red}${data.a}\\color{black}\\frac{${data.c}}{\\color{red}${data.b}\\color{black}}=\\frac{\\color{red}${data.a}\\cdot${data.b}\\color{black}+${data.c}}{${data.b}}=\\frac{${data.result2}}{${data.b}}`}
+        />
+        <p>Jetzt wird die Menge gleichmäßig auf {data.d} Flaschen verteilt.</p>
+        <InlineMath
+          math={`\\frac{${data.result2}}{${data.b}}:${data.d}=\\frac{${data.result2}}{${data.b}}\\cdot\\frac{1}{${data.d}}`}
+        />
+        <br />
+        <InlineMath
+          math={`=\\frac{${data.result2}}{${data.b}\\cdot ${data.d}}`}
+        />
+        <br />
+        <InlineMath math={`${data.result2}:${data.d}=${data.result}`} />
+        <br />
+        <InlineMath
+          math={`\\frac{${data.result2}}{${data.b}\\cdot ${data.d}}=\\frac{${data.result}}{${data.b}}`}
+        />
+        <p>
+          In eine Flasche kommen{' '}
+          <InlineMath math={`\\frac{${data.result}}{${data.b}}`} /> Liter.
+        </p>
+      </>
+    )
   },
 }

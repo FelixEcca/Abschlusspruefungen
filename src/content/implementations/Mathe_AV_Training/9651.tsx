@@ -34,28 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      {' '}
-      <b>{data.a}</b> gleiche {data.label} brauchen <b>{data.b}</b> Stunden. Wie
-      lange brauchen <b>{data.c}</b> {data.label}?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath math={`${data.a}\\cdot${data.b}=${data.result2}`} />
-      <br />
-      <InlineMath
-        math={`${data.result2}:${data.c}=${pp(data.result)}\\,\\mathrm h`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -76,9 +54,23 @@ export const exercise9651: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        {' '}
+        <b>{data.a}</b> gleiche {data.label} brauchen <b>{data.b}</b> Stunden.
+        Wie lange brauchen <b>{data.c}</b> {data.label}?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath math={`${data.a}\\cdot${data.b}=${data.result2}`} />
+        <br />
+        <InlineMath
+          math={`${data.result2}:${data.c}=${pp(data.result)}\\,\\mathrm h`}
+        />
+      </>
+    )
   },
 }

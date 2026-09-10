@@ -44,23 +44,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      In einer Klasse haben <b>{data.a}</b> von <b>{data.b}</b> Personen{' '}
-      {data.label}. Gib den Anteil als gekürzten Bruch an.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`\\frac{${data.a}}{${data.b}}=\\frac{${data.c}}{${data.d}}`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -81,9 +64,18 @@ export const exercise9647: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        In einer Klasse haben <b>{data.a}</b> von <b>{data.b}</b> Personen{' '}
+        {data.label}. Gib den Anteil als gekürzten Bruch an.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`\\frac{${data.a}}{${data.b}}=\\frac{${data.c}}{${data.d}}`}
+      />
+    )
   },
 }

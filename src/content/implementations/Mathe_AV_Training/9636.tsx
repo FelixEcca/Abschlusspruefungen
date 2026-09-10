@@ -32,19 +32,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Es werden <b>{data.a}</b> {data.label} gleichmäßig auf <b>{data.b}</b>{' '}
-      Kisten verteilt. Wie viele {data.label} kommen in eine Kiste?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return <InlineMath math={`${data.a}:${data.b}=${data.result}`} />
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -65,9 +52,14 @@ export const exercise9636: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Es werden <b>{data.a}</b> {data.label} gleichmäßig auf <b>{data.b}</b>{' '}
+        Kisten verteilt. Wie viele {data.label} kommen in eine Kiste?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return <InlineMath math={`${data.a}:${data.b}=${data.result}`} />
   },
 }

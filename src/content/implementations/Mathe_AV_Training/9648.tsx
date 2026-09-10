@@ -23,26 +23,6 @@ function makeData(rng: any): DATA {
   return { kind, a, b, c, d: 0, result: a + c, result2: b, label: 'Bruchsumme' }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Addiere die Brüche{' '}
-      <InlineMath
-        math={`\\frac{${data.a}}{${data.b}}+\\frac{${data.c}}{${data.b}}`}
-      />
-      .
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`\\frac{${data.a}}{${data.b}}+\\frac{${data.c}}{${data.b}}=\\frac{${data.result}}{${data.result2}}`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -63,9 +43,21 @@ export const exercise9648: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Addiere die Brüche{' '}
+        <InlineMath
+          math={`\\frac{${data.a}}{${data.b}}+\\frac{${data.c}}{${data.b}}`}
+        />
+        .
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`\\frac{${data.a}}{${data.b}}+\\frac{${data.c}}{${data.b}}=\\frac{${data.result}}{${data.result2}}`}
+      />
+    )
   },
 }

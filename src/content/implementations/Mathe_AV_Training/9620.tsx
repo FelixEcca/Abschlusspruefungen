@@ -39,30 +39,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Eine Mischung besteht aus {data.label} im Verhältnis{' '}
-      <b>
-        {data.a}:{data.b}
-      </b>
-      . Insgesamt sind es <b>{data.c} Liter</b>. Berechne beide Anteile.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath math={`${data.a}+${data.b}=${data.a + data.b}`} />
-      <br />
-      <InlineMath
-        math={`1.\\ Anteil=${pp(data.result)}\\,\\mathrm l,\\quad 2.\\ Anteil=${pp(data.result2)}\\,\\mathrm l`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -83,9 +59,35 @@ export const exercise9620: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Eine Mischung besteht aus {data.label} im Verhältnis{' '}
+        <b>
+          {data.a}:{data.b}
+        </b>
+        . Insgesamt sind es <b>{data.c} Liter</b>. Berechne beide Anteile.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath math={`${data.a}+${data.b}=${data.a + data.b}`} /> Teile
+        gibt es insgesamt.
+        <br />
+        <p>
+          Jeder einzelne Teil hat das Volumen:{' '}
+          <InlineMath
+            math={`\\frac{${data.c}}{${data.a + data.b}}=${pp(data.c / (data.a + data.b))}\\,\\mathrm l`}
+          />
+        </p>
+        <p>
+          Die Anteile sind:{' '}
+          <InlineMath
+            math={`${pp(data.result)}\\,\\mathrm l \\quad\\text{und}\\quad ${pp(data.result2)}\\,\\mathrm l`}
+          />
+        </p>
+      </>
+    )
   },
 }

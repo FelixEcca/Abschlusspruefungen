@@ -38,24 +38,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      In eine {data.label} passen{' '}
-      <InlineMath math={`${pp(data.a)}\\,\\mathrm l`} />. Wandle die Menge in
-      Milliliter um.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`${pp(data.a)}\\,\\mathrm l=${pp(data.result)}\\,\\mathrm{ml}`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -76,9 +58,19 @@ export const exercise9632: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        In eine {data.label} passen{' '}
+        <InlineMath math={`${pp(data.a)}\\,\\mathrm l`} />. Wandle die Menge in
+        Milliliter um.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`${pp(data.a)}\\,\\mathrm l=${pp(data.result)}\\,\\mathrm{ml}`}
+      />
+    )
   },
 }

@@ -33,26 +33,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein Einkauf kostet <b>{pp(data.a)} €</b>. Bezahlt wird mit{' '}
-      <b>{pp(data.b)} €</b>. Berechne das Rückgeld.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath math={`${pp(data.b)}-${pp(data.a)}=${pp(data.result)}`} />
-      <p>
-        Das Rückgeld beträgt <b>{pp(data.result)} €</b>.
-      </p>
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -73,9 +53,21 @@ export const exercise9609: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein Einkauf kostet <b>{pp(data.a)} €</b>. Bezahlt wird mit{' '}
+        <b>{pp(data.b)} €</b>. Berechne das Rückgeld.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath math={`${pp(data.b)}-${pp(data.a)}=${pp(data.result)}`} />
+        <p>
+          Das Rückgeld beträgt <b>{pp(data.result)} €</b>.
+        </p>
+      </>
+    )
   },
 }

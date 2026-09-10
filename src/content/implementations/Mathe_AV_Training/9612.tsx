@@ -34,31 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Eine Wand ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} /> breit und{' '}
-      <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> hoch. Pro Quadratmeter
-      werden <InlineMath math={`${pp(data.c)}\\,€`} /> berechnet. Berechne
-      Fläche und Kosten.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result)}\\,\\mathrm{m^2}`}
-      />
-      <br />
-      <InlineMath
-        math={`K=${pp(data.result)}\\cdot${pp(data.c)}=${pp(data.result2)}\\,€`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -79,9 +54,26 @@ export const exercise9612: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Eine Wand ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} /> breit
+        und <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> hoch. Pro
+        Quadratmeter werden <InlineMath math={`${pp(data.c)}\\,€`} /> berechnet.
+        Berechne Fläche und Kosten.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result)}\\,\\mathrm{m^2}`}
+        />
+        <br />
+        <InlineMath
+          math={`K=${pp(data.result)}\\cdot${pp(data.c)}=${pp(data.result2)}\\,€`}
+        />
+      </>
+    )
   },
 }

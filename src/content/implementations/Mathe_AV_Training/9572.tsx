@@ -4,7 +4,10 @@ import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 type Unit = 'cm' | 'dm' | 'm'
-type Figure = 'rechteckMinusRechteck' | 'rechteckPlusRechteck' | 'rechteckMinusDreieck'
+type Figure =
+  | 'rechteckMinusRechteck'
+  | 'rechteckPlusRechteck'
+  | 'rechteckMinusDreieck'
 
 interface DATA {
   figure: Figure
@@ -82,13 +85,30 @@ export const exercise9572: Exercise<DATA> = {
 
         {data.figure === 'rechteckMinusRechteck' && (
           <svg viewBox="0 0 328 210">
-            <path
-              d="M 55 40 L 270 40 L 270 165 L 55 165 Z M 185 95 L 250 95 L 250 145 L 185 145 Z"
+            <rect
+              x="55"
+              y="40"
+              width="215"
+              height="125"
               fill="#eee"
               stroke="black"
               strokeWidth="2"
-              fillRule="evenodd"
             />
+            <rect
+              x="185"
+              y="95"
+              width="65"
+              height="50"
+              fill="white"
+              stroke="black"
+              strokeWidth="2"
+            />
+            <line x1="190" y1="140" x2="245" y2="100" stroke="#bbb" />
+            <line x1="190" y1="125" x2="225" y2="100" stroke="#bbb" />
+            <line x1="210" y1="140" x2="245" y2="115" stroke="#bbb" />
+            <text x="218" y="124" fontSize="13" textAnchor="middle">
+              Loch
+            </text>
             <text x="162" y="188" fontSize="14" textAnchor="middle">
               a = {pp(data.a)} {data.unit}
             </text>
@@ -106,8 +126,24 @@ export const exercise9572: Exercise<DATA> = {
 
         {data.figure === 'rechteckPlusRechteck' && (
           <svg viewBox="0 0 328 210">
-            <rect x="55" y="70" width="190" height="95" fill="#eee" stroke="black" strokeWidth="2" />
-            <rect x="55" y="35" width="85" height="35" fill="#eee" stroke="black" strokeWidth="2" />
+            <rect
+              x="55"
+              y="70"
+              width="190"
+              height="95"
+              fill="#eee"
+              stroke="black"
+              strokeWidth="2"
+            />
+            <rect
+              x="55"
+              y="35"
+              width="85"
+              height="35"
+              fill="#eee"
+              stroke="black"
+              strokeWidth="2"
+            />
             <text x="150" y="188" fontSize="14" textAnchor="middle">
               a = {pp(data.a)} {data.unit}
             </text>
@@ -125,8 +161,24 @@ export const exercise9572: Exercise<DATA> = {
 
         {data.figure === 'rechteckMinusDreieck' && (
           <svg viewBox="0 0 328 210">
-            <rect x="55" y="45" width="215" height="120" fill="#eee" stroke="black" strokeWidth="2" />
-            <polygon points="205,45 270,45 270,95" fill="white" stroke="black" strokeWidth="2" />
+            <polygon
+              points="55,45 205,45 270,95 270,165 55,165"
+              fill="#eee"
+              stroke="black"
+              strokeWidth="2"
+            />
+            <polygon
+              points="205,45 270,45 270,95"
+              fill="white"
+              stroke="#777"
+              strokeWidth="2"
+              strokeDasharray="5 4"
+            />
+            <line x1="215" y1="50" x2="265" y2="88" stroke="#bbb" />
+            <line x1="232" y1="49" x2="268" y2="76" stroke="#bbb" />
+            <text x="251" y="68" fontSize="12" textAnchor="middle">
+              weg
+            </text>
             <text x="162" y="188" fontSize="14" textAnchor="middle">
               a = {pp(data.a)} {data.unit}
             </text>

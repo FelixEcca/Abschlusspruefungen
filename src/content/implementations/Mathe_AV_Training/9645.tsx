@@ -28,26 +28,13 @@ function makeData(rng: any): DATA {
     d: 0,
     result: a * b,
     result2: 0,
-    label: pick(rng, ['Prisma', 'Bauteil', 'Verpackungsteil', 'Glaskörper']),
+    label: pick(rng, [
+      'Prisma',
+      'prismaförmiges Bauteil',
+      'prismaförmiges Verpackungsteil',
+      'prismaförmiger Glaskörper',
+    ]),
   }
-}
-
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein {data.label} hat eine Grundfläche von{' '}
-      <InlineMath math={`${data.a}\\,\\mathrm{cm^2}`} /> und eine Höhe von{' '}
-      <InlineMath math={`${data.b}\\,\\mathrm{cm}`} />. Berechne das Volumen.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`V=G\\cdot h=${data.a}\\cdot${data.b}=${data.result}\\,\\mathrm{cm^3}`}
-    />
-  )
 }
 
 const originalData = makeData({
@@ -70,9 +57,19 @@ export const exercise9645: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein {data.label} hat eine Grundfläche von{' '}
+        <InlineMath math={`${data.a}\\,\\mathrm{cm^2}`} /> und eine Höhe von{' '}
+        <InlineMath math={`${data.b}\\,\\mathrm{cm}`} />. Berechne das Volumen.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`V=G\\cdot h=${data.a}\\cdot${data.b}=${data.result}\\,\\mathrm{cm^3}`}
+      />
+    )
   },
 }

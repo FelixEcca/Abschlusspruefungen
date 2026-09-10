@@ -30,22 +30,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein Einkauf kostet <b>{pp(data.a)} €</b>. Runde den Betrag auf ganze €.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      Gerundet auf ganze € sind es <b>{pp(data.result)} €</b>.
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -66,9 +50,17 @@ export const exercise9608: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein Einkauf kostet <b>{pp(data.a)} €</b>. Runde den Betrag auf ganze €.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        Gerundet auf ganze € sind es <b>{pp(data.result)} €</b>.
+      </>
+    )
   },
 }

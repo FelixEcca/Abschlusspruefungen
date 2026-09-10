@@ -39,24 +39,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Für einen {data.label} werden <b>{data.a}</b> Erwachsenenkarten zu{' '}
-      <b>{data.b} €</b> und <b>{data.c}</b> Schülerkarten zu <b>{data.d} €</b>{' '}
-      gekauft. Berechne die Gesamtkosten.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`${data.a}\\cdot${data.b}+${data.c}\\cdot${data.d}=${data.result}\\,€`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -77,9 +59,19 @@ export const exercise9638: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Für einen {data.label} werden <b>{data.a}</b> Erwachsenenkarten zu{' '}
+        <b>{data.b} €</b> und <b>{data.c}</b> Schülerkarten zu <b>{data.d} €</b>{' '}
+        gekauft. Berechne die Gesamtkosten.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`${data.a}\\cdot${data.b}+${data.c}\\cdot${data.d}=${data.result}\\,€`}
+      />
+    )
   },
 }

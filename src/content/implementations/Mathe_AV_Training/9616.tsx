@@ -34,24 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      In einer {data.label} mit <b>{data.c}</b> Personen sind{' '}
-      <InlineMath math={`\\frac{${data.a}}{${data.b}}`} /> anwesend. Wie viele
-      Personen sind anwesend?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`${data.c}: ${data.b}\\cdot ${data.a}=${pp(data.result)}`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -75,9 +57,19 @@ export const exercise9616: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        In einer {data.label} mit <b>{data.c}</b> Personen sind{' '}
+        <InlineMath math={`\\frac{${data.a}}{${data.b}}`} /> anwesend. Wie viele
+        Personen sind anwesend?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`${data.c}: ${data.b}\\cdot ${data.a}=${pp(data.result)}`}
+      />
+    )
   },
 }

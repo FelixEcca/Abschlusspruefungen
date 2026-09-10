@@ -34,22 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Die {data.label} lauten:{' '}
-      <b>
-        {data.a}, {data.b}, {data.c}, {data.d}
-      </b>
-      . Berechne die Spannweite.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return <InlineMath math={`Spannweite=${data.d}-${data.a}=${data.result}`} />
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -70,9 +54,17 @@ export const exercise9629: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Die {data.label} lauten:{' '}
+        <b>
+          {data.a}, {data.b}, {data.c}, {data.d}
+        </b>
+        . Berechne die Spannweite.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return <InlineMath math={`Spannweite=${data.d}-${data.a}=${data.result}`} />
   },
 }

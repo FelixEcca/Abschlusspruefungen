@@ -38,33 +38,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Vergleiche zwei Angebote für {data.label}: A kostet <b>{data.a} €</b> mit{' '}
-      <b>{data.b} %</b> Rabatt. B kostet <b>{data.c} €</b> mit <b>{data.d} %</b>{' '}
-      Rabatt. Welches Angebot ist günstiger?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`A=${data.a}\\cdot(1-\\frac{${data.b}}{100})=${pp(data.result)}\\,€`}
-      />
-      <br />
-      <InlineMath
-        math={`B=${data.c}\\cdot(1-\\frac{${data.d}}{100})=${pp(data.result2)}\\,€`}
-      />
-      <p>
-        {data.result < data.result2 ? 'Angebot A' : 'Angebot B'} ist günstiger.
-      </p>
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -85,9 +58,121 @@ export const exercise9654: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Vergleiche zwei Angebote für {data.label}: A kostet <b>{data.a} €</b>{' '}
+        mit <b>{data.b} %</b> Rabatt. B kostet <b>{data.c} €</b> mit{' '}
+        <b>{data.d} %</b> Rabatt. Welches Angebot ist günstiger?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    const onePercentA = round2(data.a / 100)
+    const onePercentB = round2(data.c / 100)
+    const discountA = round2(data.a - data.result)
+    const discountB = round2(data.c - data.result2)
+
+    return (
+      <>
+        <p>Berechne zuerst den Rabatt von Angebot A mit dem Dreisatz:</p>
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/Mathe_AV/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            %
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            €
+          </text>
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            100
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.a)} €
+          </text>
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(onePercentA)} €
+          </text>
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.b)}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(discountA)} €
+          </text>
+          <text x="24" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {pp(data.b)}
+          </text>
+          <text x="286" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="284" y="123" fontSize="14">
+            · {pp(data.b)}
+          </text>
+        </svg>
+        <InlineMath
+          math={`A: ${pp(data.a)}-${pp(discountA)}=${pp(data.result)}\\,€`}
+        />
+        <p>Berechne dann den Rabatt von Angebot B mit dem Dreisatz:</p>
+        <svg viewBox="0 0 328 185">
+          <image
+            href="/content/Mathe_AV/Dreisatz.PNG"
+            height="185"
+            width="328"
+          />
+          <text x="120" y="12" fontSize="15" textAnchor="middle">
+            %
+          </text>
+          <text x="205" y="12" fontSize="15" textAnchor="middle">
+            €
+          </text>
+          <text x="120" y="42" fontSize="15" textAnchor="middle">
+            100
+          </text>
+          <text x="200" y="42" fontSize="15" textAnchor="middle">
+            {pp(data.c)} €
+          </text>
+          <text x="120" y="92" fontSize="15" textAnchor="middle">
+            1
+          </text>
+          <text x="200" y="92" fontSize="15" textAnchor="middle">
+            {pp(onePercentB)} €
+          </text>
+          <text x="120" y="142" fontSize="15" textAnchor="middle">
+            {pp(data.d)}
+          </text>
+          <text x="200" y="142" fontSize="15" textAnchor="middle">
+            {pp(discountB)} €
+          </text>
+          <text x="24" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="22" y="123" fontSize="14">
+            · {pp(data.d)}
+          </text>
+          <text x="286" y="72" fontSize="14">
+            : 100
+          </text>
+          <text x="284" y="123" fontSize="14">
+            · {pp(data.d)}
+          </text>
+        </svg>
+        <InlineMath
+          math={`B: ${pp(data.c)}-${pp(discountB)}=${pp(data.result2)}\\,€`}
+        />
+        <p>
+          {data.result < data.result2 ? 'Angebot A' : 'Angebot B'} ist
+          günstiger.
+        </p>
+      </>
+    )
   },
 }

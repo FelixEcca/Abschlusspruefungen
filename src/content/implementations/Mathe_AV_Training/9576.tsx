@@ -49,14 +49,6 @@ export const exercise9576: Exercise<DATA> = {
 
         <svg viewBox="0 0 240 180">
           <rect
-            x="90"
-            y="35"
-            width="80"
-            height="80"
-            fill="#ddd"
-            stroke="black"
-          />
-          <rect
             x="60"
             y="55"
             width="80"
@@ -64,10 +56,16 @@ export const exercise9576: Exercise<DATA> = {
             fill="#eee"
             stroke="black"
           />
-          <line x1="60" y1="55" x2="90" y2="35" stroke="black" />
-          <line x1="140" y1="55" x2="170" y2="35" stroke="black" />
-          <line x1="140" y1="135" x2="170" y2="115" stroke="black" />
-          <line x1="170" y1="35" x2="170" y2="115" stroke="black" />
+          <polygon
+            points="140,55 140,135  170,115 170,35"
+            fill="#ddd"
+            stroke="black"
+          />
+          <polygon
+            points="90,35 60,55  140,55 170,35"
+            fill="#ddd"
+            stroke="black"
+          />
 
           <text x="100" y="155" fontSize="14">
             {data.a} {data.unit}

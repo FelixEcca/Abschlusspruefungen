@@ -105,25 +105,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      {data.label} hat eine Fläche von{' '}
-      <InlineMath math={`${pp(data.a)}\\,\\mathrm{${data.fromUnit}}`} />.
-      Wandle die Fläche in{' '}
-      <InlineMath math={`\\mathrm{${data.toUnit}}`} /> um.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <InlineMath
-      math={`${pp(data.a)}\\,\\mathrm{${data.fromUnit}}\\cdot ${pp(data.factor)}=${pp(data.result)}\\,\\mathrm{${data.toUnit}}`}
-    />
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -144,9 +125,20 @@ export const exercise9643: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        {data.label} hat eine Fläche von{' '}
+        <InlineMath math={`${pp(data.a)}\\,\\mathrm{${data.fromUnit}}`} />.
+        Wandle die Fläche in <InlineMath math={`\\mathrm{${data.toUnit}}`} />{' '}
+        um.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <InlineMath
+        math={`${pp(data.a)}\\,\\mathrm{${data.fromUnit}}\\cdot ${pp(data.factor)}=${pp(data.result)}\\,\\mathrm{${data.toUnit}}`}
+      />
+    )
   },
 }

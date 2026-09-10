@@ -36,27 +36,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein Termin beginnt um <b>{timeText(data.a)}</b> und dauert{' '}
-      <b>{data.b} Minuten</b>. Wann endet der Termin?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      Ende:{' '}
-      <b>
-        {timeText(data.a)} + {data.b} Minuten = {timeText(data.result)}
-      </b>
-      .
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -77,9 +56,22 @@ export const exercise9610: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein Termin beginnt um <b>{timeText(data.a)}</b> und dauert{' '}
+        <b>{data.b} Minuten</b>. Wann endet der Termin?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        Ende:{' '}
+        <b>
+          {timeText(data.a)} + {data.b} Minuten = {timeText(data.result)}
+        </b>
+        .
+      </>
+    )
   },
 }

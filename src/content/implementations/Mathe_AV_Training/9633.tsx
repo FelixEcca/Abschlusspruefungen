@@ -29,34 +29,12 @@ function makeData(rng: any): DATA {
     result: round2(Math.PI * a),
     result2: round2(a / 2),
     label: pick(rng, [
-      'runde Tischplatte',
-      'rundes Schild',
-      'runder Deckel',
-      'kreisförmiges Beet',
+      'Eine runde Tischplatte',
+      'Einrundes Schild',
+      'Ein runder Deckel',
+      'Ein kreisförmiges Beet',
     ]),
   }
-}
-
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein Gegenstand ({data.label}) hat den Durchmesser{' '}
-      <InlineMath math={`d=${pp(data.a)}\\,\\mathrm{cm}`} />. Berechne Radius
-      und Umfang.
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath math={`r=\\frac d2=${pp(data.result2)}\\,\\mathrm{cm}`} />
-      <br />
-      <InlineMath
-        math={`U=\\pi\\cdot d\\approx${pp(data.result)}\\,\\mathrm{cm}`}
-      />
-    </>
-  )
 }
 
 const originalData = makeData({
@@ -79,9 +57,23 @@ export const exercise9633: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        {data.label} hat den Durchmesser{' '}
+        <InlineMath math={`d=${pp(data.a)}\\,\\mathrm{cm}`} />. Berechne Radius
+        und Umfang.
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath math={`r=\\frac d2=${pp(data.result2)}\\,\\mathrm{cm}`} />
+        <br />
+        <InlineMath
+          math={`U=\\pi\\cdot d\\approx${pp(data.result)}\\,\\mathrm{cm}`}
+        />
+      </>
+    )
   },
 }

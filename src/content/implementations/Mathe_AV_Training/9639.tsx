@@ -34,30 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein {data.label} ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} />{' '}
-      lang. Ein zweites Stück ist{' '}
-      <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> lang. Davon werden{' '}
-      <InlineMath math={`${pp(data.c)}\\,\\mathrm m`} /> abgesägt. Wie viel
-      bleibt übrig?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath math={`${pp(data.a)}+${pp(data.b)}=${pp(data.result2)}`} />
-      <br />
-      <InlineMath
-        math={`${pp(data.result2)}-${pp(data.c)}=${pp(data.result)}\\,\\mathrm m`}
-      />
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -78,9 +54,25 @@ export const exercise9639: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein {data.label} ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} />{' '}
+        lang. Ein zweites Stück ist{' '}
+        <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> lang. Davon werden{' '}
+        <InlineMath math={`${pp(data.c)}\\,\\mathrm m`} /> abgesägt. Wie viel
+        bleibt übrig?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath math={`${pp(data.a)}+${pp(data.b)}=${pp(data.result2)}`} />
+        <br />
+        <InlineMath
+          math={`${pp(data.result2)}-${pp(data.c)}=${pp(data.result)}\\,\\mathrm m`}
+        />
+      </>
+    )
   },
 }

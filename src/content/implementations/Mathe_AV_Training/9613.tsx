@@ -34,34 +34,6 @@ function makeData(rng: any): DATA {
   }
 }
 
-function taskFor(data: DATA) {
-  return (
-    <>
-      Ein {data.label} ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} />{' '}
-      lang und <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> breit. Eine
-      Fliese bedeckt <InlineMath math={`${pp(data.c)}\\,\\mathrm{m^2}`} />. Wie
-      viele Fliesen werden benötigt?
-    </>
-  )
-}
-
-function solutionFor(data: DATA) {
-  return (
-    <>
-      <InlineMath
-        math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result)}\\,\\mathrm{m^2}`}
-      />
-      <br />
-      <InlineMath
-        math={`${pp(data.result)}:${pp(data.c)}=${pp(data.result2)}`}
-      />
-      <p>
-        Es werden <b>{pp(data.result2)}</b> Fliesen benötigt.
-      </p>
-    </>
-  )
-}
-
 const originalData = makeData({
   randomItemFromArray<T>(arr: T[]) {
     return arr[0]
@@ -82,9 +54,29 @@ export const exercise9613: Exercise<DATA> = {
     return data.kind === kind && Number.isFinite(data.result)
   },
   task({ data }) {
-    return <p>{taskFor(data)}</p>
+    return (
+      <p>
+        Ein {data.label} ist <InlineMath math={`${pp(data.a)}\\,\\mathrm m`} />{' '}
+        lang und <InlineMath math={`${pp(data.b)}\\,\\mathrm m`} /> breit. Eine
+        Fliese bedeckt <InlineMath math={`${pp(data.c)}\\,\\mathrm{m^2}`} />.
+        Wie viele Fliesen werden benötigt?
+      </p>
+    )
   },
   solution({ data }) {
-    return <>{solutionFor(data)}</>
+    return (
+      <>
+        <InlineMath
+          math={`A=${pp(data.a)}\\cdot${pp(data.b)}=${pp(data.result)}\\,\\mathrm{m^2}`}
+        />
+        <br />
+        <InlineMath
+          math={`${pp(data.result)}:${pp(data.c)}=${pp(data.result2)}`}
+        />
+        <p>
+          Es werden <b>{pp(data.result2)}</b> Fliesen benötigt.
+        </p>
+      </>
+    )
   },
 }

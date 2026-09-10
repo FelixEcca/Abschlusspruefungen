@@ -67,23 +67,22 @@ export const exercise9575: Exercise<DATA> = {
               fill="#eee"
               stroke="black"
             />
-            <line x1="50" y1="50" x2="80" y2="30" stroke="black" />
-            <line x1="130" y1="50" x2="160" y2="30" stroke="black" />
-            <line x1="130" y1="130" x2="160" y2="110" stroke="black" />
-            <line x1="160" y1="30" x2="160" y2="110" stroke="black" />
+
+            <polygon
+              points="130,50 130,130  160,110 160,30"
+              fill="#ddd"
+              stroke="black"
+            />
+            <polygon
+              points="80,30 50,50  130,50 160,30"
+              fill="#ddd"
+              stroke="black"
+            />
           </svg>
         )}
 
         {data.body === 'quader' && (
           <svg viewBox="0 0 260 180">
-            <rect
-              x="80"
-              y="35"
-              width="120"
-              height="70"
-              fill="#ddd"
-              stroke="black"
-            />
             <rect
               x="40"
               y="60"
@@ -92,10 +91,17 @@ export const exercise9575: Exercise<DATA> = {
               fill="#eee"
               stroke="black"
             />
-            <line x1="40" y1="60" x2="80" y2="35" stroke="black" />
-            <line x1="160" y1="60" x2="200" y2="35" stroke="black" />
-            <line x1="160" y1="130" x2="200" y2="105" stroke="black" />
-            <line x1="200" y1="35" x2="200" y2="105" stroke="black" />
+
+            <polygon
+              points="200,105 160,130  160,60 200,35"
+              fill="#ddd"
+              stroke="black"
+            />
+            <polygon
+              points="80,35 40,60  160,60 200,35"
+              fill="#ddd"
+              stroke="black"
+            />
           </svg>
         )}
 
