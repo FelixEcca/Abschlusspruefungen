@@ -7,6 +7,7 @@ export const maxDuration = 60
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
 const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
 const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? 'gpt-5.6-luna'
+const VISION_FALLBACK_MODEL = process.env.OPENAI_VISION_FALLBACK_MODEL ?? 'gpt-4o'
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const MAX_REQUEST_BYTES = 4_500_000
 const MAX_MESSAGES = 60
@@ -766,6 +767,7 @@ function parseErrorAnalysis(text: string): ErrorAnalysis {
 export async function POST(req: NextRequest) {
   try {
     if (!isOpenAIEnabled()) {
+      console.warn('[api/va89kjds] OpenAI API disabled by OPENAI_API_ENABLED')
       return NextResponse.json(
         { error: 'Die KI-Funktionen sind vorübergehend deaktiviert.' },
         { status: 503 },
@@ -773,6 +775,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!OPENAI_API_KEY) {
+      console.warn('[api/va89kjds] OPENAI_API_KEY missing')
       return NextResponse.json(
         { error: 'Die KI-Funktionen sind nicht konfiguriert.' },
         { status: 503 },
@@ -1067,7 +1070,7 @@ ${briefLabel}: ${note || 'Keiner'}`,
         },
         ...internalMessages,
       ]
-      const analysisResult = await callOpenAI(
+      let analysisResult = await callOpenAI(
         toOpenAIMessages(analysisMessages, 'high'),
         {
           responseFormat: ERROR_ANALYSIS_RESPONSE_FORMAT,
@@ -1075,6 +1078,22 @@ ${briefLabel}: ${note || 'Keiner'}`,
           model: VISION_MODEL,
         },
       )
+
+      if (!analysisResult.ok && VISION_MODEL !== VISION_FALLBACK_MODEL) {
+        console.warn('[api/va89kjds] vision model failed, retrying fallback', {
+          model: VISION_MODEL,
+          fallback: VISION_FALLBACK_MODEL,
+          status: analysisResult.status,
+        })
+        analysisResult = await callOpenAI(
+          toOpenAIMessages(analysisMessages, 'high'),
+          {
+            responseFormat: ERROR_ANALYSIS_RESPONSE_FORMAT,
+            maxTokens: 500,
+            model: VISION_FALLBACK_MODEL,
+          },
+        )
+      }
 
       if (!analysisResult.ok) {
         return upstreamErrorResponse(

@@ -885,8 +885,13 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
     } catch (error: any) {
       if (error?.name === 'AbortError') return
 
+      const errorMessage =
+        typeof error?.message === 'string' ? error.message : ''
       const fallback =
-        'Die KI-Antwort konnte gerade nicht geladen werden. Bitte versuche es noch einmal.'
+        errorMessage.includes('nicht konfiguriert') ||
+        errorMessage.includes('deaktiviert')
+          ? errorMessage
+          : 'Die KI-Antwort konnte gerade nicht geladen werden. Bitte versuche es noch einmal.'
 
       ExerciseViewStore.update(s => {
         s.chatMessages = s.chatMessages.map(msg =>
