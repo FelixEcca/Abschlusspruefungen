@@ -6,7 +6,7 @@ export const maxDuration = 60
 
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
 const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
-const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? MODEL
+const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? 'gpt-5.6-luna'
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const MAX_REQUEST_BYTES = 4_500_000
 const MAX_MESSAGES = 60
@@ -91,6 +91,16 @@ const ERROR_ANALYSIS_RESPONSE_FORMAT = {
           type: 'number',
           description: 'Sicherheit der Bildlesung von 0 bis 1.',
         },
+        student_work: {
+          type: 'string',
+          description:
+            'Knapp transkribierter Lösungsweg des Lernenden aus dem letzten User-Bild, soweit sicher oder wahrscheinlich lesbar.',
+        },
+        reference_check: {
+          type: 'string',
+          description:
+            'Kurzer Vergleich mit Aufgabenstellung und interner Musterlösung: Was stimmt überein, was weicht ab?',
+        },
         has_error: { type: 'boolean' },
         error: {
           anyOf: [
@@ -123,7 +133,15 @@ const ERROR_ANALYSIS_RESPONSE_FORMAT = {
           ],
         },
       },
-      required: ['feedback', 'image_observation', 'image_confidence', 'has_error', 'error'],
+      required: [
+        'feedback',
+        'image_observation',
+        'image_confidence',
+        'student_work',
+        'reference_check',
+        'has_error',
+        'error',
+      ],
     },
   },
 } satisfies ResponseFormat
@@ -1045,7 +1063,7 @@ ${briefLabel}: ${note || 'Keiner'}`,
         {
           role: 'system',
           content:
-            'Analysiere ausschließlich den Lösungsweg im letzten User-Bild anhand der Aufgabenstellung und der internen Musterlösung. Lies zuerst sorgfältig ab, was im Bild steht: Zahlen, Brüche, Terme, Skizzenachsen, markierte Punkte, Pfeile und Einheiten. Gib in image_observation kurz an, was du sicher erkennst. Wenn die Schrift schwer lesbar ist, nenne trotzdem die wahrscheinlichste Lesung und senke image_confidence; frage nur nach einem neuen Bild, wenn du keinen fachlich nutzbaren Inhalt erkennen kannst. Bestimme danach den ersten konkreten fachlichen Fehler. Gib als target_text nur den kleinsten sicher falschen Ausdruck zurück, zum Beispiel eine Zahl, ein Zeichen oder einen Term. Schlechte Lesbarkeit allein ist kein fachlicher Fehler. Wenn der erkannte Wert oder Lösungsweg fachlich richtig ist, setze error auf null und bestätige das. Das Feedback ist kurz, freundlich, in einfacher Sprache und verrät weder Musterlösung noch vollständige Lösung.',
+            'Analysiere ausschließlich den Lösungsweg im letzten User-Bild. Arbeite strikt in dieser Reihenfolge: 1. Lies das Bild. Erfasse Zahlen, Brüche, Terme, Rechenzeichen, Skizzenachsen, markierte Punkte, Pfeile und Einheiten. 2. Transkribiere den erkannten Lösungsweg knapp in student_work. 3. Vergleiche student_work mit der aktuellen Aufgabenstellung und der internen Musterlösung. Nutze dafür reference_check. Prüfe insbesondere, ob Zwischenschritte und Endergebnis zur Aufgabe passen. 4. Setze has_error nur dann auf true, wenn nach diesem Vergleich ein fachlicher Fehler sicher vorliegt. Schlechte Lesbarkeit, ungeordnete Schreibweise oder fehlende Schönheit sind kein fachlicher Fehler. Wenn der erkannte Lösungsweg zwar knapp oder unordentlich ist, aber fachlich zur Musterlösung passt, setze error auf null und bestätige die Korrektheit. Wenn du unsicher bist, ob ein Zeichen eine bestimmte Zahl ist, nenne die wahrscheinlichste Lesung in image_observation und setze image_confidence niedriger; markiere dann keinen fachlichen Fehler allein wegen dieser Unsicherheit. Gib als target_text nur den kleinsten sicher falschen Ausdruck zurück, zum Beispiel eine Zahl, ein Zeichen oder einen Term. Das Feedback ist kurz, freundlich, in einfacher Sprache und verrät weder Musterlösung noch vollständige Lösung.',
         },
         ...internalMessages,
       ]
