@@ -5,9 +5,10 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
-const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
-const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? 'gpt-5.6-luna'
-const VISION_FALLBACK_MODEL = process.env.OPENAI_VISION_FALLBACK_MODEL ?? 'gpt-4o'
+const MODEL = process.env.OPENAI_MODEL ?? 'gpt-5.6-luna'
+const FALLBACK_MODEL = process.env.OPENAI_FALLBACK_MODEL ?? 'gpt-4o'
+const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? MODEL
+const VISION_FALLBACK_MODEL = process.env.OPENAI_VISION_FALLBACK_MODEL ?? FALLBACK_MODEL
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const MAX_REQUEST_BYTES = 4_500_000
 const MAX_MESSAGES = 60
@@ -508,6 +509,7 @@ async function callOpenAI(
     temperature?: number
     frequencyPenalty?: number
     model?: string
+    fallbackModel?: string
   },
 ) {
   const apiKey = OPENAI_API_KEY
@@ -519,78 +521,94 @@ async function callOpenAI(
     }
   }
 
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const controller = new AbortController()
-    const timeout = setTimeout(
-      () => controller.abort(),
-      options.timeoutMs ?? 30_000,
-    )
+  const primaryModel = options.model ?? MODEL
+  const fallbackModel = options.fallbackModel ?? FALLBACK_MODEL
+  const models =
+    fallbackModel && fallbackModel !== primaryModel
+      ? [primaryModel, fallbackModel]
+      : [primaryModel]
+  let lastError: { status: number; error: string } | null = null
 
-    try {
-      const response = await fetch(OPENAI_URL, {
-        method: 'POST',
-        signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: options.model ?? MODEL,
-          messages,
-          temperature: options.temperature ?? 0.1,
-          frequency_penalty: options.frequencyPenalty ?? 0,
-          max_tokens: options.maxTokens,
-          ...(options.responseFormat
-            ? { response_format: options.responseFormat }
-            : {}),
-        }),
-      })
+  for (const model of models) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      const controller = new AbortController()
+      const timeout = setTimeout(
+        () => controller.abort(),
+        options.timeoutMs ?? 30_000,
+      )
 
-      clearTimeout(timeout)
-      const raw = await response.text()
-
-      if (!response.ok) {
-        const retryable = [429, 500, 502, 503, 504].includes(response.status)
-        console.error('[api/va89kjds] OpenAI error', {
-          attempt,
-          status: response.status,
-          ...(process.env.NODE_ENV !== 'production' ? { body: raw } : {}),
+      try {
+        const response = await fetch(OPENAI_URL, {
+          method: 'POST',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            temperature: options.temperature ?? 0.1,
+            frequency_penalty: options.frequencyPenalty ?? 0,
+            max_tokens: options.maxTokens,
+            ...(options.responseFormat
+              ? { response_format: options.responseFormat }
+              : {}),
+          }),
         })
 
-        if (retryable && attempt < 3) {
-          await sleep(600 * attempt)
+        clearTimeout(timeout)
+        const raw = await response.text()
+
+        if (!response.ok) {
+          const retryable = [429, 500, 502, 503, 504].includes(response.status)
+          console.error('[api/va89kjds] OpenAI error', {
+            attempt,
+            model,
+            status: response.status,
+            ...(process.env.NODE_ENV !== 'production' ? { body: raw } : {}),
+          })
+
+          if (retryable && attempt < 2) {
+            await sleep(600 * attempt)
+            continue
+          }
+
+          lastError = { status: response.status, error: raw }
+          break
+        }
+
+        return { ok: true as const, text: extractText(JSON.parse(raw)) }
+      } catch (error: any) {
+        clearTimeout(timeout)
+        console.error('[api/va89kjds] fetch failed', {
+          attempt,
+          model,
+          message: error?.message,
+          name: error?.name,
+        })
+
+        if (attempt < 2) {
+          await sleep(900 * attempt)
           continue
         }
 
-        return { ok: false as const, status: response.status, error: raw }
-      }
-
-      return { ok: true as const, text: extractText(JSON.parse(raw)) }
-    } catch (error: any) {
-      clearTimeout(timeout)
-      console.error('[api/va89kjds] fetch failed', {
-        attempt,
-        message: error?.message,
-        name: error?.name,
-      })
-
-      if (attempt < 3) {
-        await sleep(900 * attempt)
-        continue
-      }
-
-      return {
-        ok: false as const,
-        status: 504,
-        error:
-          error?.name === 'AbortError'
-            ? 'OpenAI request timeout'
-            : error?.message ?? String(error),
+        lastError = {
+          status: 504,
+          error:
+            error?.name === 'AbortError'
+              ? 'OpenAI request timeout'
+              : error?.message ?? String(error),
+        }
       }
     }
   }
 
-  return { ok: false as const, status: 500, error: 'Unbekannter API-Fehler' }
+  return {
+    ok: false as const,
+    status: lastError?.status ?? 500,
+    error: lastError?.error ?? 'Unbekannter API-Fehler',
+  }
 }
 
 function parseWorksheet(text: string, count: number): GeneratedWorksheet {
@@ -627,7 +645,7 @@ function parseWorksheet(text: string, count: number): GeneratedWorksheet {
   }
 }
 
-async function streamOpenAI(messages: any[]) {
+async function streamOpenAI(messages: any[], model = MODEL) {
   const apiKey = OPENAI_API_KEY
   if (!apiKey) {
     return {
@@ -637,21 +655,39 @@ async function streamOpenAI(messages: any[]) {
     }
   }
 
-  const response = await fetch(OPENAI_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages,
-      temperature: 0.2,
-      frequency_penalty: 0.2,
-      max_tokens: 900,
-      stream: true,
-    }),
-  })
+  let response: Response
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30_000)
+
+  try {
+    response = await fetch(OPENAI_URL, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature: 0.2,
+        frequency_penalty: 0.2,
+        max_tokens: 900,
+        stream: true,
+      }),
+    })
+  } catch (error: any) {
+    return {
+      ok: false as const,
+      status: 504,
+      error:
+        error?.name === 'AbortError'
+          ? 'OpenAI streaming timeout'
+          : error?.message ?? String(error),
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
 
   if (!response.ok || !response.body) {
     const raw = await response.text()
@@ -1043,7 +1079,16 @@ ${briefLabel}: ${note || 'Keiner'}`,
     const openAIMessages = toOpenAIMessages(internalMessages, imageDetail)
 
     if (wantsStream && !wantsReview) {
-      const result = await streamOpenAI(openAIMessages)
+      let result = await streamOpenAI(openAIMessages, MODEL)
+      if (!result.ok && MODEL !== FALLBACK_MODEL) {
+        console.warn('[api/va89kjds] stream model failed, retrying fallback', {
+          model: MODEL,
+          fallback: FALLBACK_MODEL,
+          status: result.status,
+        })
+        result = await streamOpenAI(openAIMessages, FALLBACK_MODEL)
+      }
+
       if (!result.ok) {
         return upstreamErrorResponse(
           result.error,
@@ -1070,30 +1115,15 @@ ${briefLabel}: ${note || 'Keiner'}`,
         },
         ...internalMessages,
       ]
-      let analysisResult = await callOpenAI(
+      const analysisResult = await callOpenAI(
         toOpenAIMessages(analysisMessages, 'high'),
         {
           responseFormat: ERROR_ANALYSIS_RESPONSE_FORMAT,
           maxTokens: 500,
           model: VISION_MODEL,
+          fallbackModel: VISION_FALLBACK_MODEL,
         },
       )
-
-      if (!analysisResult.ok && VISION_MODEL !== VISION_FALLBACK_MODEL) {
-        console.warn('[api/va89kjds] vision model failed, retrying fallback', {
-          model: VISION_MODEL,
-          fallback: VISION_FALLBACK_MODEL,
-          status: analysisResult.status,
-        })
-        analysisResult = await callOpenAI(
-          toOpenAIMessages(analysisMessages, 'high'),
-          {
-            responseFormat: ERROR_ANALYSIS_RESPONSE_FORMAT,
-            maxTokens: 500,
-            model: VISION_FALLBACK_MODEL,
-          },
-        )
-      }
 
       if (!analysisResult.ok) {
         return upstreamErrorResponse(
