@@ -6,6 +6,7 @@ export const maxDuration = 60
 
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions'
 const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
+const VISION_MODEL = process.env.OPENAI_VISION_MODEL ?? MODEL
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const MAX_REQUEST_BYTES = 4_500_000
 const MAX_MESSAGES = 60
@@ -35,10 +36,16 @@ type ErrorReview = {
   targetText: string
 }
 
+type ImageAnalysis = {
+  confidence: number
+  observation: string
+}
+
 type ResponseFormat = Record<string, unknown>
 
 type ErrorAnalysis = {
   feedback: string
+  imageAnalysis: ImageAnalysis | null
   error: ErrorReview | null
 }
 
@@ -75,6 +82,15 @@ const ERROR_ANALYSIS_RESPONSE_FORMAT = {
       additionalProperties: false,
       properties: {
         feedback: { type: 'string' },
+        image_observation: {
+          type: 'string',
+          description:
+            'Kurze Beschreibung dessen, was im letzten User-Bild sicher erkennbar ist, zum Beispiel "Ich lese die Zahl 14." oder "Ich sehe eine Skizze mit einem Punkt bei x=2".',
+        },
+        image_confidence: {
+          type: 'number',
+          description: 'Sicherheit der Bildlesung von 0 bis 1.',
+        },
         has_error: { type: 'boolean' },
         error: {
           anyOf: [
@@ -107,7 +123,7 @@ const ERROR_ANALYSIS_RESPONSE_FORMAT = {
           ],
         },
       },
-      required: ['feedback', 'has_error', 'error'],
+      required: ['feedback', 'image_observation', 'image_confidence', 'has_error', 'error'],
     },
   },
 } satisfies ResponseFormat
@@ -472,6 +488,7 @@ async function callOpenAI(
     timeoutMs?: number
     temperature?: number
     frequencyPenalty?: number
+    model?: string
   },
 ) {
   const apiKey = OPENAI_API_KEY
@@ -499,7 +516,7 @@ async function callOpenAI(
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: MODEL,
+          model: options.model ?? MODEL,
           messages,
           temperature: options.temperature ?? 0.1,
           frequency_penalty: options.frequencyPenalty ?? 0,
@@ -676,6 +693,8 @@ async function streamOpenAI(messages: any[]) {
 function parseErrorAnalysis(text: string): ErrorAnalysis {
   const parsed = JSON.parse(text) as {
     feedback?: unknown
+    image_observation?: unknown
+    image_confidence?: unknown
     has_error?: unknown
     error?: {
       target_text?: unknown
@@ -688,9 +707,18 @@ function parseErrorAnalysis(text: string): ErrorAnalysis {
     typeof parsed.feedback === 'string' && parsed.feedback.trim()
       ? parsed.feedback.trim()
       : 'Ich habe deinen Lösungsweg geprüft.'
+  const imageObservation =
+    typeof parsed.image_observation === 'string'
+      ? parsed.image_observation.trim().slice(0, 180)
+      : ''
+  const imageConfidence = clamp(Number(parsed.image_confidence), 0, 1)
+  const imageAnalysis =
+    imageObservation && Number.isFinite(imageConfidence)
+      ? { observation: imageObservation, confidence: imageConfidence }
+      : null
 
   if (parsed.has_error !== true || !parsed.error) {
-    return { feedback, error: null }
+    return { feedback, imageAnalysis, error: null }
   }
 
   const targetText =
@@ -700,11 +728,12 @@ function parseErrorAnalysis(text: string): ErrorAnalysis {
   const confidence = clamp(Number(parsed.error.confidence), 0, 1)
 
   if (!targetText || !Number.isFinite(confidence) || confidence < 0.45) {
-    return { feedback, error: null }
+    return { feedback, imageAnalysis, error: null }
   }
 
   return {
     feedback,
+    imageAnalysis,
     error: {
       targetText,
       label:
@@ -989,7 +1018,8 @@ ${briefLabel}: ${note || 'Keiner'}`,
       },
       ...messages,
     ]
-    const openAIMessages = toOpenAIMessages(internalMessages, 'low')
+    const imageDetail = hasImage(messages) ? 'high' : 'low'
+    const openAIMessages = toOpenAIMessages(internalMessages, imageDetail)
 
     if (wantsStream && !wantsReview) {
       const result = await streamOpenAI(openAIMessages)
@@ -1015,7 +1045,7 @@ ${briefLabel}: ${note || 'Keiner'}`,
         {
           role: 'system',
           content:
-            'Analysiere ausschließlich den Lösungsweg im letzten User-Bild anhand der Aufgabenstellung und der internen Musterlösung. Bestimme den ersten konkreten fachlichen Fehler. Gib als target_text den kleinsten sicher lesbaren falschen Ausdruck zurück, zum Beispiel eine Zahl, ein Zeichen oder einen Term. Formuliere als label eine sehr kurze fachliche Einordnung des Fehlers. Wenn kein Fehler sicher feststellbar ist, setze error auf null. Das Feedback ist kurz, freundlich, in einfacher Sprache und verrät weder Musterlösung noch vollständige Lösung.',
+            'Analysiere ausschließlich den Lösungsweg im letzten User-Bild anhand der Aufgabenstellung und der internen Musterlösung. Lies zuerst sorgfältig ab, was im Bild steht: Zahlen, Brüche, Terme, Skizzenachsen, markierte Punkte, Pfeile und Einheiten. Gib in image_observation kurz an, was du sicher erkennst. Wenn die Schrift schwer lesbar ist, nenne trotzdem die wahrscheinlichste Lesung und senke image_confidence; frage nur nach einem neuen Bild, wenn du keinen fachlich nutzbaren Inhalt erkennen kannst. Bestimme danach den ersten konkreten fachlichen Fehler. Gib als target_text nur den kleinsten sicher falschen Ausdruck zurück, zum Beispiel eine Zahl, ein Zeichen oder einen Term. Schlechte Lesbarkeit allein ist kein fachlicher Fehler. Wenn der erkannte Wert oder Lösungsweg fachlich richtig ist, setze error auf null und bestätige das. Das Feedback ist kurz, freundlich, in einfacher Sprache und verrät weder Musterlösung noch vollständige Lösung.',
         },
         ...internalMessages,
       ]
@@ -1024,6 +1054,7 @@ ${briefLabel}: ${note || 'Keiner'}`,
         {
           responseFormat: ERROR_ANALYSIS_RESPONSE_FORMAT,
           maxTokens: 500,
+          model: VISION_MODEL,
         },
       )
 
@@ -1047,6 +1078,7 @@ ${briefLabel}: ${note || 'Keiner'}`,
 
       return NextResponse.json({
         text: analysis.feedback,
+        imageAnalysis: analysis.imageAnalysis,
         review: analysis.error,
       })
     }

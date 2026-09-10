@@ -39,6 +39,11 @@ type ErrorReview = {
   targetText: string
 }
 
+type ImageAnalysis = {
+  confidence: number
+  observation: string
+}
+
 type ChatMessage = {
   id: string
   role: 'user' | 'assistant'
@@ -48,6 +53,7 @@ type ChatMessage = {
     kind: 'image'
     src: string
     name?: string
+    analysis?: ImageAnalysis
     review?: ErrorReview
   }
 }
@@ -66,6 +72,7 @@ type Attachment = {
   kind: 'image'
   src: string
   name?: string
+  analysis?: ImageAnalysis
   review?: ErrorReview
 }
 
@@ -350,6 +357,11 @@ function MarkdownBubble({
                   {attachment.review.label || attachment.review.targetText}
                 </div>
               ) : null}
+              {attachment.analysis?.observation ? (
+                <div className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-slate-700">
+                  Bildanalyse: {attachment.analysis.observation}
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -387,6 +399,23 @@ async function readStreamingText(
 
 function buildImagePart(attachment: Attachment): PromptPart {
   return { type: 'image', image: attachment.src }
+}
+
+function buildAttachmentContext(attachment: Attachment) {
+  const parts: string[] = []
+  if (attachment.analysis?.observation) {
+    parts.push(
+      `Bisherige Bildanalyse: ${attachment.analysis.observation} ` +
+        `(Sicherheit: ${Math.round(attachment.analysis.confidence * 100)}%).`,
+    )
+  }
+  if (attachment.review) {
+    parts.push(
+      `Bisherige Fehleranalyse: ${attachment.review.label}. ` +
+        `Markierter Ausdruck: ${attachment.review.targetText}.`,
+    )
+  }
+  return parts.join('\n')
 }
 
 export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
@@ -609,6 +638,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
       parts.push({ type: 'text', text: text.trim() })
     }
     if (nextAttachment?.kind === 'image') {
+      const attachmentContext = buildAttachmentContext(nextAttachment)
+      if (attachmentContext) {
+        parts.push({ type: 'text', text: attachmentContext })
+      }
       parts.push(buildImagePart(nextAttachment))
     }
     if (parts.length === 0) return ''
@@ -780,6 +813,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
       if (wantsReview) {
         const result = (await response.json()) as {
           text?: string
+          imageAnalysis?: ImageAnalysis | null
           review?: ErrorReview | null
         }
         const feedback =
@@ -787,7 +821,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
           'Ich konnte deinen Lösungsweg prüfen, aber keinen sicheren Fehler erkennen.'
 
         updateAssistantMessage(feedback)
-        if (result.review) {
+        if (result.review || result.imageAnalysis) {
           ExerciseViewStore.update(s => {
             s.chatMessages = s.chatMessages.map(message =>
               message.id === extraUserMessageId && message.attachment
@@ -795,6 +829,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
                     ...message,
                     attachment: {
                       ...message.attachment,
+                      analysis: result.imageAnalysis ?? undefined,
                       review: result.review ?? undefined,
                     },
                   }
