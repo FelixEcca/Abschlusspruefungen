@@ -381,8 +381,7 @@ function ExportSheet({
             <section
               key={section.key}
               style={{
-                borderLeft:
-                  sectionIndex === 0 ? 'none' : '1px solid #cbd5e1',
+                borderLeft: sectionIndex === 0 ? 'none' : '1px solid #cbd5e1',
                 breakInside: 'avoid',
                 minWidth: 0,
               }}
@@ -445,9 +444,12 @@ export function AiWorksheetGenerator({
   const [includeErrorTask, setIncludeErrorTask] = React.useState(false)
   const [simpleLanguage, setSimpleLanguage] = React.useState(false)
   const [status, setStatus] = React.useState<GeneratorStatus>('idle')
-  const [worksheet, setWorksheet] =
-    React.useState<GeneratedWorksheet | null>(null)
-  const [generatedTitle, setGeneratedTitle] = React.useState<string | null>(null)
+  const [worksheet, setWorksheet] = React.useState<GeneratedWorksheet | null>(
+    null,
+  )
+  const [generatedTitle, setGeneratedTitle] = React.useState<string | null>(
+    null,
+  )
   const [taskImage, setTaskImage] = React.useState<string | null>(null)
   const [solutionImage, setSolutionImage] = React.useState<string | null>(null)
   const [error, setError] = React.useState<string | null>(null)
@@ -455,8 +457,7 @@ export function AiWorksheetGenerator({
   React.useEffect(() => setMounted(true), [])
 
   const note = briefs[materialType]
-  const differentiatedCount =
-    levelCounts.a + levelCounts.b + levelCounts.c
+  const differentiatedCount = levelCounts.a + levelCounts.b + levelCounts.c
   const effectiveCount =
     materialType === 'differentiated' ? differentiatedCount : count
 
@@ -490,10 +491,7 @@ export function AiWorksheetGenerator({
           pixelRatio: 2,
           cacheBust: true,
         }
-        const nextTaskImage = await toPng(
-          taskSheetRef.current,
-          exportOptions,
-        )
+        const nextTaskImage = await toPng(taskSheetRef.current, exportOptions)
         const nextSolutionImage = await toPng(
           solutionSheetRef.current,
           exportOptions,
@@ -570,9 +568,7 @@ export function AiWorksheetGenerator({
         ...(response.worksheet as GeneratedWorksheet),
         materialType,
         levelCounts:
-          materialType === 'differentiated'
-            ? { ...levelCounts }
-            : undefined,
+          materialType === 'differentiated' ? { ...levelCounts } : undefined,
       })
     } catch (requestError) {
       console.error('Worksheet generation failed', requestError)
@@ -791,7 +787,9 @@ export function AiWorksheetGenerator({
                       <input
                         type="checkbox"
                         checked={simpleLanguage}
-                        onChange={event => setSimpleLanguage(event.target.checked)}
+                        onChange={event =>
+                          setSimpleLanguage(event.target.checked)
+                        }
                         className="mt-2 h-4 w-4 shrink-0 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                       />
                       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
@@ -841,7 +839,7 @@ export function AiWorksheetGenerator({
                         ? 'Bitte für A, B und C jeweils die zu erreichende Kompetenz beschreiben.'
                         : materialType === 'series'
                           ? 'Bitte angeben, was Lernende zu Beginn und am Ende können sollen.'
-                          : 'Der Zusatzwunsch ist optional.'}
+                          : ''}
                     </span>
                     <span className="shrink-0">
                       {note.length}/{NOTE_LIMIT}
@@ -871,10 +869,7 @@ export function AiWorksheetGenerator({
                         type="button"
                         className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
                         onClick={() =>
-                          downloadDataUrl(
-                            taskImage,
-                            `${fileBase}-aufgaben.png`,
-                          )
+                          downloadDataUrl(taskImage, `${fileBase}-aufgaben.png`)
                         }
                       >
                         <FaIcon icon={faDownload} /> Aufgabenbild
