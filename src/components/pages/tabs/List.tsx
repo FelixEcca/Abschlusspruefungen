@@ -26,6 +26,7 @@ function getYearFromSource(src?: string): number {
 }
 
 function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 24) return false
   if (exam == 1 && (idNum < 3000 || idNum >= 3999)) return false
   if (exam == 2 && (idNum < 300 || idNum >= 399)) return false
   if (exam == 3) return false

@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { computeLevelProgress } from './leveling'
 import { exercisesData } from '@/content/exercises'
+import { isExerciseInNavigation } from '@/content/navigation-exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { useProgress } from '../../../store/progress-store'
 
 // gleiche Filter-Logik wie im Rest der App
 function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 24) return isExerciseInNavigation(exam, idNum)
   if (exam == 1 && idNum > 99) return false
   if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
@@ -30,6 +32,17 @@ export default function LevelingPanel() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const statuses = ids.map(id => useProgress(id))
   const solvedCount = statuses.filter(s => s?.solved).length
+
+  if (ids.length === 0) {
+    return (
+      <div className="w-full rounded-xl border bg-white shadow-xl p-5">
+        <div className="text-base font-semibold">Kurs wird vorbereitet</div>
+        <div className="mt-1 text-sm text-gray-600">
+          Für diesen Kurs sind noch keine Aufgaben hinterlegt.
+        </div>
+      </div>
+    )
+  }
 
   const { level, pctWithin, remainingToNext, nextLevel } =
     computeLevelProgress(solvedCount)

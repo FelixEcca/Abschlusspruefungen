@@ -1,11 +1,12 @@
 // leveling.ts
 import { exercisesData } from '@/content/exercises'
+import { isExerciseInNavigation } from '@/content/navigation-exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 
-
-const CUM_TARGETS = [0, 0.02,0.04,0.06,0.08, 0.10, 0.10, 0.20, 0.20, 0.25] // entspricht Level 1..6
+const CUM_TARGETS = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.1, 0.2, 0.2, 0.25] // entspricht Level 1..6
 
 function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 24) return isExerciseInNavigation(exam, idNum)
   if (exam == 1 && idNum > 99) return false
   if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
   if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
@@ -22,7 +23,8 @@ export function getTotalExercisesForCurrentExam(): number {
 
 /** Immer definierte, NaN-freie Rückgabe */
 export function computeLevelProgress(solvedCount: number) {
-  const total = getTotalExercisesForCurrentExam()+39
+  const exam = PlayerProfileStore.getRawState().currentExam
+  const total = getTotalExercisesForCurrentExam() + (exam === 24 ? 0 : 39)
   // Falls es (noch) keine Aufgaben im Exam filter gibt, so tun, als gäbe es 1 – verhindert NaN.
   const safeTotal = Math.max(1, total)
 
@@ -37,15 +39,15 @@ export function computeLevelProgress(solvedCount: number) {
 
   const currGoal = thresholdsAbs[level - 1]
   const nextLevel = Math.min(6, level + 1)
-  const nextGoal = thresholdsAbs[nextLevel - 1] 
+  const nextGoal = thresholdsAbs[nextLevel - 1]
 
   const span = Math.max(1, nextGoal - currGoal) // niemals 0
   const within = Math.max(0, Math.min(1, (solvedCount - currGoal) / span))
   const remaining = level === 6 ? 0 : Math.max(0, nextGoal - solvedCount)
 
   return {
-    level,                // 1..6
-    pctWithin: within,    // 0..1
+    level, // 1..6
+    pctWithin: within, // 0..1
     remainingToNext: remaining,
     nextLevel,
   }

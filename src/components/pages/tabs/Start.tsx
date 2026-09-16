@@ -14,6 +14,7 @@ import {
 import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
+import { isExerciseInNavigation } from '@/content/navigation-exercises'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -28,6 +29,7 @@ import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
 function passExamFilter(exam: number, idNum: number): boolean {
+  if (exam == 24) return isExerciseInNavigation(exam, idNum)
   if (exam == 1 && (idNum < 4000 || idNum >= 4999)) return false
   if (exam == 2 && (idNum < 300 || idNum >= 399)) return false
   if (exam == 3 && (idNum < 5000 || idNum >= 5999)) return false

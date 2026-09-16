@@ -2354,4 +2354,179 @@ export const navigationData: { [key: number]: Navigation } = {
     breakPoints: [0, 0],
     path: [],
   },
+  24: {
+    longTitle: 'Vorbereitungskurs Meister - Mathematik',
+    shortTitle: 'Meister-Vorkurs - Mathe',
+    topics: [
+      {
+        title: 'Rechengrundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Rechenbegriffe und Rechenregeln',
+            skillExercises: [{ id: 13000 }, { id: 13001 }],
+          },
+          {
+            name: 'Mit positiven und negativen Zahlen rechnen',
+            skillExercises: [{ id: 9550 }, { id: 9551 }],
+          },
+          {
+            name: 'Wurzeln berechnen und Wurzelregeln prüfen',
+            skillExercises: [{ id: 13002 }],
+          },
+          {
+            name: 'Brüche verstehen und vergleichen',
+            skillExercises: [{ id: 9587 }, { id: 9595 }, { id: 9589 }],
+          },
+          {
+            name: 'Mit Brüchen rechnen',
+            skillExercises: [
+              { id: 9507 },
+              { id: 9508 },
+              { id: 9509 },
+              { id: 9505 },
+              { id: 13003 },
+            ],
+          },
+          {
+            name: 'Bruch, Dezimalzahl und Prozent umwandeln',
+            skillExercises: [{ id: 9655 }],
+          },
+          {
+            name: 'Dreisatz in technischen Situationen',
+            skillExercises: [{ id: 13004 }],
+          },
+          {
+            name: 'Prozentrechnung im Metallbetrieb',
+            skillExercises: [{ id: 13005 }],
+          },
+          {
+            name: 'Technische Zahlen in Potenzschreibweise',
+            skillExercises: [{ id: 13006 }],
+          },
+        ],
+      },
+      {
+        title: 'Terme und Rechengesetze',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Terme lesen, einsetzen und ausklammern',
+            skillExercises: [{ id: 13007 }, { id: 4906 }],
+          },
+          {
+            name: 'Gleichartige Terme zusammenfassen',
+            skillExercises: [{ id: 9554 }, { id: 4400 }],
+          },
+          {
+            name: 'Klammern auflösen und Fehler finden',
+            skillExercises: [{ id: 4201 }, { id: 4909 }, { id: 10020 }],
+          },
+          {
+            name: 'Potenzgesetze verstehen und anwenden',
+            skillExercises: [{ id: 13008 }, { id: 4403 }, { id: 10022 }],
+          },
+          {
+            name: 'Binomische Formeln',
+            skillExercises: [{ id: 13009 }],
+          },
+        ],
+      },
+      {
+        title: 'Gleichungen und Formeln',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Äquivalenzumformungen verstehen',
+            skillExercises: [{ id: 13010 }, { id: 4907 }, { id: 4200 }],
+          },
+          {
+            name: 'Gleichungen mit Klammern und Brüchen',
+            skillExercises: [{ id: 13011 }, { id: 4912 }, { id: 4913 }],
+          },
+          {
+            name: 'Technische Formeln umstellen',
+            skillExercises: [{ id: 13013 }, { id: 13014 }],
+          },
+          {
+            name: 'Dichte, Masse und Volumen',
+            skillExercises: [{ id: 13015 }],
+          },
+          {
+            name: 'Einheiten und Ergebnisse auf Plausibilität prüfen',
+            skillExercises: [{ id: 13016 }],
+          },
+        ],
+      },
+      {
+        title: 'Geometrie und Trigonometrie',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Rechtwinklige Dreiecke fachgerecht beschreiben',
+            skillExercises: [{ id: 13017 }],
+          },
+          {
+            name: 'Satz des Pythagoras anwenden und Fehler finden',
+            skillExercises: [{ id: 4602 }, { id: 13018 }],
+          },
+          {
+            name: 'Passende Winkelfunktion auswählen',
+            skillExercises: [{ id: 4918 }],
+          },
+          {
+            name: 'Trigonometrie in technischen Konstruktionen',
+            skillExercises: [{ id: 13019 }],
+          },
+        ],
+      },
+      {
+        title: 'Längen, Flächen, Volumen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Größen unterscheiden und Einheiten umwandeln',
+            skillExercises: [
+              { id: 13020 },
+              { id: 9524 },
+              { id: 9525 },
+              { id: 9526 },
+            ],
+          },
+          {
+            name: 'Umfang und Flächeninhalt berechnen',
+            skillExercises: [{ id: 4600 }],
+          },
+          {
+            name: 'Fehlende Maße aus Flächen bestimmen',
+            skillExercises: [{ id: 13021 }],
+          },
+          {
+            name: 'Zusammengesetzte Blechflächen',
+            skillExercises: [{ id: 9572 }, { id: 13022 }],
+          },
+          {
+            name: 'Maße aus technischen Skizzen ableiten',
+            skillExercises: [{ id: 13023 }],
+          },
+          {
+            name: 'Volumen von Grundkörpern und Werkstücken',
+            skillExercises: [{ id: 4700 }, { id: 9645 }, { id: 13024 }],
+          },
+          {
+            name: 'Werkstückmasse aus Volumen und Dichte',
+            skillExercises: [{ id: 13025 }],
+          },
+        ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
 }

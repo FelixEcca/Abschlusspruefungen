@@ -14,6 +14,7 @@ import {
 import { useHistory } from 'react-router'
 import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { navigationData } from '@/content/navigations'
+import { exercisesData } from '@/content/exercises'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { useProgress } from '../../../../store/progress-store'
 
@@ -87,7 +88,9 @@ function ExerciseRow({
       className={`my-2 cursor-pointer rounded-lg p-2 border hover:bg-gray-50 transition-colors ${cls}`}
       onClick={() => onOpen(ex.id)}
     >
-      <div className="text-md text-gray-800">{ex.group ?? 'Aufgabe'}</div>
+      <div className="text-md text-gray-800">
+        {exercisesData[ex.id]?.title ?? ex.group ?? 'Aufgabe'}
+      </div>
     </div>
   )
 }

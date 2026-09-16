@@ -94,6 +94,10 @@ const schoolformConfig: SchoolformOption[] = [
     subjects: [{ label: 'Technische Mathematik', examId: 17 }],
   },
   {
+    name: 'Vorbereitungskurs Meister',
+    subjects: [{ label: 'Mathematik', examId: 24 }],
+  },
+  {
     name: 'Berufskolleg Grafik-Design (3BKGD1)',
     subjects: [{ label: 'Mathematik', examId: 18 }],
   },

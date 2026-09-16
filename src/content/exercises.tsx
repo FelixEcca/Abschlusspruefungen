@@ -538,6 +538,31 @@ import { exercise10060 } from './implementations/Mathe1_3BKGD1/10060'
 import { exercise10061 } from './implementations/Mathe1_3BKGD1/10061'
 import { exercise10063 } from './implementations/Mathe1_3BKGD1/10063'
 import { exercise12000 } from './implementations/Mathe1_3BKGD3/12000'
+import { exercise13000 } from './implementations/Mathe_Meister_Training/13000'
+import { exercise13001 } from './implementations/Mathe_Meister_Training/13001'
+import { exercise13002 } from './implementations/Mathe_Meister_Training/13002'
+import { exercise13003 } from './implementations/Mathe_Meister_Training/13003'
+import { exercise13004 } from './implementations/Mathe_Meister_Training/13004'
+import { exercise13005 } from './implementations/Mathe_Meister_Training/13005'
+import { exercise13006 } from './implementations/Mathe_Meister_Training/13006'
+import { exercise13007 } from './implementations/Mathe_Meister_Training/13007'
+import { exercise13008 } from './implementations/Mathe_Meister_Training/13008'
+import { exercise13009 } from './implementations/Mathe_Meister_Training/13009'
+import { exercise13010 } from './implementations/Mathe_Meister_Training/13010'
+import { exercise13011 } from './implementations/Mathe_Meister_Training/13011'
+import { exercise13013 } from './implementations/Mathe_Meister_Training/13013'
+import { exercise13014 } from './implementations/Mathe_Meister_Training/13014'
+import { exercise13015 } from './implementations/Mathe_Meister_Training/13015'
+import { exercise13016 } from './implementations/Mathe_Meister_Training/13016'
+import { exercise13017 } from './implementations/Mathe_Meister_Training/13017'
+import { exercise13018 } from './implementations/Mathe_Meister_Training/13018'
+import { exercise13019 } from './implementations/Mathe_Meister_Training/13019'
+import { exercise13020 } from './implementations/Mathe_Meister_Training/13020'
+import { exercise13021 } from './implementations/Mathe_Meister_Training/13021'
+import { exercise13022 } from './implementations/Mathe_Meister_Training/13022'
+import { exercise13023 } from './implementations/Mathe_Meister_Training/13023'
+import { exercise13024 } from './implementations/Mathe_Meister_Training/13024'
+import { exercise13025 } from './implementations/Mathe_Meister_Training/13025'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -1077,6 +1102,31 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   10061: exercise10061,
   10063: exercise10063,
   12000: exercise12000,
+  13000: exercise13000,
+  13001: exercise13001,
+  13002: exercise13002,
+  13003: exercise13003,
+  13004: exercise13004,
+  13005: exercise13005,
+  13006: exercise13006,
+  13007: exercise13007,
+  13008: exercise13008,
+  13009: exercise13009,
+  13010: exercise13010,
+  13011: exercise13011,
+  13013: exercise13013,
+  13014: exercise13014,
+  13015: exercise13015,
+  13016: exercise13016,
+  13017: exercise13017,
+  13018: exercise13018,
+  13019: exercise13019,
+  13020: exercise13020,
+  13021: exercise13021,
+  13022: exercise13022,
+  13023: exercise13023,
+  13024: exercise13024,
+  13025: exercise13025,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

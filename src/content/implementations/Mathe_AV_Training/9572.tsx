@@ -8,6 +8,9 @@ type Figure =
   | 'rechteckMinusRechteck'
   | 'rechteckPlusRechteck'
   | 'rechteckMinusDreieck'
+  | 'rechteckPlusDreieck'
+  | 'rechteckPlusHalbkreis'
+  | 'rahmen'
 
 interface DATA {
   figure: Figure
@@ -29,8 +32,8 @@ export const exercise9572: Exercise<DATA> = {
   title: 'Zusammengesetzte Fläche',
   source: 'Figuren und Flächen',
   useCalculator: true,
-  duration: 42,
-  points: 42,
+  duration: 9,
+  points: 4,
 
   generator(rng) {
     const unit: Unit = rng.randomItemFromArray(['cm', 'dm', 'm'])
@@ -38,6 +41,9 @@ export const exercise9572: Exercise<DATA> = {
       'rechteckMinusRechteck',
       'rechteckPlusRechteck',
       'rechteckMinusDreieck',
+      'rechteckPlusDreieck',
+      'rechteckPlusHalbkreis',
+      'rahmen',
     ])
 
     const a = rng.randomItemFromArray([8, 10, 12, 15, 18, 20])
@@ -45,7 +51,7 @@ export const exercise9572: Exercise<DATA> = {
     const c = rng.randomItemFromArray([2, 3, 4, 5, 6])
     const d = rng.randomItemFromArray([2, 3, 4, 5])
 
-    if (figure === 'rechteckMinusRechteck') {
+    if (figure === 'rechteckMinusRechteck' || figure === 'rahmen') {
       const area1 = a * b
       const area2 = c * d
       return { figure, a, b, c, d, unit, area1, area2, result: area1 - area2 }
@@ -54,6 +60,18 @@ export const exercise9572: Exercise<DATA> = {
     if (figure === 'rechteckPlusRechteck') {
       const area1 = a * b
       const area2 = c * d
+      return { figure, a, b, c, d, unit, area1, area2, result: area1 + area2 }
+    }
+
+    if (figure === 'rechteckPlusDreieck') {
+      const area1 = a * b
+      const area2 = (b * c) / 2
+      return { figure, a, b, c, d, unit, area1, area2, result: area1 + area2 }
+    }
+
+    if (figure === 'rechteckPlusHalbkreis') {
+      const area1 = a * b
+      const area2 = (Math.PI * (b / 2) ** 2) / 2
       return { figure, a, b, c, d, unit, area1, area2, result: area1 + area2 }
     }
 
@@ -75,7 +93,7 @@ export const exercise9572: Exercise<DATA> = {
   },
 
   constraint({ data }) {
-    return data.result > 0
+    return data.result > 0 && data.c < data.a && data.d < data.b
   },
 
   task({ data }) {
@@ -84,7 +102,7 @@ export const exercise9572: Exercise<DATA> = {
         <p>Berechnen Sie den Flächeninhalt der Figur.</p>
 
         {data.figure === 'rechteckMinusRechteck' && (
-          <svg viewBox="0 0 328 210">
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]">
             <rect
               x="55"
               y="40"
@@ -125,7 +143,7 @@ export const exercise9572: Exercise<DATA> = {
         )}
 
         {data.figure === 'rechteckPlusRechteck' && (
-          <svg viewBox="0 0 328 210">
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]">
             <rect
               x="55"
               y="70"
@@ -160,7 +178,7 @@ export const exercise9572: Exercise<DATA> = {
         )}
 
         {data.figure === 'rechteckMinusDreieck' && (
-          <svg viewBox="0 0 328 210">
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]">
             <polygon
               points="55,45 205,45 270,95 270,165 55,165"
               fill="#eee"
@@ -191,6 +209,36 @@ export const exercise9572: Exercise<DATA> = {
             <text x="276" y="75" fontSize="14">
               d = {pp(data.d)} {data.unit}
             </text>
+          </svg>
+        )}
+
+        {data.figure === 'rahmen' && (
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]" role="img" aria-label="Rechteckiger Rahmen mit mittiger Öffnung">
+            <path d="M45 35 H275 V165 H45 Z M105 70 V130 H215 V70 Z" fill="#edf4ff" fillRule="evenodd" stroke="#1e3a5f" strokeWidth="2" />
+            <text x="150" y="190" textAnchor="middle" fontSize="14">a = {pp(data.a)} {data.unit}</text>
+            <text x="8" y="110" fontSize="14">b = {pp(data.b)} {data.unit}</text>
+            <text x="150" y="64" textAnchor="middle" fontSize="14">c = {pp(data.c)} {data.unit}</text>
+            <text x="220" y="104" fontSize="14">d = {pp(data.d)} {data.unit}</text>
+          </svg>
+        )}
+
+        {data.figure === 'rechteckPlusDreieck' && (
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]" role="img" aria-label="Rechteck mit seitlich angesetztem Dreieck">
+            <path d="M40 40 H210 L285 105 L210 170 H40 Z" fill="#edf4ff" stroke="#1e3a5f" strokeWidth="2" />
+            <path d="M210 40 V170" stroke="#52647a" strokeDasharray="5 4" />
+            <text x="110" y="195" fontSize="14">a = {pp(data.a)} {data.unit}</text>
+            <text x="4" y="108" fontSize="14">b = {pp(data.b)} {data.unit}</text>
+            <text x="231" y="115" fontSize="14">c = {pp(data.c)} {data.unit}</text>
+          </svg>
+        )}
+
+        {data.figure === 'rechteckPlusHalbkreis' && (
+          <svg viewBox="0 0 328 210" className="w-full max-w-[380px]" role="img" aria-label="Rechteck mit angesetztem Halbkreis">
+            <path d="M45 40 H205 A65 65 0 0 1 205 170 H45 Z" fill="#edf4ff" stroke="#1e3a5f" strokeWidth="2" />
+            <path d="M205 40 V170" stroke="#52647a" strokeDasharray="5 4" />
+            <text x="100" y="195" fontSize="14">a = {pp(data.a)} {data.unit}</text>
+            <text x="4" y="108" fontSize="14">b = {pp(data.b)} {data.unit}</text>
+            <text x="213" y="110" fontSize="12">d = b</text>
           </svg>
         )}
       </>
@@ -266,6 +314,24 @@ export const exercise9572: Exercise<DATA> = {
                 data.result,
               )}\\,${unitLatex(data.unit)}^2`}
             />
+          </>
+        )}
+        {data.figure === 'rahmen' && (
+          <>
+            <p>Die Öffnung wird von der äußeren Rechteckfläche abgezogen.</p>
+            <InlineMath math={`A=${pp(data.a)}\\cdot${pp(data.b)}-${pp(data.c)}\\cdot${pp(data.d)}=${pp(data.result)}\\,${unitLatex(data.unit)}^2`} />
+          </>
+        )}
+        {data.figure === 'rechteckPlusDreieck' && (
+          <>
+            <p>Zum Rechteck wird das Dreieck mit Grundseite b und Höhe c addiert.</p>
+            <InlineMath math={`A=${pp(data.a)}\\cdot${pp(data.b)}+\\frac{${pp(data.b)}\\cdot${pp(data.c)}}{2}=${pp(data.result)}\\,${unitLatex(data.unit)}^2`} />
+          </>
+        )}
+        {data.figure === 'rechteckPlusHalbkreis' && (
+          <>
+            <p>Zum Rechteck wird ein Halbkreis mit Durchmesser b addiert.</p>
+            <InlineMath math={`A=${pp(data.a)}\\cdot${pp(data.b)}+\\frac{\\pi\\cdot(${pp(data.b)}/2)^2}{2}\\approx${pp(data.result)}\\,${unitLatex(data.unit)}^2`} />
           </>
         )}
       </>
