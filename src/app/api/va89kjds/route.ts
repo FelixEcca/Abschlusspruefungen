@@ -1080,6 +1080,13 @@ ${briefLabel}: ${note || 'Keiner'}`,
 
     if (wantsStream && !wantsReview) {
       let result = await streamOpenAI(openAIMessages, MODEL)
+      if (!result.ok) {
+        console.warn('[api/va89kjds] stream model failed, retrying primary', {
+          model: MODEL,
+          status: result.status,
+        })
+        result = await streamOpenAI(openAIMessages, MODEL)
+      }
       if (!result.ok && MODEL !== FALLBACK_MODEL) {
         console.warn('[api/va89kjds] stream model failed, retrying fallback', {
           model: MODEL,

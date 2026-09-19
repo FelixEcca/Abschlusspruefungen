@@ -1821,13 +1821,17 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'TG12 - Mathe gAN',
     topics: [
       {
-        title: 'Grundlagen',
+        title: 'Periodische Vorgänge',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: 'Oszillogramm einer Tonveränderung deuten',
+            skillExercises: [{ id: 20000 }],
+          },
+          {
+            name: 'Periodenlänge, Mittellinie und Amplitude ablesen',
+            skillExercises: [{ id: 20001 }],
           },
         ],
       },
