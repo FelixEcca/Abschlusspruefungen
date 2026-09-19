@@ -23,10 +23,7 @@ function xToSvg(x: number) {
 }
 
 function yToSvg(y: number) {
-  return (
-    axis.top +
-    ((axis.yMax - y) / (axis.yMax - axis.yMin)) * axis.height
-  )
+  return axis.top + ((axis.yMax - y) / (axis.yMax - axis.yMin)) * axis.height
 }
 
 function points(data: DATA) {
@@ -34,8 +31,7 @@ function points(data: DATA) {
   for (let x = 0; x <= axis.xMax; x += 0.08) {
     const y =
       data.midline +
-      data.amplitude *
-        Math.sin((2 * Math.PI * (x - data.phase)) / data.period)
+      data.amplitude * Math.sin((2 * Math.PI * (x - data.phase)) / data.period)
     result.push(`${xToSvg(x)},${yToSvg(y)}`)
   }
   return result.join(' ')
@@ -69,7 +65,7 @@ function CoordinateSystem({
             y1={axis.top}
             x2={xToSvg(x)}
             y2={axis.top + axis.height}
-            stroke="#e2e8f0"
+            stroke="#898989"
           />
           <text x={xToSvg(x)} y="248" fontSize="11" textAnchor="middle">
             {x}
@@ -83,7 +79,7 @@ function CoordinateSystem({
             y1={yToSvg(y)}
             x2={axis.left + axis.width}
             y2={yToSvg(y)}
-            stroke={y === 0 ? '#94a3b8' : '#e2e8f0'}
+            stroke={y === 0 ? '#94a3b8' : '#898989'}
           />
           <text x="34" y={yToSvg(y) + 4} fontSize="11" textAnchor="end">
             {y}
@@ -160,12 +156,32 @@ function CoordinateSystem({
           >
             Amplitude
           </text>
-          <text x="250" y={yToSvg(data.midline) - 6} fontSize="12" fill="#c2410c">
+          <text
+            x="250"
+            y={yToSvg(data.midline) - 6}
+            fontSize="12"
+            fill="#c2410c"
+          >
             Mittellinie
           </text>
-          <circle cx={xToSvg(firstMax)} cy={yToSvg(maximum)} r="4" fill="#2563eb" />
-          <circle cx={xToSvg(nextMax)} cy={yToSvg(maximum)} r="4" fill="#2563eb" />
-          <circle cx={xToSvg(firstMax + data.period / 2)} cy={yToSvg(minimum)} r="4" fill="#2563eb" />
+          <circle
+            cx={xToSvg(firstMax)}
+            cy={yToSvg(maximum)}
+            r="4"
+            fill="#2563eb"
+          />
+          <circle
+            cx={xToSvg(nextMax)}
+            cy={yToSvg(maximum)}
+            r="4"
+            fill="#2563eb"
+          />
+          <circle
+            cx={xToSvg(firstMax + data.period / 2)}
+            cy={yToSvg(minimum)}
+            r="4"
+            fill="#2563eb"
+          />
         </>
       ) : null}
     </svg>
@@ -212,11 +228,7 @@ export const exercise20001: Exercise<DATA> = {
           Größter Wert: {pp(maximum)}, kleinster Wert: {pp(minimum)}.
         </p>
         <p>
-          Mittellinie:{' '}
-          <b>
-            y = {pp(data.midline)}
-          </b>
-          .
+          Mittellinie: <b>y = {pp(data.midline)}</b>.
         </p>
         <p>
           Amplitude: Abstand von der Mittellinie bis zum Maximum. Also{' '}
