@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Arbeitsauftrag Zeigerkreis</title>
+  <desc id="desc">Stilisierter Zeiger im Kreis und ein leeres Koordinatensystem mit Kreis zum Einzeichnen von Winkeln.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .panel { fill: #f8fafc; stroke: #d8e0ea; stroke-width: 2; }
+      .ink { fill: #172033; }
+      .muted { fill: #536173; }
+      .accent { fill: #2457c5; }
+      .water { fill: #d9ecff; }
+      .water-dark { stroke: #4d8fc4; stroke-width: 2; fill: none; opacity: .75; }
+      .line { stroke: #172033; stroke-width: 3; fill: none; }
+      .thin { stroke: #6f7c8f; stroke-width: 1.2; fill: none; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .grid-strong { stroke: #94a3b8; stroke-width: 1.4; }
+      .axis { stroke: #172033; stroke-width: 2.6; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 25px; fill: #172033; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 18px; fill: #172033; }
+      .bold { font-weight: 700; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#172033"/>
+    </marker>
+    <clipPath id="tankClip">
+      <circle cx="300" cy="300" r="235"/>
+    </clipPath>
+  </defs>
+
+  <rect class="bg" width="1400" height="760"/>
+  <rect x="34" y="32" width="1332" height="696" rx="28" fill="#f8fafc" stroke="#d8e0ea" stroke-width="2"/>
+
+  <g transform="translate(64 58)">
+    <circle cx="14" cy="14" r="14" fill="#2457c5"/>
+    <text x="14" y="21" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#fff">a</text>
+    <text x="42" y="22" class="label bold">Zeiger einzeichnen und Höhen messen</text>
+    <text x="42" y="56" class="small" fill="#536173">Zeichnen Sie für jeden Winkel 0°, 10°, 20°, 30°, ..., 360° den Zeiger ein und messen Sie die Höhe der Zeigerspitze über der Wasseroberfläche.</text>
+  </g>
+
+  <g transform="translate(64 135)">
+    <rect x="0" y="0" width="604" height="540" rx="20" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <g transform="translate(2 2)">
+      <rect x="64" y="64" width="472" height="472" rx="16" fill="#eef4ff"/>
+      <g clip-path="url(#tankClip)">
+        <rect x="65" y="300" width="470" height="235" class="water"/>
+        <path class="water-dark" d="M55 302C78 292 102 313 126 302S172 292 196 302 242 313 266 302 312 292 336 302 382 313 406 302 452 292 476 302 522 313 545 302"/>
+        <path class="water-dark" d="M55 317C80 309 104 324 129 316S177 309 202 317 250 324 275 316 323 309 348 317 396 324 421 316 469 309 494 317 526 324 545 316" opacity=".45"/>
+      </g>
+      <circle cx="300" cy="300" r="235" fill="none" stroke="#172033" stroke-width="4"/>
+      <line x1="80" y1="300" x2="520" y2="300" stroke="#172033" stroke-width="2.2"/>
+      <circle cx="300" cy="300" r="13" fill="#172033"/>
+      <line x1="300" y1="300" x2="492" y2="189" stroke="#172033" stroke-width="8" marker-end="url(#arrow)"/>
+      <path d="M352 300A52 52 0 0 0 345 274" class="thin" stroke="#2457c5" stroke-width="3"/>
+      <text x="367" y="284" class="small bold" fill="#2457c5">30°</text>
+      <line x1="492" y1="189" x2="492" y2="300" stroke="#2457c5" stroke-width="3" stroke-dasharray="8 7"/>
+      <text x="507" y="249" class="small bold" fill="#2457c5">Höhe</text>
+    </g>
+  </g>
+
+  <g transform="translate(736 135)">
+    <rect x="0" y="0" width="600" height="540" rx="20" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <g transform="translate(67 43)">
+      <rect x="0" y="0" width="466" height="466" fill="#fff"/>
+      <g class="grid">
+        <path d="M23.3 0V466 M46.6 0V466 M69.9 0V466 M93.2 0V466 M116.5 0V466 M139.8 0V466 M163.1 0V466 M186.4 0V466 M209.7 0V466 M233 0V466 M256.3 0V466 M279.6 0V466 M302.9 0V466 M326.2 0V466 M349.5 0V466 M372.8 0V466 M396.1 0V466 M419.4 0V466 M442.7 0V466"/>
+        <path d="M0 23.3H466 M0 46.6H466 M0 69.9H466 M0 93.2H466 M0 116.5H466 M0 139.8H466 M0 163.1H466 M0 186.4H466 M0 209.7H466 M0 233H466 M0 256.3H466 M0 279.6H466 M0 302.9H466 M0 326.2H466 M0 349.5H466 M0 372.8H466 M0 396.1H466 M0 419.4H466 M0 442.7H466"/>
+      </g>
+      <g class="grid-strong">
+        <path d="M0 233H466 M233 0V466"/>
+        <path d="M0 0H466 M0 116.5H466 M0 349.5H466 M0 466H466"/>
+        <path d="M0 0V466 M116.5 0V466 M349.5 0V466 M466 0V466"/>
+      </g>
+      <line x1="0" y1="233" x2="466" y2="233" class="axis"/>
+      <line x1="233" y1="466" x2="233" y2="0" class="axis"/>
+      <path d="M466 233l-12 -7v14z" fill="#172033"/>
+      <path d="M233 0l-7 12h14z" fill="#172033"/>
+      <circle cx="233" cy="233" r="186.4" fill="none" stroke="#172033" stroke-width="3.2"/>
+      <circle cx="233" cy="233" r="5" fill="#172033"/>
+      <text x="451" y="215" class="label bold">x</text>
+      <text x="247" y="25" class="label bold">y</text>
+
+      <g class="small" text-anchor="middle">
+        <text x="0" y="255">-5</text><text x="46.6" y="255">-4</text><text x="93.2" y="255">-3</text><text x="139.8" y="255">-2</text><text x="186.4" y="255">-1</text>
+        <text x="217" y="255">0</text><text x="279.6" y="255">1</text><text x="326.2" y="255">2</text><text x="372.8" y="255">3</text><text x="419.4" y="255">4</text><text x="466" y="255">5</text>
+      </g>
+      <g class="small" text-anchor="end">
+        <text x="224" y="52">5</text><text x="224" y="98.6">4</text><text x="224" y="145.2">3</text><text x="224" y="191.8">2</text><text x="224" y="238.4">1</text>
+        <text x="224" y="285">-1</text><text x="224" y="331.6">-2</text><text x="224" y="378.2">-3</text><text x="224" y="424.8">-4</text><text x="224" y="471.4">-5</text>
+      </g>
+    </g>
+  </g>
+</svg>

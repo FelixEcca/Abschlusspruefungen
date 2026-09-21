@@ -565,6 +565,8 @@ import { exercise13024 } from './implementations/Mathe_Meister_Training/13024'
 import { exercise13025 } from './implementations/Mathe_Meister_Training/13025'
 import { exercise20000 } from './implementations/Mathe_TG12_gAN/20000'
 import { exercise20001 } from './implementations/Mathe_TG12_gAN/20001'
+import { exercise20002 } from './implementations/Mathe_TG12_gAN/20002'
+import { exercise20003 } from './implementations/Mathe_TG12_gAN/20003'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -1131,6 +1133,8 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   13025: exercise13025,
   20000: exercise20000,
   20001: exercise20001,
+  20002: exercise20002,
+  20003: exercise20003,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

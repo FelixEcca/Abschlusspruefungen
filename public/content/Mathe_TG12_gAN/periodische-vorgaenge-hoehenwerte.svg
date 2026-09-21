@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Arbeitsauftrag Höhenwerte und Sinusgraph</title>
+  <desc id="desc">Leere Tabelle für Winkel und Höhenwerte sowie ein Koordinatensystem von 0 bis 360 Grad.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .ink { fill: #172033; }
+      .muted { fill: #536173; }
+      .accent { fill: #2457c5; }
+      .soft { fill: #eef4ff; }
+      .line { stroke: #172033; stroke-width: 2; }
+      .thin { stroke: #6f7c8f; stroke-width: 1; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; }
+      .grid-strong { stroke: #94a3b8; stroke-width: 1.5; }
+      .axis { stroke: #172033; stroke-width: 2.4; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 24px; fill: #172033; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 18px; fill: #172033; }
+      .tiny { font-family: Arial, Helvetica, sans-serif; font-size: 15px; fill: #172033; }
+      .note { font-family: Arial, Helvetica, sans-serif; font-size: 22px; fill: #172033; }
+      .bold { font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <rect x="34" y="32" width="1332" height="836" rx="28" fill="#f8fafc" stroke="#d8e0ea" stroke-width="2"/>
+
+  <g transform="translate(64 58)">
+    <circle cx="14" cy="14" r="14" fill="#2457c5"/>
+    <text x="14" y="21" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#fff">b</text>
+    <text x="42" y="22" class="label bold">Höhenwerte eintragen und den Graphen zeichnen</text>
+    <text x="42" y="56" class="small" fill="#536173">Tragen Sie die gemessenen Höhenwerte ein. Zeichnen Sie anschließend den zugehörigen Graphen.</text>
+  </g>
+
+  <g transform="translate(64 145)">
+    <rect x="0" y="0" width="1272" height="168" rx="14" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <g transform="translate(18 18)">
+      <rect x="0" y="0" width="1236" height="58" rx="8" fill="#eef4ff"/>
+      <rect x="0" y="76" width="1236" height="58" rx="8" fill="#eef4ff"/>
+
+      <g class="line" fill="none">
+        <rect x="0" y="0" width="1236" height="58"/>
+        <rect x="0" y="76" width="1236" height="58"/>
+      </g>
+
+      <g class="thin" fill="none">
+        <path d="M88 0V58 M88 76V134"/>
+        <path d="M0 29H1236 M0 105H1236"/>
+      </g>
+
+      <g class="thin" fill="none">
+        <path d="M149 0V58 M210 0V58 M271 0V58 M332 0V58 M393 0V58 M454 0V58 M515 0V58 M576 0V58 M637 0V58 M698 0V58 M759 0V58 M820 0V58 M881 0V58 M942 0V58 M1003 0V58 M1064 0V58 M1125 0V58 M1186 0V58"/>
+        <path d="M149 76V134 M210 76V134 M271 76V134 M332 76V134 M393 76V134 M454 76V134 M515 76V134 M576 76V134 M637 76V134 M698 76V134 M759 76V134 M820 76V134 M881 76V134 M942 76V134 M1003 76V134 M1064 76V134 M1125 76V134 M1186 76V134"/>
+      </g>
+
+      <text x="44" y="22" text-anchor="middle" class="small bold">Winkel</text>
+      <text x="44" y="51" text-anchor="middle" class="small bold">Höhe</text>
+      <text x="44" y="98" text-anchor="middle" class="small bold">Winkel</text>
+      <text x="44" y="127" text-anchor="middle" class="small bold">Höhe</text>
+
+      <g class="small bold" text-anchor="middle">
+        <text x="118.5" y="22">0°</text><text x="179.5" y="22">10°</text><text x="240.5" y="22">20°</text><text x="301.5" y="22">30°</text>
+        <text x="362.5" y="22">40°</text><text x="423.5" y="22">50°</text><text x="484.5" y="22">60°</text><text x="545.5" y="22">70°</text>
+        <text x="606.5" y="22">80°</text><text x="667.5" y="22">90°</text><text x="728.5" y="22">100°</text><text x="789.5" y="22">110°</text>
+        <text x="850.5" y="22">120°</text><text x="911.5" y="22">130°</text><text x="972.5" y="22">140°</text><text x="1033.5" y="22">150°</text>
+        <text x="1094.5" y="22">160°</text><text x="1155.5" y="22">170°</text><text x="1211" y="22"></text>
+
+        <text x="118.5" y="98">180°</text><text x="179.5" y="98">190°</text><text x="240.5" y="98">200°</text><text x="301.5" y="98">210°</text>
+        <text x="362.5" y="98">220°</text><text x="423.5" y="98">230°</text><text x="484.5" y="98">240°</text><text x="545.5" y="98">250°</text>
+        <text x="606.5" y="98">260°</text><text x="667.5" y="98">270°</text><text x="728.5" y="98">280°</text><text x="789.5" y="98">290°</text>
+        <text x="850.5" y="98">300°</text><text x="911.5" y="98">310°</text><text x="972.5" y="98">320°</text><text x="1033.5" y="98">330°</text>
+        <text x="1094.5" y="98">340°</text><text x="1155.5" y="98">350°</text><text x="1211" y="98">360°</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(64 355)">
+    <rect x="0" y="0" width="930" height="470" rx="16" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <g transform="translate(64 42)">
+      <rect x="0" y="0" width="820" height="390" fill="#fff"/>
+      <g class="grid">
+        <path d="M20 0V390 M40 0V390 M60 0V390 M80 0V390 M100 0V390 M120 0V390 M140 0V390 M160 0V390 M180 0V390 M200 0V390 M220 0V390 M240 0V390 M260 0V390 M280 0V390 M300 0V390 M320 0V390 M340 0V390 M360 0V390 M380 0V390 M400 0V390 M420 0V390 M440 0V390 M460 0V390 M480 0V390 M500 0V390 M520 0V390 M540 0V390 M560 0V390 M580 0V390 M600 0V390 M620 0V390 M640 0V390 M660 0V390 M680 0V390 M700 0V390 M720 0V390 M740 0V390 M760 0V390 M780 0V390 M800 0V390"/>
+        <path d="M0 19.5H820 M0 58.5H820 M0 97.5H820 M0 136.5H820 M0 175.5H820 M0 214.5H820 M0 253.5H820 M0 292.5H820 M0 331.5H820 M0 370.5H820"/>
+      </g>
+      <g class="grid-strong">
+        <path d="M0 0V390 M68.33 0V390 M136.67 0V390 M205 0V390 M273.33 0V390 M341.67 0V390 M410 0V390 M478.33 0V390 M546.67 0V390 M615 0V390 M683.33 0V390 M751.67 0V390 M820 0V390"/>
+        <path d="M0 0H820 M0 39H820 M0 78H820 M0 117H820 M0 156H820 M0 195H820 M0 234H820 M0 273H820 M0 312H820 M0 351H820 M0 390H820"/>
+      </g>
+      <line x1="0" y1="195" x2="820" y2="195" class="axis"/>
+      <line x1="0" y1="390" x2="0" y2="0" class="axis"/>
+      <path d="M820 195l-12 -7v14z" fill="#172033"/>
+      <path d="M0 0l-7 12h14z" fill="#172033"/>
+      <text x="808" y="178" class="label bold">x</text>
+      <text x="13" y="28" class="label bold">y</text>
+
+      <g class="small" text-anchor="middle">
+        <text x="-18" y="202">0°</text>
+        <text x="68.33" y="222">30°</text><text x="136.67" y="222">60°</text><text x="205" y="222">90°</text>
+        <text x="273.33" y="222">120°</text><text x="341.67" y="222">150°</text><text x="410" y="222">180°</text>
+        <text x="478.33" y="222">210°</text><text x="546.67" y="222">240°</text><text x="615" y="222">270°</text>
+        <text x="683.33" y="222">300°</text><text x="751.67" y="222">330°</text><text x="820" y="222">360°</text>
+      </g>
+      <g class="small" text-anchor="end">
+        <text x="-18" y="7">5</text><text x="-18" y="46">4</text><text x="-18" y="85">3</text><text x="-18" y="124">2</text><text x="-18" y="163">1</text>
+        <text x="-18" y="241">-1</text><text x="-18" y="280">-2</text><text x="-18" y="319">-3</text><text x="-18" y="358">-4</text><text x="-18" y="397">-5</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(1030 360)">
+    <rect x="0" y="0" width="306" height="210" rx="18" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <circle cx="28" cy="30" r="14" fill="#2457c5"/>
+    <text x="28" y="37" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#fff">c</text>
+    <text x="55" y="38" class="note bold">Eigenschaften</text>
+    <text x="28" y="78" class="note">Beschreiben Sie in eigenen</text>
+    <text x="28" y="108" class="note">Worten, welche Eigenschaften</text>
+    <text x="28" y="138" class="note">des Graphen Ihnen auffallen.</text>
+  </g>
+
+  <g transform="translate(1030 600)">
+    <rect x="0" y="0" width="306" height="225" rx="18" fill="#fff" stroke="#d8e0ea" stroke-width="2"/>
+    <circle cx="28" cy="30" r="14" fill="#2457c5"/>
+    <text x="28" y="37" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#fff">d</text>
+    <text x="55" y="38" class="note bold">Zusammenhang</text>
+    <text x="28" y="78" class="note">Betrachten Sie nochmals den</text>
+    <text x="28" y="108" class="note">Kreis. Überlegen Sie, wie sich</text>
+    <text x="28" y="138" class="note">die Höhe der Zeigerspitze</text>
+    <text x="28" y="168" class="note">berechnen lässt.</text>
+  </g>
+</svg>

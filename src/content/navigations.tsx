@@ -1833,6 +1833,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Periodenlänge, Mittellinie und Amplitude ablesen',
             skillExercises: [{ id: 20001 }],
           },
+          {
+            name: 'Gleiche Sinuswerte im Intervall finden',
+            skillExercises: [{ id: 20002 }],
+          },
+          {
+            name: 'Sinuswerte ohne Taschenrechner ordnen',
+            skillExercises: [{ id: 20003 }],
+          },
         ],
       },
     ],
