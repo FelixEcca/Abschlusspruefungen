@@ -1153,6 +1153,10 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9545 }],
           },
           {
+            name: 'Zahlen vergleichen',
+            skillExercises: [{ id: 9657 }],
+          },
+          {
             name: 'Runden 1',
             skillExercises: [{ id: 9608 }],
           },

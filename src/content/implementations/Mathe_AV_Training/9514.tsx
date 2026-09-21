@@ -4,31 +4,56 @@ import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
 type Kontext = 'geld' | 'laenge' | 'gewicht' | 'preis'
+type Rundungsstelle =
+  | 'tausender'
+  | 'hunderter'
+  | 'zehner'
+  | 'einer'
+  | 'zehntel'
+  | 'hundertstel'
+  | 'tausendstel'
 
 interface DATA {
   kontext: Kontext
   raw: number
   rounded: number
-  nachkommastellen: 1 | 2 | 3
+  rundungsstelle: Rundungsstelle
 }
 
-function getFrageText(nachkommastellen: 1 | 2 | 3) {
-  if (nachkommastellen === 1) {
-    return 'Runden Sie auf eine Nachkommastelle.'
+function getRundungsInfo(rundungsstelle: Rundungsstelle) {
+  if (rundungsstelle === 'tausender') {
+    return { frage: 'Runden Sie auf Tausender.', step: 1000 }
   }
-
-  if (nachkommastellen === 2) {
-    return 'Runden Sie auf zwei Nachkommastellen.'
+  if (rundungsstelle === 'hunderter') {
+    return { frage: 'Runden Sie auf Hunderter.', step: 100 }
   }
+  if (rundungsstelle === 'zehner') {
+    return { frage: 'Runden Sie auf Zehner.', step: 10 }
+  }
+  if (rundungsstelle === 'einer') {
+    return { frage: 'Runden Sie auf Einer.', step: 1 }
+  }
+  if (rundungsstelle === 'zehntel') {
+    return { frage: 'Runden Sie auf Zehntel.', step: 0.1 }
+  }
+  if (rundungsstelle === 'hundertstel') {
+    return { frage: 'Runden Sie auf Hundertstel.', step: 0.01 }
+  }
+  return { frage: 'Runden Sie auf Tausendstel.', step: 0.001 }
+}
 
-  return 'Runden Sie auf drei Nachkommastellen.'
+function roundToStep(value: number, step: number) {
+  const rounded = Math.round(value / step) * step
+  return Number(rounded.toFixed(3))
 }
 
 function getContext(data: DATA) {
+  const { frage } = getRundungsInfo(data.rundungsstelle)
+
   if (data.kontext === 'laenge') {
     return {
       text: `Eine Länge beträgt ${pp(data.raw)} m.`,
-      frage: getFrageText(data.nachkommastellen),
+      frage,
       unit: 'm',
     }
   }
@@ -36,7 +61,7 @@ function getContext(data: DATA) {
   if (data.kontext === 'gewicht') {
     return {
       text: `Ein Gewicht beträgt ${pp(data.raw)} kg.`,
-      frage: getFrageText(data.nachkommastellen),
+      frage,
       unit: 'kg',
     }
   }
@@ -44,14 +69,14 @@ function getContext(data: DATA) {
   if (data.kontext === 'preis') {
     return {
       text: `Ein Preis beträgt ${pp(data.raw)} €.`,
-      frage: getFrageText(data.nachkommastellen),
+      frage,
       unit: '€',
     }
   }
 
   return {
     text: `Ein Geldbetrag beträgt ${pp(data.raw)} €.`,
-    frage: getFrageText(data.nachkommastellen),
+    frage,
     unit: '€',
   }
 }
@@ -71,23 +96,32 @@ export const exercise9514: Exercise<DATA> = {
       'preis',
     ])
 
-    const nachkommastellen: 1 | 2 | 3 = rng.randomItemFromArray([1, 2, 3])
+    const rundungsstelle: Rundungsstelle = rng.randomItemFromArray([
+      'tausender',
+      'hunderter',
+      'zehner',
+      'einer',
+      'zehntel',
+      'hundertstel',
+      'tausendstel',
+    ])
 
+    const { step } = getRundungsInfo(rundungsstelle)
     const raw =
-      rng.randomIntBetween(10000, 99999) / 10000 +
-      rng.randomItemFromArray([0, 1, 2, 3, 4, 5])
+      step >= 1
+        ? rng.randomIntBetween(1000, 99999)
+        : rng.randomIntBetween(10000, 99999) / 10000 +
+          rng.randomItemFromArray([0, 1, 2, 3, 4, 5])
+    const rounded = roundToStep(raw, step)
 
-    const factor = 10 ** nachkommastellen
-    const rounded = Math.round(raw * factor) / factor
-
-    return { kontext, raw, rounded, nachkommastellen }
+    return { kontext, raw, rounded, rundungsstelle }
   },
 
   originalData: {
     kontext: 'geld',
     raw: 12.345,
     rounded: 12.35,
-    nachkommastellen: 2,
+    rundungsstelle: 'hundertstel',
   },
 
   constraint({ data }) {
