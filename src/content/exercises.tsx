@@ -391,6 +391,7 @@ import { exercise9654 } from './implementations/Mathe_AV_Training/9654'
 import { exercise9655 } from './implementations/Mathe_AV_Training/9655'
 import { exercise9656 } from './implementations/Mathe_AV_Training/9656'
 import { exercise9657 } from './implementations/Mathe_AV_Training/9657'
+import { exercise9658 } from './implementations/Mathe_AV_Training/9658'
 
 import { exercise9026 } from './implementations/Mathe_AV_Prüfungen/9026'
 import { exercise9027 } from './implementations/Mathe_AV_Prüfungen/9027'
@@ -1011,6 +1012,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9655: exercise9655,
   9656: exercise9656,
   9657: exercise9657,
+  9658: exercise9658,
   6014: exercise6014,
   6015: exercise6015,
   6016: exercise6016,

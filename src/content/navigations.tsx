@@ -1263,6 +1263,10 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9524 }],
           },
           {
+            name: 'Rechnen mit 10er-Zahlen',
+            skillExercises: [{ id: 9658 }],
+          },
+          {
             name: 'Maßstab im Plan',
             skillExercises: [{ id: 9631 }],
           },
