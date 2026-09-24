@@ -539,6 +539,7 @@ import { exercise10059 } from './implementations/Mathe1_3BKGD1/10059'
 import { exercise10060 } from './implementations/Mathe1_3BKGD1/10060'
 import { exercise10061 } from './implementations/Mathe1_3BKGD1/10061'
 import { exercise10063 } from './implementations/Mathe1_3BKGD1/10063'
+import { exercise10064 } from './implementations/Mathe1_3BKGD1/10064'
 import { exercise12000 } from './implementations/Mathe1_3BKGD3/12000'
 import { exercise13000 } from './implementations/Mathe_Meister_Training/13000'
 import { exercise13001 } from './implementations/Mathe_Meister_Training/13001'
@@ -1109,6 +1110,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   10060: exercise10060,
   10061: exercise10061,
   10063: exercise10063,
+  10064: exercise10064,
   12000: exercise12000,
   13000: exercise13000,
   13001: exercise13001,

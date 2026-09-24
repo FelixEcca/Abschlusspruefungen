@@ -1946,6 +1946,10 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Zoll und Zentimeter umrechnen',
+            skillExercises: [{ id: 10064 }],
+          },
+          {
             name: 'Point, Pica und Inch umrechnen',
             skillExercises: [{ id: 10000 }],
           },
