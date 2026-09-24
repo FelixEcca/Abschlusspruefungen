@@ -35,7 +35,7 @@ export const exercise10064: Exercise<DATA> = {
       <p>
         Zoll und Inch bezeichnen dieselbe Längeneinheit. Die englische
         Abkürzung lautet <b>in</b>. Es gilt:{' '}
-        <InlineMath math="1\,\mathrm{in}=2{,}54\,\mathrm{cm}" />.
+        <InlineMath math="1\\,\\mathrm{in}=2{,}54\\,\\mathrm{cm}" />.
       </p>
     )
   },
@@ -56,7 +56,7 @@ export const exercise10064: Exercise<DATA> = {
           <>
             <p>Von Zoll nach Zentimeter wird mit 2,54 multipliziert.</p>
             <BlockMath
-              math={`${pp(data.inchToCm)}\,\mathrm{in}\cdot2{,}54\,\frac{\mathrm{cm}}{\mathrm{in}}=${pp(result)}\,\mathrm{cm}`}
+              math={`${pp(data.inchToCm)}\\,\\mathrm{in}\\cdot2{,}54\\,\\frac{\\mathrm{cm}}{\\mathrm{in}}=${pp(result)}\\,\\mathrm{cm}`}
             />
             <p>Die Bilddiagonale beträgt {pp(result)} cm.</p>
           </>
@@ -80,7 +80,7 @@ export const exercise10064: Exercise<DATA> = {
           <>
             <p>Von Zentimeter nach Zoll wird durch 2,54 dividiert.</p>
             <BlockMath
-              math={`${pp(centimetres)}\,\mathrm{cm}:2{,}54\,\frac{\mathrm{cm}}{\mathrm{in}}=${pp(data.cmToInch)}\,\mathrm{in}`}
+              math={`${pp(centimetres)}\\,\\mathrm{cm}:2{,}54\\,\\frac{\\mathrm{cm}}{\\mathrm{in}}=${pp(data.cmToInch)}\\,\\mathrm{in}`}
             />
             <p>
               Die Breite beträgt {pp(data.cmToInch)} Zoll beziehungsweise Inch.
