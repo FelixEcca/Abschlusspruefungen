@@ -1849,6 +1849,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Sinuswerte ohne Taschenrechner ordnen',
             skillExercises: [{ id: 20003 }],
           },
+          {
+            name: 'Gradmaß und Bogenmaß umwandeln',
+            skillExercises: [{ id: 20004 }],
+          },
+          {
+            name: 'Periodenlänge im Bogenmaß ablesen',
+            skillExercises: [{ id: 20005 }],
+          },
         ],
       },
     ],
