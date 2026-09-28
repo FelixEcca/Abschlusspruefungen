@@ -199,6 +199,16 @@ import { exercise7002 } from './implementations/Physik_2BFS2_Training/7002'
 import { exercise7003 } from './implementations/Physik_2BFS2_Training/7003'
 import { exercise7004 } from './implementations/Physik_2BFS2_Training/7004'
 import { exercise7005 } from './implementations/Physik_2BFS2_Training/7005'
+import { exercise8000 } from './implementations/Technik_1BK1T_Training/8000'
+import { exercise8002 } from './implementations/Technik_1BK1T_Training/8002'
+import { exercise8003 } from './implementations/Technik_1BK1T_Training/8003'
+import { exercise8004 } from './implementations/Technik_1BK1T_Training/8004'
+import { exercise8005 } from './implementations/Technik_1BK1T_Training/8005'
+import { exercise8006 } from './implementations/Technik_1BK1T_Training/8006'
+import { exercise8008 } from './implementations/Technik_1BK1T_Training/8008'
+import { exercise8009 } from './implementations/Technik_1BK1T_Training/8009'
+import { exercise8010 } from './implementations/Technik_1BK1T_Training/8010'
+import { exercise8011 } from './implementations/Technik_1BK1T_Training/8011'
 import { exercise6000 } from './implementations/Physik_TG11_Training/6000'
 import { exercise6001 } from './implementations/Physik_TG11_Training/6001'
 import { exercise6002 } from './implementations/Physik_TG11_Training/6002'
@@ -392,6 +402,7 @@ import { exercise9655 } from './implementations/Mathe_AV_Training/9655'
 import { exercise9656 } from './implementations/Mathe_AV_Training/9656'
 import { exercise9657 } from './implementations/Mathe_AV_Training/9657'
 import { exercise9658 } from './implementations/Mathe_AV_Training/9658'
+import { exercise9659 } from './implementations/Mathe_AV_Training/9659'
 
 import { exercise9026 } from './implementations/Mathe_AV_Prüfungen/9026'
 import { exercise9027 } from './implementations/Mathe_AV_Prüfungen/9027'
@@ -789,6 +800,16 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   7003: exercise7003,
   7004: exercise7004,
   7005: exercise7005,
+  8000: exercise8000,
+  8002: exercise8002,
+  8003: exercise8003,
+  8004: exercise8004,
+  8005: exercise8005,
+  8006: exercise8006,
+  8008: exercise8008,
+  8009: exercise8009,
+  8010: exercise8010,
+  8011: exercise8011,
   6000: exercise6000,
   6001: exercise6001,
   6002: exercise6002,
@@ -1017,6 +1038,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   9656: exercise9656,
   9657: exercise9657,
   9658: exercise9658,
+  9659: exercise9659,
   6014: exercise6014,
   6015: exercise6015,
   6016: exercise6016,

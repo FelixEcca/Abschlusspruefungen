@@ -3,7 +3,7 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 
-type FigureType = 'dreieck' | 'rechteck' | 'kreis' | 'trapez'
+type FigureType = 'dreieck' | 'rechteck' | 'trapez'
 
 interface DATA {
   figure: FigureType
@@ -11,20 +11,7 @@ interface DATA {
   b: number
   c: number
   d: number
-  r: number
   result: number
-}
-
-function round2(x: number) {
-  return Math.round(x * 100) / 100
-}
-
-function figureName(type: FigureType) {
-  if (type === 'dreieck') return 'Dreieck'
-  if (type === 'rechteck') return 'Rechteck'
-  if (type === 'kreis') return 'Kreis'
-
-  return 'Trapez'
 }
 
 export const exercise9558: Exercise<DATA> = {
@@ -38,8 +25,6 @@ export const exercise9558: Exercise<DATA> = {
     const figure: FigureType = rng.randomItemFromArray([
       'dreieck',
       'rechteck',
-      'kreis',
-
       'trapez',
     ])
 
@@ -48,20 +33,14 @@ export const exercise9558: Exercise<DATA> = {
       const b = rng.randomItemFromArray([4, 5, 6, 7, 8, 9, 10, 12])
       const c = rng.randomItemFromArray([4, 5, 6, 7, 8, 9, 10, 12])
       const result = a + b + c
-      return { figure, a, b, c, d: 0, r: 0, result }
+      return { figure, a, b, c, d: 0, result }
     }
 
     if (figure === 'rechteck') {
       const a = rng.randomItemFromArray([3, 4, 5, 6, 8, 10, 12, 15])
       const b = rng.randomItemFromArray([2, 3, 4, 5, 6, 7, 8])
       const result = 2 * a + 2 * b
-      return { figure, a, b, c: 0, d: 0, r: 0, result }
-    }
-
-    if (figure === 'kreis') {
-      const r = rng.randomItemFromArray([2, 3, 4, 5, 6, 7, 8, 10])
-      const result = round2(2 * Math.PI * r)
-      return { figure, a: 0, b: 0, c: 0, d: 0, r, result }
+      return { figure, a, b, c: 0, d: 0, result }
     }
 
     const a = rng.randomItemFromArray([6, 8, 10, 12, 14])
@@ -70,7 +49,7 @@ export const exercise9558: Exercise<DATA> = {
     const d = rng.randomItemFromArray([4, 5, 6, 7, 8])
     const result = a + b + c + d
 
-    return { figure, a, b, c, d, r: 0, result }
+    return { figure, a, b, c, d, result }
   },
 
   originalData: {
@@ -79,7 +58,6 @@ export const exercise9558: Exercise<DATA> = {
     b: 5,
     c: 0,
     d: 0,
-    r: 0,
     result: 26,
   },
 
@@ -136,25 +114,6 @@ export const exercise9558: Exercise<DATA> = {
           </>
         )}
 
-        {data.figure === 'kreis' && (
-          <>
-            <svg viewBox="0 0 328 170">
-              <circle
-                cx="164"
-                cy="85"
-                r="55"
-                fill="#eee"
-                stroke="black"
-                strokeWidth="2"
-              />
-              <line x1="164" y1="85" x2="219" y2="85" stroke="black" />
-              <text x="195" y="78" fontSize="15">
-                r = {data.r} cm
-              </text>
-            </svg>
-          </>
-        )}
-
         {data.figure === 'trapez' && (
           <>
             <svg viewBox="0 0 328 170">
@@ -186,9 +145,7 @@ export const exercise9558: Exercise<DATA> = {
   solution({ data }) {
     return (
       <>
-        {data.figure != 'kreis' && (
-          <p>Beim Umfang werden alle Seitenlängen addiert.</p>
-        )}
+        <p>Beim Umfang werden alle Seitenlängen addiert.</p>
 
         {data.figure === 'dreieck' && (
           <>
@@ -204,17 +161,6 @@ export const exercise9558: Exercise<DATA> = {
             <p>Beim Rechteck gibt es jede Seitenlänge zweimal.</p>
             <InlineMath
               math={`U=2\\cdot ${data.a}+2\\cdot ${data.b}=${pp(data.result)}\\,\\mathrm{cm}`}
-            />
-          </>
-        )}
-
-        {data.figure === 'kreis' && (
-          <>
-            <p>Beim Kreis gilt:</p>
-            <InlineMath math={`U=2\\cdot \\pi \\cdot r`} />
-            <br />
-            <InlineMath
-              math={`U=2\\cdot \\pi \\cdot ${data.r}\\approx ${pp(data.result)}\\,\\mathrm{cm}`}
             />
           </>
         )}

@@ -1345,6 +1345,10 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 9558 }],
           },
           {
+            name: 'Umfang zusammengesetzter Figuren',
+            skillExercises: [{ id: 9659 }],
+          },
+          {
             name: 'Kreisumfang',
             skillExercises: [{ id: 9559 }],
           },
@@ -1789,13 +1793,49 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: '1BK1T - GT',
     topics: [
       {
-        title: 'Grundlagen',
+        title: 'Kinematik',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: 'Gleichförmige Bewegung: Geschwindigkeit bestimmen',
+            skillExercises: [{ id: 8000 }],
+          },
+          {
+            name: 'Gleichförmige Bewegung: Bewegungsgleichung',
+            skillExercises: [{ id: 8002 }],
+          },
+          {
+            name: 'Gleichförmige Bewegung: Treffpunkt zweier Fahrer',
+            skillExercises: [{ id: 8003 }],
+          },
+          {
+            name: 'Geschwindigkeitseinheiten umrechnen',
+            skillExercises: [{ id: 8004 }],
+          },
+          {
+            name: 'Längeneinheiten umrechnen',
+            skillExercises: [{ id: 8005 }],
+          },
+          {
+            name: 'Beschleunigung aus Tabelle und v-t-Diagramm bestimmen',
+            skillExercises: [{ id: 8006 }],
+          },
+          {
+            name: 'Beschleunigte Bewegung: Geschwindigkeits-Zeit-Gleichung',
+            skillExercises: [{ id: 8008 }],
+          },
+          {
+            name: 'Beschleunigte Bewegung: Gefahrene Strecke berechnen',
+            skillExercises: [{ id: 8009 }],
+          },
+          {
+            name: 'Strecke als Fläche im v-t-Diagramm',
+            skillExercises: [{ id: 8010 }],
+          },
+          {
+            name: 'Verständnisfragen',
+            skillExercises: [{ id: 8011 }],
           },
         ],
       },
@@ -1841,10 +1881,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Periodenlänge, Mittellinie und Amplitude ablesen',
             skillExercises: [{ id: 20001 }],
           },
-          {
-            name: 'Sinuskurven transformieren und Funktionsterm bestimmen',
-            skillExercises: [{ id: 20006 }],
-          },
+
           {
             name: 'Gleiche Sinuswerte im Intervall finden',
             skillExercises: [{ id: 20002 }],
@@ -1860,6 +1897,10 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Periodenlänge im Bogenmaß ablesen',
             skillExercises: [{ id: 20005 }],
+          },
+          {
+            name: 'Sinuskurven transformieren und Funktionsterm bestimmen',
+            skillExercises: [{ id: 20006 }],
           },
         ],
       },
