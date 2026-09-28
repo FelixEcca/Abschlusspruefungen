@@ -9,7 +9,7 @@ export const exerciseXXX: Exercise<DATA> = {
   duration: 42,
   points: 42,
   generator(rng) {
-    return {}
+    return { }
   },
   originalData: {},
   constraint({ data }) {
@@ -19,6 +19,6 @@ export const exerciseXXX: Exercise<DATA> = {
     return <></>
   },
   solution({ data }) {
-    return <><p>Hallo</p></>
+    return <></>
   },
 }

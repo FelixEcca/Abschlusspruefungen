@@ -1842,6 +1842,10 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 20001 }],
           },
           {
+            name: 'Sinuskurven transformieren und Funktionsterm bestimmen',
+            skillExercises: [{ id: 20006 }],
+          },
+          {
             name: 'Gleiche Sinuswerte im Intervall finden',
             skillExercises: [{ id: 20002 }],
           },
