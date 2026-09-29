@@ -204,7 +204,7 @@ export function ScribbleOverlay({ mobileHeightVh }: { mobileHeightVh: number }) 
   useEffect(() => {
     setMounted(true)
 
-    const mq = window.matchMedia('(min-width: 1250px)')
+    const mq = window.matchMedia('(min-width: 660px)')
 
     const update = () => {
       saveCurrentStrokes()
@@ -593,7 +593,7 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
 
   if (useSideCanvas && mounted) {
     return createPortal(
-      <div className="fixed top-2 bottom-2 right-4 z-[9999] w-[250px]">
+      <div className="fixed top-2 bottom-2 right-4 z-[9999] w-[360px]">
         {content}
       </div>,
       document.body,
