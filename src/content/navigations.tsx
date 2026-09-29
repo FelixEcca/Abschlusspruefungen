@@ -2292,40 +2292,6 @@ export const navigationData: { [key: number]: Navigation } = {
           },
         ],
       },
-      {
-        title: 'Klassenarbeit',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Gemischte Übung: Brüche, Terme und LGS',
-            skillExercises: [
-              { id: 9588 },
-              { id: 9590 },
-              { id: 9507 },
-              { id: 9508 },
-              { id: 4400 },
-              { id: 4201 },
-              { id: 4800 },
-            ],
-          },
-          {
-            name: 'Gemischte Übung: Geraden, Parabeln und Schnittpunkte',
-            skillExercises: [
-              { id: 4100 },
-              { id: 4101 },
-              { id: 4007 },
-              { id: 4923 },
-              { id: 4801 },
-              { id: 4924 },
-            ],
-          },
-          {
-            name: 'Fehlerhafte Schülerlösung prüfen und verbessern',
-            skillExercises: [{ id: 10059 }],
-          },
-        ],
-      },
     ],
     mapHeight: 0,
     breakPoints: [0, 0],
