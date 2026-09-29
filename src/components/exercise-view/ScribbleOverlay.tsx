@@ -593,7 +593,7 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
 
   if (useSideCanvas && mounted) {
     return createPortal(
-      <div className="fixed top-2 bottom-2 right-4 z-[9999] w-[360px]">
+      <div className="fixed top-2 bottom-2 right-4 z-[9999] w-[250px]">
         {content}
       </div>,
       document.body,
