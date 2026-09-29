@@ -204,7 +204,7 @@ export function ScribbleOverlay({ mobileHeightVh }: { mobileHeightVh: number }) 
   useEffect(() => {
     setMounted(true)
 
-    const mq = window.matchMedia('(min-width: 1250px)')
+    const mq = window.matchMedia('(min-width: 660px)')
 
     const update = () => {
       saveCurrentStrokes()
