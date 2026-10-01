@@ -3,8 +3,6 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { Redirect, Route, useHistory } from 'react-router-dom'
 import { App } from './pages/App'
-import { Topic } from './pages/Topic'
-import { navigationData } from '@/content/navigations'
 import { exercisesData } from '@/content/exercises'
 import { ExerciseView } from './exercise-view/ExerciseView'
 import { useEffect } from 'react'
@@ -15,7 +13,6 @@ import {
   PlayerProfileStore,
   storageKey,
 } from '../../store/player-profile-store'
-import { BlockMath, InlineMath } from 'react-katex'
 
 setupIonicReact({})
 
@@ -63,71 +60,6 @@ export function AppShell() {
             render={() => <Redirect to="/app/start" />}
             exact={true}
           />
-          {navigationData[1].topics.map((t, i) => (
-            <Route
-              key={i}
-              path={`/topic/${i + 4001}`}
-              render={() => (
-                <Topic
-                  title={t.title}
-                  color={t.headerColor}
-                  skillGroups={t.skillGroups}
-                />
-              )}
-            />
-          ))}
-          {navigationData[2].topics.map((t, i) => (
-            <Route
-              key={i}
-              path={`/topic/${i + 301}`}
-              render={() => (
-                <Topic
-                  title={t.title}
-                  color={t.headerColor}
-                  skillGroups={t.skillGroups}
-                />
-              )}
-            />
-          ))}
-          {navigationData[3].topics.map((t, i) => (
-            <Route
-              key={i}
-              path={`/topic/${i + 5001}`}
-              render={() => (
-                <Topic
-                  title={t.title}
-                  color={t.headerColor}
-                  skillGroups={t.skillGroups}
-                />
-              )}
-            />
-          ))}
-          {navigationData[4].topics.map((t, i) => (
-            <Route
-              key={i}
-              path={`/topic/${i + 6001}`}
-              render={() => (
-                <Topic
-                  title={t.title}
-                  color={t.headerColor}
-                  skillGroups={t.skillGroups}
-                />
-              )}
-            />
-          ))}
-          {navigationData[5].topics.map((t, i) => (
-            <Route
-              key={i}
-              path={`/topic/${i + 6001}`}
-              render={() => (
-                <Topic
-                  title={t.title}
-                  color={t.headerColor}
-                  skillGroups={t.skillGroups}
-                />
-              )}
-            />
-          ))}
           {Object.keys(exercisesData)
             .map(x => parseInt(x))
             .map(id => (

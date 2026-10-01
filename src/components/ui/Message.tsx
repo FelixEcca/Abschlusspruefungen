@@ -124,9 +124,16 @@ export function BotMessage({
             part.image instanceof ArrayBuffer
           ) {
             // Convert Uint8Array or ArrayBuffer to Blob
-            const blob = new Blob([part.image], {
-              type: part.mimeType || 'image/png',
-            })
+            const blob = new Blob(
+              [
+                part.image instanceof Uint8Array
+                  ? new Uint8Array(part.image).buffer
+                  : part.image,
+              ],
+              {
+                type: part.mimeType || 'image/png',
+              },
+            )
             imageUrl = URL.createObjectURL(blob)
           } else if (part.image instanceof Blob) {
             // If already a Blob, just use it

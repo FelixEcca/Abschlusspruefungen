@@ -11,7 +11,6 @@ export type PlayerProfileStoreProps = {
   statsLog: string[]
   original: boolean
   key?: string
-  birdieIntros: string[]
 }
 
 interface ExamProgress {
@@ -30,7 +29,6 @@ export const defaultPlayerProfileStoreValue: PlayerProfileStoreProps = {
   eventLog: [],
   statsLog: [],
   original: false,
-  birdieIntros: [],
 }
 
 export const PlayerProfileStore = new Store<PlayerProfileStoreProps>(

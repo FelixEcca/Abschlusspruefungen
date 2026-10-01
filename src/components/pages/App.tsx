@@ -12,13 +12,9 @@ import {
 import { Route, Redirect } from 'react-router-dom' // ⬅️ wichtig: react-router-dom!
 import {
   analyticsOutline,
-  gridOutline,
   homeOutline,
   menuOutline,
-  person,
-  personAdd,
   personOutline,
-  powerOutline,
 } from 'ionicons/icons'
 
 import { List } from './tabs/List'
@@ -26,9 +22,6 @@ import { Search } from './tabs/Search'
 import { Start } from './tabs/Start'
 import { Profile } from './tabs/Profile'
 import { Training } from './tabs/Training' // neuer Tab
-import { faDumbbell, faSmile } from '@fortawesome/free-solid-svg-icons'
-// import { loadEmoji } from 'next/dist/compiled/@vercel/og/emoji'
-// import { faSmile } from '@fortawesome/free-solid-svg-icons'
 
 export function App() {
   return (
