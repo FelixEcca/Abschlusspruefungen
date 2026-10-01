@@ -59,6 +59,7 @@ const schoolformConfig: SchoolformOption[] = [
     subjects: [
       { label: 'Mathematik', examId: 3 },
       { label: 'Physik', examId: 4 },
+      { label: 'Chemie', examId: 26 },
     ],
   },
   {
@@ -66,6 +67,7 @@ const schoolformConfig: SchoolformOption[] = [
     subjects: [
       { label: 'Mathematik gAN', examId: 13 },
       { label: 'Mathematik eAN', examId: 14 },
+      { label: 'Chemie', examId: 27 },
     ],
   },
   {
@@ -73,6 +75,8 @@ const schoolformConfig: SchoolformOption[] = [
     subjects: [
       { label: 'Mathematik gAN', examId: 15 },
       { label: 'Mathematik eAN', examId: 16 },
+      { label: 'MEC-E', examId: 25 },
+      { label: 'Chemie', examId: 28 },
     ],
   },
   {

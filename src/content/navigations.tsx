@@ -1149,10 +1149,6 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 14002 }],
-          },
-          {
             name: 'Zahlenstrahl ablesen',
             skillExercises: [{ id: 9545 }],
           },
@@ -1720,12 +1716,7 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 14000 }],
-          },
-        ],
+        skillGroups: [],
       },
     ],
     mapHeight: 0,
@@ -1740,32 +1731,7 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 14001 }],
-          },
-        ],
-      },
-    ],
-    mapHeight: 0,
-    breakPoints: [0, 0],
-    path: [],
-  },
-  9: {
-    longTitle: 'AV - BFK - Elektrotechnik',
-    shortTitle: 'AV - BFK - Elektro',
-    topics: [
-      {
-        title: 'Grundlagen',
-        headerColor: 'medium',
-        twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Elektrischen Widerstand berechnen',
-            skillExercises: [{ id: 14001 }],
-          },
-        ],
+        skillGroups: [],
       },
     ],
     mapHeight: 0,
@@ -2331,10 +2297,6 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 12001 }],
-          },
-          {
             name: 'Break-Even-Point',
             skillExercises: [{ id: 12000 }],
           },
@@ -2574,6 +2536,66 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 13025 }],
           },
         ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  25: {
+    longTitle: 'TG13 - MEC-E',
+    shortTitle: 'TG13 - MEC-E',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  26: {
+    longTitle: 'TG11 - Chemie',
+    shortTitle: 'TG11 - Chemie',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  27: {
+    longTitle: 'TG12 - Chemie',
+    shortTitle: 'TG12 - Chemie',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  28: {
+    longTitle: 'TG13 - Chemie',
+    shortTitle: 'TG13 - Chemie',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [],
       },
     ],
     mapHeight: 0,

@@ -25,15 +25,44 @@ function getYearFromSource(src?: string): number {
   return m ? parseInt(m[1], 10) : 0
 }
 
+type ExerciseIdRange = {
+  from: number
+  to: number
+}
+
+const examExerciseRanges: Record<number, ExerciseIdRange[]> = {
+  1: [{ from: 3000, to: 3999 }],
+  2: [{ from: 400, to: 401 }],
+  3: [],
+  4: [],
+  5: [],
+  6: [{ from: 9000, to: 9075 }],
+  7: [],
+  8: [],
+  10: [],
+  11: [],
+  12: [],
+  13: [],
+  14: [],
+  15: [],
+  16: [],
+  17: [],
+  18: [],
+  19: [],
+  20: [],
+  21: [],
+  22: [],
+  23: [],
+  24: [],
+  25: [],
+  26: [],
+  27: [],
+  28: [],
+}
+
 function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 24) return false
-  if (exam == 1 && (idNum < 3000 || idNum >= 3999)) return false
-  if (exam == 2 && (idNum < 300 || idNum >= 399)) return false
-  if (exam == 3) return false
-  if (exam == 4) return false
-  if (exam == 5) return false
-  if (exam == 6 && (idNum < 9000 || idNum >= 9064)) return false
-  return true
+  const ranges = examExerciseRanges[exam] ?? []
+  return ranges.some(range => idNum >= range.from && idNum <= range.to)
 }
 
 /** Child-Komponente — hier ist der Hook-Aufruf sicher */
@@ -145,39 +174,45 @@ export function List() {
         <div className="mx-3 mt-4 bg-sky-50 rounded-md pt-2 px-2 pb-2">
           <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
-          <IonAccordionGroup expand="inset">
-            {grouped.years.map(year => {
-              const items = grouped.map.get(year)!
-              const label = year === 0 ? 'Sonstige' : String(year)
-              return (
-                <IonAccordion key={year} value={String(year)}>
-                  <IonItem slot="header">
-                    <IonLabel>
-                      {label}{' '}
-                      <span className="text-sm text-gray-500">
-                        ({items.length})
-                      </span>
-                    </IonLabel>
-                  </IonItem>
+          {grouped.years.length === 0 ? (
+            <p className="py-4 text-sm text-gray-500">
+              Für diese Schulform sind noch keine Prüfungsaufgaben hinterlegt.
+            </p>
+          ) : (
+            <IonAccordionGroup expand="inset">
+              {grouped.years.map(year => {
+                const items = grouped.map.get(year)!
+                const label = year === 0 ? 'Sonstige' : String(year)
+                return (
+                  <IonAccordion key={year} value={String(year)}>
+                    <IonItem slot="header">
+                      <IonLabel>
+                        {label}{' '}
+                        <span className="text-sm text-gray-500">
+                          ({items.length})
+                        </span>
+                      </IonLabel>
+                    </IonItem>
 
-                  <div slot="content" className="p-2">
-                    {items.map(([id, content]) => {
-                      const idNum = parseInt(id, 10)
-                      return (
-                        <ExerciseRow
-                          key={id}
-                          idNum={idNum}
-                          id={id}
-                          content={content}
-                          onOpen={openExercise}
-                        />
-                      )
-                    })}
-                  </div>
-                </IonAccordion>
-              )
-            })}
-          </IonAccordionGroup>
+                    <div slot="content" className="p-2">
+                      {items.map(([id, content]) => {
+                        const idNum = parseInt(id, 10)
+                        return (
+                          <ExerciseRow
+                            key={id}
+                            idNum={idNum}
+                            id={id}
+                            content={content}
+                            onOpen={openExercise}
+                          />
+                        )
+                      })}
+                    </div>
+                  </IonAccordion>
+                )
+              })}
+            </IonAccordionGroup>
+          )}
         </div>
       </IonContent>
     </IonPage>
