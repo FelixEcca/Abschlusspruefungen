@@ -552,6 +552,7 @@ import { exercise10061 } from './implementations/Mathe1_3BKGD1/10061'
 import { exercise10063 } from './implementations/Mathe1_3BKGD1/10063'
 import { exercise10064 } from './implementations/Mathe1_3BKGD1/10064'
 import { exercise12000 } from './implementations/Mathe1_3BKGD3/12000'
+import { exercise12001 } from './implementations/Mathe1_3BKGD3/12001'
 import { exercise13000 } from './implementations/Mathe_Meister_Training/13000'
 import { exercise13001 } from './implementations/Mathe_Meister_Training/13001'
 import { exercise13002 } from './implementations/Mathe_Meister_Training/13002'
@@ -577,6 +578,9 @@ import { exercise13022 } from './implementations/Mathe_Meister_Training/13022'
 import { exercise13023 } from './implementations/Mathe_Meister_Training/13023'
 import { exercise13024 } from './implementations/Mathe_Meister_Training/13024'
 import { exercise13025 } from './implementations/Mathe_Meister_Training/13025'
+import { exercise14000 } from './implementations/AV_BFK_Metall/14000'
+import { exercise14001 } from './implementations/AV_BFK_Elektro/14001'
+import { exercise14002 } from './implementations/Mathe_AV_Training/14002'
 import { exercise20000 } from './implementations/Mathe_TG12_gAN/20000'
 import { exercise20001 } from './implementations/Mathe_TG12_gAN/20001'
 import { exercise20002 } from './implementations/Mathe_TG12_gAN/20002'
@@ -1137,6 +1141,7 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   10063: exercise10063,
   10064: exercise10064,
   12000: exercise12000,
+  12001: exercise12001,
   13000: exercise13000,
   13001: exercise13001,
   13002: exercise13002,
@@ -1162,6 +1167,9 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   13023: exercise13023,
   13024: exercise13024,
   13025: exercise13025,
+  14000: exercise14000,
+  14001: exercise14001,
+  14002: exercise14002,
   20000: exercise20000,
   20001: exercise20001,
   20002: exercise20002,

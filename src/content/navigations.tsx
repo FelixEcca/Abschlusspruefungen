@@ -1149,6 +1149,10 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 14002 }],
+          },
+          {
             name: 'Zahlenstrahl ablesen',
             skillExercises: [{ id: 9545 }],
           },
@@ -1719,7 +1723,7 @@ export const navigationData: { [key: number]: Navigation } = {
         skillGroups: [
           {
             name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            skillExercises: [{ id: 14000 }],
           },
         ],
       },
@@ -1739,7 +1743,7 @@ export const navigationData: { [key: number]: Navigation } = {
         skillGroups: [
           {
             name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            skillExercises: [{ id: 14001 }],
           },
         ],
       },
@@ -1758,8 +1762,8 @@ export const navigationData: { [key: number]: Navigation } = {
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: 'Elektrischen Widerstand berechnen',
+            skillExercises: [{ id: 14001 }],
           },
         ],
       },
@@ -2318,14 +2322,18 @@ export const navigationData: { [key: number]: Navigation } = {
     path: [],
   },
   20: {
-    longTitle: '3BKGD3 - Mathematik',
-    shortTitle: '3BKGD3 - Mathe',
+    longTitle: '3BKGD3 - Mathematik I',
+    shortTitle: '3BKGD3 - Mathe I',
     topics: [
       {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
+          {
+            name: 'Testaufgabe',
+            skillExercises: [{ id: 12001 }],
+          },
           {
             name: 'Break-Even-Point',
             skillExercises: [{ id: 12000 }],

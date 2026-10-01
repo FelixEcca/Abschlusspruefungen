@@ -107,7 +107,7 @@ const schoolformConfig: SchoolformOption[] = [
   },
   {
     name: 'Berufskolleg Grafik-Design (3BKGD3)',
-    subjects: [{ label: 'Mathematik', examId: 20 }],
+    subjects: [{ label: 'Mathematik I', examId: 20 }],
   },
 ]
 
