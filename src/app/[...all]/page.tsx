@@ -8,16 +8,11 @@ const App = dynamic(() => import('../../components/AppShell'), {
 export async function generateStaticParams() {
   return [
     { all: ['app'] },
-    { all: ['app', 'home'] },
     { all: ['app', 'list'] },
     { all: ['app', 'search'] },
     { all: ['app', 'start'] },
     { all: ['app', 'training'] },
     { all: ['app', 'profile'] },
-
-    { all: ['exercise', '123456'] },
-    { all: ['settings'] },
-
     ...Object.keys(exercisesData).map(id => ({
       all: ['exercise', id],
     })),
