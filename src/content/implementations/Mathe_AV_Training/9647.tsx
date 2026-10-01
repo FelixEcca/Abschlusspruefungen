@@ -1,6 +1,7 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { pick, gcd } from './_avTrainingShared'
+import { gcd } from '@/helper/get-gcd'
+import { pick } from '@/helper/rng'
 
 type Kind = 'reduceContext'
 

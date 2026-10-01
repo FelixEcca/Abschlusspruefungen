@@ -1,6 +1,6 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { pick } from './_avTrainingShared'
+import { pick } from '@/helper/rng'
 
 type Kind = 'fairDivision'
 

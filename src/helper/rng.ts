@@ -48,3 +48,7 @@ export class Rng {
     return array
   }
 }
+
+export function pick<T>(rng: Rng, values: T[]): T {
+  return rng.randomItemFromArray(values)
+}

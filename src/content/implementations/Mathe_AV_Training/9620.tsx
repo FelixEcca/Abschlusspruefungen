@@ -1,7 +1,7 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { pick } from './_avTrainingShared'
+import { pick } from '@/helper/rng'
 
 type Kind = 'ratioParts'
 

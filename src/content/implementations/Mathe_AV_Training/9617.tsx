@@ -1,6 +1,6 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { gcd } from './_avTrainingShared'
+import { gcd } from '@/helper/get-gcd'
 
 type Kind = 'fractionCompare'
 

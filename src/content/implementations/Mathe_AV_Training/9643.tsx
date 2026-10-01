@@ -1,7 +1,8 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { round2, pick } from './_avTrainingShared'
+import { pick } from '@/helper/rng'
+import { round2 } from '@/helper/round-to-digits'
 
 type Kind = 'areaUnits'
 type AreaUnit = 'mm^2' | 'cm^2' | 'dm^2' | 'm^2' | 'a'

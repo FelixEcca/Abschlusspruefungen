@@ -1,5 +1,5 @@
 import { Exercise } from '@/data/types'
-import { timeText } from './_avTrainingShared'
+import { timeText } from '@/helper/time'
 
 type Kind = 'timePlan'
 

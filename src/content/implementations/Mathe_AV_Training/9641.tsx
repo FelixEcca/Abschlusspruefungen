@@ -1,5 +1,6 @@
 import { Exercise } from '@/data/types'
-import { pick, clock } from './_avTrainingShared'
+import { pick } from '@/helper/rng'
+import { clock } from '@/helper/time'
 
 type Kind = 'timeOverMidnight'
 

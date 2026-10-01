@@ -1,7 +1,7 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
-import { round2 } from './_avTrainingShared'
+import { round2 } from '@/helper/round-to-digits'
 
 type Kind = 'paintArea'
 
