@@ -14,7 +14,7 @@ import {
 import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
-import { isExerciseInNavigation } from '@/content/navigation-exercises'
+import { isExerciseForNavigation } from '@/content/navigation-exercises'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
@@ -27,32 +27,6 @@ import {
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
-
-function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 24) return isExerciseInNavigation(exam, idNum)
-  if (exam == 1 && (idNum < 4000 || idNum >= 4999)) return false
-  if (exam == 2 && (idNum < 300 || idNum >= 399)) return false
-  if (exam == 3 && (idNum < 5000 || idNum >= 5999)) return false
-  if (exam == 4 && (idNum < 6000 || idNum >= 6999)) return false
-  if (exam == 5 && (idNum < 6000 || idNum >= 6999)) return false
-  if (exam == 6 && (idNum < 9000 || idNum >= 9999)) return false
-  return true
-}
-
-function pickStableSuggestion(): {
-  id: number
-  title: string
-  source?: string
-} | null {
-  const allIds = Object.keys(exercisesData)
-    .map(k => parseInt(k, 10))
-    .filter(Number.isFinite)
-    .sort((a, b) => a - b)
-  if (allIds.length === 0) return null
-  const mid = allIds[Math.floor(allIds.length / 2)]
-  const c = exercisesData[mid]
-  return { id: mid, title: c?.title ?? 'Aufgabe', source: c?.source }
-}
 
 function pickUnsolvedRandom(
   pool: number[],
@@ -128,37 +102,29 @@ export function Start() {
   const [lastId, setLastId] = React.useState<number | null>(null)
   const [nonce, setNonce] = React.useState(0)
 
-  const [suggestion, setSuggestion] = React.useState<{
-    id: number
-    content: { title?: string; source?: string }
-  } | null>(() => {
-    const s = pickStableSuggestion()
-    return s
-      ? { id: s.id, content: { title: s.title, source: s.source } }
-      : null
-  })
-
-  React.useEffect(() => {
-    if (typeof exam !== 'number') {
-      setSuggestion(null)
-      return
-    }
-    const allForExam = Object.keys(exercisesData)
-      .map(id => parseInt(id, 10))
-      .filter(idNum => passExamFilter(exam, idNum))
-    const unsolved = allForExam.filter(idNum => !getStatus(idNum)?.solved)
-    const pick = pickUnsolvedRandom(unsolved, allForExam, lastId)
-    setSuggestion(pick)
-  }, [exam, lastId, nonce])
-
-  const userProfile = useProfile()
   const allIds = React.useMemo(
     () =>
       Object.keys(exercisesData)
         .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
+        .filter(id => isExerciseForNavigation(exam, id)),
     [exam],
   )
+
+  const [suggestion, setSuggestion] = React.useState<{
+    id: number
+    content: { title?: string; source?: string }
+  } | null>(null)
+
+  React.useEffect(() => {
+    const unsolved = allIds.filter(idNum => !getStatus(idNum)?.solved)
+    const pick = pickUnsolvedRandom(unsolved, allIds, lastId)
+    setSuggestion(pick)
+  }, [allIds, lastId, nonce])
+
+  const visibleSuggestion =
+    suggestion && allIds.includes(suggestion.id) ? suggestion : null
+
+  const userProfile = useProfile()
   const solvedSet = React.useMemo(() => {
     const set = new Set<number>()
     for (const [k, v] of Object.entries(userProfile.exercises ?? {})) {
@@ -294,9 +260,10 @@ export function Start() {
               </IonButton>
             </div>
 
-            {suggestion ? (
+            {visibleSuggestion ? (
               <SuggestionCard
-                suggestion={suggestion}
+                key={visibleSuggestion.id}
+                suggestion={visibleSuggestion}
                 onPick={id => {
                   setLastId(id)
                   setupExercise(id)

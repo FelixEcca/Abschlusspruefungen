@@ -1,6 +1,7 @@
 import pen from '/assets/simple-document-icon-paper-sheet-and-pencil-png.png'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { exercisesData } from '@/content/exercises'
+import { isExamExerciseInNavigation } from '@/content/navigation-exercises'
 import {
   IonPage,
   IonHeader,
@@ -23,46 +24,6 @@ function getYearFromSource(src?: string): number {
   if (!src) return 0
   const m = src.match(/\b(20\d{2})\b/)
   return m ? parseInt(m[1], 10) : 0
-}
-
-type ExerciseIdRange = {
-  from: number
-  to: number
-}
-
-const examExerciseRanges: Record<number, ExerciseIdRange[]> = {
-  1: [{ from: 3000, to: 3999 }],
-  2: [{ from: 400, to: 401 }],
-  3: [],
-  4: [],
-  5: [],
-  6: [{ from: 9000, to: 9075 }],
-  7: [],
-  8: [],
-  10: [],
-  11: [],
-  12: [],
-  13: [],
-  14: [],
-  15: [],
-  16: [],
-  17: [],
-  18: [],
-  19: [],
-  20: [],
-  21: [],
-  22: [],
-  23: [],
-  24: [],
-  25: [],
-  26: [],
-  27: [],
-  28: [],
-}
-
-function passExamFilter(exam: number, idNum: number): boolean {
-  const ranges = examExerciseRanges[exam] ?? []
-  return ranges.some(range => idNum >= range.from && idNum <= range.to)
 }
 
 /** Child-Komponente — hier ist der Hook-Aufruf sicher */
@@ -109,7 +70,7 @@ export function List() {
   const filtered: Entry[] = React.useMemo(() => {
     return Object.entries(exercisesData).filter(([id]) => {
       const idNum = parseInt(id, 10)
-      return passExamFilter(exam, idNum)
+      return isExamExerciseInNavigation(exam, idNum)
     }) as unknown as Entry[]
   }, [exam])
 
