@@ -1868,9 +1868,14 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Periodenlänge im Bogenmaß ablesen',
             skillExercises: [{ id: 20005 }],
           },
+          
           {
             name: 'Sinuskurven transformieren und Funktionsterm bestimmen',
             skillExercises: [{ id: 20006 }],
+          },
+          {
+            name: 'Sin, -Sin, Cos, -Cos?',
+            skillExercises: [{ id: 20007 }],
           },
         ],
       },
