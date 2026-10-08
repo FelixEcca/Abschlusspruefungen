@@ -34,6 +34,9 @@ function loadContentModule(name, dependencies = {}) {
 
 const navigations = loadContentModule('navigations.tsx')
 const { navigationData } = navigations
+const { schoolforms } = loadContentModule('../data/schoolforms.ts', {
+  '@/content/navigations': navigations,
+})
 const { isExerciseForNavigation, isExamExerciseInNavigation } =
   loadContentModule('navigation-exercises.ts', { './navigations': navigations })
 
@@ -57,6 +60,25 @@ for (const statement of catalog.statements) {
   }
 }
 assert.ok(registeredIds?.length > 0)
+
+test('welcome and profile schoolforms include every course exactly once', () => {
+  const ids = schoolforms.flatMap(form => {
+    assert.ok(form.subjects.length > 0)
+    return form.subjects.map(subject => subject.examId)
+  })
+  assert.equal(new Set(ids).size, ids.length)
+  assert.deepEqual(
+    ids.sort((a, b) => a - b),
+    Object.keys(navigationData)
+      .map(Number)
+      .sort((a, b) => a - b),
+  )
+  const tg12 = schoolforms.find(form => form.name.includes('(TG12)'))
+  assert.deepEqual(
+    tg12.subjects.map(subject => subject.examId),
+    [13, 14, 27],
+  )
+})
 
 test('each course only accepts its training entries and assigned exams', () => {
   const examRanges = { 1: [3000, 3999], 2: [400, 401], 6: [9000, 9075] }

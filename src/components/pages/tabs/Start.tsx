@@ -26,6 +26,7 @@ import {
 } from '../../../../store/progress-store'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
+import { Gisela } from '@/components/gisela/Gisela'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
 function pickUnsolvedRandom(
@@ -192,16 +193,17 @@ export function Start() {
                 </p>
               </>
             ) : (
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-3xl">
-                    👋 Hallo{name ? `, ${name}` : ''}!
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="text-2xl break-words">
+                    Hallo{name ? `, ${name}` : ''}!
                   </div>
                   <div className="text-sm text-gray-600">
                     Schön, dich wiederzusehen. <br />
                     Viel Erfolg beim Üben!
                   </div>
                 </div>
+                <Gisela className="!w-24" />
               </div>
             )}
           </div>

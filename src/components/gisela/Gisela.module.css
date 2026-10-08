@@ -1,0 +1,172 @@
+.root {
+  position: relative;
+  width: 96px;
+  flex: 0 0 auto;
+}
+
+.figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+
+.staticImage,
+.rig,
+.eyes {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.staticImage {
+  object-fit: contain;
+  user-select: none;
+}
+
+.rig,
+.eyes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rig {
+  opacity: 0;
+}
+
+.moving .rig {
+  opacity: 1;
+}
+
+.moving .staticImage {
+  opacity: 0;
+}
+
+.tail,
+.foreleg,
+.lowerLeg {
+  transform-box: view-box;
+  transform: rotate(0deg);
+}
+
+.tail {
+  transform-origin: 737px 865px;
+}
+
+.foreleg {
+  transform-origin: 400px 860px;
+}
+
+.lowerLeg {
+  transform-origin: 402px 1145px;
+}
+
+.eyelid {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+}
+
+.moving .eyelid {
+  animation: blink 5s ease-in-out infinite;
+}
+
+.moving .tail {
+  animation: swish 3.2s ease-in-out infinite;
+}
+
+.moving .foreleg {
+  animation: lift 30s ease-in-out infinite;
+}
+
+.moving .lowerLeg {
+  animation: wave 30s ease-in-out infinite;
+}
+
+:global(.ion-page-hidden) .eyelid,
+:global(.ion-page-hidden) .tail,
+:global(.ion-page-hidden) .foreleg,
+:global(.ion-page-hidden) .lowerLeg {
+  animation-play-state: paused;
+}
+
+@keyframes blink {
+  0%,
+  16%,
+  23.2%,
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  18.4%,
+  20.8% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes swish {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(9deg);
+  }
+
+  75% {
+    transform: rotate(-9deg);
+  }
+}
+
+@keyframes lift {
+  0%,
+  14%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  3%,
+  10% {
+    transform: rotate(55deg);
+  }
+}
+
+@keyframes wave {
+  0%,
+  14%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  3%,
+  6.5%,
+  10% {
+    transform: rotate(110deg);
+  }
+
+  4.75%,
+  8.25% {
+    transform: rotate(128deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moving .eyelid,
+  .moving .tail,
+  .moving .foreleg,
+  .moving .lowerLeg {
+    animation: none;
+  }
+
+  .moving .rig {
+    opacity: 0;
+  }
+
+  .moving .staticImage {
+    opacity: 1;
+  }
+}
