@@ -1,20 +1,9 @@
 import * as React from 'react'
 import { computeLevelProgress } from './leveling'
 import { exercisesData } from '@/content/exercises'
-import { isExerciseInNavigation } from '@/content/navigation-exercises'
+import { isExerciseForNavigation } from '@/content/navigation-exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
-import { useProgress } from '../../../store/progress-store'
-
-// gleiche Filter-Logik wie im Rest der App
-function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 24) return isExerciseInNavigation(exam, idNum)
-  if (exam == 1 && idNum > 99) return false
-  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
-  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
-  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
-  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  return true
-}
+import { getStatus, subscribeProgress } from '../../../store/progress-store'
 
 export default function LevelingPanel() {
   // aktuelles Exam
@@ -25,13 +14,15 @@ export default function LevelingPanel() {
     () =>
       Object.keys(exercisesData)
         .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
+        .filter(id => isExerciseForNavigation(exam, id)),
     [exam],
   )
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const statuses = ids.map(id => useProgress(id))
-  const solvedCount = statuses.filter(s => s?.solved).length
+  const solvedCount = React.useSyncExternalStore(
+    subscribeProgress,
+    () => ids.filter(id => getStatus(id)?.solved).length,
+    () => 0,
+  )
 
   if (ids.length === 0) {
     return (

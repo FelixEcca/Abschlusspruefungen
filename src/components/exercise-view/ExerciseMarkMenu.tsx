@@ -6,6 +6,7 @@ import {
   type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useRef, useState } from 'react'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 import {
   setExerciseLearningStatus,
   type ExerciseLearningStatus,
@@ -18,6 +19,7 @@ type MarkFeedback = {
 }
 
 export function ExerciseMarkMenu({ exerciseId }: { exerciseId: number }) {
+  const { notifyTutorial } = useTutorial()
   const progress = useProgress(exerciseId)
   const activeStatus: ExerciseLearningStatus | null = progress?.solved
     ? 'solved'
@@ -101,6 +103,7 @@ export function ExerciseMarkMenu({ exerciseId }: { exerciseId: number }) {
       }}
     >
       <button
+        data-tutorial="exercise-mark"
         type="button"
         className="rounded-xl bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         aria-haspopup="menu"
@@ -109,6 +112,7 @@ export function ExerciseMarkMenu({ exerciseId }: { exerciseId: number }) {
           cancelScheduledClose()
           setPinned(current => !current)
           setOpen(true)
+          notifyTutorial('mark-open')
         }}
         onFocus={() => {
           cancelScheduledClose()
@@ -122,6 +126,7 @@ export function ExerciseMarkMenu({ exerciseId }: { exerciseId: number }) {
       {open && (
         <div
           role="menu"
+          data-tutorial="mark-menu"
           aria-label="Aufgabe markieren"
           className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"
         >

@@ -7,7 +7,11 @@ import { useRef, useEffect, type CSSProperties } from 'react'
 import { countLetter } from '@/helper/count-letter'
 import { AiWorksheetGenerator } from '@/helper/ai-worksheet-generator'
 
-export function SolutionOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
+export function SolutionOverlay({
+  mobileHeightVh,
+}: {
+  mobileHeightVh: number
+}) {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const id = ExerciseViewStore.useState(s => s.id)
   const navIndicatorPosition = ExerciseViewStore.useState(
@@ -74,6 +78,7 @@ export function SolutionOverlay({ mobileHeightVh }: { mobileHeightVh: number }) 
 
   return (
     <div
+      data-tutorial="solution-content"
       className="flex h-[var(--mobile-overlay-height)] max-h-[calc(100dvh-7rem)] flex-col overflow-hidden min-[1250px]:h-auto min-[1250px]:max-h-none"
       style={
         {

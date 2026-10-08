@@ -17,6 +17,7 @@ import { navigationData } from '@/content/navigations'
 import { exercisesData } from '@/content/exercises'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { useProgress } from '../../../../store/progress-store'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 
 type PageRef = { index: string; intro?: string[] }
 type SkillExercise =
@@ -84,18 +85,21 @@ function ExerciseRow({
         : 'bg-white border-gray-200'
 
   return (
-    <div
-      className={`my-2 cursor-pointer rounded-lg p-2 border hover:bg-gray-50 transition-colors ${cls}`}
+    <button
+      type="button"
+      data-tutorial={`training-exercise-${ex.id}`}
+      className={`my-2 w-full text-left cursor-pointer rounded-lg p-2 border hover:bg-gray-50 transition-colors ${cls}`}
       onClick={() => onOpen(ex.id)}
     >
       <div className="text-md text-gray-800">
         {exercisesData[ex.id]?.title ?? ex.group ?? 'Aufgabe'}
       </div>
-    </div>
+    </button>
   )
 }
 
 export function Training() {
+  const { notifyTutorial } = useTutorial()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const topics = navigationData[exam]?.topics ?? []
@@ -128,7 +132,7 @@ export function Training() {
         style={{ '--background': '#d7e6f8ff' } as React.CSSProperties}
       >
         {/* Fortschrittspanel */}
-        <div className="mx-3 mt-4">
+        <div data-tutorial="training-overview" className="mx-3 mt-4">
           <div className="rounded-2xl bg-sky-50 shadow-md border border-gray-100 p-4 flex items-center gap-3">
             {/* WICHTIG: Lege die Datei unter public/assets/2307827.png ab */}
             <img
@@ -149,7 +153,18 @@ export function Training() {
         <div className="mx-3 mt-4 mb-6 bg-sky-50 rounded-md pt-2 px-2 pb-2">
           <h2 className="font-bold">Übungsaufgaben nach Thema</h2>
 
-          <IonAccordionGroup expand="inset">
+          <IonAccordionGroup
+            expand="inset"
+            onIonChange={event => {
+              if (event.target !== event.currentTarget) return
+              const value = event.detail.value
+              const values = Array.isArray(value) ? value : [value]
+              values.forEach(index => {
+                if (index !== undefined && index !== '')
+                  notifyTutorial(`topic-open:${Number(index)}`)
+              })
+            }}
+          >
             {topics.map((topic, idx) => {
               const exercises = flattenExercises(topic)
               const topicName =
@@ -159,7 +174,10 @@ export function Training() {
 
               return (
                 <IonAccordion key={idx} value={String(idx)}>
-                  <IonItem slot="header">
+                  <IonItem
+                    data-tutorial={`training-topic-${idx}`}
+                    slot="header"
+                  >
                     <IonLabel>
                       {topicName}{' '}
                       <span className="text-sm text-gray-500">

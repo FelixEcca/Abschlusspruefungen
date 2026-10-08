@@ -46,12 +46,16 @@ export function App() {
           <IonLabel>Start</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="tab-topics" href="/app/training">
+        <IonTabButton
+          data-tutorial="tab-training"
+          tab="tab-topics"
+          href="/app/training"
+        >
           <IonIcon icon={analyticsOutline} />
           <IonLabel>Training</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="tab-list" href="/app/list">
+        <IonTabButton data-tutorial="tab-list" tab="tab-list" href="/app/list">
           <IonIcon icon={menuOutline} />
           <IonLabel>Liste</IonLabel>
         </IonTabButton>

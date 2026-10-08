@@ -367,9 +367,7 @@ function MarkdownBubble({
                       p: ({ children }) => <span>{children}</span>,
                     }}
                   >
-                    {normalizeMathForMarkdown(
-                      attachment.analysis.observation,
-                    )}
+                    {normalizeMathForMarkdown(attachment.analysis.observation)}
                   </ReactMarkdown>
                 </div>
               ) : null}
@@ -1198,7 +1196,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const canSend = !pending && (!!input.trim() || !!attachment)
 
   const content = (
-    <div className={clsx(useSideChat ? 'h-full' : 'px-3 pb-2')}>
+    <div
+      data-tutorial="chat-content"
+      className={clsx(useSideChat ? 'h-full' : 'px-3 pb-2')}
+    >
       <div
         className={clsx(
           'flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white',

@@ -6,6 +6,8 @@ import {
 } from '../../../store/player-profile-store'
 import { schoolforms } from '@/data/schoolforms'
 import { Gisela } from '@/components/gisela/Gisela'
+import styles from './WelcomePopover.module.css'
+import { useTutorial } from './TutorialProvider'
 
 /** Erst nach Mount rendern -> verhindert SSR/CSR-Mismatch */
 function useClientReady() {
@@ -17,6 +19,7 @@ function useClientReady() {
 type Props = { forceOpen?: boolean }
 
 export function WelcomePopover({ forceOpen = false }: Props) {
+  const { startTutorial } = useTutorial()
   const clientReady = useClientReady()
   const storeName = PlayerProfileStore.useState(s => s.name)
   const storeExam = PlayerProfileStore.useState(s => s.currentExam)
@@ -70,6 +73,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
       s.name = trimmed
       s.currentExam = exam as number
     })
+    startTutorial(exam as number)
     // Hard reload nach minimaler Verzögerung, um den Store persistieren zu lassen
     if (typeof window !== 'undefined') {
       setTimeout(() => {
@@ -90,90 +94,103 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         role="dialog"
         aria-modal="true"
         aria-label="Willkommen"
-        className="w-[min(92vw,380px)] max-h-[calc(100dvh-3rem)] overflow-y-auto rounded-2xl shadow-xl bg-white border border-gray-200 p-4"
+        className={styles.dialog}
         onMouseDown={e => e.stopPropagation()}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between">
-          <div className="text-lg font-semibold">Hallo, ich bin Gisela!</div>
-          <button
-            className="text-gray-400 hover:text-gray-600"
-            onClick={() => setDismissed(true)}
-            aria-label="Schließen"
-            title="Schließen"
-            type="button"
-          >
-            ✖
-          </button>
-        </div>
-
-        <div className="mt-2 flex items-center gap-3">
-          <Gisela className="!w-28" />
-          <p className="min-w-0 flex-1 text-sm text-gray-600">
-            Schön, dass du da bist! Ich begleite dich beim Lernen. Wie heißt du
-            und welche Schulform besuchst du?
-          </p>
-        </div>
-
-        <div className="mt-3 space-y-3">
-          <IonInput
-            label="Wie heißt du?"
-            labelPlacement="stacked"
-            placeholder="Dein Name"
-            value={name}
-            onIonInput={e => setName((e.detail.value as string) ?? '')}
-          />
-
-          <div>
-            <label htmlFor="welcome-schoolform" className="block text-sm mb-1">
-              Deine Schulform
-            </label>
-            <select
-              id="welcome-schoolform"
-              className="w-full min-w-0 border border-gray-300 rounded-lg bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={formIndex >= 0 ? formIndex : ''}
-              onChange={e => {
-                const index = Number(e.target.value)
-                setFormIndex(index)
-                const subjects = schoolforms[index]?.subjects
-                setExam(subjects?.length === 1 ? subjects[0].examId : '')
-              }}
-            >
-              <option value="" disabled>
-                Bitte auswählen
-              </option>
-              {schoolforms.map((form, index) => (
-                <option key={form.name} value={index}>
-                  {form.name}
-                </option>
-              ))}
-            </select>
+        <button
+          className={`${styles.close} text-gray-400 hover:text-gray-600`}
+          onClick={() => setDismissed(true)}
+          aria-label="Schließen"
+          title="Schließen"
+          type="button"
+        >
+          ✖
+        </button>
+        <div className={styles.scene}>
+          <div className={styles.bubble}>
+            <h2 className={styles.greeting}>Hallo, ich bin Gisela!</h2>
+            <p>
+              Schön, dass du da bist! Wie heißt du und welche Schulform besuchst
+              du?
+            </p>
           </div>
-          {selectedForm && (
+          <div className={styles.mascot}>
+            <Gisela className={styles.figure} />
+          </div>
+          <div className={styles.fields}>
+            <IonInput
+              label="Wie heißt du?"
+              labelPlacement="stacked"
+              placeholder="Dein Name"
+              value={name}
+              onIonInput={e => setName((e.detail.value as string) ?? '')}
+            />
+
             <div>
-              <label htmlFor="welcome-subject" className="block text-sm mb-1">
-                Dein Fach
+              <label
+                htmlFor="welcome-schoolform"
+                className="block text-sm mb-1"
+              >
+                Deine Schulform
               </label>
               <select
-                id="welcome-subject"
+                id="welcome-schoolform"
+                title={selectedForm?.name}
                 className="w-full min-w-0 border border-gray-300 rounded-lg bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={exam}
-                onChange={e => setExam(Number(e.target.value))}
+                value={formIndex >= 0 ? formIndex : ''}
+                onChange={e => {
+                  const index = Number(e.target.value)
+                  setFormIndex(index)
+                  const subjects = schoolforms[index]?.subjects
+                  setExam(subjects?.length === 1 ? subjects[0].examId : '')
+                }}
               >
                 <option value="" disabled>
-                  Bitte auswählen
+                  Auswählen
                 </option>
-                {selectedForm.subjects.map(subject => (
-                  <option key={subject.examId} value={subject.examId}>
-                    {subject.label}
+                {schoolforms.map((form, index) => (
+                  <option key={form.name} value={index} title={form.name}>
+                    {form.shortName}
                   </option>
                 ))}
               </select>
             </div>
-          )}
+            {selectedForm && (
+              <div>
+                <label htmlFor="welcome-subject" className="block text-sm mb-1">
+                  Dein Fach
+                </label>
+                <select
+                  id="welcome-subject"
+                  title={
+                    selectedForm.subjects.find(
+                      subject => subject.examId === exam,
+                    )?.label
+                  }
+                  className="w-full min-w-0 border border-gray-300 rounded-lg bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={exam}
+                  onChange={e => setExam(Number(e.target.value))}
+                >
+                  <option value="" disabled>
+                    Auswählen
+                  </option>
+                  {selectedForm.subjects.map(subject => (
+                    <option
+                      key={subject.examId}
+                      value={subject.examId}
+                      title={subject.label}
+                    >
+                      {subject.shortLabel ?? subject.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="mt-4 flex gap-2">
+        <div className={styles.actions}>
           <IonButton expand="block" onClick={onSubmit} disabled={!canSubmit}>
             {submitting ? 'Lädt…' : "Los geht's"}
           </IonButton>

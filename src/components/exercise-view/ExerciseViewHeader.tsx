@@ -11,8 +11,10 @@ import { useHistory } from 'react-router'
 import { reseed } from './state/actions'
 import { useProgress } from '../../../store/progress-store'
 import { ExerciseMarkMenu } from './ExerciseMarkMenu'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 
 export function ExerciseViewHeader() {
+  const { notifyTutorial } = useTutorial()
   const id = ExerciseViewStore.useState(s => s.id)
   const skill = ExerciseViewStore.useState(s => s.skill)
   const toHome = ExerciseViewStore.useState(s => s.toHome)
@@ -59,7 +61,11 @@ export function ExerciseViewHeader() {
     <>
       <div className={headerBoxCls} onClick={handleBack}>
         <div className="flex items-center justify-between">
-          <button className="inline-flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis">
+          <button
+            data-tutorial="exercise-back"
+            aria-label="Zurück zur Übersicht"
+            className="inline-flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap text-ellipsis"
+          >
             <FaIcon icon={faArrowLeft} />
             <span className="min-w-0 truncate text-left">
               {skill ? (
@@ -78,7 +84,6 @@ export function ExerciseViewHeader() {
               )}
             </span>
           </button>
-
         </div>
       </div>
 
@@ -109,10 +114,12 @@ export function ExerciseViewHeader() {
           className="group ml-3 rounded-xl bg-gray-200 px-3 py-1 transition-transform duration-150 hover:bg-gray-300 active:scale-95 motion-reduce:transform-none"
           onClick={() => {
             reseed()
+            notifyTutorial('repeat')
             ExerciseViewStore.update(s => {
               s.chatOverlay = null
             })
           }}
+          data-tutorial="exercise-repeat"
         >
           <FaIcon
             icon={faWandMagicSparkles}

@@ -156,7 +156,10 @@ export function Start() {
       >
         <div className="mx-3 mt-4 space-y-6">
           {/* Begrüßung */}
-          <div className="shadow-md rounded-xl border p-3 bg-sky-50">
+          <div
+            data-tutorial="dashboard-greeting"
+            className="shadow-md rounded-xl border p-3 bg-sky-50"
+          >
             {editingName ? (
               <>
                 <div className="font-semibold mb-1">Hallo! Wie heißt du?</div>
@@ -209,9 +212,11 @@ export function Start() {
           </div>
 
           {/* Fortschritt */}
-          <div className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6">
+          <div
+            className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6"
+          >
             <div className="font-semibold mb-2">Dein Fortschritt</div>
-            <div className="mt-4">
+            <div data-tutorial="dashboard-progress" className="mt-4">
               <LevelPanel />
             </div>
 
@@ -249,7 +254,10 @@ export function Start() {
           </div>
 
           {/* Zufällige Aufgabe */}
-          <div className="shadow-md rounded-xl border p-3 bg-sky-50">
+          <div
+            data-tutorial="dashboard-suggestion"
+            className="shadow-md rounded-xl border p-3 bg-sky-50"
+          >
             <p>Starte direkt rein mit einer Aufgabe:</p>
             <div className="flex items-center justify-between">
               <div className="font-semibold">Zufällige Aufgabe</div>

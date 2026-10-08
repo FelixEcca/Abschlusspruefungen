@@ -1,0 +1,124 @@
+.dialog {
+  position: relative;
+  width: min(calc(100vw - 24px), 520px);
+  max-height: calc(100dvh - 96px);
+  padding: 40px 16px 16px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 15%);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+}
+
+.scene {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 32px;
+  align-items: start;
+}
+
+.bubble {
+  position: relative;
+  grid-column: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #b8dce6;
+  border-radius: 8px;
+  background: #f1faff;
+  color: #273844;
+  overflow-wrap: anywhere;
+}
+
+.bubble::after {
+  position: absolute;
+  top: 42px;
+  right: -7px;
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid #b8dce6;
+  border-right: 1px solid #b8dce6;
+  background: #f1faff;
+  transform: rotate(45deg);
+  content: '';
+}
+
+.greeting {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.bubble p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fields {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.fields select {
+  min-height: 44px;
+}
+
+.mascot {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: start;
+  min-width: 0;
+  width: 100%;
+  padding-top: 24px;
+}
+
+.figure {
+  width: calc(100% + 32px) !important;
+  max-width: 220px;
+  margin-left: -32px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+@media (max-width: 359px) {
+  .dialog {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .scene {
+    column-gap: 24px;
+  }
+
+  .bubble {
+    padding: 10px;
+  }
+
+  .greeting {
+    font-size: 16px;
+  }
+
+  .fields select {
+    font-size: 13px;
+  }
+
+  .figure {
+    width: calc(100% + 24px) !important;
+    margin-left: -24px;
+  }
+}

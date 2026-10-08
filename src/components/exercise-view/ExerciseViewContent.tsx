@@ -5,7 +5,7 @@ import { faCalculator, faSlash } from '@fortawesome/free-solid-svg-icons'
 import { FaIcon } from '../ui/FaIcon'
 import { proseWrapper } from '@/helper/prose-wrapper'
 import { countLetter } from '@/helper/count-letter'
-import { useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 import { ExerciseWithSubtasks, SingleExercise } from '@/data/types'
 
 export function ExerciseViewContent() {
@@ -117,7 +117,7 @@ export function ExerciseViewContent() {
           if (page.index == 'single') {
             const singleExercise = exercise as SingleExercise<any>
             return (
-              <>
+              <Fragment key={`${exerciseId}-${page.index}-${i}`}>
                 {renderContentCard(
                   i,
                   singleExercise.duration ?? '?',
@@ -142,7 +142,7 @@ export function ExerciseViewContent() {
                     page.displayIndex,
                     `example-${i}`,
                   )}
-              </>
+              </Fragment>
             )
           } else {
             const subtasks = exercise as ExerciseWithSubtasks<any>
@@ -168,7 +168,7 @@ export function ExerciseViewContent() {
             )
 
             return (
-              <>
+              <Fragment key={`${exerciseId}-${page.index}-${i}`}>
                 {introComps.length > 0 && introComps.some(e => e) && (
                   <>
                     {page.context && page.displayIndex?.includes('a') && (
@@ -212,7 +212,7 @@ export function ExerciseViewContent() {
                     page.displayIndex,
                     `solution-${i}`,
                   )}
-              </>
+              </Fragment>
             )
           }
         })}
@@ -234,7 +234,6 @@ export function ExerciseViewContent() {
 
     return (
       <div
-      
         className={clsx(
           'w-[calc(100%-24px)] flex-shrink-0 mx-auto relative ',
           showNumbering && 'mt-20',
@@ -248,6 +247,7 @@ export function ExerciseViewContent() {
           })
         }}
         id={`exercise-${i}`}
+        data-tutorial={i === 0 && !alternativeKey ? 'exercise-task' : undefined}
       >
         {toHome && numbering && (
           <div className="absolute -top-8 left-7 font-bold font-xl w-24 h-8 overflow-hidden ">
@@ -257,7 +257,6 @@ export function ExerciseViewContent() {
           </div>
         )}
         <div
-        
           className={clsx(
             // 👉 Card klar weiß + Schatten, hebt sich vom EX_BG ab
             'flex flex-col justify-start pt-2 rounded-xl shadow-lg mb-8 mt-2 px-[1px] items-center border-2 bg-white',
@@ -267,7 +266,6 @@ export function ExerciseViewContent() {
           )}
         >
           <div
-          
             className={clsx(
               'flex justify-between p-[3px] w-full top-0',
               toHome && 'hidden',
@@ -310,7 +308,10 @@ export function ExerciseViewContent() {
   function renderContentElement(c: JSX.Element | null, key?: string) {
     if (!c) return null
     return (
-      <div className="p-[3px] mt-3 mb-2 ml-2 min-w-[300px] sm:w-[334px]" key={key}>
+      <div
+        className="p-[3px] mt-3 mb-2 ml-2 min-w-[300px] sm:w-[334px]"
+        key={key}
+      >
         {proseWrapper(c)}
       </div>
     )

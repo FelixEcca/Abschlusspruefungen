@@ -2,20 +2,23 @@ import { navigationData } from '@/content/navigations'
 
 interface SchoolformOption {
   name: string
-  subjects: { label: string; examId: number }[]
+  shortName: string
+  subjects: { label: string; shortLabel?: string; examId: number }[]
 }
 
 const schoolformConfig: SchoolformOption[] = [
   {
     name: 'Ausbildungsvorbereitung (AV)',
+    shortName: 'AV',
     subjects: [
       { label: 'Mathematik', examId: 6 },
       { label: 'BFK Metall', examId: 7 },
-      { label: 'BFK Elektrotechnik', examId: 8 },
+      { label: 'BFK Elektrotechnik', shortLabel: 'BFK Elektro', examId: 8 },
     ],
   },
   {
     name: '2-jährige Berufsfachschule (2BFS2)',
+    shortName: '2BFS2',
     subjects: [
       { label: 'Mathematik', examId: 1 },
       { label: 'Physik', examId: 5 },
@@ -23,6 +26,7 @@ const schoolformConfig: SchoolformOption[] = [
   },
   {
     name: 'Technisches Gymnasium 11 (TG11)',
+    shortName: 'TG11',
     subjects: [
       { label: 'Mathematik', examId: 3 },
       { label: 'Physik', examId: 4 },
@@ -31,62 +35,79 @@ const schoolformConfig: SchoolformOption[] = [
   },
   {
     name: 'Technisches Gymnasium 12 (TG12)',
+    shortName: 'TG12',
     subjects: [
-      { label: 'Mathematik gAN', examId: 13 },
-      { label: 'Mathematik eAN', examId: 14 },
+      { label: 'Mathematik gAN', shortLabel: 'Mathe gAN', examId: 13 },
+      { label: 'Mathematik eAN', shortLabel: 'Mathe eAN', examId: 14 },
       { label: 'Chemie', examId: 27 },
     ],
   },
   {
     name: 'Technisches Gymnasium 13 (TG13)',
+    shortName: 'TG13',
     subjects: [
-      { label: 'Mathematik gAN', examId: 15 },
-      { label: 'Mathematik eAN', examId: 16 },
+      { label: 'Mathematik gAN', shortLabel: 'Mathe gAN', examId: 15 },
+      { label: 'Mathematik eAN', shortLabel: 'Mathe eAN', examId: 16 },
       { label: 'MEC-E', examId: 25 },
       { label: 'Chemie', examId: 28 },
     ],
   },
   {
     name: 'Berufskolleg 1BK1T',
+    shortName: '1BK1T',
     subjects: [
       { label: 'Mathematik', examId: 10 },
-      { label: 'Grundlagen der Technik', examId: 11 },
+      { label: 'Grundlagen der Technik', shortLabel: 'GT', examId: 11 },
     ],
   },
   {
     name: 'Berufskolleg 1BK2T',
+    shortName: '1BK2T',
     subjects: [
       { label: 'Mathematik', examId: 12 },
       { label: 'Physik', examId: 2 },
     ],
   },
-  { name: 'FTM', subjects: [{ label: 'Technische Mathematik', examId: 17 }] },
+  {
+    name: 'FTM',
+    shortName: 'FTM',
+    subjects: [
+      { label: 'Technische Mathematik', shortLabel: 'TM', examId: 17 },
+    ],
+  },
   {
     name: 'Vorbereitungskurs Meister',
+    shortName: 'Meister',
     subjects: [{ label: 'Mathematik', examId: 24 }],
   },
   {
     name: 'Berufskolleg Grafik-Design (3BKGD1)',
+    shortName: '3BKGD1',
     subjects: [{ label: 'Mathematik', examId: 18 }],
   },
   {
     name: 'Berufskolleg Grafik-Design (3BKGD2)',
+    shortName: '3BKGD2',
     subjects: [{ label: 'Mathematik', examId: 19 }],
   },
   {
     name: 'Berufskolleg Grafik-Design (3BKGD3)',
-    subjects: [{ label: 'Mathematik I', examId: 20 }],
+    shortName: '3BKGD3',
+    subjects: [{ label: 'Mathematik I', shortLabel: 'Mathe I', examId: 20 }],
   },
   {
     name: 'Berufskolleg 3BKM/R1',
+    shortName: '3BKM/R1',
     subjects: [{ label: 'Mathematik', examId: 21 }],
   },
   {
     name: 'Berufskolleg 3BKM/R2',
+    shortName: '3BKM/R2',
     subjects: [{ label: 'Mathematik', examId: 22 }],
   },
   {
     name: 'Berufskolleg 3BKM/R3',
+    shortName: '3BKM/R3',
     subjects: [{ label: 'Mathematik', examId: 23 }],
   },
 ]

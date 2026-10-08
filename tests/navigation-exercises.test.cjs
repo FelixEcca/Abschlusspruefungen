@@ -62,6 +62,11 @@ for (const statement of catalog.statements) {
 assert.ok(registeredIds?.length > 0)
 
 test('welcome and profile schoolforms include every course exactly once', () => {
+  assert.equal(
+    new Set(schoolforms.map(form => form.shortName)).size,
+    schoolforms.length,
+  )
+  assert.ok(schoolforms.every(form => form.shortName.length > 0))
   const ids = schoolforms.flatMap(form => {
     assert.ok(form.subjects.length > 0)
     return form.subjects.map(subject => subject.examId)
@@ -141,5 +146,43 @@ test('exam range boundaries are inclusive and exclude neighboring exercises', ()
     assert.equal(isExamExerciseInNavigation(id, last), true)
     assert.equal(isExamExerciseInNavigation(id, first - 1), false)
     assert.equal(isExamExerciseInNavigation(id, last + 1), false)
+  }
+})
+
+test('onboarding plans stay within all registered courses and exercise IDs', () => {
+  const { buildTutorialPlan } = loadContentModule(
+    '../components/onboarding/tutorial-model.ts',
+  )
+  const entries = Object.fromEntries(registeredIds.map(id => [id, {}]))
+  for (const [course, navigation] of Object.entries(navigationData)) {
+    const id = Number(course)
+    const plan = buildTutorialPlan(
+      id,
+      navigationData,
+      entries,
+      isExamExerciseInNavigation,
+    )
+    if (plan.exerciseId !== null) {
+      assert.ok(registeredIds.includes(plan.exerciseId))
+      assert.ok(
+        navigation.topics[plan.topicIndex].skillGroups.some(group =>
+          group.skillExercises.some(
+            exercise => exercise.id === plan.exerciseId,
+          ),
+        ),
+      )
+    } else {
+      assert.ok(!plan.steps.some(step => step.route.startsWith('/exercise/')))
+    }
+    assert.equal(
+      plan.examYear !== null,
+      registeredIds.some(exerciseId =>
+        isExamExerciseInNavigation(id, exerciseId),
+      ),
+    )
+    assert.equal(
+      new Set(plan.steps.map(step => step.id)).size,
+      plan.steps.length,
+    )
   }
 })

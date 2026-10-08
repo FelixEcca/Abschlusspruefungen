@@ -16,6 +16,7 @@ import {
   updatePlayerProfileStore,
 } from '../../../../store/player-profile-store'
 import { schoolforms } from '@/data/schoolforms'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 import {
   useProfile,
   formatMs,
@@ -41,6 +42,7 @@ function SelectChevron() {
 }
 
 export function Profile() {
+  const { startTutorial } = useTutorial()
   const clientReady = useClientReady()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const profile = useProfile()
@@ -177,6 +179,13 @@ export function Profile() {
               <div className="text-sm text-gray-400">Lade …</div>
             )}
           </div>
+
+          <section className="border-t border-gray-200 py-3">
+            <h2 className="font-semibold mb-2">Giselas Rundgang</h2>
+            <IonButton fill="outline" onClick={() => startTutorial(exam, true)}>
+              Tutorial erneut starten
+            </IonButton>
+          </section>
 
           {/* Statistik */}
           <div className="shadow-md bg-sky-50 rounded-xl border p-3">
