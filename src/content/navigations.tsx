@@ -1144,15 +1144,10 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'AV - Mathe',
     topics: [
       {
-        title: 'Grundlagen',
+        title: '1 Längen und Umfang',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          {
-            name: 'Zahlenstrahl ablesen',
-            skillExercises: [{ id: 9545 }],
-          },
-          {
+        skillGroups: [{
             name: 'Zahlen vergleichen',
             skillExercises: [{ id: 9657 }],
           },
@@ -1175,6 +1170,53 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Mehrere Zahlen addieren',
             skillExercises: [{ id: 9548 }],
+          },
+          {
+            name: 'Rechnen mit 10er-Zahlen',
+            skillExercises: [{ id: 9658 }],
+          },
+          {
+            name: 'Längen umrechnen',
+            skillExercises: [{ id: 9524 }],
+          },
+          {
+            name: 'Figuren erkennen',
+            skillExercises: [{ id: 9556 }],
+          },
+          {
+            name: 'Eigenschaften von Figuren',
+            skillExercises: [{ id: 9557 }],
+          },
+          {
+            name: 'Gemischte Aufgaben zum Umfang',
+            skillExercises: [{ id: 9558 }],
+          },
+          {
+            name: 'Umfang zusammengesetzter Figuren',
+            skillExercises: [{ id: 9659 }],
+          },
+          {
+            name: 'Kreisumfang',
+            skillExercises: [{ id: 9559 }],
+          },
+          {
+            name: 'Radius und Durchmesser',
+            skillExercises: [{ id: 9560 }],
+          },
+          {
+            name: 'Durchmesser, Radius und Umfang',
+            skillExercises: [{ id: 9633 }],
+          },
+        ],
+      },
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Zahlenstrahl ablesen',
+            skillExercises: [{ id: 9545 }],
           },
           {
             name: 'Punkt vor Strich',
@@ -1258,14 +1300,7 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          {
-            name: 'Rechnen mit 10er-Zahlen',
-            skillExercises: [{ id: 9658 }],
-          },
-          {
-            name: 'Längen umrechnen',
-            skillExercises: [{ id: 9524 }],
-          },
+          
           {
             name: 'Maßstab im Plan',
             skillExercises: [{ id: 9631 }],
@@ -1332,30 +1367,7 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          {
-            name: 'Figuren erkennen',
-            skillExercises: [{ id: 9556 }],
-          },
-          {
-            name: 'Eigenschaften von Figuren',
-            skillExercises: [{ id: 9557 }],
-          },
-          {
-            name: 'Gemischte Aufgaben zum Umfang',
-            skillExercises: [{ id: 9558 }],
-          },
-          {
-            name: 'Umfang zusammengesetzter Figuren',
-            skillExercises: [{ id: 9659 }],
-          },
-          {
-            name: 'Kreisumfang',
-            skillExercises: [{ id: 9559 }],
-          },
-          {
-            name: 'Radius und Durchmesser',
-            skillExercises: [{ id: 9560 }],
-          },
+          
           {
             name: 'Fläche eines Quadrats',
             skillExercises: [{ id: 9565 }],
@@ -1406,10 +1418,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Fliesen für einen Boden',
             skillExercises: [{ id: 9613 }],
           },
-          {
-            name: 'Durchmesser, Radius und Umfang',
-            skillExercises: [{ id: 9633 }],
-          },
+          
         ],
       },
       {
