@@ -585,6 +585,10 @@ import { exercise20004 } from './implementations/Mathe_TG12_gAN/20004'
 import { exercise20005 } from './implementations/Mathe_TG12_gAN/20005'
 import { exercise20006 } from './implementations/Mathe_TG12_gAN/20006'
 import { exercise20007 } from './implementations/Mathe_TG12_gAN/20007'
+import { exercise20008 } from './implementations/Mathe_TG12_gAN/20008'
+import { exercise20009 } from './implementations/Mathe_TG12_gAN/20009'
+import { exercise20010 } from './implementations/Mathe_TG12_gAN/20010'
+import { exercise20011 } from './implementations/Mathe_TG12_gAN/20011'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
   200: exercise200,
@@ -1171,6 +1175,10 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   20005: exercise20005,
   20006: exercise20006,
   20007: exercise20007,
+  20008: exercise20008,
+  20009: exercise20009,
+  20010: exercise20010,
+  20011: exercise20011,
 }
 
 // import { BlockMath, InlineMath } from 'react-katex'

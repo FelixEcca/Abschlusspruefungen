@@ -1886,6 +1886,29 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Sin, -Sin, Cos, -Cos?',
             skillExercises: [{ id: 20007 }],
           },
+          {
+            name: 'Trigonometrische Gleichungen lösen',
+            skillExercises: [{ id: 20008 }],
+          },
+        ],
+      },
+      {
+        title: 'Funktionen und Transformationen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Grundfunktionen und Eigenschaften',
+            skillExercises: [{ id: 20009 }],
+          },
+          {
+            name: 'Funktionen transformieren',
+            skillExercises: [{ id: 20010 }],
+          },
+          {
+            name: 'Funktionen verknüpfen',
+            skillExercises: [{ id: 20011 }],
+          },
         ],
       },
     ],
