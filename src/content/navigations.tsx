@@ -1740,9 +1740,6 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-<<<<<<< Updated upstream
-        skillGroups: [],
-=======
         skillGroups: [
           {
             name: 'Stromstärke berechnen',
@@ -1769,7 +1766,6 @@ export const navigationData: { [key: number]: Navigation } = {
             skillExercises: [{ id: 14002 }],
           },
         ],
->>>>>>> Stashed changes
       },
     ],
     mapHeight: 0,

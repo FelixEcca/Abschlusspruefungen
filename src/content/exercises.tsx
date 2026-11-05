@@ -577,12 +577,7 @@ import { exercise13022 } from './implementations/Mathe_Meister_Training/13022'
 import { exercise13023 } from './implementations/Mathe_Meister_Training/13023'
 import { exercise13024 } from './implementations/Mathe_Meister_Training/13024'
 import { exercise13025 } from './implementations/Mathe_Meister_Training/13025'
-<<<<<<< Updated upstream
-=======
-import { exercise14000 } from './implementations/AV_BFK_Metall/14000'
-import { exercise14001 } from './implementations/AV_BFK_Elektro/14001'
 import { exercise14002 } from './implementations/AV_BFK_Elektro/14002'
->>>>>>> Stashed changes
 import { exercise20000 } from './implementations/Mathe_TG12_gAN/20000'
 import { exercise20001 } from './implementations/Mathe_TG12_gAN/20001'
 import { exercise20002 } from './implementations/Mathe_TG12_gAN/20002'
