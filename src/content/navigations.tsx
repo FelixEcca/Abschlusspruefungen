@@ -1740,7 +1740,36 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
+<<<<<<< Updated upstream
         skillGroups: [],
+=======
+        skillGroups: [
+          {
+            name: 'Stromstärke berechnen',
+            skillExercises: [{ id: 14002 }],
+          },
+        ],
+      },
+    ],
+    mapHeight: 0,
+    breakPoints: [0, 0],
+    path: [],
+  },
+  9: {
+    longTitle: 'AV - BFK - Elektrotechnik',
+    shortTitle: 'AV - BFK - Elektro',
+    topics: [
+      {
+        title: 'Grundlagen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: 'Elektrischen Widerstand berechnen',
+            skillExercises: [{ id: 14002 }],
+          },
+        ],
+>>>>>>> Stashed changes
       },
     ],
     mapHeight: 0,
