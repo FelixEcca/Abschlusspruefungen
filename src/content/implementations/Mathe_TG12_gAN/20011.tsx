@@ -25,33 +25,45 @@ function trendTerm(trend: Trend) {
       : `${pp(trend === 'growth' ? 1.2 : 0.8)}^x`
 }
 function bTerm(period: number) {
-  return `\\frac{\\pi}{${pp(period / 2)}}`
+  return period === 0.75 ? '\\frac{8\\pi}{3}' : pp(2 / period) + '\\pi{}'
+}
+function peak(data: DATA, index = 0) {
+  const b = (2 * Math.PI) / data.period
+  // Damping shifts the maxima away from the maxima of the sine factor.
+  const x = Math.atan2(b, -Math.log(data.q)) / b + index * data.period
+  return { x, y: data.q ** x * Math.sin(b * x) }
+}
+function displayedPeak(data: DATA, index = 0) {
+  const p = peak(data, index)
+  return { x: Math.round(p.x * 1e7) / 1e7, y: Math.round(p.y * 1e7) / 1e7 }
 }
 function validData(data: DATA) {
   if (
     !['sum', 'product'].includes(data.operation) ||
     !['linear', 'quadratic', 'growth', 'decay'].includes(data.trend) ||
     !Number.isFinite(data.q) ||
-    data.q <= 0 ||
-    data.q === 1 ||
-    ![4, 8, 12].includes(data.period)
+    data.q < 0.2 ||
+    data.q > 0.8 ||
+    ![0.5, 0.75, 1].includes(data.period)
   )
     return false
-  const b = (2 * Math.PI) / data.period,
-    x = data.period / 4
-  const y = data.q ** x
-  // The stated point must survive display rounding and recover the same base.
-  const displayedY = Math.round(y * 1e7) / 1e7
+  const b = (2 * Math.PI) / data.period
+  const h1 = peak(data),
+    h2 = peak(data, 1),
+    shown = displayedPeak(data)
+  const recoveredQ = (shown.y / Math.sin(b * shown.x)) ** (1 / shown.x)
   return (
-    Number.isFinite(y) &&
-    y > 0 &&
-    Math.abs(displayedY - y) < 1e-10 &&
-    Math.abs(displayedY ** (1 / x) - data.q) < 1e-8 &&
-    Math.abs(Math.sin(b * x) - 1) < 1e-8 &&
-    [0, data.period / 2, data.period].every(
-      z => Math.abs(Math.sin(b * z)) < 1e-8,
-    ) &&
-    Number.isFinite(data.q ** (1.25 * data.period))
+    [h1.x, h1.y, h2.x, h2.y, recoveredQ].every(Number.isFinite) &&
+    h1.y > h2.y &&
+    h2.y > 0 &&
+    Math.abs(h2.x - h1.x - data.period) < 1e-8 &&
+    Math.abs(recoveredQ - data.q) < 1e-6 &&
+    Math.abs(Math.round(recoveredQ * 1e4) / 1e4 - data.q) < 1e-8 &&
+    [h1, h2].every(
+      p =>
+        Math.abs(Math.log(data.q) * Math.sin(b * p.x) + b * Math.cos(b * p.x)) <
+          1e-8 && -(Math.log(data.q) ** 2 + b * b) * p.y < 0,
+    )
   )
 }
 export const exercise20011: Exercise<DATA> = {
@@ -68,11 +80,11 @@ export const exercise20011: Exercise<DATA> = {
         'growth',
         'decay',
       ]),
-      q: rng.randomItemFromArray([0.6, 0.8, 0.9, 1.1, 1.2]),
-      period: rng.randomItemFromArray([4, 8, 12]),
+      q: rng.randomItemFromArray([0.2, 0.35, 0.5, 0.65, 0.8]),
+      period: rng.randomItemFromArray([0.5, 0.75, 1]),
     }
   },
-  originalData: { operation: 'product', trend: 'decay', q: 0.8, period: 4 },
+  originalData: { operation: 'product', trend: 'decay', q: 0.5, period: 0.75 },
   constraint: ({ data }) => validData(data),
   intro: () => null,
   tasks: [
@@ -90,8 +102,7 @@ export const exercise20011: Exercise<DATA> = {
             </p>
             <p>
               Entscheiden Sie begründet, ob <InlineMath math={'h=u+v'} /> oder{' '}
-              <InlineMath math={'h=u\\cdot v'} /> gilt. Gehen Sie auf
-              Mittellinie, Schwingungsweite und Nullstellen ein.
+              <InlineMath math={'h=u\\cdot v'} /> gilt.
             </p>
             <FunctionGraph
               label="Verknüpfte Funktion und Vergleichsfunktion u"
@@ -167,83 +178,144 @@ export const exercise20011: Exercise<DATA> = {
       points: 8,
       task: ({ data }) => {
         const t = data.period,
-          xp = t / 4,
-          yp = Math.pow(data.q, xp)
-        const ymax = Math.ceil(Math.max(1.5, Math.pow(data.q, 1.25 * t) * 1.15))
+          h1 = displayedPeak(data),
+          h2 = displayedPeak(data, 1)
         return (
           <>
             <p>
-              Das folgende Schaubild gehört zu einer Funktion der Form{' '}
-              <InlineMath math={'f(x)=q^x\\cdot\\sin(bx),\\quad q>0,\\ b>0'} />.
-              Bestimmen Sie <InlineMath math={'q'} /> und{' '}
-              <InlineMath math={'b'} /> und geben Sie den Funktionsterm an. Die
-              markierten Nullstellen nach dem Ursprung sind aufeinanderfolgend.
-              Der Punkt <InlineMath math={`P(${pp(xp)}\\mid ${pp(yp)})`} />{' '}
-              liegt auf dem Graphen.
+              Das Schaubild zeigt eine gedämpfte Schwingung der Form{' '}
+              <InlineMath math={'f(x)=q^x\\cdot\\sin(bx)'} />. Bestimmen Sie aus
+              den beiden benachbarten Hochpunkten den Abstand{' '}
+              <InlineMath math={'p'} />, anschließend <InlineMath math={'b'} />{' '}
+              und durch eine Punktprobe <InlineMath math={'q'} />. Geben Sie den
+              Funktionsterm an.
+            </p>
+            <p>Die Koordinaten der Hochpunkte sind gerundet:</p>
+            <p>
+              <InlineMath
+                math={'H_1(' + pp(h1.x) + '\\mid ' + pp(h1.y) + ')'}
+              />
+            </p>
+            <p>
+              <InlineMath
+                math={'H_2(' + pp(h2.x) + '\\mid ' + pp(h2.y) + ')'}
+              />
             </p>
             <FunctionGraph
-              label="Exponentiell veränderte Sinusschwingung mit gegebenem Punkt P"
+              label="Gedämpfte Schwingung mit zwei benachbarten Hochpunkten"
               xMin={0}
-              xMax={t * 1.25}
-              yMin={-ymax}
-              yMax={ymax}
-              xTicks={[0, xp, t / 2, t, t * 1.25]}
-              yTicks={[-ymax, 0, ymax]}
+              xMax={3 * t}
+              yMin={-1}
+              yMax={1}
+              xTicks={[0, t / 2, t, 1.5 * t, 2 * t, 2.5 * t, 3 * t]}
+              yTicks={[-1, -0.5, 0, 0.5, 1]}
               curves={[
-                {
-                  value: x =>
-                    Math.pow(data.q, x) * Math.sin(((2 * Math.PI) / t) * x),
-                },
+                { value: x => data.q ** x * Math.sin(((2 * Math.PI) / t) * x) },
               ]}
               points={[
-                { x: xp, y: yp, label: 'P' },
-                { x: t / 2, y: 0, label: 'N₁' },
-                { x: t, y: 0, label: 'N₂' },
+                { ...peak(data), label: 'H₁' },
+                { ...peak(data, 1), label: 'H₂' },
               ]}
             />
           </>
         )
       },
       solution: ({ data }) => {
-        const t = data.period,
-          xp = t / 4,
-          yp = Math.pow(data.q, xp)
+        const h1 = displayedPeak(data),
+          h2 = displayedPeak(data, 1)
         return (
           <>
             <p>
-              Weil <InlineMath math={'q^x>0'} /> gilt, entstehen alle
-              Nullstellen durch den Sinusfaktor. Der Abstand
-              aufeinanderfolgender Nullstellen ist{' '}
-              <InlineMath math={'\\pi/b'} />:
+              Der horizontale Abstand der benachbarten Hochpunkte liefert die
+              Periodenlänge des Sinusfaktors:
             </p>
             <p>
               <InlineMath
-                math={`\\frac{\\pi}{b}=${pp(t)}-${pp(t / 2)}=${pp(t / 2)}\\quad\\Rightarrow\\quad b=${bTerm(t)}`}
+                math={
+                  'p=x_{H_2}-x_{H_1}=' +
+                  pp(h2.x) +
+                  '-' +
+                  pp(h1.x) +
+                  '=' +
+                  pp(data.period)
+                }
               />
             </p>
-            <p>Am gegebenen Punkt ist das Argument des Sinus:</p>
             <p>
               <InlineMath
-                math={`b\\cdot ${pp(xp)}=${bTerm(t)}\\cdot ${pp(xp)}=\\frac{\\pi}{2},\\qquad\\sin\\left(\\frac{\\pi}{2}\\right)=1`}
+                math={
+                  'b=\\frac{2\\pi}{p}=\\frac{2\\pi}{' +
+                  pp(data.period) +
+                  '}=' +
+                  bTerm(data.period)
+                }
               />
             </p>
-            <p>Den Punkt einsetzen:</p>
+            <p>Für die Punktprobe wird der erste Hochpunkt eingesetzt:</p>
+            <p>
+              <InlineMath math={'y_{H_1}=q^{x_{H_1}}\\cdot\\sin(bx_{H_1})'} />
+            </p>
             <p>
               <InlineMath
-                math={`${pp(yp)}=q^{${pp(xp)}}\\cdot 1\\quad\\Rightarrow\\quad q=${xp === 1 ? '' : `\\sqrt[${pp(xp)}]{${pp(yp)}}=`}${pp(data.q)}`}
+                math={
+                  pp(h1.y) +
+                  '\\approx q^{' +
+                  pp(h1.x) +
+                  '}\\cdot\\sin\\left(' +
+                  bTerm(data.period) +
+                  '\\cdot ' +
+                  pp(h1.x) +
+                  '\\right)'
+                }
+              />
+            </p>
+            <p>Durch den Sinuswert teilen:</p>
+            <p>
+              <InlineMath
+                math={
+                  'q^{' +
+                  pp(h1.x) +
+                  '}\\approx\\frac{' +
+                  pp(h1.y) +
+                  '}{\\sin\\left(' +
+                  bTerm(data.period) +
+                  '\\cdot ' +
+                  pp(h1.x) +
+                  '\\right)}'
+                }
+              />
+            </p>
+            <p>Beide Seiten mit dem Kehrwert des Exponenten potenzieren:</p>
+            <p>
+              <InlineMath
+                math={
+                  'q=\\left(\\frac{y_{H_1}}{\\sin(bx_{H_1})}\\right)^{\\frac{1}{x_{H_1}}}'
+                }
               />
             </p>
             <p>
               <strong>
+                <InlineMath math={'q\\approx ' + pp(data.q)} />
+              </strong>
+            </p>
+            <p>Damit ergibt sich:</p>
+            <p>
+              <strong>
                 <InlineMath
-                  math={`f(x)=${pp(data.q)}^x\\cdot\\sin\\left(${bTerm(t)}x\\right)`}
+                  math={
+                    'f(x)\\approx ' +
+                    pp(data.q) +
+                    '^x\\cdot\\sin\\left(' +
+                    bTerm(data.period) +
+                    'x\\right)'
+                  }
                 />
               </strong>
             </p>
             <p>
-              Der Sinusfaktor hat die Periode <InlineMath math={`T=${pp(t)}`} />
-              . Die gesamte Funktion ist wegen der veränderlichen
-              Schwingungsweite nicht periodisch.
+              Die gesamte Schwingung ist wegen der abnehmenden Schwingungsweite
+              nicht periodisch. <InlineMath math={'p'} /> beschreibt den Abstand
+              benachbarter Hochpunkte und die Periode des Sinusfaktors.
             </p>
           </>
         )

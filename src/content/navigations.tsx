@@ -1841,6 +1841,66 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Verständnisfragen',
             skillExercises: [{ id: 8011 }],
           },
+          {
+            name: 'Bremsen bis zum Stillstand',
+            skillExercises: [{ id: 8012 }],
+          },
+          {
+            name: 'Bremsvorgänge im v-t-Diagramm',
+            skillExercises: [{ id: 8013 }],
+          },
+          {
+            name: 'Bremsvorgänge verstehen',
+            skillExercises: [{ id: 8014 }],
+          },
+          {
+            name: 'Freien Fall berechnen',
+            skillExercises: [{ id: 8015 }],
+          },
+          {
+            name: 'Freien Fall verstehen',
+            skillExercises: [{ id: 8017 }],
+          },
+          {
+            name: 'Geschwindigkeitspfeile und Maßstab',
+            skillExercises: [{ id: 8018 }],
+          },
+          {
+            name: 'Geschwindigkeiten grafisch überlagern',
+            skillExercises: [{ id: 8019 }],
+          },
+          {
+            name: 'Geschwindigkeiten rechnerisch überlagern',
+            skillExercises: [{ id: 8020 }],
+          },
+          {
+            name: 'Horizontalen Wurf am Stroboskopbild deuten',
+            skillExercises: [{ id: 8021 }],
+          },
+          {
+            name: 'Horizontalen Wurf berechnen',
+            skillExercises: [{ id: 8022 }],
+          },
+          {
+            name: 'Horizontalen Wurf rückwärts berechnen',
+            skillExercises: [{ id: 8023 }],
+          },
+          {
+            name: 'Schiefen Wurf bis zum höchsten Punkt berechnen',
+            skillExercises: [{ id: 8024 }],
+          },
+          {
+            name: 'Schiefen Wurf vollständig berechnen',
+            skillExercises: [{ id: 8025 }],
+          },
+          {
+            name: 'Schwer: Einen schiefen Wurf rekonstruieren',
+            skillExercises: [{ id: 8026 }],
+          },
+          {
+            name: 'Flugbahnen vergleichen und begründen',
+            skillExercises: [{ id: 8027 }],
+          },
         ],
       },
     ],

@@ -209,6 +209,21 @@ import { exercise8008 } from './implementations/Technik_1BK1T_Training/8008'
 import { exercise8009 } from './implementations/Technik_1BK1T_Training/8009'
 import { exercise8010 } from './implementations/Technik_1BK1T_Training/8010'
 import { exercise8011 } from './implementations/Technik_1BK1T_Training/8011'
+import { exercise8012 } from './implementations/Technik_1BK1T_Training/8012'
+import { exercise8013 } from './implementations/Technik_1BK1T_Training/8013'
+import { exercise8014 } from './implementations/Technik_1BK1T_Training/8014'
+import { exercise8015 } from './implementations/Technik_1BK1T_Training/8015'
+import { exercise8017 } from './implementations/Technik_1BK1T_Training/8017'
+import { exercise8018 } from './implementations/Technik_1BK1T_Training/8018'
+import { exercise8019 } from './implementations/Technik_1BK1T_Training/8019'
+import { exercise8020 } from './implementations/Technik_1BK1T_Training/8020'
+import { exercise8021 } from './implementations/Technik_1BK1T_Training/8021'
+import { exercise8022 } from './implementations/Technik_1BK1T_Training/8022'
+import { exercise8023 } from './implementations/Technik_1BK1T_Training/8023'
+import { exercise8024 } from './implementations/Technik_1BK1T_Training/8024'
+import { exercise8025 } from './implementations/Technik_1BK1T_Training/8025'
+import { exercise8026 } from './implementations/Technik_1BK1T_Training/8026'
+import { exercise8027 } from './implementations/Technik_1BK1T_Training/8027'
 import { exercise6000 } from './implementations/Physik_TG11_Training/6000'
 import { exercise6001 } from './implementations/Physik_TG11_Training/6001'
 import { exercise6002 } from './implementations/Physik_TG11_Training/6002'
@@ -816,6 +831,21 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   8009: exercise8009,
   8010: exercise8010,
   8011: exercise8011,
+  8012: exercise8012,
+  8013: exercise8013,
+  8014: exercise8014,
+  8015: exercise8015,
+  8017: exercise8017,
+  8018: exercise8018,
+  8019: exercise8019,
+  8020: exercise8020,
+  8021: exercise8021,
+  8022: exercise8022,
+  8023: exercise8023,
+  8024: exercise8024,
+  8025: exercise8025,
+  8026: exercise8026,
+  8027: exercise8027,
   6000: exercise6000,
   6001: exercise6001,
   6002: exercise6002,
