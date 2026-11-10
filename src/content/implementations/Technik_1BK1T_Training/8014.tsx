@@ -5,6 +5,51 @@ const m = (math: string) => <InlineMath math={math} />
 
 const questions = [
   {
+    q: 'Ein Pkw fährt dreimal so schnell wie zuvor. Die konstante Verzögerung bleibt gleich. Wie ändern sich Bremszeit und Bremsweg?',
+    a: (
+      <>
+        Die Bremszeit verdreifacht sich, der Bremsweg verneunfacht sich. Es gilt{' '}
+        {m('t_v=-v_0/a_v')} und {m('s_v=-v_0^2/(2a_v)')}.
+      </>
+    ),
+  },
+  {
+    q: 'Bei Nässe halbiert sich der Betrag der konstanten Verzögerung. Die Anfangsgeschwindigkeit bleibt gleich. Was geschieht mit Bremszeit und Bremsweg?',
+    a: 'Beide verdoppeln sich. Eine schwächere Verzögerung verlängert sowohl die Zeit bis zum Stillstand als auch die dabei zurückgelegte Strecke.',
+  },
+  {
+    q: 'Zwei Fahrzeuge bremsen aus derselben Geschwindigkeit gleichmäßig bis zum Stillstand. Eines braucht doppelt so lange. Vergleichen Sie die Bremswege anhand des v-t-Diagramms.',
+    a: 'Bei gleicher Dreieckshöhe und doppelter Grundseite ist die Fläche doppelt so groß. Das Fahrzeug mit doppelter Bremszeit hat den doppelten Bremsweg.',
+  },
+  {
+    q: 'Ein Pkw fährt in positiver Richtung. Warum ergibt eine negative Beschleunigung trotzdem einen positiven Bremsweg?',
+    a: (
+      <>
+        In {m('s_v=-v_0^2/(2a_v)')} ist der Zähler negativ und der Nenner bei{' '}
+        {m('a_v<0')} ebenfalls negativ. Der Quotient ist positiv; das Auto fährt
+        beim Bremsen weiter vorwärts.
+      </>
+    ),
+  },
+  {
+    q: 'Ein Schüler setzt in die Bremswegformel eine Geschwindigkeit in km/h und eine Verzögerung in m/s² ein. Was muss er vor dem Rechnen ändern?',
+    a: 'Er muss die Geschwindigkeit in m/s umrechnen, also den Zahlenwert in km/h durch 3,6 teilen. Erst dann passen die Einheiten zusammen und der Bremsweg ergibt sich in Metern.',
+  },
+  {
+    q: 'Ein Auto wird vor der Bremsung doppelt so schnell gefahren. Reaktionszeit und Verzögerung bleiben gleich. Ändern sich Reaktionsweg und Bremsweg im selben Verhältnis?',
+    a: 'Nein. Der Reaktionsweg verdoppelt sich, weil er proportional zur Geschwindigkeit ist. Der Bremsweg vervierfacht sich, weil er proportional zum Quadrat der Anfangsgeschwindigkeit ist.',
+  },
+  {
+    q: 'Eine Person verwendet beim gleichmäßigen Bremsen bis zum Stillstand die mittlere Geschwindigkeit v₀/2. Ist das zulässig?',
+    a: (
+      <>
+        Ja. Bei konstanter Verzögerung fällt die Geschwindigkeit linear von{' '}
+        {m('v_0')} auf null. Daher gilt {m('\\bar v=v_0/2')} und{' '}
+        {m('s_v=\\bar v\\cdot t_v')}.
+      </>
+    ),
+  },
+  {
     q: (
       <>
         Ein Pkw fährt doppelt so schnell wie ein zweiter Pkw. Beide bremsen mit

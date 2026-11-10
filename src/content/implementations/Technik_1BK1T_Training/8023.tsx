@@ -2,6 +2,7 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 import { round2, unit } from './motion-helpers'
+import { HorizontalWurfSkizze } from './wurf-skizzen'
 
 const m = (math: string) => <InlineMath math={math} />
 const n = (value: number, u: string) => `${pp(value)}\\,${unit(u)}`
@@ -48,12 +49,27 @@ export const exercise8023: Exercise<DATA> = {
     ['speed', 'height'].includes(data.target),
   intro({ data }) {
     return (
-      <p>
-        Bei einem Versuch wird {objects[data.object]} waagerecht gestartet. Die
-        Landestelle soll horizontal {m(`x=${n(data.v0 * data.t, 'm')}`)} vom
-        Startpunkt entfernt sein. Rechnen Sie ohne Luftwiderstand mit{' '}
-        {m(`g=${n(g, 'm/s^2')}`)}.
-      </p>
+      <>
+        <p>
+          Bei einem Versuch wird {objects[data.object]} waagerecht gestartet.
+          Die Landestelle soll horizontal {m(`x=${n(data.v0 * data.t, 'm')}`)}{' '}
+          vom Startpunkt entfernt sein. Rechnen Sie ohne Luftwiderstand mit{' '}
+          {m(`g=${n(g, 'm/s^2')}`)}.
+        </p>
+        <p>
+          Der Ursprung liegt am Abwurfpunkt; die positive y-Achse zeigt nach
+          unten.
+        </p>
+        <HorizontalWurfSkizze
+          distance={`x = ${(data.v0 * data.t).toLocaleString('de-DE', { maximumFractionDigits: 5 })} m`}
+          height={
+            data.target === 'height'
+              ? 'y = ?'
+              : `y = ${((g * data.t ** 2) / 2).toLocaleString('de-DE', { maximumFractionDigits: 5 })} m`
+          }
+          speed={data.target === 'speed' ? 'v₀ = ?' : `v₀ = ${data.v0} m/s`}
+        />
+      </>
     )
   },
   tasks: [
@@ -78,11 +94,19 @@ export const exercise8023: Exercise<DATA> = {
         return data.target === 'speed' ? (
           <>
             <p>
+              Aus der Formelsammlung: {m('y(t)=\\frac{1}{2}\\cdot g\\cdot t^2')}
+              . Nach der positiven Flugzeit umstellen:
+            </p>
+            <p>
               {m(
                 `t=\\sqrt{\\frac{2y}{g}}=\\sqrt{\\frac{2\\cdot${n(y, 'm')}}{${n(g, 'm/s^2')}}}`,
               )}
             </p>
             {result('t', data.t, 's')}
+            <p>
+              Aus der Formelsammlung: {m('x(t)=v_0\\cdot t')}. Durch {m('t')}{' '}
+              teilen:
+            </p>
             <p>
               {m(`v_0=\\frac{x}{t}=\\frac{${n(x, 'm')}}{${n(data.t, 's')}}`)}
             </p>
@@ -91,9 +115,16 @@ export const exercise8023: Exercise<DATA> = {
         ) : (
           <>
             <p>
+              Aus der Formelsammlung: {m('x(t)=v_0\\cdot t')}. Nach {m('t')}{' '}
+              umstellen:
+            </p>
+            <p>
               {m(`t=\\frac{x}{v_0}=\\frac{${n(x, 'm')}}{${n(data.v0, 'm/s')}}`)}
             </p>
             {result('t', data.t, 's')}
+            <p>
+              Die Abwurfhöhe entspricht der Fallstrecke. Aus der Formelsammlung:
+            </p>
             <p>
               {m(
                 `y(t)=\\frac12gt^2=\\frac12\\cdot${n(g, 'm/s^2')}\\cdot(${n(data.t, 's')})^2`,

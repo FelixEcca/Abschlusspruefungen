@@ -1869,10 +1869,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Geschwindigkeiten grafisch überlagern',
             skillExercises: [{ id: 8019 }],
           },
-          {
-            name: 'Geschwindigkeiten rechnerisch überlagern',
-            skillExercises: [{ id: 8020 }],
-          },
+        
           {
             name: 'Horizontalen Wurf am Stroboskopbild deuten',
             skillExercises: [{ id: 8021 }],

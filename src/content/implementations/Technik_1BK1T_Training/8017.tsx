@@ -5,6 +5,61 @@ const m = (math: string) => <InlineMath math={math} />
 
 const questions = [
   {
+    q: 'Eine Kugel wird aus der Ruhe losgelassen. Welche Form haben ihr y-t-Graph und ihr v-t-Graph, wenn die positive y-Achse nach unten zeigt?',
+    a: (
+      <>
+        Der y-t-Graph ist eine nach oben geöffnete Parabel ab dem Ursprung, denn{' '}
+        {m('y(t)=\\frac12gt^2')}. Der v-t-Graph ist eine ansteigende Gerade
+        durch den Ursprung, denn {m('v(t)=g\\cdot t')}.
+      </>
+    ),
+  },
+  {
+    q: 'Eine Kugel fällt aus der Ruhe doppelt so lange wie eine andere. Vergleichen Sie die durchfallenen Strecken und Geschwindigkeiten vor dem Aufprall.',
+    a: (
+      <>
+        Die Fallstrecke ist viermal so groß, die Geschwindigkeit doppelt so
+        groß. Die Strecke hängt von {m('t^2')} ab, die Geschwindigkeit von{' '}
+        {m('t')}.
+      </>
+    ),
+  },
+  {
+    q: 'Ein Schüler sagt: „Weil g konstant ist, fällt ein Körper mit konstanter Geschwindigkeit.“ Beurteilen Sie.',
+    a: 'Die Aussage ist falsch. g ist die konstante Beschleunigung. Die Geschwindigkeit nimmt beim Fallen in jeder Sekunde um etwa 9,81 m/s zu.',
+  },
+  {
+    q: 'Ein Körper wird nach unten geworfen statt aus der Ruhe losgelassen. Darf man seine Fallstrecke direkt mit y(t) = ½·g·t² berechnen?',
+    a: (
+      <>
+        Nein. Die Anfangsgeschwindigkeit ist nicht null. Bei Ursprung am
+        Startpunkt und positiver Richtung nach unten gilt{' '}
+        {m('y(t)=v_0\\cdot t+\\frac12gt^2')}.
+      </>
+    ),
+  },
+  {
+    q: 'Zwei gleich große Kugeln unterschiedlicher Masse fallen im Vakuum. Welche hat nach derselben Fallzeit die größere Geschwindigkeit, wenn beide aus der Ruhe starten?',
+    a: 'Beide haben dieselbe Geschwindigkeit. Bei gleichem g gilt für beide v(t) = g·t; die Masse kommt darin nicht vor.',
+  },
+  {
+    q: 'Eine Kugel wird fallengelassen. Unmittelbar beim Loslassen ist ihre Geschwindigkeit null. Ist ihre Beschleunigung zu diesem Zeitpunkt ebenfalls null?',
+    a: 'Nein. Schon unmittelbar nach dem Loslassen wirkt die Fallbeschleunigung g nach unten. Geschwindigkeit und Beschleunigung sind verschiedene Größen.',
+  },
+  {
+    q: 'Man möchte die Fallzeit einer aus der Ruhe fallenden Kugel halbieren. Wie muss sich die Fallhöhe bei gleichem g ändern?',
+    a: (
+      <>
+        Die Fallhöhe muss auf ein Viertel sinken. Nach {m('y=\\frac12gt^2')}{' '}
+        führt die halbe Fallzeit zur vierfach kleineren Fallstrecke.
+      </>
+    ),
+  },
+  {
+    q: 'Auf dem Mond ist g kleiner als auf der Erde. Welche Kugel erreicht bei gleicher Fallhöhe aus der Ruhe zuerst den Boden, und welche prallt schneller auf?',
+    a: 'Die Kugel auf der Erde erreicht zuerst den Boden und hat die größere Aufprallgeschwindigkeit. Das größere g verkürzt die Fallzeit und erhöht die Endgeschwindigkeit.',
+  },
+  {
     q: 'Eine schwere und eine leichte Kugel werden gleichzeitig aus derselben Höhe losgelassen. Welche kommt im Modell des freien Falls zuerst an?',
     a: (
       <>

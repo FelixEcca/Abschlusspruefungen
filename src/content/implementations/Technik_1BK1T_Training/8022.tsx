@@ -2,6 +2,7 @@ import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { pp } from '@/helper/pretty-print'
 import { round2, unit } from './motion-helpers'
+import { HorizontalWurfSkizze } from './wurf-skizzen'
 
 const m = (math: string) => <InlineMath math={math} />
 const n = (value: number, u: string) => `${pp(value)}\\,${unit(u)}`
@@ -77,6 +78,12 @@ export const exercise8022: Exercise<DATA> = {
           Die y-Achse zeigt vom Startpunkt nach unten. Verwenden Sie{' '}
           {m(`g=${n(g, 'm/s^2')}`)}; Luftwiderstand wird vernachlässigt.
         </p>
+        <HorizontalWurfSkizze
+          height={`y = ${data.h.toLocaleString('de-DE')} m`}
+          distance="x = ?"
+          speed={`v₀ = ${(data.kmh ? data.v0 * 3.6 : data.v0).toLocaleString('de-DE')} ${data.kmh ? 'km/h' : 'm/s'}`}
+          impact
+        />
       </>
     )
   },
@@ -88,8 +95,13 @@ export const exercise8022: Exercise<DATA> = {
         return (
           <>
             <p>
-              Die Flugzeit ergibt sich aus der Fallbewegung. Nach {m('t')}{' '}
-              aufgelöst:
+              Aus der Formelsammlung: {m('y(t)=\\frac{1}{2}\\cdot g\\cdot t^2')}
+              . Beim Aufprall ist die Fallstrecke gleich der gegebenen Höhe.
+            </p>
+            <p>
+              {m(
+                '2y=g\\cdot t^2 \\quad\\Rightarrow\\quad t^2=\\frac{2y}{g} \\quad\\Rightarrow\\quad t=\\sqrt{\\frac{2y}{g}}',
+              )}
             </p>
             <p>
               {m(
@@ -116,10 +128,14 @@ export const exercise8022: Exercise<DATA> = {
             {data.kmh && (
               <p>{m(`v_0=${n(data.v0 * 3.6, 'km/h')}=${n(data.v0, 'm/s')}`)}</p>
             )}
-            <p>Horizontal bleibt die Geschwindigkeit konstant.</p>
+            <p>
+              Aus der Formelsammlung: {m('x(t)=v_0\\cdot t')}. Horizontal bleibt
+              die Geschwindigkeit konstant. Wir setzen die ungerundete Flugzeit
+              aus a) ein.
+            </p>
             <p>
               {m(
-                `x(t)=v_0\\cdot t=${n(data.v0, 'm/s')}\\cdot\\sqrt{\\frac{2y}{g}}`,
+                `x(t)\\approx ${n(data.v0, 'm/s')}\\cdot ${n(round2(t), 's')}`,
               )}
             </p>
             {result('x(t)', data.v0 * t, 'm')}
@@ -136,18 +152,17 @@ export const exercise8022: Exercise<DATA> = {
         </p>
       ),
       solution({ data }) {
-        const vy = Math.sqrt(2 * g * data.h),
+        const t = Math.sqrt((2 * data.h) / g),
+          vy = g * t,
           v = Math.hypot(data.v0, vy)
         return (
           <>
             <p>
-              {m(`v_x=v_0=${n(data.v0, 'm/s')}`)}; vertikal gilt{' '}
-              {m('v_y(t)=g\\cdot t=\\sqrt{2gy}')}.
+              {m(`v_x=v_0=${n(data.v0, 'm/s')}`)}; vertikal gilt nach der
+              Formelsammlung {m('v_y(t)=g\\cdot t')}.
             </p>
             <p>
-              {m(
-                `v_y(t)=\\sqrt{2\\cdot${n(g, 'm/s^2')}\\cdot${n(data.h, 'm')}}`,
-              )}
+              {m(`v_y(t)\\approx ${n(g, 'm/s^2')}\\cdot${n(round2(t), 's')}`)}
             </p>
             {result('v_y(t)', vy, 'm/s')}
             <p>{m('v=\\sqrt{v_x^2+v_y^2}')}</p>

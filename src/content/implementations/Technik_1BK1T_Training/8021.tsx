@@ -22,7 +22,34 @@ const contexts = [
   'Zwei Metallkugeln starten gleichzeitig an einer Tischkante.',
 ]
 const g = 9.81
+const questions = [
+  {
+    q: 'Vergleichen Sie die y-Positionen beider Körper in jeder Aufnahme. Begründen Sie, welcher Körper zuerst auf dem Boden ankommt.',
+    a: 'Beide haben zu jedem Aufnahmezeitpunkt dieselbe Fallstrecke. Ihre vertikalen Anfangsgeschwindigkeiten sind null, und beide haben dieselbe Fallbeschleunigung. Die horizontale Bewegung verändert die Fallzeit nicht; beide treffen gleichzeitig auf.',
+  },
+  {
+    q: 'Warum sind die horizontalen Abstände der blauen Punkte gleich groß, während ihre vertikalen Abstände zunehmen?',
+    a: 'Die Bilder entstehen in gleichen Zeitabständen. Horizontal ist die Geschwindigkeit konstant, daher sind die Abstände gleich. Vertikal nimmt die Geschwindigkeit wegen der Fallbeschleunigung zu, daher werden die Abstände größer.',
+  },
+  {
+    q: 'Die horizontale Startgeschwindigkeit wird verdoppelt. Wie ändern sich bei unveränderter Höhe die Punktabstände, die Flugzeit und die Wurfweite?',
+    a: 'Die horizontalen Punktabstände und die Wurfweite verdoppeln sich. Die vertikalen Punktabstände und die Flugzeit bleiben gleich, weil die vertikale Bewegung unverändert ist.',
+  },
+  {
+    q: 'Für eine neue Aufnahme halbiert man nur den zeitlichen Abstand zwischen den Bildern. Wie verändert sich das Stroboskopbild, und ändert sich die Flugbahn?',
+    a: 'Auf derselben unveränderten Flugbahn liegen mehr Aufnahmepunkte. Die horizontalen Abstände aufeinanderfolgender Punkte halbieren sich. Auch die vertikalen Abstände werden kleiner, bleiben aber von Aufnahme zu Aufnahme zunehmend. Die Bewegung selbst und die Flugzeit ändern sich nicht.',
+  },
+  {
+    q: 'Eine Person behauptet: „Die blauen Punkte liegen immer weiter auseinander, also nimmt auch die horizontale Geschwindigkeit zu.“ Beurteilen Sie mithilfe des Bildes.',
+    a: 'Die Aussage ist falsch. Nur die vertikalen Abstände wachsen. Die horizontalen Abstände bleiben bei gleichen Zeitabständen konstant, also bleibt auch die horizontale Geschwindigkeit konstant. Der Betrag der Gesamtgeschwindigkeit nimmt durch die wachsende vertikale Komponente zu.',
+  },
+  {
+    q: 'Der horizontal gestartete Körper hat eine größere Masse als der fallengelassene Körper. Ändert das ohne Luftwiderstand den Vergleich ihrer Fallstrecken?',
+    a: 'Nein. Die Fallbeschleunigung ist für beide gleich und unabhängig von ihrer Masse. Bei gleicher vertikaler Anfangsgeschwindigkeit haben sie nach derselben Zeit dieselbe Fallstrecke.',
+  },
+]
 interface DATA {
+  question: number
   context: number
   v0: number
   dt: number
@@ -113,12 +140,15 @@ export const exercise8021: Exercise<DATA> = {
   useCalculator: true,
   duration: 10,
   generator: rng => ({
+    question: rng.randomIntBetween(0, questions.length - 1),
     context: rng.randomIntBetween(0, contexts.length - 1),
     v0: rng.randomItemFromArray([2, 3, 4, 5]),
     dt: rng.randomItemFromArray([0.1, 0.15, 0.2, 0.25]),
   }),
-  originalData: { context: 0, v0: 3, dt: 0.2 },
+  originalData: { question: 0, context: 0, v0: 3, dt: 0.2 },
   constraint: ({ data }) =>
+    Number.isInteger(data.question) &&
+    !!questions[data.question] &&
     !!contexts[data.context] &&
     [data.v0, data.dt].every(Number.isFinite) &&
     data.v0 > 0 &&
@@ -140,20 +170,8 @@ export const exercise8021: Exercise<DATA> = {
   tasks: [
     {
       points: 4,
-      task: () => (
-        <p>
-          Vergleichen Sie die y-Positionen beider Körper in jeder Aufnahme.
-          Begründen Sie, welcher Körper zuerst auf dem Boden ankommt.
-        </p>
-      ),
-      solution: () => (
-        <p>
-          Beide haben zum selben Zeitpunkt dieselbe Fallstrecke{' '}
-          {m('y(t)=\\frac12gt^2')}. Ihre Anfangsgeschwindigkeit in y-Richtung
-          ist null. Die Bewegung in x-Richtung verändert die Fallbewegung nicht,
-          deshalb treffen beide gleichzeitig auf.
-        </p>
-      ),
+      task: ({ data }) => <p>{questions[data.question].q}</p>,
+      solution: ({ data }) => <p>{questions[data.question].a}</p>,
     },
     {
       points: 5,
