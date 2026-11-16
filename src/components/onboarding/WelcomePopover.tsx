@@ -6,6 +6,7 @@ import {
 } from '../../../store/player-profile-store'
 import { schoolforms } from '@/data/schoolforms'
 import { Gisela } from '@/components/gisela/Gisela'
+import { getGiselaLook } from '@/components/gisela/gisela-looks'
 import styles from './WelcomePopover.module.css'
 import { useTutorial } from './TutorialProvider'
 
@@ -116,7 +117,14 @@ export function WelcomePopover({ forceOpen = false }: Props) {
             </p>
           </div>
           <div className={styles.mascot}>
-            <Gisela className={styles.figure} />
+            <Gisela
+              className={styles.figure}
+              look={getGiselaLook(
+                typeof exam === 'number'
+                  ? exam
+                  : selectedForm?.subjects[0]?.examId ?? -1,
+              )}
+            />
           </div>
           <div className={styles.fields}>
             <IonInput

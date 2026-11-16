@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useHistory } from 'react-router'
 import streak from '/assets/10760660.png'
 import medal from '/assets/7937682.png'
 import {
@@ -9,9 +8,7 @@ import {
   IonTitle,
   IonContent,
   IonButton,
-  IonIcon,
 } from '@ionic/react'
-import { shuffleOutline } from 'ionicons/icons'
 
 import { exercisesData } from '@/content/exercises'
 import { isExerciseForNavigation } from '@/content/navigation-exercises'
@@ -21,74 +18,13 @@ import {
 } from '../../../../store/player-profile-store'
 import {
   useProfile,
-  useProgress,
-  getStatus,
 } from '../../../../store/progress-store'
-import { setupExercise } from '@/components/exercise-view/state/actions'
 import { WelcomePopover } from '@/components/onboarding/WelcomePopover'
+import { LearningCoach } from '@/components/gisela/LearningCoach'
 import { Gisela } from '@/components/gisela/Gisela'
 import LevelPanel from '@/components/exercise-view/LevelingPanel'
 
-function pickUnsolvedRandom(
-  pool: number[],
-  fallbackPool: number[],
-  lastId: number | null,
-) {
-  const base = pool.length > 0 ? pool : fallbackPool
-  if (base.length === 0) return null
-  let idx = Math.floor(Math.random() * base.length)
-  if (base.length > 1 && lastId !== null && base[idx] === lastId) {
-    idx = (idx + 1) % base.length
-  }
-  const id = base[idx]
-  const c = exercisesData[id]
-  return { id, content: c }
-}
-
-/** eigene Karte, damit useProgress nur gerufen wird, wenn suggestion existiert */
-function SuggestionCard({
-  suggestion,
-  onPick,
-}: {
-  suggestion: { id: number; content: { title?: string; source?: string } }
-  onPick: (id: number) => void
-}) {
-  const prog = useProgress(suggestion.id)
-  const cls = prog?.reviewLater
-    ? 'bg-red-100 border-red-400'
-    : prog?.flagged
-      ? 'bg-amber-100 border-amber-400'
-      : prog?.solved
-        ? 'bg-green-100 border-green-400'
-        : 'bg-white border-gray-200'
-
-  return (
-    <div
-      className={`mt-2 border rounded-lg p-3 cursor-pointer hover:bg-gray-50 ${cls}`}
-      onClick={() => onPick(suggestion.id)}
-    >
-      <div className="text-sm text-fuchsia-900">
-        [{suggestion.content.source ?? '—'}]
-      </div>
-      <div className="font-medium">{suggestion.content.title}</div>
-      <div className="mt-2">
-        <IonButton
-          size="small"
-          onClick={e => {
-            e.stopPropagation()
-            onPick(suggestion.id)
-          }}
-        >
-          Jetzt üben
-        </IonButton>
-      </div>
-    </div>
-  )
-}
-
 export function Start() {
-  const history = useHistory()
-
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const name = PlayerProfileStore.useState(s => s.name) ?? ''
   const hasName = name.trim().length > 0
@@ -100,9 +36,6 @@ export function Start() {
     setEditingName(!hasName)
   }, [name, hasName])
 
-  const [lastId, setLastId] = React.useState<number | null>(null)
-  const [nonce, setNonce] = React.useState(0)
-
   const allIds = React.useMemo(
     () =>
       Object.keys(exercisesData)
@@ -110,20 +43,6 @@ export function Start() {
         .filter(id => isExerciseForNavigation(exam, id)),
     [exam],
   )
-
-  const [suggestion, setSuggestion] = React.useState<{
-    id: number
-    content: { title?: string; source?: string }
-  } | null>(null)
-
-  React.useEffect(() => {
-    const unsolved = allIds.filter(idNum => !getStatus(idNum)?.solved)
-    const pick = pickUnsolvedRandom(unsolved, allIds, lastId)
-    setSuggestion(pick)
-  }, [allIds, lastId, nonce])
-
-  const visibleSuggestion =
-    suggestion && allIds.includes(suggestion.id) ? suggestion : null
 
   const userProfile = useProfile()
   const solvedSet = React.useMemo(() => {
@@ -212,9 +131,7 @@ export function Start() {
           </div>
 
           {/* Fortschritt */}
-          <div
-            className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6"
-          >
+          <div className="bg-sky-50 shadow-md rounded-xl border p-3 mt-6">
             <div className="font-semibold mb-2">Dein Fortschritt</div>
             <div data-tutorial="dashboard-progress" className="mt-4">
               <LevelPanel />
@@ -227,9 +144,7 @@ export function Start() {
                   alt="Medal"
                   className="w-10 h-10 rounded-xl object-contain"
                 />
-                <span className="flex-1 text-center">
-                  Gelöste Prüfungsaufgaben:
-                </span>
+                <span className="flex-1 text-center">Gelöste Aufgaben:</span>
                 <span className="flex-none text-right font-bold text-lg">
                   {solved}
                 </span>
@@ -253,38 +168,17 @@ export function Start() {
             </div>
           </div>
 
-          {/* Zufällige Aufgabe */}
+          {/* Lernassistent */}
           <div
             data-tutorial="dashboard-suggestion"
             className="shadow-md rounded-xl border p-3 bg-sky-50"
           >
-            <p>Starte direkt rein mit einer Aufgabe:</p>
-            <div className="flex items-center justify-between">
-              <div className="font-semibold">Zufällige Aufgabe</div>
-              <IonButton
-                fill="clear"
-                onClick={() => setNonce(n => n + 1)}
-                title="Neue Aufgabe vorschlagen"
-              >
-                <IonIcon icon={shuffleOutline} />
-              </IonButton>
-            </div>
-
-            {visibleSuggestion ? (
-              <SuggestionCard
-                key={visibleSuggestion.id}
-                suggestion={visibleSuggestion}
-                onPick={id => {
-                  setLastId(id)
-                  setupExercise(id)
-                  history.push('/exercise/' + id)
-                }}
-              />
-            ) : (
-              <div className="text-sm text-gray-600">
-                Für die eingestellte Prüfung wurden keine Aufgaben gefunden.
-              </div>
-            )}
+            <LearningCoach
+              key={exam}
+              courseId={exam}
+              name={name}
+              progress={userProfile.exercises}
+            />
           </div>
         </div>
       </IonContent>

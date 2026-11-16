@@ -54,7 +54,8 @@
 }
 
 .foreleg {
-  transform-origin: 400px 860px;
+  /* Keep the joint inside both the leg cutout and the fixed shoulder. */
+  transform-origin: 366px 835px;
 }
 
 .lowerLeg {

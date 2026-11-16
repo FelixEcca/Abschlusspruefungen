@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { computeLevelProgress } from './leveling'
+import { computeLevelProgress, MAX_LEVEL } from './leveling'
 import { exercisesData } from '@/content/exercises'
 import { isExerciseForNavigation } from '@/content/navigation-exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
@@ -35,8 +35,11 @@ export default function LevelingPanel() {
     )
   }
 
-  const { level, pctWithin, remainingToNext, nextLevel } =
-    computeLevelProgress(solvedCount)
+  const { level, pctWithin, remainingToNext, nextLevel } = computeLevelProgress(
+    solvedCount,
+    ids.length,
+    exam,
+  )
 
   return (
     <div className="w-full rounded-xl border bg-white shadow-xl p-5">
@@ -45,6 +48,8 @@ export default function LevelingPanel() {
       <div
         className="h-3 w-full rounded border border-gray-400 bg-gradient-to-b from-gray-100 to-gray-200 shadow-inner overflow-hidden"
         role="progressbar"
+        tabIndex={-1}
+        aria-label={`Fortschritt in Level ${level}`}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round((pctWithin ?? 0) * 100)}
@@ -56,7 +61,7 @@ export default function LevelingPanel() {
       </div>
 
       <div className="text-xs text-gray-700 mt-2 tabular-nums">
-        {level < 6 ? (
+        {level < MAX_LEVEL ? (
           <>
             Löse <b>{remainingToNext}</b>{' '}
             {remainingToNext === 1 ? 'Aufgabe' : 'Aufgaben'}, um in Level{' '}

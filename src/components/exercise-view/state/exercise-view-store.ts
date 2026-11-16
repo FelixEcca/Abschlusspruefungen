@@ -9,6 +9,7 @@ export type ChatLearningMode =
   | 'tipp'
   | 'humor'
   | 'pruefen'
+  | 'erklaeren'
 
 export type ChatMessage = {
   id: string
@@ -47,15 +48,18 @@ export type IExerciseViewStore = {
   chatMessages: ChatMessage[]
   chatPending: boolean
   chatMode: ChatLearningMode | null
-  queuedChatSubmission: {
-    id: string
-    content: string
-    attachment: {
-      kind: 'image'
-      src: string
-      name?: string
-    }
-  } | null
+  queuedChatSubmission:
+    | {
+        id: string
+        content: string
+        attachment: {
+          kind: 'image'
+          src: string
+          name?: string
+        }
+      }
+    | { id: string; kind: 'solution-explanation' }
+    | null
 }
 
 export const ExerciseViewStore = new Store<IExerciseViewStore>({

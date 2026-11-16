@@ -1,54 +1,53 @@
-// leveling.ts
-import { exercisesData } from '@/content/exercises'
-import { isExerciseInNavigation } from '@/content/navigation-exercises'
-import { PlayerProfileStore } from '../../../store/player-profile-store'
+export const MAX_LEVEL = 6
+const CUM_TARGETS = [0, 0.02, 0.04, 0.06, 0.08, 0.1]
+const QUICK_START_COURSES = new Set([1, 5, 6, 7, 8])
+const QUICK_START_TARGETS = [0, 1, 2, 3, 5, 8]
 
-const CUM_TARGETS = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.1, 0.2, 0.2, 0.25] // entspricht Level 1..6
-
-function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 24) return isExerciseInNavigation(exam, idNum)
-  if (exam == 1 && idNum > 99) return false
-  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
-  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
-  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
-  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  return true
+export function getLevelThresholds(
+  totalCount: number,
+  courseId?: number,
+): number[] {
+  const total = Math.max(0, Math.floor(totalCount || 0))
+  const thresholds = [0]
+  for (let index = 1; index < MAX_LEVEL; index++) {
+    // Small courses still require a new solved exercise for each level.
+    thresholds.push(
+      Math.max(
+        thresholds[index - 1] + 1,
+        courseId !== undefined && QUICK_START_COURSES.has(courseId)
+          ? Math.min(QUICK_START_TARGETS[index], Math.max(MAX_LEVEL - 1, total))
+          : Math.round(CUM_TARGETS[index] * total),
+      ),
+    )
+  }
+  return thresholds
 }
 
-export function getTotalExercisesForCurrentExam(): number {
-  const exam = PlayerProfileStore.getRawState().currentExam
-  const ids = Object.keys(exercisesData).map(k => parseInt(k, 10))
-  return ids.filter(id => passExamFilter(exam, id)).length
-}
-
-/** Immer definierte, NaN-freie Rückgabe */
-export function computeLevelProgress(solvedCount: number) {
-  const exam = PlayerProfileStore.getRawState().currentExam
-  const total = getTotalExercisesForCurrentExam() + (exam === 24 ? 0 : 39)
-  // Falls es (noch) keine Aufgaben im Exam filter gibt, so tun, als gäbe es 1 – verhindert NaN.
-  const safeTotal = Math.max(1, total)
-
-  // absolute Schwellen in Aufgaben
-  const thresholdsAbs = CUM_TARGETS.map(p => Math.round(p * safeTotal))
-
-  // aktuelles Level bestimmen (1..6)
+export function computeLevelProgress(
+  solvedCount: number,
+  totalCount: number,
+  courseId?: number,
+) {
+  const thresholds = getLevelThresholds(totalCount, courseId)
+  const solved = Math.max(0, Math.floor(solvedCount || 0))
   let level = 1
-  for (let L = 2; L <= 6; L++) {
-    if (solvedCount >= thresholdsAbs[L - 1]) level = L
+  for (let next = 2; next <= MAX_LEVEL; next++) {
+    if (solved >= thresholds[next - 1]) level = next
   }
 
-  const currGoal = thresholdsAbs[level - 1]
-  const nextLevel = Math.min(6, level + 1)
-  const nextGoal = thresholdsAbs[nextLevel - 1]
-
-  const span = Math.max(1, nextGoal - currGoal) // niemals 0
-  const within = Math.max(0, Math.min(1, (solvedCount - currGoal) / span))
-  const remaining = level === 6 ? 0 : Math.max(0, nextGoal - solvedCount)
-
+  const currentGoal = thresholds[level - 1]
+  const nextLevel = Math.min(MAX_LEVEL, level + 1)
+  const nextGoal = thresholds[nextLevel - 1]
   return {
-    level, // 1..6
-    pctWithin: within, // 0..1
-    remainingToNext: remaining,
+    level,
+    pctWithin:
+      level === MAX_LEVEL
+        ? 1
+        : Math.max(
+            0,
+            Math.min(1, (solved - currentGoal) / (nextGoal - currentGoal)),
+          ),
+    remainingToNext: level === MAX_LEVEL ? 0 : Math.max(0, nextGoal - solved),
     nextLevel,
   }
 }

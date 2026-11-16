@@ -16,6 +16,11 @@ export type TutorialEvent =
   | 'scribble-close'
   | 'chat-open'
   | 'chat-close'
+  | 'chat-conversation-ready'
+  | 'chat-overview-open'
+  | 'chat-humor-started'
+  | 'chat-humor-ready'
+  | 'chat-humor-failed'
   | `topic-open:${number}`
   | `year-open:${number}`
 
@@ -95,7 +100,7 @@ export function buildTutorialPlan(
     'dashboard',
     1,
     'Dein Platz zum Lernen',
-    'Hier starten wir! Auf der Startseite findest du deinen Fortschritt und eine Aufgabe zum Loslegen. Ich zeige dir die wichtigsten Stellen.',
+    'Hier starten wir! Auf der Startseite findest du deinen Fortschritt und meinen Lernassistenten. Ich zeige dir die wichtigsten Stellen.',
     'dashboard-greeting',
     '/app/start',
   )
@@ -111,8 +116,8 @@ export function buildTutorialPlan(
     add(
       'suggestion',
       1,
-      'Ein Vorschlag für dich',
-      'Wenn du einfach loslegen möchtest, nimm den Aufgabenvorschlag. Mit dem Pfeil daneben bekommst du einen anderen Vorschlag aus deinem Fach.',
+      'Dein Lernassistent',
+      'Hier kannst du später mit mir sprechen: Was möchtest du üben, wo hakt es oder wie viel Zeit hast du? Gemeinsam finden wir einen passenden nächsten Schritt.',
       'dashboard-suggestion',
       '/app/start',
     )
@@ -136,6 +141,56 @@ export function buildTutorialPlan(
     'training-overview',
     '/app/training',
   )
+  if (examYear !== null) {
+    add(
+      'list-tab',
+      2,
+      'Auch für die Prüfung üben',
+      selected
+        ? 'Für dein Fach gibt es originale Prüfungsaufgaben. Bevor wir eine Trainingsaufgabe öffnen, schauen wir kurz in „Liste“.'
+        : 'Für dein Fach gibt es originale Prüfungsaufgaben. Wir schauen jetzt kurz in „Liste“.',
+      'tab-list',
+      '/app/training',
+      'list-arrived',
+      'Öffne „Liste“.',
+    )
+    add(
+      'exam-overview',
+      2,
+      'Nach Jahrgängen sortiert',
+      'Hier findest du Prüfungsaufgaben nach Jahrgang oder Sammlung. So kannst du dich gezielt auf das Prüfungsformat vorbereiten.',
+      'exam-overview',
+      '/app/list',
+    )
+    add(
+      'exam-year',
+      2,
+      'Eine Sammlung aufklappen',
+      'Öffne die hervorgehobene Sammlung. Darunter findest du die einzelnen Prüfungsaufgaben.',
+      `exam-year-${examYear}`,
+      '/app/list',
+      `year-open:${examYear}`,
+      'Klappe die Sammlung auf.',
+    )
+    add(
+      'exam-items',
+      2,
+      'Originale Prüfungsaufgaben',
+      'Diese Aufgaben kannst du später genauso öffnen und üben wie Trainingsaufgaben. Jetzt lernen wir zuerst die Werkzeuge kennen.',
+      `exam-items-${examYear}`,
+      '/app/list',
+    )
+    add(
+      'exam-return',
+      2,
+      'Zurück zum Training',
+      'Wechsle wieder zu „Training“. Dort wählen wir eine Aufgabe für unseren Rundgang aus.',
+      'tab-training',
+      '/app/list',
+      'training-returned',
+      'Öffne „Training“.',
+    )
+  }
   if (selected) {
     add(
       'training-topic',
@@ -259,82 +314,90 @@ export function buildTutorialPlan(
     )
     add(
       'chat-open',
-      7,
+      8,
       'Hilfe, wenn du sie brauchst',
-      'Im KI-Chat kannst du nach einem Tipp fragen, dir einen Schritt erklären lassen oder deinen Lösungsweg prüfen. Öffne jetzt den Chat.',
+      'Im Chat kannst du mich nach einem Tipp fragen, dir einen Schritt erklären lassen oder deinen Lösungsweg prüfen. Öffne jetzt den Chat.',
       'tool-chat',
       taskRoute,
       'chat-open',
-      'Öffne „KI-Chat“.',
+      'Öffne „Chat“.',
     )
     add(
       'chat-view',
-      7,
+      8,
       'Eine passende Hilfe wählen',
-      'Hier wählst du passende Hilfe zur aktuellen Aufgabe. Die KI kann sich irren: Vergleiche wichtige Ergebnisse mit der Lösung. Für den Rundgang brauchst du nichts zu senden.',
+      'Der Chat kennt die aktuelle Aufgabe. Er kann dir Tipps geben, einen Lösungsweg erklären oder deine Rechnung prüfen. Die KI kann sich auch irren: Vergleiche wichtige Ergebnisse mit der Lösung.',
       'chat-content',
       taskRoute,
     )
     add(
-      'chat-close',
-      7,
-      'Du bestimmst das Tempo',
-      'Schließe den Chat wieder über „KI-Chat“. Du kannst die Werkzeuge beim Üben jederzeit selbst öffnen und schließen.',
-      'tool-chat',
+      'chat-review',
+      8,
+      'Deinen Lösungsweg prüfen lassen',
+      'Öffne „Lösungsweg prüfen“. Hier könntest du deine Rechnung schreiben oder ein Bild senden. Für den Rundgang brauchst du noch nichts einzureichen.',
+      'chat-mode-pruefen',
       taskRoute,
-      'chat-close',
-      'Schließe „KI-Chat“.',
+      'chat-conversation-ready',
+      'Öffne „Lösungsweg prüfen“.',
     )
     add(
-      'training-return',
-      7,
-      'Zurück zur Übersicht',
-      'Mit dem Pfeil beim Aufgabentitel kommst du zurück zur Trainingsübersicht. Gehe jetzt zurück.',
-      'exercise-back',
+      'chat-back',
+      8,
+      'Eine andere Hilfe ausprobieren',
+      'Mit dem Zurück-Pfeil im Chat wechselst du zur Modusauswahl. Dabei wird der aktuelle Chat zurückgesetzt. Probiere den Pfeil jetzt aus.',
+      'chat-back',
       taskRoute,
-      'training-returned',
-      'Tippe auf den Zurück-Pfeil beim Titel.',
-    )
-  }
-  if (examYear !== null) {
-    add(
-      'list-tab',
-      8,
-      'Mit Prüfungsaufgaben üben',
-      'Für dein Fach gibt es auch originale Prüfungsaufgaben. Öffne „Liste“, um sie nach Jahrgängen zu finden.',
-      'tab-list',
-      '/app/training',
-      'list-arrived',
-      'Öffne den Tab „Liste“.',
+      'chat-overview-open',
+      'Tippe auf den Zurück-Pfeil im Chat.',
     )
     add(
-      'exam-overview',
+      'chat-options',
       8,
-      'Nach Jahrgängen sortiert',
-      'Hier findest du die Prüfungsaufgaben nach Jahrgang oder Sammlung. So kannst du später gezielt eine Prüfung auswählen und dich auf das Prüfungsformat vorbereiten.',
-      'exam-overview',
-      '/app/list',
+      'Du wählst die passende Unterstützung',
+      'Du kannst Aufgaben leichter oder schwerer machen, Schritt für Schritt lernen, einen Tipp bekommen oder deinen Lösungsweg prüfen. „Lustige Aufgaben“ gibt dir eine neue Übung mit einer überraschenden Geschichte.',
+      'chat-modes',
+      taskRoute,
     )
     add(
-      'exam-year',
+      'chat-humor',
       8,
-      'Eine Sammlung aufklappen',
-      'Öffne die hervorgehobene Sammlung. Die Aufgaben darunter kannst du anschließend genauso öffnen und üben wie die Trainingsaufgaben.',
-      `exam-year-${examYear}`,
-      '/app/list',
-      `year-open:${examYear}`,
-      'Klappe die hervorgehobene Sammlung auf.',
+      'Eine Aufgabe zum Schmunzeln',
+      'Wähle „Lustige Aufgaben“. Der Chat erstellt dann eine neue Aufgabe zum gleichen Thema. Die Lösung bleibt zunächst deine eigene Herausforderung.',
+      'chat-mode-humor',
+      taskRoute,
+      'chat-humor-started',
+      'Öffne „Lustige Aufgaben“.',
+    )
+    add(
+      'chat-retry',
+      8,
+      'Das hat noch nicht geklappt',
+      'Die neue Aufgabe konnte nicht geladen werden. Versuche es mit dem Neustart-Pfeil im Chat noch einmal. Du kannst den Rundgang auch überspringen.',
+      'chat-restart',
+      taskRoute,
+      'chat-humor-started',
+      'Tippe auf „Modus neu starten“.',
+    )
+    add(
+      'chat-wait',
+      8,
+      'Deine neue Aufgabe entsteht',
+      'Der Chat formuliert gerade deine Übung. Sobald die vollständige Antwort da ist, schließen wir unseren Rundgang ab.',
+      'chat-content',
+      taskRoute,
+      'chat-humor-ready',
+      'Warte auf die fertige Aufgabe.',
     )
   }
   add(
     'finish',
-    examYear !== null ? 8 : selected ? 7 : 2,
-    'Jetzt bist du dran!',
+    selected ? 8 : 2,
+    'Unser Rundgang ist geschafft!',
     selected
-      ? 'Du kennst jetzt die wichtigsten Werkzeuge. Such dir eine Aufgabe und starte in deinem Tempo. Im Profil kannst du unseren Rundgang jederzeit noch einmal beginnen.'
+      ? 'Deine neue Aufgabe ist da! Du kennst jetzt die wichtigsten Werkzeuge. Gehe zur Startseite und übe in deinem Tempo weiter. Im Profil kannst du unseren Rundgang jederzeit neu starten.'
       : 'Du weißt jetzt, wo du deine Aufgaben findest. Im Profil kannst du den Rundgang jederzeit neu starten, auch wenn später weitere Aufgaben dazukommen.',
-    examYear !== null ? `exam-items-${examYear}` : 'training-overview',
-    examYear !== null ? '/app/list' : '/app/training',
+    selected ? 'chat-messages' : 'training-overview',
+    selected ? taskRoute : '/app/training',
   )
   return { courseId, exerciseId, topicIndex, examYear, steps }
 }
@@ -346,7 +409,18 @@ export function advanceTutorial(
 ): TutorialRecord {
   if (record.status !== 'active') return record
   const index = plan.steps.findIndex(step => step.id === record.step)
-  if (index < 0 || plan.steps[index].event !== event) return record
+  if (index < 0) return record
+  if (
+    ['chat-wait', 'chat-retry'].includes(record.step) &&
+    event === 'chat-overview-open'
+  )
+    return { ...record, step: 'chat-options' }
+  if (record.step === 'chat-wait' && event === 'chat-humor-failed')
+    return { ...record, step: 'chat-retry' }
+  if (record.step === 'chat-options' && event === 'chat-humor-started')
+    return { ...record, step: 'chat-wait' }
+  if (plan.steps[index].event !== event) return record
+  if (record.step === 'chat-humor') return { ...record, step: 'chat-wait' }
   const next = plan.steps[index + 1]
   return next
     ? { ...record, step: next.id }
@@ -391,18 +465,22 @@ export function resumeTutorial(
     'scribble-close': 'scribble-open',
     'chat-view': 'chat-open',
     'chat-close': 'chat-open',
-    finish:
-      plan?.examYear !== null && plan?.examYear !== undefined
-        ? 'exam-year'
-        : 'training-overview',
+    'chat-review': 'chat-open',
+    'chat-back': 'chat-open',
+    'chat-options': 'chat-open',
+    'chat-humor': 'chat-open',
+    'chat-retry': 'chat-open',
+    'chat-wait': 'chat-open',
+    'training-return': 'chat-open',
+    'exam-items': 'exam-year',
+    finish: plan?.exerciseId != null ? 'chat-open' : 'training-overview',
   }
+  const step = reopen[record.step] ?? record.step
   if (
     record.status === 'active' &&
     plan &&
-    !plan.steps.some(step => step.id === record.step)
+    !plan.steps.some(item => item.id === step)
   )
     return { ...record, step: 'dashboard' }
-  return record.status === 'active'
-    ? { ...record, step: reopen[record.step] ?? record.step }
-    : record
+  return record.status === 'active' ? { ...record, step } : record
 }

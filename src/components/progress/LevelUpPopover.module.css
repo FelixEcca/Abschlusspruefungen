@@ -1,0 +1,271 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid #b9d3ed;
+  border-radius: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f0f8ff;
+  color: #17283f;
+  box-shadow: 0 24px 80px #102a4b40;
+  animation: arrive 420ms ease-out both;
+}
+
+.dialog::backdrop {
+  background: #15253e80;
+  backdrop-filter: blur(3px);
+}
+
+.content {
+  position: relative;
+  padding: 24px;
+  text-align: center;
+}
+.course {
+  margin: 0 0 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #51687d;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  border: 2px solid #e7b845;
+  border-radius: 50%;
+  background: #fff1b3;
+  color: #966714;
+  font-size: 26px;
+  animation: medal 650ms 150ms ease-out both;
+}
+.eyebrow {
+  margin: 12px 0 4px;
+  color: #245db2;
+  font-size: 13px;
+  font-weight: 600;
+}
+.title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.scene {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  min-height: 208px;
+  margin: 12px -4px;
+}
+.mascot {
+  animation: cheer 1.3s 400ms ease-in-out both;
+}
+.figure {
+  width: 120px !important;
+  margin: auto;
+}
+.bubble {
+  position: relative;
+  padding: 16px;
+  border: 1px solid #badfe2;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.bubble::before {
+  position: absolute;
+  top: 50%;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  content: '';
+  background: #fff;
+  border-left: 1px solid #badfe2;
+  border-bottom: 1px solid #badfe2;
+  transform: rotate(45deg);
+}
+.bubble p {
+  margin: 0;
+}
+.bubble .congratulation {
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: #21656c;
+}
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid #cfdfec;
+  font-size: 13px;
+  text-align: left;
+}
+.progress strong {
+  color: #245db2;
+  font-size: 22px;
+}
+.next {
+  margin: 0 0 20px;
+  color: #51687d;
+  font-size: 13px;
+}
+.continue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #2463db;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+.continue:hover {
+  background: #1b50b7;
+}
+.continue:focus-visible {
+  outline: 3px solid #91b7ff;
+  outline-offset: 3px;
+}
+.confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti span {
+  position: absolute;
+  top: -16px;
+  left: var(--x);
+  width: 6px;
+  height: 12px;
+  background: #e8b52c;
+  animation: confetti 2.6s var(--delay) ease-in both;
+}
+.confetti span:nth-child(3n) {
+  background: #3285d2;
+}
+.confetti span:nth-child(3n + 1) {
+  background: #35a29d;
+}
+.confetti span:nth-child(4n) {
+  width: 7px;
+  height: 7px;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes medal {
+  from {
+    transform: scale(0.6) rotate(-12deg);
+  }
+  70% {
+    transform: scale(1.08) rotate(4deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes cheer {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30%,
+  65% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+  48% {
+    transform: translateY(0) rotate(1deg);
+  }
+}
+@keyframes confetti {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0);
+  }
+  10% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(540px) rotate(var(--turn));
+  }
+}
+
+@media (max-width: 380px) {
+  .content {
+    padding: 20px 16px;
+  }
+  .scene {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 10px;
+    min-height: 190px;
+  }
+  .figure {
+    width: 96px !important;
+  }
+  .bubble {
+    padding: 12px;
+  }
+  .title {
+    font-size: 25px;
+  }
+}
+@media (max-height: 600px) {
+  .content {
+    padding-top: 16px;
+  }
+  .course {
+    margin-bottom: 8px;
+  }
+  .badge {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  .scene {
+    min-height: 168px;
+    margin: 8px 0;
+  }
+  .figure {
+    width: 96px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialog,
+  .badge,
+  .mascot,
+  .confetti span {
+    animation: none;
+  }
+  .confetti {
+    display: none;
+  }
+}

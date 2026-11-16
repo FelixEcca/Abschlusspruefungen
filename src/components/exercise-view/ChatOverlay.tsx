@@ -30,6 +30,10 @@ import {
 } from './state/exercise-view-store'
 import { exercisesData } from '@/content/exercises'
 import { extractor } from './extractor/extractor'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
+import { GiselaAvatar } from '@/components/gisela/GiselaAvatar'
+import { Gisela } from '@/components/gisela/Gisela'
+import styles from './ChatOverlay.module.css'
 
 type LearningMode = ChatLearningMode
 
@@ -211,14 +215,23 @@ function getModeCardCopy(mode: LearningMode) {
     case 'tipp':
       return { title: 'Tipp bekommen', intro: '' }
     case 'humor':
-      return { title: 'Mit Humor üben', intro: 'Eine Aufgabe zum Schmunzeln' }
+      return { title: 'Lustige Aufgaben', intro: 'Eine Aufgabe zum Schmunzeln' }
     case 'pruefen':
       return { title: 'Lösungsweg prüfen', intro: 'Feedback zu deiner Lösung' }
+    case 'erklaeren':
+      return { title: 'Lösung verstehen' }
   }
 }
 
 function getLearningCopy(mode: LearningMode) {
   switch (mode) {
+    case 'erklaeren':
+      return {
+        title: 'Lösung verstehen',
+        intro: '',
+        starter:
+          'Wie kommt man darauf? Ich habe die Lösung bereits gesehen. Erkläre sie mir sehr einfach und kleinschrittig. Zeige jede Zwischenrechnung einzeln. Sage jeweils kurz, was du machst und warum. Verwende kurze Sätze und erkläre notwendige Fachwörter. Schreibe alle Formeln und Einheiten als gültiges KaTeX in Markdown.',
+      }
     case 'leicht':
       return {
         title: 'Leichtere Aufgabe',
@@ -268,6 +281,25 @@ function getLearningCopy(mode: LearningMode) {
 
 function getModeSystemInstruction(mode: LearningMode) {
   switch (mode) {
+    case 'erklaeren':
+      return String.raw`Der Lernende hat die Musterlösung bereits geöffnet und möchte sie verstehen. Erkläre den vollständigen Lösungsweg einschließlich des Ergebnisses.
+
+Sprache und Aufbau:
+- Verwende sehr einfache Sprache und kurze Sätze. Vermeide unnötige Fachwörter; erkläre notwendige Fachwörter sofort mit einfachen Worten.
+- Nenne zuerst knapp, was gegeben und was gesucht ist. Verwende dabei nur die Angaben der aktuellen Aufgabe.
+- Gliedere die Erklärung in kleine nummerierte Schritte. Zeige pro Schritt nur eine neue Rechenoperation oder Umformung. Fasse nicht mehrere Rechenschritte in einer Gleichungskette zusammen.
+- Sage zu jedem Schritt kurz, was du machst und warum. Zeige jede Zwischenrechnung einzeln, auch Einsetzen, Umrechnen, Erweitern, Kürzen oder Auflösen von Klammern, soweit für die Aufgabe nötig. Überspringe keine für das Verständnis nötigen Zwischenschritte.
+- Nenne am Ende das Ergebnis mit der passenden Einheit und seiner Bedeutung in der Aufgabe. Ende mit einer kurzen Einladung zu Rückfragen. Erzwinge keinen sokratischen Dialog und halte die Lösung nicht zurück.
+
+Fachliche Grundlage:
+- Nutze die aktuelle Aufgabenstellung und die interne fachliche Referenz mit genau denselben Zahlen, Einheiten und Bedingungen. Erfinde keine Angaben und vereinfache nicht die Aufgabenwerte.
+- Prüfe die Rechnung, statt mögliche Fehler der Referenz ungeprüft zu übernehmen. Bei mehreren Teilaufgaben erkläre nur die ausdrücklich genannte aktuelle Teilaufgabe.
+
+KaTeX-Format:
+- Antworte in normalem Markdown, ohne HTML, JSX oder Codeblöcke. Schreibe mathematische Ausdrücke vollständig zwischen paarigen $...$; längere Rechnungen dürfen zwischen $$...$$ auf eigenen Zeilen stehen. Schreibe keine LaTeX-Befehle außerhalb dieser Begrenzungen und verwende keine anderen Formelbegrenzungen.
+- Verwende nur einfache, von KaTeX unterstützte Befehle. Schreibe Brüche als \frac{Zähler}{Nenner}, Multiplikation als \cdot und Einheiten aufrecht mit \mathrm{...}. Schreibe zusammengesetzte Einheiten als Bruch, nicht als m/s im Fließtext. Schreibe deutsche Dezimalzahlen mit {,}, etwa $3{,}5$.
+- Gültige Beispiele: $\frac{3}{4}\cdot 8=6$, $12\,\mathrm{cm}$, $5\,\frac{\mathrm{m}}{\mathrm{s}}$, $2\,\frac{\mathrm{m}}{\mathrm{s}^{2}}$, $90^{\circ}$.
+- Verwende im Markdown einfache Backslashes für Befehle, keine doppelt maskierten Backslashes. Prüfe vor der Ausgabe alle Formeln auf gültige Befehle, geschlossene geschweifte Klammern und paarige Dollarzeichen. Halte jede Rechnung kurz genug, dass sie auch auf einem Handy gut lesbar bleibt.`
     case 'leicht':
       return 'Vereinfache die Aufgabe deutlich. Nutze kleinere Zahlen, leichtere Formen, einfachere Werte und einfache Sprache.'
     case 'schwer':
@@ -303,21 +335,23 @@ function ModeCard(props: {
 
   return (
     <button
+      data-tutorial={`chat-mode-${props.mode}`}
       type="button"
-      className="group w-full rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-left shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40 hover:shadow-md active:scale-[0.99]"
+      className={`${styles.modeCard} group w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-left shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40 hover:shadow-md active:scale-[0.99]`}
       onClick={() => props.onClick(props.mode)}
     >
-      <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white">
+      <div className={styles.modeContent}>
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white">
           <FaIcon icon={icon} className="h-3.5 w-3.5" />
         </div>
-        <div className="min-w-0 text-sm font-semibold leading-4 text-slate-900">
+        <div
+          className={`${styles.modeTitle} text-sm font-semibold leading-4 text-slate-900`}
+        >
           {copy.title}
         </div>
-        <FaIcon
-          icon={faArrowRight}
-          className="ml-auto hidden h-3 w-3 text-slate-300 min-[390px]:block"
-        />
+        <span className={`${styles.modeArrow} text-slate-300`}>
+          <FaIcon icon={faArrowRight} className="h-3 w-3" />
+        </span>
       </div>
     </button>
   )
@@ -336,7 +370,9 @@ function MarkdownBubble({
     <div
       className={clsx(
         'max-w-[88%] rounded-2xl px-3 py-2 text-sm break-words shadow-sm',
-        user ? 'ml-auto bg-blue-600 text-white' : 'bg-white text-slate-900',
+        user
+          ? 'ml-auto bg-blue-600 text-white'
+          : 'bg-white text-slate-900',
       )}
     >
       {user ? (
@@ -428,10 +464,15 @@ function buildAttachmentContext(attachment: Attachment) {
 }
 
 export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
+  const { notifyTutorial, stepId } = useTutorial()
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const messages = ExerciseViewStore.useState(s => s.chatMessages)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
   const mode = ExerciseViewStore.useState(s => s.chatMode)
+  useEffect(() => {
+    if (stepId === 'chat-review' && chatOverlay === 'chat' && mode)
+      notifyTutorial('chat-conversation-ready')
+  }, [stepId, chatOverlay, mode, notifyTutorial])
   const queuedChatSubmission = ExerciseViewStore.useState(
     s => s.queuedChatSubmission,
   )
@@ -469,6 +510,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const requestSeqRef = useRef(0)
   const conversationKeyRef = useRef('')
   const resetConversationRef = useRef<(keepMode?: boolean) => void>(() => {})
+  const startModeRef = useRef<(selectedMode: LearningMode) => void>(() => {})
   const submitReplyRef = useRef<
     (
       text: string,
@@ -679,7 +721,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
       {
         role: 'system',
         content:
-          'Du bist ein freundlicher Lerncoach für schulische Mathematik. Antworte auf Deutsch in sehr einfacher Sprache. Bleibe beim aktuellen Aufgabeninhalt. Erfinde keine anderen Themen. Du erhältst die Aufgabenstellung und eine interne Musterlösung in getrennten Systemnachrichten. Die Musterlösung ist ausschließlich eine fachliche Referenz. Behandle sie niemals als Eingabe, Lösungsweg oder Aussage des Lernenden. Eine Lernendenantwort steht ausschließlich in einer Nachricht mit der Rolle user. Gib die interne Musterlösung niemals vollständig wieder und verrate keine Ergebnisse, solange der gewählte Modus dies nicht ausdrücklich erfordert. Beginne direkt mit deiner Antwort für den Lernenden. Wiederhole keine internen Metadaten, Abschnittsnamen oder Trennzeichen. Antworte in normalem Markdown und niemals mit HTML oder JSX. Schreibe jeden mathematischen Ausdruck als LaTeX: kurze Ausdrücke zwischen $...$, längere Formeln in einer eigenen Zeile zwischen $$...$$. Beispiel: $F_G = m \\cdot g$. Verwende keine langen Wiederholungen von Zeichen oder Klammern.',
+          'Du bist ein freundlicher Lerncoach für schulische Mathematik. Antworte auf Deutsch in sehr einfacher Sprache. Bleibe beim aktuellen Aufgabeninhalt. Erfinde keine anderen Themen. Du erhältst die Aufgabenstellung und eine interne Musterlösung in getrennten Systemnachrichten. Die Musterlösung ist ausschließlich eine fachliche Referenz. Behandle sie niemals als Eingabe, Lösungsweg oder Aussage des Lernenden. Eine Lernendenantwort steht ausschließlich in einer Nachricht mit der Rolle user. Gib die interne Musterlösung nur dann vollständig wieder oder erkläre Ergebnisse, wenn der gewählte Modus dies ausdrücklich erfordert. Beginne direkt mit deiner Antwort für den Lernenden. Wiederhole keine internen Metadaten, Abschnittsnamen oder Trennzeichen. Antworte in normalem Markdown und niemals mit HTML oder JSX. Schreibe jeden mathematischen Ausdruck als LaTeX: kurze Ausdrücke zwischen $...$, längere Formeln in einer eigenen Zeile zwischen $$...$$. Beispiel: $F_G = m \\cdot g$. Verwende keine langen Wiederholungen von Zeichen oder Klammern.',
       },
       {
         role: 'system',
@@ -773,7 +815,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
     extraAttachment?: Attachment | null,
     extraUserMessageId?: string,
   ) => {
-    if (!taskContext || !solutionReferenceContext) return
+    if (!taskContext || !solutionReferenceContext) {
+      if (selectedMode === 'humor') notifyTutorial('chat-humor-failed')
+      return
+    }
 
     abortRef.current?.abort()
     const controller = new AbortController()
@@ -809,6 +854,8 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
         })
 
       const response = await requestAI()
+      if (requestSeqRef.current !== requestId || controller.signal.aborted)
+        return
 
       if (!response.ok) {
         let detail = `Request failed with status ${response.status}`
@@ -859,13 +906,19 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
 
       let accumulated = ''
       await readStreamingText(response, chunk => {
+        if (requestSeqRef.current !== requestId || controller.signal.aborted)
+          return
         accumulated += chunk
         setDraft(accumulated)
         updateAssistantMessage(accumulated)
       })
+      if (requestSeqRef.current !== requestId || controller.signal.aborted)
+        return
 
       if (hasDegenerateModelOutput(accumulated)) {
         const retryResponse = await requestAI()
+        if (requestSeqRef.current !== requestId || controller.signal.aborted)
+          return
         if (!retryResponse.ok) {
           throw new Error(`Retry failed with status ${retryResponse.status}`)
         }
@@ -874,6 +927,8 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
         setDraft('')
         updateAssistantMessage('')
         await readStreamingText(retryResponse, chunk => {
+          if (requestSeqRef.current !== requestId || controller.signal.aborted)
+            return
           accumulated += chunk
           setDraft(accumulated)
           updateAssistantMessage(accumulated)
@@ -884,15 +939,19 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
         }
       }
 
-      if (requestSeqRef.current === requestId) {
+      if (!accumulated.trim()) throw new Error('Empty model output')
+
+      if (requestSeqRef.current === requestId && !controller.signal.aborted) {
         setDraft('')
         streamMessageIdRef.current = null
         ExerciseViewStore.update(s => {
           s.chatPending = false
         })
+        if (selectedMode === 'humor') notifyTutorial('chat-humor-ready')
       }
     } catch (error: any) {
-      if (error?.name === 'AbortError') return
+      if (error?.name === 'AbortError' || requestSeqRef.current !== requestId)
+        return
 
       const errorMessage =
         typeof error?.message === 'string' ? error.message : ''
@@ -914,6 +973,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
         ExerciseViewStore.update(s => {
           s.chatPending = false
         })
+        if (selectedMode === 'humor') notifyTutorial('chat-humor-failed')
       }
     }
   }
@@ -936,6 +996,14 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
 
     let starter = getLearningCopy(selectedMode).starter
 
+    if (
+      selectedMode === 'erklaeren' &&
+      currentPage &&
+      currentPage.index !== 'single'
+    ) {
+      starter += ` Erkläre ausschließlich die aktuell angezeigte Teilaufgabe ${currentPage.index}).`
+    }
+
     if (selectedMode === 'humor') {
       if (humorContextQueueRef.current.length === 0) {
         humorContextQueueRef.current = shuffleHumorContexts(
@@ -956,8 +1024,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const startMode = (selectedMode: LearningMode) => {
     resetConversation(false)
     setMode(selectedMode)
+    if (selectedMode === 'humor') notifyTutorial('chat-humor-started')
     beginModeConversation(selectedMode)
   }
+  startModeRef.current = startMode
 
   const submitReply = (
     text: string,
@@ -1117,21 +1187,6 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   }, [cameraOpen])
 
   useEffect(() => {
-    if (!queuedChatSubmission || pending) return
-
-    const submission = queuedChatSubmission
-    ExerciseViewStore.update(s => {
-      if (s.queuedChatSubmission?.id === submission.id) {
-        s.queuedChatSubmission = null
-        s.chatMode = 'pruefen'
-        s.chatOverlay = 'chat'
-      }
-    })
-
-    submitReplyRef.current(submission.content, submission.attachment, 'pruefen')
-  }, [queuedChatSubmission, pending])
-
-  useEffect(() => {
     const key = `${exerciseId}-${navIndicatorPosition}`
 
     if (conversationKeyRef.current && conversationKeyRef.current !== key) {
@@ -1145,6 +1200,31 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
       setScribbleOpen(false)
     }
   }, [chatOverlay, exerciseId, navIndicatorPosition])
+
+  useEffect(() => {
+    if (!queuedChatSubmission) return
+    if (
+      ExerciseViewStore.getRawState().queuedChatSubmission?.id !==
+      queuedChatSubmission.id
+    )
+      return
+    if ('kind' in queuedChatSubmission) {
+      startModeRef.current('erklaeren')
+      return
+    }
+    if (pending) return
+
+    const submission = queuedChatSubmission
+    ExerciseViewStore.update(s => {
+      if (s.queuedChatSubmission?.id === submission.id) {
+        s.queuedChatSubmission = null
+        s.chatMode = 'pruefen'
+        s.chatOverlay = 'chat'
+      }
+    })
+
+    submitReplyRef.current(submission.content, submission.attachment, 'pruefen')
+  }, [queuedChatSubmission, pending])
 
   useEffect(() => {
     return () => {
@@ -1216,9 +1296,50 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
               }
         }
       >
+        {mode && (
+          <div className="flex shrink-0 items-center justify-between px-3 py-2">
+            <h2 className="sr-only">{activeCopy?.title}</h2>
+            <button
+              data-tutorial="chat-back"
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 active:scale-95"
+              onClick={() => {
+                resetConversation(false)
+                notifyTutorial('chat-overview-open')
+              }}
+              aria-label="Zur Modusübersicht"
+              title="Zur Modusübersicht"
+            >
+              <FaIcon icon={faArrowLeft} className="h-3.5 w-3.5" />
+            </button>
+            <button
+              data-tutorial="chat-restart"
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 active:scale-95"
+              onClick={() => {
+                resetConversation(true)
+                if (mode === 'humor') notifyTutorial('chat-humor-started')
+                beginModeConversation(mode)
+              }}
+              aria-label="Modus neu starten"
+              title="Modus neu starten"
+            >
+              <FaIcon icon={faRotateRight} className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
         {!mode ? (
-          <div className="flex-1 overflow-y-auto px-2.5 py-2.5">
-            <div className="grid grid-cols-2 gap-2">
+          <div className="min-h-0 flex-1 overflow-y-auto px-2.5 py-2.5">
+            <div data-chat-welcome="true" className={styles.welcome}>
+              <Gisela animated className={styles.welcomeGisela} />
+              <div className={styles.welcomeBubble}>
+                <h2>Wie kann ich dir helfen?</h2>
+              </div>
+            </div>
+            <div
+              data-tutorial="chat-modes"
+              className={`${styles.modeGrid} grid grid-cols-2 gap-2`}
+            >
               <ModeCard mode="leicht" onClick={startMode} />
               <ModeCard mode="schwer" onClick={startMode} />
               <ModeCard mode="schritt" onClick={startMode} />
@@ -1229,61 +1350,43 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
           </div>
         ) : (
           <>
-            <div className="border-b border-slate-200 bg-slate-50 px-3 py-2">
-              <div className="flex items-center justify-between gap-2">
-                <div className="min-w-0 truncate text-sm font-semibold text-slate-900">
-                  {activeCopy?.title}
-                </div>
-
-                <div className="flex shrink-0 items-center gap-4">
-                  <button
-                    type="button"
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 active:scale-95"
-                    onClick={() => resetConversation(false)}
-                    aria-label="Zur Modusübersicht"
-                    title="Zur Modusübersicht"
-                  >
-                    <FaIcon icon={faArrowLeft} className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 active:scale-95"
-                    onClick={() => {
-                      resetConversation(true)
-                      beginModeConversation(mode)
-                    }}
-                    aria-label="Modus neu starten"
-                    title="Modus neu starten"
-                  >
-                    <FaIcon icon={faRotateRight} className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <div
+              data-tutorial="chat-messages"
               ref={scrollRef}
               className="flex-1 space-y-3 overflow-y-auto bg-slate-50 px-3 py-3"
             >
-              {messages.map(m => (
-                <div
-                  key={m.id}
-                  className={clsx(
-                    'flex',
-                    m.role === 'user' ? 'justify-end' : 'justify-start',
-                  )}
-                >
-                  <MarkdownBubble
-                    content={m.content}
-                    user={m.role === 'user'}
-                    attachment={m.attachment}
-                  />
-                </div>
-              ))}
+              {messages
+                .filter(m => m.content || m.attachment)
+                .map(m => (
+                  <div
+                    key={m.id}
+                    className={clsx(
+                      'flex',
+                      m.role === 'user' ? 'justify-end' : 'justify-start',
+                    )}
+                  >
+                    <MarkdownBubble
+                      content={m.content}
+                      user={m.role === 'user'}
+                      attachment={m.attachment}
+                    />
+                  </div>
+                ))}
 
-              {pending && !draft && (
-                <div className="text-xs italic text-slate-400">
-                  KI denkt nach …
+              {pending && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="flex items-center gap-3 py-2"
+                >
+                  <GiselaAvatar
+                    expression="thinking"
+                    decorative
+                    className="h-16 w-16"
+                  />
+                  <span className="text-sm text-slate-600">
+                    Gisela denkt nach …
+                  </span>
                 </div>
               )}
             </div>
@@ -1563,7 +1666,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
             style={{
               width: 'min(460px, calc((100vw - 375px) / 2 - 24px))',
             }}
-            aria-label="KI-Lernchat"
+            aria-label="Chat mit Gisela"
           >
             {content}
           </aside>,

@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { ExerciseViewStore } from './exercise-view/state/exercise-view-store'
 import LearningTimerBinder from '@/components/exercise-view/LearningTimerBinder'
 import { TutorialProvider } from '@/components/onboarding/TutorialProvider'
+import { LevelUpCelebration } from '@/components/progress/LevelUpCelebration'
 import {
   defaultPlayerProfileStoreValue,
   PlayerProfileStore,
@@ -53,6 +54,7 @@ export function AppShell() {
     <IonApp>
       <IonReactRouter>
         <TutorialProvider>
+          <LevelUpCelebration />
           <LearningTimerBinder /> {/* ⬅️ hier einmal global einhängen */}
           <IonRouterOutlet id="main">
             <Route path="/app" render={() => <App />} />

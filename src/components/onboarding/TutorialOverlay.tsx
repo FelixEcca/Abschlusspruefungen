@@ -350,7 +350,7 @@ export function TutorialOverlay({
             step.event === 'next' &&
             target && (
               <button type="button" className={styles.next} onClick={onNext}>
-                {step.id === 'finish' ? 'Los geht’s' : 'Weiter'}{' '}
+                {step.id === 'finish' ? 'Zur Startseite' : 'Weiter'}{' '}
                 <FaIcon icon={faArrowRight} />
               </button>
             )

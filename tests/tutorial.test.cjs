@@ -45,6 +45,10 @@ test('tour chooses a registered exercise and only shows exams for the selected c
   assert.equal(plan.topicIndex, 0)
   assert.equal(plan.examYear, 2025)
   assert.ok(plan.steps.some(step => step.id === 'exam-year'))
+  assert.ok(
+    plan.steps.findIndex(step => step.id === 'exam-return') <
+      plan.steps.findIndex(step => step.id === 'training-topic'),
+  )
   const empty = buildTutorialPlan(2, navigation, catalog, isExam)
   assert.equal(empty.exerciseId, null)
   assert.equal(empty.examYear, null)
@@ -56,17 +60,56 @@ test('tour chooses a registered exercise and only shows exams for the selected c
 test('each action requires its own event; next cannot open tools or skip clicks', () => {
   const plan = buildTutorialPlan(1, navigation, catalog, isExam)
   let state = { version: 1, courseId: 1, step: 'dashboard', status: 'active' }
-  for (const step of plan.steps) {
-    assert.equal(state.step, step.id)
+  const visited = []
+  while (state.status === 'active') {
+    const step = plan.steps.find(step => step.id === state.step)
+    assert.ok(step)
+    visited.push(step.id)
+    assert.ok(visited.length <= plan.steps.length)
     if (step.event !== 'next')
       assert.equal(advanceTutorial(state, plan, 'next'), state)
     assert.equal(advanceTutorial(state, plan, 'topic-open:88'), state)
     state = advanceTutorial(state, plan, step.event)
   }
   assert.equal(state.status, 'completed')
+  assert.ok(!visited.includes('chat-retry'))
+  assert.deepEqual(visited.slice(-7), [
+    'chat-view',
+    'chat-review',
+    'chat-back',
+    'chat-options',
+    'chat-humor',
+    'chat-wait',
+    'finish',
+  ])
   assert.equal(advanceTutorial(state, plan, 'next'), state)
   const skipped = { ...state, step: 'dashboard', status: 'skipped' }
   assert.equal(advanceTutorial(skipped, plan, 'next'), skipped)
+})
+
+test('chat completion waits for success and supports retries or returning to modes', () => {
+  const plan = buildTutorialPlan(1, navigation, catalog, isExam)
+  let state = { version: 1, courseId: 1, step: 'chat-humor', status: 'active' }
+  state = advanceTutorial(state, plan, 'chat-humor-started')
+  assert.equal(state.step, 'chat-wait')
+  assert.equal(advanceTutorial(state, plan, 'next'), state)
+  state = advanceTutorial(state, plan, 'chat-humor-failed')
+  assert.equal(state.step, 'chat-retry')
+  assert.equal(advanceTutorial(state, plan, 'next'), state)
+  assert.equal(advanceTutorial(state, plan, 'chat-humor-ready'), state)
+  state = advanceTutorial(state, plan, 'chat-humor-started')
+  assert.equal(state.step, 'chat-wait')
+  const back = advanceTutorial(state, plan, 'chat-overview-open')
+  assert.equal(back.step, 'chat-options')
+  assert.equal(advanceTutorial(back, plan, 'chat-humor-ready'), back)
+  assert.equal(
+    advanceTutorial(back, plan, 'chat-humor-started').step,
+    'chat-wait',
+  )
+  state = advanceTutorial(state, plan, 'chat-humor-ready')
+  assert.equal(state.step, 'finish')
+  assert.equal(state.status, 'active')
+  assert.equal(advanceTutorial(state, plan, 'next').status, 'completed')
 })
 
 test('tutorial pointerdown does not close the mark menu before Weiter advances to Scribble', () => {
@@ -202,8 +245,16 @@ test('storage validation and refresh recovery never open a tool automatically', 
   const plan = buildTutorialPlan(1, navigation, catalog, isExam)
   assert.equal(
     resumeTutorial({ ...state, step: 'finish' }, plan).step,
-    'exam-year',
+    'chat-open',
   )
+  for (const step of [
+    'chat-back',
+    'chat-wait',
+    'chat-retry',
+    'training-return',
+    'chat-close',
+  ])
+    assert.equal(resumeTutorial({ ...state, step }, plan).step, 'chat-open')
   assert.equal(
     resumeTutorial({ ...state, step: 'obsolete-step' }, plan).step,
     'dashboard',
@@ -274,6 +325,7 @@ test('dashboard progress uses one subscription and only counts the selected cour
     },
     'react/jsx-runtime': require('react/jsx-runtime'),
     './leveling': {
+      MAX_LEVEL: 6,
       computeLevelProgress: count => ({
         level: 1,
         pctWithin: count / 12,

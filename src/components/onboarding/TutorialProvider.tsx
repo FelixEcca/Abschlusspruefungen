@@ -27,6 +27,7 @@ type TutorialContextValue = {
   startTutorial: (courseId: number, replay?: boolean) => void
   notifyTutorial: (event: TutorialEvent) => void
   active: boolean
+  stepId: string | null
 }
 
 const TutorialContext = createContext<TutorialContextValue | null>(null)
@@ -138,8 +139,13 @@ export function TutorialProvider({ children }: { children: ReactNode }) {
 
   const active = record?.status === 'active' && !!plan && !!step
   const context = useMemo(
-    () => ({ startTutorial, notifyTutorial, active }),
-    [startTutorial, notifyTutorial, active],
+    () => ({
+      startTutorial,
+      notifyTutorial,
+      active,
+      stepId: active ? step?.id ?? null : null,
+    }),
+    [startTutorial, notifyTutorial, active, step?.id],
   )
   return (
     <TutorialContext.Provider value={context}>
