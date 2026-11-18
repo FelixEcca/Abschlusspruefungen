@@ -1147,7 +1147,8 @@ export const navigationData: { [key: number]: Navigation } = {
         title: '1 Längen und Umfang',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{
+        skillGroups: [
+          {
             name: 'Zahlen vergleichen',
             skillExercises: [{ id: 9657 }],
           },
@@ -1300,7 +1301,6 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          
           {
             name: 'Maßstab im Plan',
             skillExercises: [{ id: 9631 }],
@@ -1367,7 +1367,6 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          
           {
             name: 'Fläche eines Quadrats',
             skillExercises: [{ id: 9565 }],
@@ -1418,7 +1417,6 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Fliesen für einen Boden',
             skillExercises: [{ id: 9613 }],
           },
-          
         ],
       },
       {
@@ -1869,7 +1867,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Geschwindigkeiten grafisch überlagern',
             skillExercises: [{ id: 8019 }],
           },
-        
+
           {
             name: 'Horizontalen Wurf am Stroboskopbild deuten',
             skillExercises: [{ id: 8021 }],
@@ -1959,7 +1957,7 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Periodenlänge im Bogenmaß ablesen',
             skillExercises: [{ id: 20005 }],
           },
-          
+
           {
             name: 'Sinuskurven transformieren und Funktionsterm bestimmen',
             skillExercises: [{ id: 20006 }],
@@ -2103,25 +2101,15 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Schriftgröße, Zeilenabstand und Layoutmaß berechnen',
             skillExercises: [{ id: 10002 }],
           },
-          {
-            name: 'Seitenverhältnis aus Breite und Höhe angeben',
-            skillExercises: [{ id: 10003 }],
-          },
+
           {
             name: 'Fehlende Seitenlänge bei Seitenverhältnis berechnen',
             skillExercises: [{ id: 10004 }],
           },
-          {
-            name: 'Bildformat auf passendes Seitenverhältnis prüfen',
-            skillExercises: [{ id: 10005 }],
-          },
+
           {
             name: 'Seitenlängen aus Diagonale und Seitenverhältnis berechnen',
             skillExercises: [{ id: 10060 }],
-          },
-          {
-            name: 'Seitenverhältnis aus Seite und Diagonale bestimmen',
-            skillExercises: [{ id: 10061 }],
           },
 
           {
@@ -2136,14 +2124,10 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Zeichnungsgröße bei gegebenem Maßstab berechnen',
             skillExercises: [{ id: 10008 }],
           },
-          {
-            name: 'Layout mit Maßstab und Seitenverhältnis berechnen',
-            skillExercises: [{ id: 10009 }],
-          },
         ],
       },
       {
-        title: 'Grundlagen',
+        title: 'Grundlagen Klassenarbeit 1',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
@@ -2183,26 +2167,12 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Ausmultiplizieren mit einer Klammer',
             skillExercises: [{ id: 4910 }],
           },
-          {
-            name: 'Binomische Formeln erkennen und anwenden',
-            skillExercises: [{ id: 4401 }],
-          },
+
           {
             name: 'Fehler in einer Termumformung finden und korrigieren',
             skillExercises: [{ id: 10020 }],
           },
-          {
-            name: 'Potenzgesetze anwenden',
-            skillExercises: [{ id: 4403 }],
-          },
-          {
-            name: 'Potenzen mit negativen Exponenten umformen',
-            skillExercises: [{ id: 10022 }],
-          },
-          {
-            name: 'Sachaufgabe mit Zehnerpotenzen lösen',
-            skillExercises: [{ id: 10023 }],
-          },
+
           {
             name: 'Lineare Gleichung lösen',
             skillExercises: [{ id: 4907 }, { id: 4200 }],
@@ -2211,6 +2181,13 @@ export const navigationData: { [key: number]: Navigation } = {
             name: 'Gleichung mit Klammern lösen',
             skillExercises: [{ id: 4201 }],
           },
+        ],
+      },
+      {
+        title: 'Grundlagen 2',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
           {
             name: 'Gleichung mit Brüchen lösen',
             skillExercises: [{ id: 4912 }, { id: 4913 }],
@@ -2234,6 +2211,22 @@ export const navigationData: { [key: number]: Navigation } = {
           {
             name: 'Prozentwert, Grundwert oder Prozentsatz',
             skillExercises: [{ id: 9600 }, { id: 9601 }, { id: 9602 }],
+          },
+          {
+            name: 'Potenzgesetze anwenden',
+            skillExercises: [{ id: 4403 }],
+          },
+          {
+            name: 'Potenzen mit negativen Exponenten umformen',
+            skillExercises: [{ id: 10022 }],
+          },
+          {
+            name: 'Sachaufgabe mit Zehnerpotenzen lösen',
+            skillExercises: [{ id: 10023 }],
+          },
+          {
+            name: 'Binomische Formeln erkennen und anwenden',
+            skillExercises: [{ id: 4401 }],
           },
         ],
       },
