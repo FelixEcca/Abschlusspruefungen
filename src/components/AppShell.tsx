@@ -8,6 +8,8 @@ import { ExerciseView } from './exercise-view/ExerciseView'
 import { useEffect } from 'react'
 import { ExerciseViewStore } from './exercise-view/state/exercise-view-store'
 import LearningTimerBinder from '@/components/exercise-view/LearningTimerBinder'
+import { TutorialProvider } from '@/components/onboarding/TutorialProvider'
+import { LevelUpCelebration } from '@/components/progress/LevelUpCelebration'
 import {
   defaultPlayerProfileStoreValue,
   PlayerProfileStore,
@@ -51,30 +53,33 @@ export function AppShell() {
   return (
     <IonApp>
       <IonReactRouter>
-        <LearningTimerBinder /> {/* ⬅️ hier einmal global einhängen */}
-        <IonRouterOutlet id="main">
-          <Route path="/app" render={() => <App />} />
+        <TutorialProvider>
+          <LevelUpCelebration />
+          <LearningTimerBinder /> {/* ⬅️ hier einmal global einhängen */}
+          <IonRouterOutlet id="main">
+            <Route path="/app" render={() => <App />} />
 
-          <Route
-            path=""
-            render={() => <Redirect to="/app/start" />}
-            exact={true}
-          />
-          {Object.keys(exercisesData)
-            .map(x => parseInt(x))
-            .map(id => (
-              <Route
-                path={`/exercise/${id}`}
-                key={id}
-                render={() => <ExerciseView id={id} />}
-              />
-            ))}
-          <Route
-            path={`/exercise/123456`}
-            key={123456}
-            render={() => <ExerciseView id={123456} />}
-          />
-        </IonRouterOutlet>
+            <Route
+              path=""
+              render={() => <Redirect to="/app/start" />}
+              exact={true}
+            />
+            {Object.keys(exercisesData)
+              .map(x => parseInt(x))
+              .map(id => (
+                <Route
+                  path={`/exercise/${id}`}
+                  key={id}
+                  render={() => <ExerciseView id={id} />}
+                />
+              ))}
+            <Route
+              path={`/exercise/123456`}
+              key={123456}
+              render={() => <ExerciseView id={123456} />}
+            />
+          </IonRouterOutlet>
+        </TutorialProvider>
       </IonReactRouter>
     </IonApp>
   )

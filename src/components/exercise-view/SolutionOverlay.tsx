@@ -6,8 +6,13 @@ import { createGesture } from '@ionic/react'
 import { useRef, useEffect, type CSSProperties } from 'react'
 import { countLetter } from '@/helper/count-letter'
 import { AiWorksheetGenerator } from '@/helper/ai-worksheet-generator'
+import { GiselaAvatar } from '@/components/gisela/GiselaAvatar'
 
-export function SolutionOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
+export function SolutionOverlay({
+  mobileHeightVh,
+}: {
+  mobileHeightVh: number
+}) {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const id = ExerciseViewStore.useState(s => s.id)
   const navIndicatorPosition = ExerciseViewStore.useState(
@@ -74,6 +79,7 @@ export function SolutionOverlay({ mobileHeightVh }: { mobileHeightVh: number }) 
 
   return (
     <div
+      data-tutorial="solution-content"
       className="flex h-[var(--mobile-overlay-height)] max-h-[calc(100dvh-7rem)] flex-col overflow-hidden min-[1250px]:h-auto min-[1250px]:max-h-none"
       style={
         {
@@ -87,6 +93,22 @@ export function SolutionOverlay({ mobileHeightVh }: { mobileHeightVh: number }) 
       >
         <div className="max-w-[328px] mx-auto">
           {proseWrapper(solutionFn({ data }))}
+          <button
+            type="button"
+            className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-900 transition hover:bg-teal-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+            onClick={() => {
+              ExerciseViewStore.update(s => {
+                s.queuedChatSubmission = {
+                  id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                  kind: 'solution-explanation',
+                }
+                s.chatOverlay = 'chat'
+              })
+            }}
+          >
+            <GiselaAvatar decorative className="h-8 w-8 shrink-0" />
+            <span>Wie kommt man darauf?</span>
+          </button>
         </div>
 
         <div className="mb-4 mt-4 text-right">

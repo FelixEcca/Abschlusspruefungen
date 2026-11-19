@@ -133,7 +133,11 @@ function drawStrokesToCanvas(
   })
 }
 
-export function ScribbleOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
+export function ScribbleOverlay({
+  mobileHeightVh,
+}: {
+  mobileHeightVh: number
+}) {
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
   const navIndicatorPosition = ExerciseViewStore.useState(
@@ -534,9 +538,13 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
   }
 
   const content = (
-    <div className="flex h-full select-none flex-col space-y-1.5 rounded-2xl border border-gray-200 bg-white p-1.5 shadow-inner">
+    <div
+      data-tutorial="scribble-content"
+      className="flex h-full select-none flex-col space-y-1.5 rounded-2xl border border-gray-200 bg-white p-1.5 shadow-inner"
+    >
       <div className="min-h-0 flex-1 touch-none select-none overflow-hidden rounded-xl border bg-white">
         <canvas
+          aria-label="Zeichenfläche"
           ref={canvasRef}
           className="h-full min-h-0 w-full touch-none select-none"
           onPointerDown={handlePointerDown}

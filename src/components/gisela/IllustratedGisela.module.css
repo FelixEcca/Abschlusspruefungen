@@ -1,0 +1,141 @@
+.figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+}
+.still,
+.rig {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.still {
+  object-fit: contain;
+  user-select: none;
+}
+.rig {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.moving .rig {
+  opacity: 1;
+}
+.moving .still {
+  opacity: 0;
+}
+
+.head,
+.tail,
+.gesture {
+  transform-box: view-box;
+}
+.head {
+  transform-origin: var(--head-origin);
+}
+.tail {
+  transform-origin: var(--tail-origin);
+}
+.gesture {
+  transform-origin: var(--prop-origin);
+}
+.eyelid {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+}
+
+.moving .head {
+  animation: acknowledge 30s ease-in-out infinite;
+}
+.moving .tail {
+  animation: swish 3.2s ease-in-out infinite;
+}
+.moving .gesture {
+  animation: present 30s ease-in-out infinite;
+}
+.moving .eyelid {
+  animation: blink 5s ease-in-out infinite;
+}
+
+@keyframes acknowledge {
+  0%,
+  14%,
+  100% {
+    transform: rotate(0deg);
+  }
+  3%,
+  10% {
+    transform: rotate(-0.55deg);
+  }
+  6.5% {
+    transform: rotate(0.35deg);
+  }
+}
+
+@keyframes present {
+  0%,
+  14%,
+  100% {
+    transform: rotate(0deg);
+  }
+  3%,
+  10% {
+    transform: rotate(var(--gesture-angle));
+  }
+  6.5% {
+    transform: rotate(calc(var(--gesture-angle) * -0.5));
+  }
+}
+
+@keyframes swish {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  16%,
+  23.2%,
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  18.4%,
+  20.8% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+:global(.ion-page-hidden) .head,
+:global(.ion-page-hidden) .tail,
+:global(.ion-page-hidden) .gesture,
+:global(.ion-page-hidden) .eyelid {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moving .head,
+  .moving .tail,
+  .moving .gesture,
+  .moving .eyelid {
+    animation: none;
+  }
+  .moving .rig {
+    opacity: 0;
+  }
+  .moving .still {
+    opacity: 1;
+  }
+}

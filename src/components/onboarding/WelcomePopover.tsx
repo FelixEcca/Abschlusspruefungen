@@ -1,10 +1,14 @@
 import * as React from 'react'
-import { IonButton, IonInput, IonSelect, IonSelectOption } from '@ionic/react'
+import { IonButton, IonInput } from '@ionic/react'
 import {
   PlayerProfileStore,
   updatePlayerProfileStore,
 } from '../../../store/player-profile-store'
-import { navigationData } from '@/content/navigations'
+import { schoolforms } from '@/data/schoolforms'
+import { Gisela } from '@/components/gisela/Gisela'
+import { getGiselaLook } from '@/components/gisela/gisela-looks'
+import styles from './WelcomePopover.module.css'
+import { useTutorial } from './TutorialProvider'
 
 /** Erst nach Mount rendern -> verhindert SSR/CSR-Mismatch */
 function useClientReady() {
@@ -16,6 +20,7 @@ function useClientReady() {
 type Props = { forceOpen?: boolean }
 
 export function WelcomePopover({ forceOpen = false }: Props) {
+  const { startTutorial } = useTutorial()
   const clientReady = useClientReady()
   const storeName = PlayerProfileStore.useState(s => s.name)
   const storeExam = PlayerProfileStore.useState(s => s.currentExam)
@@ -26,8 +31,10 @@ export function WelcomePopover({ forceOpen = false }: Props) {
   // Controlled Inputs
   const [name, setName] = React.useState(storeName ?? '')
   const [exam, setExam] = React.useState<number | ''>(
-    typeof storeExam === 'number' ? storeExam : '',
+    (storeName?.trim().length ?? 0) >= 2 ? storeExam : '',
   )
+  const [formIndex, setFormIndex] = React.useState(-1)
+  const selectedForm = schoolforms[formIndex]
 
   // Submitting-Guard (verhindert Doppelklick)
   const [submitting, setSubmitting] = React.useState(false)
@@ -37,29 +44,27 @@ export function WelcomePopover({ forceOpen = false }: Props) {
     if (typeof storeName === 'string') setName(storeName)
   }, [storeName])
   React.useEffect(() => {
-    if (typeof storeExam === 'number') setExam(storeExam)
-  }, [storeExam])
-
-  // Prüfungsoptionen
-  const examKeys = React.useMemo(
-    () =>
-      Object.keys(navigationData)
-        .map(n => Number(n))
-        .filter(n => !Number.isNaN(n))
-        .sort((a, b) => a - b),
-    [],
-  )
-  const label = (key: number) =>
-    navigationData[key]?.shortTitle ?? `Prüfung ${key}`
+    if ((storeName?.trim().length ?? 0) < 2) return
+    setExam(storeExam)
+    setFormIndex(
+      schoolforms.findIndex(form =>
+        form.subjects.some(subject => subject.examId === storeExam),
+      ),
+    )
+  }, [storeExam, storeName])
 
   // Bedingungen
   const missingName = !(storeName && storeName.trim().length >= 2)
-  const missingExam = !(typeof storeExam === 'number')
+  const missingExam = !schoolforms.some(form =>
+    form.subjects.some(subject => subject.examId === storeExam),
+  )
   const needOnboarding = missingName || missingExam
 
   const open = clientReady && (forceOpen || needOnboarding) && !dismissed
   const canSubmit =
-    name.trim().length >= 2 && typeof exam === 'number' && !submitting
+    name.trim().length >= 2 &&
+    selectedForm?.subjects.some(subject => subject.examId === exam) &&
+    !submitting
 
   function onSubmit() {
     if (!canSubmit) return
@@ -69,6 +74,7 @@ export function WelcomePopover({ forceOpen = false }: Props) {
       s.name = trimmed
       s.currentExam = exam as number
     })
+    startTutorial(exam as number)
     // Hard reload nach minimaler Verzögerung, um den Store persistieren zu lassen
     if (typeof window !== 'undefined') {
       setTimeout(() => {
@@ -89,60 +95,112 @@ export function WelcomePopover({ forceOpen = false }: Props) {
         role="dialog"
         aria-modal="true"
         aria-label="Willkommen"
-        className="w-[min(92vw,380px)] rounded-2xl shadow-xl bg-white border border-gray-200 p-4"
+        className={styles.dialog}
         onMouseDown={e => e.stopPropagation()}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between">
-          <div className="text-lg font-semibold">👋 Willkommen!</div>
-          <button
-            className="text-gray-400 hover:text-gray-600"
-            onClick={() => setDismissed(true)}
-            aria-label="Schließen"
-            title="Schließen"
-            type="button"
-          >
-            ✖
-          </button>
-        </div>
+        <button
+          className={`${styles.close} text-gray-400 hover:text-gray-600`}
+          onClick={() => setDismissed(true)}
+          aria-label="Schließen"
+          title="Schließen"
+          type="button"
+        >
+          ✖
+        </button>
+        <div className={styles.scene}>
+          <div className={styles.bubble}>
+            <h2 className={styles.greeting}>Hallo, ich bin Gisela!</h2>
+            <p>
+              Schön, dass du da bist! Wie heißt du und welche Schulform besuchst
+              du?
+            </p>
+          </div>
+          <div className={styles.mascot}>
+            <Gisela
+              className={styles.figure}
+              look={getGiselaLook(
+                typeof exam === 'number'
+                  ? exam
+                  : selectedForm?.subjects[0]?.examId ?? -1,
+              )}
+            />
+          </div>
+          <div className={styles.fields}>
+            <IonInput
+              label="Wie heißt du?"
+              labelPlacement="stacked"
+              placeholder="Dein Name"
+              value={name}
+              onIonInput={e => setName((e.detail.value as string) ?? '')}
+            />
 
-        <p className="mt-1 text-sm text-gray-600">
-          Bitte gib deinen Namen an und wähle deine Prüfung. Du kannst das
-          später im Profil jederzeit ändern.
-        </p>
-
-        <div className="mt-3 space-y-3">
-          <IonInput
-            label="Dein Name"
-            labelPlacement="stacked"
-            placeholder="Name …"
-            value={name}
-            onIonChange={e => setName((e.detail.value as string) ?? '')}
-          />
-
-          <div>
-            <div className="text-[13px] mb-1">Prüfung</div>
-            <IonSelect
-              placeholder="Bitte auswählen"
-              value={typeof exam === 'number' ? exam : undefined}
-              interface="popover"
-              onIonChange={e => {
-                const v = Number(e.detail.value)
-                setExam(Number.isNaN(v) ? '' : v)
-              }}
-            >
-              {examKeys.map(k => (
-                <IonSelectOption key={k} value={k}>
-                  {label(k)}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
+            <div>
+              <label
+                htmlFor="welcome-schoolform"
+                className="block text-sm mb-1"
+              >
+                Deine Schulform
+              </label>
+              <select
+                id="welcome-schoolform"
+                title={selectedForm?.name}
+                className="w-full min-w-0 border border-gray-300 rounded-lg bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={formIndex >= 0 ? formIndex : ''}
+                onChange={e => {
+                  const index = Number(e.target.value)
+                  setFormIndex(index)
+                  const subjects = schoolforms[index]?.subjects
+                  setExam(subjects?.length === 1 ? subjects[0].examId : '')
+                }}
+              >
+                <option value="" disabled>
+                  Auswählen
+                </option>
+                {schoolforms.map((form, index) => (
+                  <option key={form.name} value={index} title={form.name}>
+                    {form.shortName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {selectedForm && (
+              <div>
+                <label htmlFor="welcome-subject" className="block text-sm mb-1">
+                  Dein Fach
+                </label>
+                <select
+                  id="welcome-subject"
+                  title={
+                    selectedForm.subjects.find(
+                      subject => subject.examId === exam,
+                    )?.label
+                  }
+                  className="w-full min-w-0 border border-gray-300 rounded-lg bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={exam}
+                  onChange={e => setExam(Number(e.target.value))}
+                >
+                  <option value="" disabled>
+                    Auswählen
+                  </option>
+                  {selectedForm.subjects.map(subject => (
+                    <option
+                      key={subject.examId}
+                      value={subject.examId}
+                      title={subject.label}
+                    >
+                      {subject.shortLabel ?? subject.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="mt-4 flex gap-2">
+        <div className={styles.actions}>
           <IonButton expand="block" onClick={onSubmit} disabled={!canSubmit}>
-            {submitting ? 'Lädt…' : "Los geht's ✨"}
+            {submitting ? 'Lädt…' : "Los geht's"}
           </IonButton>
 
           <IonButton

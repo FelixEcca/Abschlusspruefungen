@@ -15,7 +15,8 @@ import {
   PlayerProfileStore,
   updatePlayerProfileStore,
 } from '../../../../store/player-profile-store'
-import { navigationData } from '@/content/navigations'
+import { schoolforms } from '@/data/schoolforms'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 import {
   useProfile,
   formatMs,
@@ -27,101 +28,6 @@ function useClientReady() {
   React.useEffect(() => setReady(true), [])
   return ready
 }
-
-interface SubjectOption {
-  label: string
-  examId: number
-}
-
-interface SchoolformOption {
-  name: string
-  subjects: SubjectOption[]
-}
-
-const schoolformConfig: SchoolformOption[] = [
-  {
-    name: 'Ausbildungsvorbereitung (AV)',
-    subjects: [
-      { label: 'Mathematik', examId: 6 },
-      { label: 'BFK Metall', examId: 7 },
-      { label: 'BFK Elektrotechnik', examId: 8 },
-    ],
-  },
-  {
-    name: '2-jährige Berufsfachschule (2BFS2)',
-    subjects: [
-      { label: 'Mathematik', examId: 1 },
-      { label: 'Physik', examId: 5 },
-    ],
-  },
-  {
-    name: 'Technisches Gymnasium 11 (TG11)',
-    subjects: [
-      { label: 'Mathematik', examId: 3 },
-      { label: 'Physik', examId: 4 },
-      { label: 'Chemie', examId: 26 },
-    ],
-  },
-  {
-    name: 'Technisches Gymnasium 12 (TG12)',
-    subjects: [
-      { label: 'Mathematik gAN', examId: 13 },
-      { label: 'Mathematik eAN', examId: 14 },
-      { label: 'Chemie', examId: 27 },
-    ],
-  },
-  {
-    name: 'Technisches Gymnasium 13 (TG13)',
-    subjects: [
-      { label: 'Mathematik gAN', examId: 15 },
-      { label: 'Mathematik eAN', examId: 16 },
-      { label: 'MEC-E', examId: 25 },
-      { label: 'Chemie', examId: 28 },
-    ],
-  },
-  {
-    name: 'Berufskolleg 1BK1T',
-    subjects: [
-      { label: 'Mathematik', examId: 10 },
-      { label: 'Grundlagen der Technik', examId: 11 },
-    ],
-  },
-  {
-    name: 'Berufskolleg 1BK2T',
-    subjects: [
-      { label: 'Mathematik', examId: 12 },
-      { label: 'Physik', examId: 2 },
-    ],
-  },
-  {
-    name: 'FTM',
-    subjects: [{ label: 'Technische Mathematik', examId: 17 }],
-  },
-  {
-    name: 'Vorbereitungskurs Meister',
-    subjects: [{ label: 'Mathematik', examId: 24 }],
-  },
-  {
-    name: 'Berufskolleg Grafik-Design (3BKGD1)',
-    subjects: [{ label: 'Mathematik', examId: 18 }],
-  },
-  {
-    name: 'Berufskolleg Grafik-Design (3BKGD2)',
-    subjects: [{ label: 'Mathematik', examId: 19 }],
-  },
-  {
-    name: 'Berufskolleg Grafik-Design (3BKGD3)',
-    subjects: [{ label: 'Mathematik I', examId: 20 }],
-  },
-]
-
-// nur Einträge anbieten, die in navigationData tatsächlich existieren
-const schoolforms = schoolformConfig
-  .map(form => ({
-    ...form,
-    subjects: form.subjects.filter(s => navigationData[s.examId]),
-  }))
-  .filter(form => form.subjects.length > 0)
 
 const selectClassName =
   'w-full appearance-none font-sans rounded-xl border border-gray-300 bg-white p-2.5 pr-8 text-sm shadow-sm ' +
@@ -136,6 +42,7 @@ function SelectChevron() {
 }
 
 export function Profile() {
+  const { startTutorial } = useTutorial()
   const clientReady = useClientReady()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const profile = useProfile()
@@ -272,6 +179,13 @@ export function Profile() {
               <div className="text-sm text-gray-400">Lade …</div>
             )}
           </div>
+
+          <section className="border-t border-gray-200 py-3">
+            <h2 className="font-semibold mb-2">Giselas Rundgang</h2>
+            <IonButton fill="outline" onClick={() => startTutorial(exam, true)}>
+              Tutorial erneut starten
+            </IonButton>
+          </section>
 
           {/* Statistik */}
           <div className="shadow-md bg-sky-50 rounded-xl border p-3">

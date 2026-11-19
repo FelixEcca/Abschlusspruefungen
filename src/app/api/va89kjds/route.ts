@@ -1,4 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { navigationData } from '@/content/navigations'
+import { exercisesData } from '@/content/exercises'
+import { isExamExerciseInNavigation } from '@/content/navigation-exercises'
+import { getCoachExercises } from '@/components/gisela/learning-coach'
+import {
+  COACH_PROMPT,
+  COACH_RESPONSE_FORMAT,
+  createCoachContext,
+  parseCoachReply,
+} from '@/helper/learning-coach-chat'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -510,6 +520,7 @@ async function callOpenAI(
     frequencyPenalty?: number
     model?: string
     fallbackModel?: string
+    signal?: AbortSignal
   },
 ) {
   const apiKey = OPENAI_API_KEY
@@ -531,7 +542,12 @@ async function callOpenAI(
 
   for (const model of models) {
     for (let attempt = 1; attempt <= 2; attempt++) {
+      if (options.signal?.aborted) {
+        return { ok: false as const, status: 499, error: 'Anfrage abgebrochen.' }
+      }
       const controller = new AbortController()
+      const cancel = () => controller.abort()
+      options.signal?.addEventListener('abort', cancel, { once: true })
       const timeout = setTimeout(
         () => controller.abort(),
         options.timeoutMs ?? 30_000,
@@ -581,6 +597,9 @@ async function callOpenAI(
         return { ok: true as const, text: extractText(JSON.parse(raw)) }
       } catch (error: any) {
         clearTimeout(timeout)
+        if (options.signal?.aborted) {
+          return { ok: false as const, status: 499, error: 'Anfrage abgebrochen.' }
+        }
         console.error('[api/va89kjds] fetch failed', {
           attempt,
           model,
@@ -600,6 +619,9 @@ async function callOpenAI(
               ? 'OpenAI request timeout'
               : error?.message ?? String(error),
         }
+      } finally {
+        clearTimeout(timeout)
+        options.signal?.removeEventListener('abort', cancel)
       }
     }
   }
@@ -884,6 +906,76 @@ export async function POST(req: NextRequest) {
       requestLimit,
     )
     if (!rateLimit.allowed) return rateLimitResponse(rateLimit.retryAfter)
+
+    if (bodyRecord?.learningCoach !== undefined) {
+      const coach = bodyRecord.learningCoach
+      const request =
+        coach && typeof coach === 'object'
+          ? (coach as Record<string, unknown>)
+          : {}
+      const courseId = request.courseId
+      if (
+        typeof courseId !== 'number' ||
+        !Number.isInteger(courseId) ||
+        !navigationData[courseId] ||
+        worksheetRequest ||
+        wantsReview ||
+        messages.length > 20 ||
+        messages.some(
+          message =>
+            message.role === 'system' ||
+            typeof message.content !== 'string' ||
+            message.content.length > 8000,
+        ) ||
+        messages[messages.length - 1].role !== 'user' ||
+        !(messages[messages.length - 1].content as string).trim()
+      ) {
+        return NextResponse.json(
+          { error: 'Ungültige Lernassistent-Anfrage.' },
+          { status: 400 },
+        )
+      }
+      const entries = getCoachExercises(
+        navigationData[courseId],
+        exercisesData,
+        Object.keys(exercisesData)
+          .map(Number)
+          .filter(id => isExamExerciseInNavigation(courseId, id)),
+      )
+      const context = createCoachContext(
+        navigationData[courseId].shortTitle,
+        entries,
+        request.progress,
+        messages[messages.length - 1].content as string,
+      )
+      const result = await callOpenAI(
+        [
+          { role: 'system', content: COACH_PROMPT },
+          {
+            role: 'system',
+            content: `Fachkontext als Daten: ${JSON.stringify(context.data)}`,
+          },
+          ...messages,
+        ],
+        {
+          responseFormat: COACH_RESPONSE_FORMAT,
+          maxTokens: 1000,
+          temperature: 0.3,
+          signal: req.signal,
+        },
+      )
+      if (!result.ok) return upstreamErrorResponse(result.error)
+      try {
+        return NextResponse.json(
+          parseCoachReply(JSON.parse(result.text), context.candidates),
+        )
+      } catch {
+        return NextResponse.json(
+          { error: 'Giselas Antwort konnte nicht ausgewertet werden.' },
+          { status: 502 },
+        )
+      }
+    }
 
     if (worksheetRequest) {
       const requestedMaterialType = worksheetRequest.materialType

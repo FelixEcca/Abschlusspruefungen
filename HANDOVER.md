@@ -1,5 +1,22 @@
 # Handover für neuen Chat
 
+## Zukunftsnotiz: Gisela adaptiver machen (11.10.2026)
+
+Der Nutzer möchte den folgenden Ansatz für später festhalten. Dies ist eine Zukunftsidee, kein Auftrag zur sofortigen Umsetzung.
+
+Ziel: Gisela wird durch ein lokales Lerngedächtnis persönlicher und adaptiver, ohne zusätzliche Nutzerdatenbank oder verpflichtende Benutzerkonten. Zunächst kein individuelles Training eines Sprachmodells.
+
+- Lokal und profilbezogen merken: Lernziele, freiwillig eingetragene Prüfungstermine, Erklärungswünsche, bearbeitete Aufgabenvarianten, bestätigte Schwierigkeiten, hilfreiche Erklärungen und Gesprächszusammenfassungen. Eigene Notizen und Interessen sind optionale Erweiterungen.
+- Bei jeder Sitzung nach aktueller Zeit und Anliegen fragen; kurze, selektive Nutzung berücksichtigen und höchstens wenige passende Aufgaben vorschlagen.
+- Adaptive Hilfe: Wiedereinstieg, Wiederholungsplanung, kurze Diagnosefragen, abgestufte Tipps, Verständnisfragen und abwechslungsreiche Folgeaufgaben. Voraussetzungen und Schwierigkeit anhand belastbarer Rückmeldungen berücksichtigen.
+- Mit transparenten lokalen Regeln beginnen. Später sind lokale Wissenssuche, Textähnlichkeit und kleine Empfehlungsmodelle denkbar; ein Sprachmodell im Browser bleibt eine gesondert zu prüfende Option.
+- Für freie KI-Erklärungen kann die bestehende API-Route als Vermittler bleiben. Keine zusätzliche Nutzerdatenbank bedeutet nicht vollständig ohne Backend. API-Schlüssel bleiben ausschließlich serverseitig.
+- Nur die für eine Antwort nötigen Erinnerungen an die Cloud-KI senden. Lokale Speicherung bedeutet nicht, dass mitgesendete Daten auf dem Gerät bleiben.
+- Erinnerungen freiwillig, sichtbar, korrigierbar und löschbar gestalten; Export/Import und getrennte Profile für gemeinsam genutzte Geräte vorsehen. Keine automatische geräteübergreifende Synchronisierung voraussetzen.
+- Selbst gesetzte Gelöst-Markierungen und Lernzeit sind keine Kompetenznachweise. KI-vermutete Fehler nicht ungeprüft als dauerhafte Schwächen speichern; bei wenigen Daten zurückhaltend empfehlen.
+
+Empfohlener erster Ausbau: lokales Gedächtnis, freiwillige Lernziele, kurze Diagnosefragen und ein gezielter nächster Aufgabenvorschlag. Die nachfolgenden Abschnitte beschreiben einen älteren Projektstand.
+
 ## Kontext
 
 Projekt: `C:\Users\User\Documents\GitHub\Abschlusspruefungen`

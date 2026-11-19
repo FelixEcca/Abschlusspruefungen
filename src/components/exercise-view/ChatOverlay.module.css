@@ -1,0 +1,87 @@
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 132px;
+  margin-bottom: 8px;
+}
+
+.welcome .welcomeGisela {
+  width: 88px;
+}
+
+.welcomeBubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #c6e6e4;
+  border-radius: 8px;
+  background: #f0fbfa;
+  color: #173b3c;
+}
+
+.welcomeBubble::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 24px;
+  width: 10px;
+  height: 10px;
+  border-left: 1px solid #c6e6e4;
+  border-bottom: 1px solid #c6e6e4;
+  background: #f0fbfa;
+  transform: rotate(45deg);
+}
+
+.welcomeBubble h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.modeGrid {
+  container-type: inline-size;
+}
+
+.modeCard {
+  min-height: 84px;
+}
+
+.modeContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.modeTitle {
+  min-width: 0;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.modeArrow {
+  display: none;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+@container (min-width: 320px) {
+  .modeCard {
+    min-height: 56px;
+  }
+
+  .modeContent {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@container (min-width: 400px) {
+  .modeArrow {
+    display: block;
+  }
+}

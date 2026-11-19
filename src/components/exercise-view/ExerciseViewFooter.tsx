@@ -1,22 +1,32 @@
 import { ExerciseViewStore } from './state/exercise-view-store'
 import { FaIcon } from '../ui/FaIcon'
-import {
-  faQuestionCircle,
-  faRobot,
-  faPen,
-} from '@fortawesome/free-solid-svg-icons'
+import { faQuestionCircle, faPen } from '@fortawesome/free-solid-svg-icons'
 
 import { SolutionOverlay } from './SolutionOverlay'
 import { useRef, useEffect, useState, type PointerEvent } from 'react'
 import { ChatOverlay } from './ChatOverlay'
 import { ScribbleOverlay } from './ScribbleOverlay'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
+import { GiselaAvatar } from '@/components/gisela/GiselaAvatar'
 
 const DEFAULT_OVERLAY_HEIGHT_VH = 40
 const MIN_OVERLAY_HEIGHT_VH = 0
 const MAX_OVERLAY_HEIGHT_VH = 84
 const COLLAPSE_THRESHOLD_VH = 2
 
+function defaultOverlayHeight(
+  overlay: 'chat' | 'scribble' | 'solution' | null,
+) {
+  if (overlay !== 'chat' || typeof window === 'undefined')
+    return DEFAULT_OVERLAY_HEIGHT_VH
+  return Math.min(
+    MAX_OVERLAY_HEIGHT_VH,
+    Math.max(DEFAULT_OVERLAY_HEIGHT_VH, (320 / window.innerHeight) * 100),
+  )
+}
+
 export function ExerciseViewFooter() {
+  const { notifyTutorial } = useTutorial()
   const resizeRef = useRef<{
     startY: number
     startHeightVh: number
@@ -40,15 +50,17 @@ export function ExerciseViewFooter() {
   const isChatOpen = chatOverlay === 'chat'
   const isScribbleOpen = chatOverlay === 'scribble'
   const isSolutionOpen = chatOverlay === 'solution'
-  const isResizableOverlayOpen =
-    isChatOpen || isScribbleOpen || isSolutionOpen
+  const isResizableOverlayOpen = isChatOpen || isScribbleOpen || isSolutionOpen
 
   useEffect(() => {
-    if (isResizableOverlayOpen && !wasResizableOverlayOpenRef.current) {
-      setMobileOverlayHeightVh(DEFAULT_OVERLAY_HEIGHT_VH)
+    if (
+      isResizableOverlayOpen &&
+      (!wasResizableOverlayOpenRef.current || isChatOpen)
+    ) {
+      setMobileOverlayHeightVh(defaultOverlayHeight(chatOverlay))
     }
     wasResizableOverlayOpenRef.current = isResizableOverlayOpen
-  }, [isResizableOverlayOpen])
+  }, [isResizableOverlayOpen, isChatOpen, chatOverlay])
 
   const navigationButtonClass = (active: boolean) =>
     `flex min-w-0 items-center justify-center gap-1.5 rounded-lg px-2 py-2.5 text-sm font-medium transition ${
@@ -104,16 +116,18 @@ export function ExerciseViewFooter() {
       ExerciseViewStore.update(s => {
         s.chatOverlay = null
       })
+      notifyTutorial(`${overlay}-close`)
       return
     }
 
-    if (!isResizableOverlayOpen) {
-      setMobileOverlayHeightVh(DEFAULT_OVERLAY_HEIGHT_VH)
+    if (!isResizableOverlayOpen || overlay === 'chat') {
+      setMobileOverlayHeightVh(defaultOverlayHeight(overlay))
     }
 
     ExerciseViewStore.update(s => {
       s.chatOverlay = overlay
     })
+    notifyTutorial(`${overlay}-open`)
   }
 
   return (
@@ -166,15 +180,17 @@ export function ExerciseViewFooter() {
             type="button"
             className={navigationButtonClass(isChatOpen)}
             aria-pressed={isChatOpen}
+            data-tutorial="tool-chat"
             onClick={() => toggleOverlay('chat')}
           >
-            <FaIcon icon={faRobot} className="shrink-0" />
-            <span className="truncate">KI-Chat</span>
+            <GiselaAvatar decorative className="h-7 w-7" />
+            <span className="truncate">Chat</span>
           </button>
           <button
             type="button"
             className={navigationButtonClass(isScribbleOpen)}
             aria-pressed={isScribbleOpen}
+            data-tutorial="tool-scribble"
             onClick={() => toggleOverlay('scribble')}
           >
             <FaIcon icon={faPen} className="shrink-0" />
@@ -184,6 +200,7 @@ export function ExerciseViewFooter() {
             type="button"
             className={navigationButtonClass(isSolutionOpen)}
             aria-pressed={isSolutionOpen}
+            data-tutorial="tool-solution"
             onClick={() => toggleOverlay('solution')}
           >
             <FaIcon icon={faQuestionCircle} className="shrink-0" />

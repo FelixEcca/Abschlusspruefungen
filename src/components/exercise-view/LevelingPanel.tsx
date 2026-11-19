@@ -1,20 +1,9 @@
 import * as React from 'react'
-import { computeLevelProgress } from './leveling'
+import { computeLevelProgress, MAX_LEVEL } from './leveling'
 import { exercisesData } from '@/content/exercises'
-import { isExerciseInNavigation } from '@/content/navigation-exercises'
+import { isExerciseForNavigation } from '@/content/navigation-exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
-import { useProgress } from '../../../store/progress-store'
-
-// gleiche Filter-Logik wie im Rest der App
-function passExamFilter(exam: number, idNum: number): boolean {
-  if (exam == 24) return isExerciseInNavigation(exam, idNum)
-  if (exam == 1 && idNum > 99) return false
-  if (exam == 2 && (idNum < 100 || idNum >= 199)) return false
-  if (exam == 3 && (idNum < 200 || idNum >= 299)) return false
-  if (exam == 4 && (idNum < 3000 || idNum >= 3999)) return false
-  if (exam == 5 && (idNum < 400 || idNum >= 499)) return false
-  return true
-}
+import { getStatus, subscribeProgress } from '../../../store/progress-store'
 
 export default function LevelingPanel() {
   // aktuelles Exam
@@ -25,13 +14,15 @@ export default function LevelingPanel() {
     () =>
       Object.keys(exercisesData)
         .map(k => parseInt(k, 10))
-        .filter(id => passExamFilter(exam, id)),
+        .filter(id => isExerciseForNavigation(exam, id)),
     [exam],
   )
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const statuses = ids.map(id => useProgress(id))
-  const solvedCount = statuses.filter(s => s?.solved).length
+  const solvedCount = React.useSyncExternalStore(
+    subscribeProgress,
+    () => ids.filter(id => getStatus(id)?.solved).length,
+    () => 0,
+  )
 
   if (ids.length === 0) {
     return (
@@ -44,8 +35,11 @@ export default function LevelingPanel() {
     )
   }
 
-  const { level, pctWithin, remainingToNext, nextLevel } =
-    computeLevelProgress(solvedCount)
+  const { level, pctWithin, remainingToNext, nextLevel } = computeLevelProgress(
+    solvedCount,
+    ids.length,
+    exam,
+  )
 
   return (
     <div className="w-full rounded-xl border bg-white shadow-xl p-5">
@@ -54,6 +48,8 @@ export default function LevelingPanel() {
       <div
         className="h-3 w-full rounded border border-gray-400 bg-gradient-to-b from-gray-100 to-gray-200 shadow-inner overflow-hidden"
         role="progressbar"
+        tabIndex={-1}
+        aria-label={`Fortschritt in Level ${level}`}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round((pctWithin ?? 0) * 100)}
@@ -65,7 +61,7 @@ export default function LevelingPanel() {
       </div>
 
       <div className="text-xs text-gray-700 mt-2 tabular-nums">
-        {level < 6 ? (
+        {level < MAX_LEVEL ? (
           <>
             Löse <b>{remainingToNext}</b>{' '}
             {remainingToNext === 1 ? 'Aufgabe' : 'Aufgaben'}, um in Level{' '}

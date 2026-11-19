@@ -1,0 +1,65 @@
+.entry {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.mascot {
+  width: 76px;
+  aspect-ratio: 512 / 768;
+}
+
+.figure {
+  width: 100% !important;
+}
+
+.invitation {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 4px;
+  color: #223d52;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.invitation p {
+  margin: 0 0 12px;
+  color: #526274;
+  font-size: 14px;
+}
+
+.open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #c7dcf5;
+  border-radius: 8px;
+  background: #e6f0ff;
+  color: #1d4a80;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.open svg {
+  flex-shrink: 0;
+}
+
+.open:hover {
+  background: #d7e8ff;
+}
+
+.open:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}

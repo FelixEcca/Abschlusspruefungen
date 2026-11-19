@@ -28,8 +28,17 @@ export interface Profile {
   longestStreak: number
   lastActiveDate?: string
   activityByDate: Record<string, number>
+  levelMilestones: Record<number, number>
+  pendingLevelUp: LevelUp | null
   _activeExerciseId?: number
   _sessionStartTs?: number
+}
+
+export interface LevelUp {
+  courseId: number
+  level: number
+  solvedCount: number
+  totalCount: number
 }
 
 function localDateKey(d = new Date()): string {
@@ -64,6 +73,8 @@ export function emptyProfile(): Profile {
     longestStreak: 0,
     lastActiveDate: undefined,
     activityByDate: {},
+    levelMilestones: {},
+    pendingLevelUp: null,
     _activeExerciseId: undefined,
     _sessionStartTs: undefined,
   }
@@ -87,8 +98,37 @@ export function loadProfile(): Profile {
       longestStreak: typeof p.longestStreak === 'number' ? p.longestStreak : 0,
       lastActiveDate: typeof p.lastActiveDate === 'string' ? p.lastActiveDate : undefined,
       activityByDate: p.activityByDate ?? {},
+      levelMilestones: {},
+      pendingLevelUp: null,
       _activeExerciseId: undefined,
       _sessionStartTs: undefined,
+    }
+
+    for (const [course, level] of Object.entries(p.levelMilestones ?? {})) {
+      if (
+        Number.isInteger(Number(course)) &&
+        Number(course) > 0 &&
+        Number.isInteger(level) &&
+        level >= 1 &&
+        level <= 6
+      ) {
+        prof.levelMilestones[Number(course)] = level
+      }
+    }
+    const pending = p.pendingLevelUp
+    if (
+      pending &&
+      Number.isInteger(pending.courseId) &&
+      pending.courseId > 0 &&
+      Number.isInteger(pending.level) &&
+      pending.level >= 2 &&
+      pending.level <= 6 &&
+      Number.isInteger(pending.solvedCount) &&
+      pending.solvedCount > 0 &&
+      Number.isInteger(pending.totalCount) &&
+      pending.totalCount >= pending.solvedCount
+    ) {
+      prof.pendingLevelUp = pending
     }
 
     for (const k of Object.keys(prof.exercises)) {
@@ -145,6 +185,46 @@ export function subscribeProgress(fn: Listener) {
   return () => listeners.delete(fn)
 }
 
+const solvedListeners = new Set<(id: ExerciseId) => void>()
+export function subscribeExerciseSolved(fn: (id: ExerciseId) => void) {
+  solvedListeners.add(fn)
+  return () => {
+    solvedListeners.delete(fn)
+  }
+}
+
+export function rememberLevelBaseline(courseId: number, level: number) {
+  if (
+    (cache.levelMilestones[courseId] ?? 1) >= level &&
+    cache.levelMilestones[courseId] !== undefined
+  )
+    return
+  cache.levelMilestones[courseId] = level
+  saveProfile(cache)
+}
+
+export function queueLevelUp(levelUp: LevelUp, previousLevel: number) {
+  const highest = Math.max(
+    cache.levelMilestones[levelUp.courseId] ?? 1,
+    previousLevel,
+  )
+  if (levelUp.level <= highest) return
+  cache.levelMilestones[levelUp.courseId] = levelUp.level
+  cache.pendingLevelUp = levelUp
+  saveProfile(cache)
+  notify()
+}
+
+export function dismissLevelUp() {
+  cache.pendingLevelUp = null
+  saveProfile(cache)
+  notify()
+}
+
+export function getPendingLevelUp() {
+  return cache.pendingLevelUp
+}
+
 /* ---------- Mutationen (Status) ---------- */
 
 // 🔥 globalen Streak & Aktivität beim ersten Solve des Tages pflegen
@@ -196,6 +276,7 @@ export function setExerciseLearningStatus(
   }
 
   saveProfile(cache)
+  if (solved && !current.solved) solvedListeners.forEach(fn => fn(id))
   notify()
 }
 
@@ -218,6 +299,7 @@ export function markSolved(id: ExerciseId, solved = true) {
   }
 
   saveProfile(cache)
+  if (solved && !e.solved) solvedListeners.forEach(fn => fn(id))
   notify()
 }
 
@@ -300,6 +382,19 @@ export function exportProfileAsJson(): string {
 export function mergeProfile(incoming: Profile) {
   if (incoming?.version !== 1 || !incoming.exercises) return
 
+  for (const [course, level] of Object.entries(
+    incoming.levelMilestones ?? {},
+  )) {
+    if (Number.isInteger(Number(course)) && Number(course) > 0 &&
+        Number.isInteger(level) && level >= 1 && level <= 6) {
+      const id = Number(course)
+      cache.levelMilestones[id] = Math.max(
+        cache.levelMilestones[id] ?? 1,
+        level,
+      )
+    }
+  }
+
   // Aufgaben mergen
   for (const [k, v] of Object.entries(incoming.exercises)) {
     const id = Number(k) as ExerciseId
@@ -365,10 +460,14 @@ export function useProgress(id: ExerciseId) {
   return state
 }
 
+function profileSnapshot() {
+  return { ...getProfile(), exercises: { ...getProfile().exercises } }
+}
+
 export function useProfile() {
-  const [state, setState] = React.useState(getProfile())
+  const [state, setState] = React.useState(profileSnapshot)
   React.useEffect(() => {
-    const unsubscribe = subscribeProgress(() => setState(getProfile()))
+    const unsubscribe = subscribeProgress(() => setState(profileSnapshot()))
     return () => { unsubscribe(); }
   }, [])
   return state

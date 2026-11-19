@@ -17,6 +17,7 @@ import { PlayerProfileStore } from '../../../../store/player-profile-store'
 import { useHistory } from 'react-router'
 import * as React from 'react'
 import { useProgress } from '../../../../store/progress-store'
+import { useTutorial } from '@/components/onboarding/TutorialProvider'
 
 type Entry = [string, (typeof exercisesData)[number]]
 
@@ -64,6 +65,7 @@ function ExerciseRow({
 }
 
 export function List() {
+  const { notifyTutorial } = useTutorial()
   const exam = PlayerProfileStore.useState(s => s.currentExam)
   const history = useHistory()
 
@@ -132,7 +134,10 @@ export function List() {
             </div>
           </>
         )}
-        <div className="mx-3 mt-4 bg-sky-50 rounded-md pt-2 px-2 pb-2">
+        <div
+          data-tutorial="exam-overview"
+          className="mx-3 mt-4 bg-sky-50 rounded-md pt-2 px-2 pb-2"
+        >
           <h2 className="font-bold">Liste aller Aufgaben nach Jahren</h2>
 
           {grouped.years.length === 0 ? (
@@ -140,13 +145,24 @@ export function List() {
               Für diese Schulform sind noch keine Prüfungsaufgaben hinterlegt.
             </p>
           ) : (
-            <IonAccordionGroup expand="inset">
+            <IonAccordionGroup
+              expand="inset"
+              onIonChange={event => {
+                if (event.target !== event.currentTarget) return
+                const value = event.detail.value
+                const values = Array.isArray(value) ? value : [value]
+                values.forEach(year => {
+                  if (year !== undefined && year !== '')
+                    notifyTutorial(`year-open:${Number(year)}`)
+                })
+              }}
+            >
               {grouped.years.map(year => {
                 const items = grouped.map.get(year)!
                 const label = year === 0 ? 'Sonstige' : String(year)
                 return (
                   <IonAccordion key={year} value={String(year)}>
-                    <IonItem slot="header">
+                    <IonItem data-tutorial={`exam-year-${year}`} slot="header">
                       <IonLabel>
                         {label}{' '}
                         <span className="text-sm text-gray-500">
@@ -155,7 +171,11 @@ export function List() {
                       </IonLabel>
                     </IonItem>
 
-                    <div slot="content" className="p-2">
+                    <div
+                      data-tutorial={`exam-items-${year}`}
+                      slot="content"
+                      className="p-2"
+                    >
                       {items.map(([id, content]) => {
                         const idNum = parseInt(id, 27)
                         return (
