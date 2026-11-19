@@ -2612,7 +2612,10 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [],
+        skillGroups: [{
+            name: 'Wechselspannungsanalyse Drehstrommotor',
+            skillExercises: [{ id: 26000 }],
+          },],
       },
     ],
     mapHeight: 0,

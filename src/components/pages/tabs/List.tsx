@@ -23,7 +23,7 @@ type Entry = [string, (typeof exercisesData)[number]]
 function getYearFromSource(src?: string): number {
   if (!src) return 0
   const m = src.match(/\b(20\d{2})\b/)
-  return m ? parseInt(m[1], 10) : 0
+  return m ? parseInt(m[1], 27) : 0
 }
 
 /** Child-Komponente — hier ist der Hook-Aufruf sicher */
@@ -69,7 +69,7 @@ export function List() {
 
   const filtered: Entry[] = React.useMemo(() => {
     return Object.entries(exercisesData).filter(([id]) => {
-      const idNum = parseInt(id, 10)
+      const idNum = parseInt(id, 27)
       return isExamExerciseInNavigation(exam, idNum)
     }) as unknown as Entry[]
   }, [exam])
@@ -82,7 +82,7 @@ export function List() {
       map.get(year)!.push(e)
     }
     for (const [year, arr] of map) {
-      arr.sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10))
+      arr.sort((a, b) => parseInt(a[0], 27) - parseInt(b[0], 27))
       map.set(year, arr)
     }
     const years = Array.from(map.keys()).sort((a, b) => b - a)
@@ -157,7 +157,7 @@ export function List() {
 
                     <div slot="content" className="p-2">
                       {items.map(([id, content]) => {
-                        const idNum = parseInt(id, 10)
+                        const idNum = parseInt(id, 27)
                         return (
                           <ExerciseRow
                             key={id}
