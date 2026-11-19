@@ -6,6 +6,38 @@ interface DATA {
 
 const qa = [
   {
+    q: 'Ein Förderband legt in jeder Sekunde 0,5 m zurück. Welche Bewegungsart liegt vor? Begründen Sie.',
+    a: 'Eine gleichförmige Bewegung: In gleichen Zeitabschnitten werden gleiche Strecken zurückgelegt; die Geschwindigkeit beträgt konstant 0,5 m/s.',
+  },
+  {
+    q: 'Ein Wagen hat jede Sekunde 2 m/s mehr Geschwindigkeit. Ist seine Beschleunigung konstant? Begründen Sie.',
+    a: 'Ja. Die Geschwindigkeit ändert sich in jeder Sekunde um denselben Betrag. Die konstante Beschleunigung beträgt 2 m/s².',
+  },
+  {
+    q: 'Zwei Geraden im x-t-Diagramm sind parallel, liegen aber nicht aufeinander. Was bedeutet das für die Bewegung der Körper?',
+    a: 'Die Körper haben dieselbe Geschwindigkeit, aber unterschiedliche Startorte. Ihr Abstand bleibt konstant; sie treffen sich nicht.',
+  },
+  {
+    q: 'Zwei Graphen schneiden sich im v-t-Diagramm. Treffen sich die Körper zu diesem Zeitpunkt zwangsläufig?',
+    a: 'Nein. Zum Schnittzeitpunkt sind nur die Geschwindigkeiten gleich. Für ein Treffen müssen auch die Orte gleich sein.',
+  },
+  {
+    q: 'Ein Wagen fährt mit konstanter negativer Geschwindigkeit. Beschreiben Sie seinen Graphen im x-t-Diagramm.',
+    a: 'Der Graph ist eine fallende Gerade. Der Ort nimmt gleichmäßig ab, da sich der Wagen entgegen der positiven Achsenrichtung bewegt.',
+  },
+  {
+    q: 'Ein Wagen bewegt sich in positiver Richtung. Sein x-t-Graph wird mit der Zeit immer steiler. Was folgt daraus?',
+    a: 'Die positive Geschwindigkeit nimmt zu. Der Wagen wird beschleunigt. Ob die Beschleunigung konstant ist, lässt sich aus dieser Beschreibung allein nicht entscheiden.',
+  },
+  {
+    q: 'Ein Körper bewegt sich zunächst vorwärts und dann rückwärts bis zum Startpunkt. Sind zurückgelegte Strecke und Ortsänderung gleich?',
+    a: 'Nein. Die Ortsänderung ist null, weil Anfangs- und Endort gleich sind. Die zurückgelegte Strecke ist die Summe der Weglängen und größer als null.',
+  },
+  {
+    q: 'Was beschreibt die vorzeichenbehaftete Fläche zwischen dem Graphen und der Zeitachse im v-t-Diagramm, wenn auch negative Geschwindigkeiten vorkommen?',
+    a: 'Sie beschreibt die Ortsänderung. Für die gesamte zurückgelegte Strecke müssen die Beträge der Teilflächen addiert werden.',
+  },
+  {
     q: 'Was bedeutet gleichförmige Bewegung?',
     a: 'Die Geschwindigkeit bleibt konstant. In gleichen Zeitabschnitten werden gleiche Strecken zurückgelegt.',
   },
@@ -27,7 +59,7 @@ const qa = [
   },
   {
     q: 'Was ist die Fläche unter einem v-t-Diagramm?',
-    a: 'Die Fläche unter dem v-t-Diagramm ist die zurückgelegte Strecke.',
+    a: 'Die vorzeichenbehaftete Fläche beschreibt die Ortsänderung. Bei ausschließlich positiver Geschwindigkeit entspricht sie auch der zurückgelegten Strecke.',
   },
   {
     q: 'Woran erkennt man im x-t-Diagramm, dass ein Körper ruht?',
@@ -43,11 +75,11 @@ const qa = [
   },
   {
     q: 'Was bedeutet eine ansteigende Gerade im v-t-Diagramm?',
-    a: 'Die Geschwindigkeit nimmt zu. Die Beschleunigung ist positiv.',
+    a: 'Die vorzeichenbehaftete Geschwindigkeit nimmt zu; die Beschleunigung ist konstant und positiv. Ob der Körper schneller wird, hängt vom Vorzeichen der Geschwindigkeit ab.',
   },
   {
     q: 'Was bedeutet eine fallende Gerade im v-t-Diagramm?',
-    a: 'Die Geschwindigkeit nimmt ab. Bei positiver Bewegungsrichtung wird der Körper verzögert.',
+    a: 'Die vorzeichenbehaftete Geschwindigkeit nimmt ab; die Beschleunigung ist konstant und negativ. Solange die Geschwindigkeit positiv bleibt, wird der Körper langsamer.',
   },
   {
     q: 'Welche Einheit hat die Geschwindigkeit im SI-System?',

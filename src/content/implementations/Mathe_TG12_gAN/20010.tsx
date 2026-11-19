@@ -93,15 +93,20 @@ export const exercise20010: Exercise<DATA> = {
       h: rng.randomItemFromArray([-2, -1, 1, 2]),
       d: rng.randomItemFromArray([-2, -1, 1, 2]),
     })
-    return { graph: make(true), description: make(), notation: make() }
+    return {
+      graph: make(true),
+      description: { ...make(), b: rng.randomItemFromArray([-1, 1]) },
+      notation: make(),
+    }
   },
   originalData: {
     graph: { kind: 'square', a: -2, b: 1, h: 1, d: 2 },
-    description: { kind: 'sin', a: 2, b: 2, h: -1, d: 1 },
+    description: { kind: 'sin', a: 2, b: 1, h: -1, d: 1 },
     notation: { kind: 'exp', a: -0.5, b: -1, h: 2, d: -1 },
   },
   constraint: ({ data }) =>
     data.graph.b === 1 &&
+    Math.abs(data.description.b) === 1 &&
     [data.graph, data.description, data.notation].every(
       t =>
         Object.hasOwn(bases, t.kind) &&

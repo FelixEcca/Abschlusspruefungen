@@ -214,8 +214,7 @@ export const exercise20009: Exercise<DATA> = {
         <p>
           Beschreiben Sie für{' '}
           <InlineMath math={`f(x)=${functions[data.properties].term}`} />{' '}
-          Definitionsmenge, Wertemenge, Symmetrie, Globalverhalten, Monotonie
-          und Nullstellen.
+          Definitionsmenge, Wertemenge, Symmetrie und Globalverhalten.
         </p>
       ),
       solution: ({ data }) => {
@@ -234,32 +233,6 @@ export const exercise20009: Exercise<DATA> = {
                 <InlineMath math={limit} />
               </p>
             ))}
-            <p>{f.extra}</p>
-            {(data.properties === 'sin' || data.properties === 'cos') && (
-              <>
-                <p>Streng steigend auf jedem Intervall</p>
-                <p>
-                  <InlineMath
-                    math={
-                      data.properties === 'sin'
-                        ? '[-\\frac{\\pi}{2}+2k\\pi;\\frac{\\pi}{2}+2k\\pi]'
-                        : '[-\\pi+2k\\pi;2k\\pi]'
-                    }
-                  />
-                </p>
-                <p>und streng fallend auf jedem Intervall</p>
-                <p>
-                  <InlineMath
-                    math={
-                      data.properties === 'sin'
-                        ? '[\\frac{\\pi}{2}+2k\\pi;\\frac{3\\pi}{2}+2k\\pi]'
-                        : '[2k\\pi;\\pi+2k\\pi]'
-                    }
-                  />
-                  , <InlineMath math={'k\\in\\mathbb Z'} />.
-                </p>
-              </>
-            )}
           </>
         )
       },

@@ -46,7 +46,7 @@ export const exercise8002: Exercise<DATA> = {
           <>
             <p>Für eine gleichförmige Bewegung gilt <InlineMath math="x(t)=v\\cdot t+x_0" />.</p>
             <p>
-              <InlineMath math={`x(t)=${pp(data.v)}\\,${unit('m/s')}\\cdot t+${pp(data.x0)}\\,${unit('m')}`} />, wobei <InlineMath math="t" /> in Sekunden eingesetzt wird.
+              <InlineMath math={`x(t)=${pp(data.v)}\\,${unit('m/s')}\cdot t+${pp(data.x0)}\\,${unit('m')}`} />, wobei <InlineMath math="t" /> in Sekunden eingesetzt wird.
             </p>
           </>
         )

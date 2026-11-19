@@ -46,15 +46,7 @@ function target(eq: Equation) {
   return Math[eq.trig](eq.angle * Math.PI)
 }
 function targetMath(eq: Equation) {
-  const v = target(eq),
-    abs = Math.abs(v)
-  const term =
-    Math.abs(abs - 0.5) < 1e-8
-      ? pp(0.5)
-      : Math.abs(abs - Math.SQRT1_2) < 1e-8
-        ? '\\frac{\\sqrt{2}}{2}'
-        : '\\frac{\\sqrt{3}}{2}'
-  return `${v < 0 ? '-' : ''}${term}`
+  return pp(Math.round(target(eq) * 2) / 2)
 }
 function roots(eq: Equation) {
   const other =
@@ -63,12 +55,7 @@ function roots(eq: Equation) {
 }
 function equation(eq: Equation) {
   const argument = `${eq.b === 1 ? '' : pp(eq.b)}x${shift(eq.c)}`
-  const rhs =
-    Math.abs(Math.abs(target(eq)) - 0.5) < 1e-8
-      ? pp(Math.round((eq.a * target(eq) + eq.d) * 1e8) / 1e8)
-      : eq.a === 1 && !eq.d
-        ? targetMath(eq)
-        : `${pp(eq.a)}\\cdot\\left(${targetMath(eq)}\\right)${eq.d ? pp(eq.d, 'merge_op') : ''}`
+  const rhs = pp(Math.round((eq.a * target(eq) + eq.d) * 1e8) / 1e8)
   return `${eq.a === 1 ? '' : `${pp(eq.a)}\\cdot`}\\${eq.trig}(${argument})${eq.d ? pp(eq.d, 'merge_op') : ''}=${rhs}`
 }
 function intervalRoots(eq: Equation, lower: number, upper: number) {
@@ -97,12 +84,7 @@ function validEquation(eq: Equation) {
   )
     return false
   const value = target(eq)
-  if (
-    ![0.5, Math.SQRT1_2, Math.sqrt(3) / 2].some(
-      v => Math.abs(Math.abs(value) - v) < 1e-8,
-    )
-  )
-    return false
+  if (Math.abs(Math.abs(value) - 0.5) >= 1e-8) return false
   const solutions = roots(eq),
     period = 2 / eq.b
   const separation = (solutions[1] - solutions[0]) / period
@@ -124,6 +106,7 @@ function validData(data: DATA) {
     !validEquation(data.harder) ||
     data.simple.b !== 1 ||
     data.simple.c !== 0 ||
+    data.harder.c !== 0 ||
     ![data.lower, data.upper].every(
       x => Number.isFinite(x) && Math.abs(x) <= 10 && piFraction(x) !== null,
     ) ||
@@ -133,6 +116,7 @@ function validData(data: DATA) {
   const solutions = intervalRoots(data.harder, data.lower, data.upper)
   return (
     solutions.length > 0 &&
+    solutions.length <= 5 &&
     solutions.every(
       (x, i) =>
         x >= data.lower - 1e-8 &&
@@ -204,7 +188,7 @@ function GeneralSolution({ eq }: { eq: Equation }) {
       <p>
         <strong>
           <InlineMath
-            math={`x=${piTerm(r2)}+k\\cdot ${piTerm(2 / eq.b)},\\quad k\\in\\mathbb Z`}
+            math={`x=${piTerm(r2)}+k\\cdot ${piTerm(2 / eq.b)},\\quad k\\text{ ganzzahlig}`}
           />
         </strong>
       </p>
@@ -217,36 +201,35 @@ export const exercise20008: Exercise<DATA> = {
   useCalculator: true,
   duration: 22,
   generator(rng) {
-    const make = (hard: boolean): Equation => ({
-      trig: rng.randomItemFromArray(['sin', 'cos']),
-      angle: rng.randomItemFromArray([
-        1 / 6,
-        1 / 4,
-        1 / 3,
-        2 / 3,
-        3 / 4,
-        5 / 6,
-        7 / 6,
-        5 / 4,
-        4 / 3,
-      ]),
-      a: hard ? rng.randomItemFromArray([2, 3, 4]) : 1,
-      b: hard ? rng.randomItemFromArray([2, 3, 4]) : 1,
-      c: hard ? rng.randomItemFromArray([-0.5, 0, 0.5, 1]) : 0,
-      d: hard ? rng.randomItemFromArray([-3, -1, 2, 4]) : 0,
-    })
+    const make = (hard: boolean): Equation => {
+      const trig = rng.randomItemFromArray<'sin' | 'cos'>(['sin', 'cos'])
+      return {
+        trig,
+        angle: rng.randomItemFromArray(
+          trig === 'sin'
+            ? [1 / 6, 5 / 6, 7 / 6, 11 / 6]
+            : [1 / 3, 2 / 3, 4 / 3, 5 / 3],
+        ),
+        a: hard ? rng.randomItemFromArray([2, 3]) : 1,
+        b: hard ? rng.randomItemFromArray([1, 2]) : 1,
+        c: 0,
+        d: hard ? rng.randomItemFromArray([-1, 1, 2]) : 0,
+      }
+    }
+    const harder = make(true)
+    const lower = rng.randomItemFromArray([-2, -1]) / harder.b
     return {
       simple: make(false),
-      harder: make(true),
-      lower: rng.randomItemFromArray([-4, -3, -2]),
-      upper: rng.randomItemFromArray([2, 3, 4]),
+      harder,
+      lower,
+      upper: lower + rng.randomItemFromArray([2, 3, 4]) / harder.b,
     }
   },
   originalData: {
     simple: { trig: 'sin', angle: 1 / 6, a: 1, b: 1, c: 0, d: 0 },
-    harder: { trig: 'cos', angle: 2 / 3, a: 2, b: 2, c: 0.5, d: 3 },
-    lower: -2,
-    upper: 3,
+    harder: { trig: 'cos', angle: 2 / 3, a: 2, b: 2, c: 0, d: 3 },
+    lower: -1,
+    upper: 1,
   },
   constraint: ({ data }) => validData(data),
   intro: () => <p>Alle Winkel werden im Bogenmaß angegeben.</p>,
@@ -256,7 +239,8 @@ export const exercise20008: Exercise<DATA> = {
       task: ({ data }) => (
         <>
           <p>
-            Lösen Sie die Gleichung für <InlineMath math={'x\\in[0;2\\pi)'} />.
+            Lösen Sie die Gleichung und bestimmen Sie alle Lösungen im Intervall{' '}
+            <InlineMath math={'[0;2\\pi)'} />.
           </p>
           <InlineMath math={equation(data.simple)} />
         </>
@@ -279,19 +263,36 @@ export const exercise20008: Exercise<DATA> = {
       points: 6,
       task: ({ data }) => (
         <>
-          <p>Bestimmen Sie alle reellen Lösungen.</p>
+          <p>
+            Lösen Sie die Gleichung und bestimmen Sie alle Lösungen im Intervall{' '}
+            <InlineMath math={'[0;2\\pi)'} />.
+          </p>
           <InlineMath math={equation(data.harder)} />
         </>
       ),
-      solution: ({ data }) => <GeneralSolution eq={data.harder} />,
+      solution: ({ data }) => (
+        <>
+          <GeneralSolution eq={data.harder} />
+          <p>Im gefragten Intervall liegen:</p>
+          <ul>
+            {intervalRoots(data.harder, 0, 2 - 1e-8).map((x, i) => (
+              <li key={i}>
+                <strong>
+                  <InlineMath math={`x_{${i + 1}}=${piTerm(x)}`} />
+                </strong>
+              </li>
+            ))}
+          </ul>
+        </>
+      ),
     },
     {
       points: 5,
       task: ({ data }) => (
         <p>
-          Geben Sie alle Lösungen der vorherigen Gleichung im Intervall{' '}
-          <InlineMath math={`[${piTerm(data.lower)};${piTerm(data.upper)}]`} />{' '}
-          an.
+          Lösen Sie die vorherige Gleichung und bestimmen Sie alle Lösungen im
+          Intervall{' '}
+          <InlineMath math={`[${piTerm(data.lower)};${piTerm(data.upper)}]`} />.
         </p>
       ),
       solution: ({ data }) => (
