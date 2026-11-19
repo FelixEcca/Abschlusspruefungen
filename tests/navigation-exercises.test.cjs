@@ -34,8 +34,13 @@ function loadContentModule(name, dependencies = {}) {
 
 const navigations = loadContentModule('navigations.tsx')
 const { navigationData } = navigations
-const { isExerciseForNavigation, isExamExerciseInNavigation } =
-  loadContentModule('navigation-exercises.ts', { './navigations': navigations })
+const {
+  isExerciseForNavigation,
+  isExamExerciseInNavigation,
+  isExerciseInNavigation,
+} = loadContentModule('navigation-exercises.ts', {
+  './navigations': navigations,
+})
 
 const catalogFile = resolve(root, 'src/content/exercises.tsx')
 const catalog = ts.createSourceFile(
@@ -59,7 +64,12 @@ for (const statement of catalog.statements) {
 assert.ok(registeredIds?.length > 0)
 
 test('each course only accepts its training entries and assigned exams', () => {
-  const examRanges = { 1: [3000, 3999], 2: [400, 401], 6: [9000, 9075] }
+  const examRanges = {
+    1: [3000, 3999],
+    2: [400, 401],
+    6: [9000, 9075],
+    15: [21000, 21402],
+  }
   for (const [navigationId, navigation] of Object.entries(navigationData)) {
     const id = Number(navigationId)
     const trainingIds = new Set(
@@ -114,10 +124,22 @@ test('exam range boundaries are inclusive and exclude neighboring exercises', ()
     [1, 3000, 3999],
     [2, 400, 401],
     [6, 9000, 9075],
+    [15, 21000, 21402],
   ]) {
     assert.equal(isExamExerciseInNavigation(id, first), true)
     assert.equal(isExamExerciseInNavigation(id, last), true)
     assert.equal(isExamExerciseInNavigation(id, first - 1), false)
     assert.equal(isExamExerciseInNavigation(id, last + 1), false)
+  }
+})
+
+test('TG13 gAN exams appear only as exams and do not enter the training catalog', () => {
+  const ids = registeredIds.filter(id => id >= 21000 && id <= 21402)
+  assert.equal(ids.length, 21)
+  for (const id of ids) {
+    assert.equal(isExamExerciseInNavigation(15, id), true)
+    assert.equal(isExerciseInNavigation(15, id), false)
+    assert.equal(isExerciseForNavigation(13, id), false)
+    assert.equal(isExerciseForNavigation(16, id), false)
   }
 })

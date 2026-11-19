@@ -2005,10 +2005,7 @@ export const navigationData: { [key: number]: Navigation } = {
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
-          {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
-          },
+          
         ],
       },
     ],

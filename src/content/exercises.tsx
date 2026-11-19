@@ -609,7 +609,50 @@ import { exercise20011 } from './implementations/Mathe_TG12_gAN/20011'
 import { exercise26000 } from './implementations/Mec-E_TG13/26000'
 
 
+import { exercise21000 } from './implementations/Mathe_TG13_gAN_Pruefungen/21000'
+import { exercise21001 } from './implementations/Mathe_TG13_gAN_Pruefungen/21001'
+import { exercise21002 } from './implementations/Mathe_TG13_gAN_Pruefungen/21002'
+import { exercise21003 } from './implementations/Mathe_TG13_gAN_Pruefungen/21003'
+import { exercise21004 } from './implementations/Mathe_TG13_gAN_Pruefungen/21004'
+import { exercise21100 } from './implementations/Mathe_TG13_gAN_Pruefungen/21100'
+import { exercise21101 } from './implementations/Mathe_TG13_gAN_Pruefungen/21101'
+import { exercise21102 } from './implementations/Mathe_TG13_gAN_Pruefungen/21102'
+import { exercise21103 } from './implementations/Mathe_TG13_gAN_Pruefungen/21103'
+import { exercise21104 } from './implementations/Mathe_TG13_gAN_Pruefungen/21104'
+import { exercise21105 } from './implementations/Mathe_TG13_gAN_Pruefungen/21105'
+import { exercise21106 } from './implementations/Mathe_TG13_gAN_Pruefungen/21106'
+import { exercise21200 } from './implementations/Mathe_TG13_gAN_Pruefungen/21200'
+import { exercise21201 } from './implementations/Mathe_TG13_gAN_Pruefungen/21201'
+import { exercise21202 } from './implementations/Mathe_TG13_gAN_Pruefungen/21202'
+import { exercise21300 } from './implementations/Mathe_TG13_gAN_Pruefungen/21300'
+import { exercise21301 } from './implementations/Mathe_TG13_gAN_Pruefungen/21301'
+import { exercise21302 } from './implementations/Mathe_TG13_gAN_Pruefungen/21302'
+import { exercise21400 } from './implementations/Mathe_TG13_gAN_Pruefungen/21400'
+import { exercise21401 } from './implementations/Mathe_TG13_gAN_Pruefungen/21401'
+import { exercise21402 } from './implementations/Mathe_TG13_gAN_Pruefungen/21402'
+
 export const exercisesData: { [key: number]: Exercise<any> } = {
+  21000: exercise21000,
+  21001: exercise21001,
+  21002: exercise21002,
+  21003: exercise21003,
+  21004: exercise21004,
+  21100: exercise21100,
+  21101: exercise21101,
+  21102: exercise21102,
+  21103: exercise21103,
+  21104: exercise21104,
+  21105: exercise21105,
+  21106: exercise21106,
+  21200: exercise21200,
+  21201: exercise21201,
+  21202: exercise21202,
+  21300: exercise21300,
+  21301: exercise21301,
+  21302: exercise21302,
+  21400: exercise21400,
+  21401: exercise21401,
+  21402: exercise21402,
   200: exercise200,
   201: exercise201,
   202: exercise202,
