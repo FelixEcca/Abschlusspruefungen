@@ -78,9 +78,9 @@ const calculateValues = (data: DATA) => {
 
 const round = (value: number) => Math.round(value * 100) / 100
 
-export const exercise26000: Exercise<DATA> = {
+export const exercise26500: Exercise<DATA> = {
   title: 'Wechselspannungsanalyse durchführen',
-  source: 'Training – Wechselstromanalyse',
+  source: 'Prüfungsaufgabe MEC-E – Wechselstromanalyse',
   useCalculator: true,
   duration: 35,
   points: 20,
