@@ -29,6 +29,8 @@ import {
   type ChatLearningMode,
 } from './state/exercise-view-store'
 import { exercisesData } from '@/content/exercises'
+import { PlayerProfileStore } from '../../../store/player-profile-store'
+import { htmlToPromptText } from '@/helper/ai-context'
 import { extractor } from './extractor/extractor'
 import { useTutorial } from '@/components/onboarding/TutorialProvider'
 import { GiselaAvatar } from '@/components/gisela/GiselaAvatar'
@@ -106,21 +108,6 @@ function stripInternalPromptMarkers(text: string) {
 
 function hasDegenerateModelOutput(text: string) {
   return text.includes('\uFFFD') || /([()[\]{}])\1{15,}/.test(text)
-}
-
-function htmlToPromptText(html: string): string {
-  if (typeof document === 'undefined') {
-    return html.replace(/<[^>]+>/g, ' ')
-  }
-
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = html
-
-  return (wrapper.innerText || wrapper.textContent || '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/[ \t]+\n/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
 }
 
 function readFileAsDataUrl(file: File) {
@@ -230,7 +217,7 @@ function getLearningCopy(mode: LearningMode) {
         title: 'Lösung verstehen',
         intro: '',
         starter:
-          'Wie kommt man darauf? Ich habe die Lösung bereits gesehen. Erkläre sie mir sehr einfach und kleinschrittig. Zeige jede Zwischenrechnung einzeln. Sage jeweils kurz, was du machst und warum. Verwende kurze Sätze und erkläre notwendige Fachwörter. Schreibe alle Formeln und Einheiten als gültiges KaTeX in Markdown.',
+          'Wie kommt man darauf? Ich habe die Lösung bereits gesehen. Erkläre den Lösungsweg einschließlich des Ergebnisses verständlich. Zeige die nötigen Zwischenrechnungen und begründe entscheidende Schritte. Verwende klare Sätze und erkläre bei Bedarf Fachwörter. Schreibe alle Formeln und Einheiten als gültiges KaTeX in Markdown.',
       }
     case 'leicht':
       return {
@@ -267,7 +254,7 @@ function getLearningCopy(mode: LearningMode) {
         title: 'Humorvolle Aufgabe',
         intro: 'Gleiche Kompetenz, aber mit einer überraschenden Geschichte.',
         starter:
-          'Erstelle eine neue, humorvolle Aufgabe zur gleichen mathematischen Kompetenz und auf dem gleichen Schwierigkeitsniveau. Die Aufgabe soll mich zum Schmunzeln bringen und trotzdem klar und gut lösbar sein. Gib nur die neue Aufgabe aus, nicht die Lösung.',
+          'Erstelle eine neue, humorvolle Aufgabe zur gleichen fachlichen Kompetenz und auf dem gleichen Schwierigkeitsniveau. Die Aufgabe soll mich zum Schmunzeln bringen und trotzdem klar und gut lösbar sein. Gib nur die neue Aufgabe aus, nicht die Lösung.',
       }
     case 'pruefen':
       return {
@@ -276,42 +263,6 @@ function getLearningCopy(mode: LearningMode) {
         starter:
           'Schicke mir jetzt deinen Lösungsweg. Du kannst ihn schreiben, scribbeln oder fotografieren.',
       }
-  }
-}
-
-function getModeSystemInstruction(mode: LearningMode) {
-  switch (mode) {
-    case 'erklaeren':
-      return String.raw`Der Lernende hat die Musterlösung bereits geöffnet und möchte sie verstehen. Erkläre den vollständigen Lösungsweg einschließlich des Ergebnisses.
-
-Sprache und Aufbau:
-- Verwende sehr einfache Sprache und kurze Sätze. Vermeide unnötige Fachwörter; erkläre notwendige Fachwörter sofort mit einfachen Worten.
-- Nenne zuerst knapp, was gegeben und was gesucht ist. Verwende dabei nur die Angaben der aktuellen Aufgabe.
-- Gliedere die Erklärung in kleine nummerierte Schritte. Zeige pro Schritt nur eine neue Rechenoperation oder Umformung. Fasse nicht mehrere Rechenschritte in einer Gleichungskette zusammen.
-- Sage zu jedem Schritt kurz, was du machst und warum. Zeige jede Zwischenrechnung einzeln, auch Einsetzen, Umrechnen, Erweitern, Kürzen oder Auflösen von Klammern, soweit für die Aufgabe nötig. Überspringe keine für das Verständnis nötigen Zwischenschritte.
-- Nenne am Ende das Ergebnis mit der passenden Einheit und seiner Bedeutung in der Aufgabe. Ende mit einer kurzen Einladung zu Rückfragen. Erzwinge keinen sokratischen Dialog und halte die Lösung nicht zurück.
-
-Fachliche Grundlage:
-- Nutze die aktuelle Aufgabenstellung und die interne fachliche Referenz mit genau denselben Zahlen, Einheiten und Bedingungen. Erfinde keine Angaben und vereinfache nicht die Aufgabenwerte.
-- Prüfe die Rechnung, statt mögliche Fehler der Referenz ungeprüft zu übernehmen. Bei mehreren Teilaufgaben erkläre nur die ausdrücklich genannte aktuelle Teilaufgabe.
-
-KaTeX-Format:
-- Antworte in normalem Markdown, ohne HTML, JSX oder Codeblöcke. Schreibe mathematische Ausdrücke vollständig zwischen paarigen $...$; längere Rechnungen dürfen zwischen $$...$$ auf eigenen Zeilen stehen. Schreibe keine LaTeX-Befehle außerhalb dieser Begrenzungen und verwende keine anderen Formelbegrenzungen.
-- Verwende nur einfache, von KaTeX unterstützte Befehle. Schreibe Brüche als \frac{Zähler}{Nenner}, Multiplikation als \cdot und Einheiten aufrecht mit \mathrm{...}. Schreibe zusammengesetzte Einheiten als Bruch, nicht als m/s im Fließtext. Schreibe deutsche Dezimalzahlen mit {,}, etwa $3{,}5$.
-- Gültige Beispiele: $\frac{3}{4}\cdot 8=6$, $12\,\mathrm{cm}$, $5\,\frac{\mathrm{m}}{\mathrm{s}}$, $2\,\frac{\mathrm{m}}{\mathrm{s}^{2}}$, $90^{\circ}$.
-- Verwende im Markdown einfache Backslashes für Befehle, keine doppelt maskierten Backslashes. Prüfe vor der Ausgabe alle Formeln auf gültige Befehle, geschlossene geschweifte Klammern und paarige Dollarzeichen. Halte jede Rechnung kurz genug, dass sie auch auf einem Handy gut lesbar bleibt.`
-    case 'leicht':
-      return 'Vereinfache die Aufgabe deutlich. Nutze kleinere Zahlen, leichtere Formen, einfachere Werte und einfache Sprache.'
-    case 'schwer':
-      return 'Erhöhe nur die Schwierigkeit derselben Aufgabensorte. Nutze größere Zahlen, anspruchsvollere Zahlenräume, eventuell Dezimalzahlen, zusätzliche Schritte oder etwas komplexere Formen. Die fachliche Struktur muss gleich bleiben.'
-    case 'schritt':
-      return 'Führe einen sehr einfachen sokratischen Dialog in einfacher Sprache. Stelle lieber wenige, größere Fragen statt viele kleine. Gib keine Komplettlösung. Warte immer auf die Antwort des Lernenden und baue den Weg zur Lösung Schritt für Schritt gemeinsam auf.'
-    case 'tipp':
-      return 'Nutze die interne Musterlösung als Orientierung. Bestimme deren ersten fachlich sinnvollen Lösungsschritt und formuliere genau einen Denkimpuls, der den Lernenden zu diesem Schritt führt. Verrate weder das Ergebnis dieses Schritts noch spätere Schritte oder die vollständige Lösung. Keine langen Erklärungen. Kurze, klare, motivierende Sprache.'
-    case 'humor':
-      return 'Erstelle eine neue Aufgabe, die dieselbe zentrale mathematische Kompetenz, denselben Aufgabentyp und ungefähr dasselbe Schwierigkeitsniveau prüft. Verwende den in der Lernendenanfrage vorgegebenen humorvollen Kontext verbindlich und übernimm nicht die Geschichte oder den erzählerischen Rahmen der Originalaufgabe. Der Humor darf aus Figuren, Gegenständen oder einer unerwarteten Alltagssituation entstehen, aber niemals auf Kosten von Personen oder Gruppen. Vermeide Insiderwissen, Sarkasmus und lange Witze. Alle Angaben müssen mathematisch sinnvoll, eindeutig und vollständig sein. Formuliere kompakt in einfacher Sprache. Gib nur die Aufgabe aus, keine Lösung, keine Lösungsschritte und keinen Hinweis auf die Originalaufgabe.'
-    case 'pruefen':
-      return 'Prüfe ausschließlich den Lösungsweg, den der Lernende in einer Nachricht mit der Rolle user eingereicht hat. Die interne Musterlösung ist nur eine fachliche Referenz und niemals eine Antwort des Lernenden. Falls noch kein Lösungsweg eingereicht wurde, bitte nur darum. Benenne erst, was richtig ist, dann den ersten Fehler oder das Fehlende und anschließend den nächsten kleinen Schritt. Gib weder die Musterlösung noch eine Komplettlösung aus.'
   }
 }
 
@@ -370,9 +321,7 @@ function MarkdownBubble({
     <div
       className={clsx(
         'max-w-[88%] rounded-2xl px-3 py-2 text-sm break-words shadow-sm',
-        user
-          ? 'ml-auto bg-blue-600 text-white'
-          : 'bg-white text-slate-900',
+        user ? 'ml-auto bg-blue-600 text-white' : 'bg-white text-slate-900',
       )}
     >
       {user ? (
@@ -457,7 +406,7 @@ function buildAttachmentContext(attachment: Attachment) {
   if (attachment.review) {
     parts.push(
       `Bisherige Fehleranalyse: ${attachment.review.label}. ` +
-        `Markierter Ausdruck: ${attachment.review.targetText}.`,
+        `Zuvor besprochener Ausdruck: ${attachment.review.targetText}.`,
     )
   }
   return parts.join('\n')
@@ -465,6 +414,7 @@ function buildAttachmentContext(attachment: Attachment) {
 
 export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   const { notifyTutorial, stepId } = useTutorial()
+  const courseId = PlayerProfileStore.useState(s => s.currentExam)
   const chatOverlay = ExerciseViewStore.useState(s => s.chatOverlay)
   const messages = ExerciseViewStore.useState(s => s.chatMessages)
   const pending = ExerciseViewStore.useState(s => s.chatPending)
@@ -540,27 +490,37 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
     })
   }
 
-  const { taskContext, solutionReferenceContext } = useMemo(() => {
-    if (!exercise) {
-      return { taskContext: '', solutionReferenceContext: '' }
-    }
+  const activePart =
+    currentPage?.index === 'single' ? undefined : currentPage?.index
+  const { taskContext, solutionReferenceContext, visualsTextOnly } =
+    useMemo(() => {
+      if (!exercise) {
+        return {
+          taskContext: '',
+          solutionReferenceContext: '',
+          visualsTextOnly: false,
+        }
+      }
 
-    const taskHtml = extractor(exercise, currentData, {
-      includeSolution: false,
-      includeCorrectionHints: false,
-      includeIntroLabel: true,
-    })
-    const solutionHtml = extractor(exercise, currentData, {
-      includeSolution: true,
-      includeCorrectionHints: false,
-      includeIntroLabel: true,
-    })
+      const taskHtml = extractor(exercise, currentData, {
+        pageIndex: activePart,
+        includeSolution: false,
+        includeCorrectionHints: false,
+        includeIntroLabel: true,
+      })
+      const solutionHtml = extractor(exercise, currentData, {
+        pageIndex: activePart,
+        includeSolution: true,
+        includeCorrectionHints: false,
+        includeIntroLabel: true,
+      })
 
-    return {
-      taskContext: htmlToPromptText(taskHtml),
-      solutionReferenceContext: htmlToPromptText(solutionHtml),
-    }
-  }, [exercise, currentData])
+      return {
+        taskContext: htmlToPromptText(taskHtml),
+        visualsTextOnly: /<svg\b|<img\b/i.test(taskHtml),
+        solutionReferenceContext: htmlToPromptText(solutionHtml),
+      }
+    }, [exercise, currentData, activePart])
 
   const clearCanvas = () => {
     strokesRef.current = []
@@ -703,12 +663,10 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
   }
 
   const buildRequestMessages = (
-    selectedMode: LearningMode,
     transcript: ChatMessage[],
     extraUser?: string,
     extraAttachment?: Attachment | null,
   ) => {
-    const copy = getLearningCopy(selectedMode)
     const convo = transcript.map<PromptMessage>(m => {
       const content = makePromptContent(
         stripInternalPromptMarkers(m.content),
@@ -720,24 +678,20 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
     const out: PromptMessage[] = [
       {
         role: 'system',
-        content:
-          'Du bist ein freundlicher Lerncoach für schulische Mathematik. Antworte auf Deutsch in sehr einfacher Sprache. Bleibe beim aktuellen Aufgabeninhalt. Erfinde keine anderen Themen. Du erhältst die Aufgabenstellung und eine interne Musterlösung in getrennten Systemnachrichten. Die Musterlösung ist ausschließlich eine fachliche Referenz. Behandle sie niemals als Eingabe, Lösungsweg oder Aussage des Lernenden. Eine Lernendenantwort steht ausschließlich in einer Nachricht mit der Rolle user. Gib die interne Musterlösung nur dann vollständig wieder oder erkläre Ergebnisse, wenn der gewählte Modus dies ausdrücklich erfordert. Beginne direkt mit deiner Antwort für den Lernenden. Wiederhole keine internen Metadaten, Abschnittsnamen oder Trennzeichen. Antworte in normalem Markdown und niemals mit HTML oder JSX. Schreibe jeden mathematischen Ausdruck als LaTeX: kurze Ausdrücke zwischen $...$, längere Formeln in einer eigenen Zeile zwischen $$...$$. Beispiel: $F_G = m \\cdot g$. Verwende keine langen Wiederholungen von Zeichen oder Klammern.',
+        content: JSON.stringify({
+          type: 'Aktuelle Aufgabenstellung',
+          activePart: activePart ?? 'single',
+          statement: taskContext,
+          visuals: visualsTextOnly ? 'text_only' : 'not_present',
+        }),
       },
       {
         role: 'system',
-        content: `Modus-Anweisung: ${getModeSystemInstruction(selectedMode)}`,
-      },
-      {
-        role: 'system',
-        content: `Aktuelle Aufgabenstellung:\n${taskContext}`,
-      },
-      {
-        role: 'system',
-        content: `Interne fachliche Referenz, nicht vom Lernenden:\n${solutionReferenceContext}`,
-      },
-      {
-        role: 'system',
-        content: `Aktiver Lernmodus: ${copy.title}`,
+        content: JSON.stringify({
+          type: 'Interne fachliche Referenz',
+          notStudentWork: true,
+          reference: solutionReferenceContext,
+        }),
       },
       ...convo,
     ]
@@ -833,15 +787,12 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
 
     try {
       const requestBody = JSON.stringify({
-        messages: buildRequestMessages(
-          selectedMode,
-          transcript,
-          extraUser,
-          extraAttachment,
-        ),
+        messages: buildRequestMessages(transcript, extraUser, extraAttachment),
         stream: !wantsReview,
         review: wantsReview,
         learningMode: selectedMode,
+        courseId,
+        exerciseId,
       })
       const requestAI = () =>
         fetch('/api/va89kjds', {
@@ -874,7 +825,7 @@ export function ChatOverlay({ mobileHeightVh }: { mobileHeightVh: number }) {
         }
         const feedback =
           result.text?.trim() ||
-          'Ich konnte deinen Lösungsweg prüfen, aber keinen sicheren Fehler erkennen.'
+          'Ich kann deine Einreichung noch nicht sicher beurteilen. Bitte versuche es mit einer deutlicheren Darstellung.'
 
         updateAssistantMessage(feedback)
         if (result.review || result.imageAnalysis) {

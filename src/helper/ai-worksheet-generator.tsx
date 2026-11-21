@@ -26,6 +26,8 @@ import { FaIcon } from '@/components/ui/FaIcon'
 import { exercisesData } from '@/content/exercises'
 import { extractor } from '@/components/exercise-view/extractor/extractor'
 import { makePost } from '@/helper/make-post'
+import { htmlToPromptText } from '@/helper/ai-context'
+import { PlayerProfileStore } from '../../store/player-profile-store'
 
 type WorksheetDifficulty = 'leichter' | 'gleich' | 'schwerer'
 type WorksheetMaterialType = 'standard' | 'differentiated' | 'series'
@@ -182,16 +184,6 @@ function normalizeMathForMarkdown(text: string) {
   return repairWorksheetLatex(text)
     .replace(/\\\(([\s\S]*?)\\\)/g, (_match, inner) => `$${inner}$`)
     .replace(/\\\[([\s\S]*?)\\\]/g, (_match, inner) => `$$${inner}$$`)
-}
-
-function htmlToPromptText(html: string) {
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = html
-  return (wrapper.innerText || wrapper.textContent || '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/[ \t]+\n/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
 }
 
 function safeFileName(value: string) {
@@ -544,6 +536,8 @@ export function AiWorksheetGenerator({
       })
       const context = htmlToPromptText(contextHtml)
       const response = await makePost('/va89kjds', {
+        courseId: PlayerProfileStore.getRawState().currentExam,
+        exerciseId,
         messages: [
           {
             role: 'user',

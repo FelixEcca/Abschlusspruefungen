@@ -11,6 +11,8 @@ import {
 import { exercisesData } from '@/content/exercises'
 import { extractor } from './extractor/extractor'
 import { makePost } from '@/helper/make-post'
+import { htmlToPromptText } from '@/helper/ai-context'
+import { PlayerProfileStore } from '../../../store/player-profile-store'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -459,6 +461,7 @@ export function ScribbleOverlay({
     const data = contextIndex ? state.dataPerExercise[contextIndex] : state.data
 
     const exerciseContext = extractor(exercisesData[exerciseId], data, {
+      pageIndex: page?.index === 'single' ? undefined : page?.index,
       includeIntroLabel: true,
       includeSolution: true,
       includeCorrectionHints: false,
@@ -468,23 +471,14 @@ export function ScribbleOverlay({
       {
         id: 'context',
         role: 'system',
-        content: exerciseContext,
-      },
-      {
-        id: 'prompt',
-        role: 'system',
-        content: `
-Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Mathematikaufgabe.
-
-- Wenn der Inhalt richtig ist, melde gutes Feedback zurück. Überprüfe jedoch die fachliche Korrektheit genau. Weise freundlich auf Fehler hin.
-- Überprüfe, ob mit der Eingabe die entsprechende Teilaufgabe vollständig gelöst wurde.
-- Falls Ergebnisse fehlen, melde das kurz zurück und motiviere weiterzumachen.
-- Fasse dich sehr kurz.
-- Falls etwas falsch ist, erkläre es in 1-2 Sätzen.
-- Antworte auf Deutsch oder in der Sprache der Eingabe.
-- Gib danach keine weiteren Vorschläge oder Fragen mehr.
-- Deine Antwort wird als Markdown mit LaTeX gerendert (\`$...$\` / \`$$...$$\`).
-        `.trim(),
+        content: JSON.stringify({
+          type: 'Aufgabenstellung mit interner Referenz',
+          notStudentWork: true,
+          context: htmlToPromptText(exerciseContext),
+          visuals: /<svg\b|<img\b/i.test(exerciseContext)
+            ? 'text_only'
+            : 'not_present',
+        }),
       },
       {
         id: 'user-image',
@@ -499,7 +493,13 @@ Du erhältst gleich ein Bild mit einem handschriftlichen Ergebnis zu dieser Math
     ]
 
     try {
-      const { text } = await makePost('/va89kjds', msgs)
+      const { text } = await makePost('/va89kjds', {
+        messages: msgs,
+        learningMode: 'pruefen',
+        review: true,
+        courseId: PlayerProfileStore.getRawState().currentExam,
+        exerciseId,
+      })
       const normalized = normalizeMathForMarkdown(text)
 
       setLastFeedback(normalized)
