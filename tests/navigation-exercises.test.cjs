@@ -114,7 +114,7 @@ test('each course only accepts its training entries and assigned exams', () => {
     1: [3000, 3999],
     2: [400, 401],
     6: [9000, 9075],
-    15: [21000, 21402],
+    15: [21000, 21407],
     25: [26500, 26999],
   }
   for (const [navigationId, navigation] of Object.entries(navigationData)) {
@@ -171,7 +171,7 @@ test('exam range boundaries are inclusive and exclude neighboring exercises', ()
     [1, 3000, 3999],
     [2, 400, 401],
     [6, 9000, 9075],
-    [15, 21000, 21402],
+    [15, 21000, 21407],
     [25, 26500, 26999],
   ]) {
     assert.equal(isExamExerciseInNavigation(id, first), true)
@@ -182,8 +182,8 @@ test('exam range boundaries are inclusive and exclude neighboring exercises', ()
 })
 
 test('TG13 gAN exams appear only as exams and do not enter the training catalog', () => {
-  const ids = registeredIds.filter(id => id >= 21000 && id <= 21402)
-  assert.equal(ids.length, 21)
+  const ids = registeredIds.filter(id => id >= 21000 && id <= 21407)
+  assert.equal(ids.length, 36)
   for (const id of ids) {
     assert.equal(isExamExerciseInNavigation(15, id), true)
     assert.equal(isExerciseInNavigation(15, id), false)
@@ -372,6 +372,131 @@ test('Liste renders MEC-E 26500 without inventing a year and never includes trai
   view.rows[0].type(view.rows[0].props).props.onClick()
   assert.deepEqual(view.opened, [26500])
   assert.deepEqual(view.routes, ['/exercise/26500'])
+})
+
+test('Training displays trainer stages and preserves explicitly selected subtasks when opening an exercise', () => {
+  const React = require('react')
+  let currentCourse = 15
+  const opened = [],
+    routes = []
+  const { Training } = loadContentModule(
+    '../components/pages/tabs/Training.tsx',
+    {
+      react: { ...React, useMemo: factory => factory() },
+      'react/jsx-runtime': require('react/jsx-runtime'),
+      '/assets/2307827.png': { default: { src: 'training.png' } },
+      '@/content/navigations': navigations,
+      '@/content/exercises': {
+        exercisesData: {
+          4926: { title: 'Ableitungen bilden' },
+          22081: { title: 'Gemischter Pflichtteil-Check' },
+        },
+      },
+      '@/components/exercise-view/state/actions': {
+        setupExercise: (...args) => opened.push(args),
+      },
+      '@ionic/react': Object.fromEntries(
+        [
+          'Page',
+          'Header',
+          'Toolbar',
+          'Title',
+          'Content',
+          'AccordionGroup',
+          'Accordion',
+          'Item',
+          'Label',
+        ].map(name => ['Ion' + name, 'ion-' + name.toLowerCase()]),
+      ),
+      '../../../../store/player-profile-store': {
+        PlayerProfileStore: {
+          useState: selector => selector({ currentExam: currentCourse }),
+        },
+      },
+      '../../../../store/progress-store': { useProgress: () => null },
+      'react-router': {
+        useHistory: () => ({ push: route => routes.push(route) }),
+      },
+      '@/components/onboarding/TutorialProvider': {
+        useTutorial: () => ({ notifyTutorial: () => {} }),
+      },
+    },
+  )
+  const all = (node, predicate) => {
+    if (!React.isValidElement(node)) return []
+    return [
+      ...(predicate(node) ? [node] : []),
+      ...React.Children.toArray(node.props.children).flatMap(child =>
+        all(child, predicate),
+      ),
+    ]
+  }
+  const tree = Training(),
+    rows = all(tree, node => typeof node.type === 'function' && node.props.ex)
+  const trainerNotes = all(
+    tree,
+    node => node.props['aria-labelledby'] === 'training-stages-title',
+  )
+  assert.equal(trainerNotes.length, 1)
+  const noteHtml = require('react-dom/server').renderToStaticMarkup(
+    trainerNotes[0],
+  )
+  for (const label of ['Basis:', 'Aufbau:', 'Prüfungstransfer:'])
+    assert.ok(noteHtml.includes(label))
+  assert.match(noteHtml, /Grundlagen/)
+  assert.match(noteHtml, /prüfungsnahe Aufgaben/)
+  currentCourse = 14
+  assert.equal(
+    all(
+      Training(),
+      node => node.props['aria-labelledby'] === 'training-stages-title',
+    ).length,
+    0,
+  )
+  assert.equal(rows.length, 88)
+  const basis = rows.find(row => row.props.ex.id === 4926),
+    button = basis.type(basis.props)
+  assert.match(
+    require('react-dom/server').renderToStaticMarkup(button),
+    /14.*Basis/,
+  )
+  button.props.onClick()
+  assert.deepEqual(opened, [[4926, undefined, [{ index: 'a' }]]])
+  assert.deepEqual(routes, ['/exercise/4926'])
+  const transfer = rows.find(row => row.props.ex.id === 22081)
+  assert.match(
+    require('react-dom/server').renderToStaticMarkup(
+      transfer.type(transfer.props),
+    ),
+    /81.*Transfer/,
+  )
+})
+
+test('Liste displays all TG13 Part A selections and PLA tasks in their exam years', () => {
+  const ids = registeredIds.filter(id => id >= 21000 && id <= 21407)
+  const entries = Object.fromEntries(ids.map(id => [id, exerciseMetadata(id)]))
+  const view = listHarness(15, entries)
+  assert.equal(view.rows.length, 36)
+  for (const [start, year, count] of [
+    [21000, 2022, 5],
+    [21100, 2023, 7],
+    [21200, 2024, 8],
+    [21300, 2025, 8],
+    [21400, 2026, 8],
+  ]) {
+    const group = view.rows.filter(
+      node => node.props.idNum >= start && node.props.idNum < start + 100,
+    )
+    assert.equal(group.length, count)
+    for (const row of group)
+      assert.match(row.props.content.source, new RegExp(String(year)))
+  }
+  for (const id of [21203, 21207, 21303, 21307, 21403, 21407]) {
+    const row = view.rows.find(node => node.props.idNum === id)
+    assert.ok(row)
+    row.props.onOpen(row.props.idNum, row.props.id)
+    assert.equal(view.routes.at(-1), '/exercise/' + id)
+  }
 })
 
 test('Liste still displays the existing BK physics, AV and TG13 exam collections', () => {

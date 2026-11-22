@@ -1,10 +1,9 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
-import { frac } from './math'
+import { frac, polynomial } from './math'
 interface DATA {
   k: number
   r?: number
-  h?: number
   c?: number
   left?: number
 }
@@ -14,11 +13,10 @@ export const exercise21200: Exercise<DATA> = {
   useCalculator: false,
   duration: 12,
   generator: rng => ({
-    k: rng.randomIntBetween(1, 5),
-    r: rng.randomIntBetween(2, 6),
-    h: rng.randomIntBetween(-4, 4),
+    k: rng.randomIntBetween(1, 3),
+    r: rng.randomIntBetween(2, 4),
     c: rng.randomIntBetween(1, 3),
-    left: rng.randomIntBetween(2, 5),
+    left: rng.randomIntBetween(2, 4),
   }),
   originalData: { k: 1 },
   intro: ({ data: d }) => (
@@ -26,7 +24,11 @@ export const exercise21200: Exercise<DATA> = {
       Gegeben ist die in <InlineMath math={String.raw`\mathbb R`} /> definierte
       Funktion{' '}
       <InlineMath
-        math={String.raw`f(x)=${d.k}\left[-\frac{2}{${3 * (d.r ?? 3)}}(x-(${d.h ?? 0}))^3+(x-(${d.h ?? 0}))^2-${d.c ?? 3}\right]`}
+        math={String.raw`f(x)=${polynomial([
+          [frac(-2 * d.k, 3 * (d.r ?? 3)), 3],
+          [d.k, 2],
+          [-d.k * (d.c ?? 3), 0],
+        ])}`}
       />
       . Ihr Graph heißt K.
     </p>
@@ -39,27 +41,32 @@ export const exercise21200: Exercise<DATA> = {
       ),
       solution: ({ data: d }) => {
         const r = d.r ?? 3,
-          h = d.h ?? 0,
           c = d.c ?? 3
         return (
           <>
             <p>
-              Mit <InlineMath math={String.raw`u=x-(${h})`} /> erhält man{' '}
+              Mit der Potenzregel erhält man{' '}
               <InlineMath
-                math={String.raw`f'(x)=${d.k}\left[-\frac2{${r}}u^2+2u\right],\quad f''(x)=${d.k}\left[-\frac4{${r}}u+2\right]`}
+                math={String.raw`f'(x)=${polynomial([
+                  [frac(-2 * d.k, r), 2],
+                  [2 * d.k, 1],
+                ])},\quad f''(x)=${polynomial([
+                  [frac(-4 * d.k, r), 1],
+                  [2 * d.k, 0],
+                ])}`}
               />
               .
             </p>
             <p>
               <InlineMath
-                math={String.raw`f'(x)=0\iff u(2-\tfrac2{${r}}u)=0\iff u=0\ \text{oder}\ u=${r}`}
+                math={String.raw`f'(x)=0\iff ${2 * d.k}x\left(1-\frac{x}{${r}}\right)=0\iff x=0\ \text{oder}\ x=${r}`}
               />
               .
             </p>
             <p>
-              Bei u=0 ist f″ positiv, bei u={r} negativ. Daher{' '}
+              Bei x=0 ist f″ positiv, bei x={r} negativ. Daher{' '}
               <InlineMath
-                math={String.raw`T(${h}\mid${-d.k * c}),\quad H(${h + r}\mid${frac(d.k * (r * r - 3 * c), 3)})`}
+                math={String.raw`T(0\mid${-d.k * c}),\quad H(${r}\mid${frac(d.k * (r * r - 3 * c), 3)})`}
               />
               .
             </p>
@@ -71,20 +78,19 @@ export const exercise21200: Exercise<DATA> = {
       points: 2,
       task: ({ data: d }) => (
         <p>
-          Begründen Sie, dass K die x-Achse im Intervall [
-          {(d.h ?? 0) - (d.left ?? 2)}; {d.h ?? 0}] schneidet.
+          Begründen Sie, dass K die x-Achse im Intervall [{-(d.left ?? 2)}; 0]
+          schneidet.
         </p>
       ),
       solution: ({ data: d }) => {
         const r = d.r ?? 3,
-          h = d.h ?? 0,
           c = d.c ?? 3,
           l = d.left ?? 2
         return (
           <>
             <p>
               <InlineMath
-                math={String.raw`f(${h - l})=${frac(d.k * (2 * l ** 3 + 3 * r * (l * l - c)), 3 * r)}>0,\quad f(${h})=${-d.k * c}<0`}
+                math={String.raw`f(${-l})=${frac(d.k * (2 * l ** 3 + 3 * r * (l * l - c)), 3 * r)}>0,\quad f(0)=${-d.k * c}<0`}
               />
               .
             </p>

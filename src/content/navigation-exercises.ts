@@ -6,7 +6,7 @@ const examExerciseRanges: Record<number, { from: number; to: number }[]> = {
   1: [{ from: 3000, to: 3999 }],
   2: [{ from: 400, to: 401 }],
   6: [{ from: 9000, to: 9075 }],
-  15: [{ from: 21000, to: 21402 }],
+  15: [{ from: 21000, to: 21407 }],
   25: [{ from: 26500, to: 26999 }],
 }
 

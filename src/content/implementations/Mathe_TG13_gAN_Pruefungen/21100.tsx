@@ -1,11 +1,10 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
 import { FunctionGraph } from './diagrams'
-import { frac } from './math'
+import { frac, polynomial } from './math'
 interface DATA {
   a: number
   k: number
-  h?: number
   c?: number
   sign?: number
   vertical?: number
@@ -18,10 +17,9 @@ export const exercise21100: Exercise<DATA> = {
   useCalculator: false,
   duration: 35,
   generator: rng => ({
-    a: rng.randomIntBetween(1, 4),
-    k: rng.randomIntBetween(1, 5),
-    h: rng.randomIntBetween(-4, 4),
-    c: rng.randomIntBetween(-8, 8),
+    a: rng.randomIntBetween(1, 3),
+    k: rng.randomIntBetween(1, 3),
+    c: rng.randomIntBetween(-3, 3),
     sign: rng.randomItemFromArray([-1, 1]),
     vertical: rng.randomItemFromArray([-2, -1, 0, 1, 2]),
     phase: rng.randomIntBetween(-2, 2),
@@ -36,40 +34,47 @@ export const exercise21100: Exercise<DATA> = {
         <p>
           Gegeben ist{' '}
           <InlineMath
-            math={String.raw`f(x)=${frac(d.k, 2)}(x-(${d.h ?? 0}))^3-${frac(3 * d.k * d.a ** 2, 2)}(x-(${d.h ?? 0}))+(${d.c ?? 0}),\quad x\in\mathbb R`}
+            math={String.raw`f(x)=${polynomial([
+              [frac(d.k, 2), 3],
+              [frac(-3 * d.k * d.a ** 2, 2), 1],
+              [d.c ?? 0, 0],
+            ])},\quad x\in\mathbb R`}
           />
           . Bestimmen Sie Koordinaten und Art der Extrempunkte und den
           Wendepunkt.
         </p>
       ),
       solution: ({ data: d }) => {
-        const h = d.h ?? 0,
-          c = d.c ?? 0
+        const c = d.c ?? 0
         return (
           <>
             <p>
-              Mit <InlineMath math={String.raw`u=x-(${h})`} /> gilt{' '}
+              Mit der Potenzregel gilt{' '}
               <InlineMath
-                math={String.raw`f'(x)=${frac(3 * d.k, 2)}(u^2-${d.a ** 2}),\quad f''(x)=${3 * d.k}u`}
+                math={String.raw`f'(x)=${polynomial([
+                  [frac(3 * d.k, 2), 2],
+                  [frac(-3 * d.k * d.a ** 2, 2), 0],
+                ])},\quad f''(x)=${3 * d.k}x`}
               />
               .
             </p>
             <p>
-              Die stationären Stellen sind{' '}
-              <InlineMath math={String.raw`x=${h - d.a},\quad x=${h + d.a}`} />.
-              Die zweite Ableitung ist dort negativ beziehungsweise positiv.
-              Somit{' '}
+              Aus <InlineMath math="f'(x)=0" /> folgt{' '}
+              <InlineMath math={String.raw`x^2=${d.a ** 2}`} />. Die stationären
+              Stellen sind{' '}
+              <InlineMath math={String.raw`x=${-d.a},\quad x=${d.a}`} />. Die
+              zweite Ableitung ist dort negativ beziehungsweise positiv. Somit{' '}
               <InlineMath
-                math={String.raw`H(${h - d.a}\mid${c + d.k * d.a ** 3}),\quad T(${h + d.a}\mid${c - d.k * d.a ** 3})`}
+                math={String.raw`H(${-d.a}\mid${c + d.k * d.a ** 3}),\quad T(${d.a}\mid${c - d.k * d.a ** 3})`}
               />
               .
             </p>
             <p>
               Aus{' '}
               <InlineMath
-                math={String.raw`f''(${h})=0,\quad f'''(x)=${3 * d.k}\ne0`}
+                math={String.raw`f''(0)=0,\quad f'''(x)=${3 * d.k}\ne0`}
               />{' '}
-              folgt <InlineMath math={String.raw`W(${h}\mid${c})`} />.
+              folgt <InlineMath math={String.raw`W(0\mid${c})`} />.
             </p>
           </>
         )

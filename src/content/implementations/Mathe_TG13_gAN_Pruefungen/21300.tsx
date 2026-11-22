@@ -1,9 +1,9 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { polynomial } from './math'
 interface DATA {
   a: number
   k?: number
-  shift?: number
   offset?: number
 }
 export const exercise21300: Exercise<DATA> = {
@@ -13,10 +13,9 @@ export const exercise21300: Exercise<DATA> = {
   duration: 12,
   points: 5,
   generator: rng => ({
-    a: rng.randomIntBetween(1, 4),
-    k: rng.randomItemFromArray([-2, -1, 1, 2, 3]),
-    shift: rng.randomIntBetween(-4, 4),
-    offset: rng.randomIntBetween(-6, 6),
+    a: rng.randomIntBetween(1, 3),
+    k: rng.randomItemFromArray([-2, -1, 1, 2]),
+    offset: rng.randomIntBetween(-3, 3),
   }),
   originalData: { a: 1 },
   task: ({ data: d }) => (
@@ -24,7 +23,11 @@ export const exercise21300: Exercise<DATA> = {
       <p>
         Gegeben ist die Funktion{' '}
         <InlineMath
-          math={String.raw`f(x)=${d.k ?? 1}\left[(x-(${d.shift ?? 0}))^3+${3 * d.a}(x-(${d.shift ?? 0}))^2\right]+(${d.offset ?? 0}),\quad x\in\mathbb R`}
+          math={String.raw`f(x)=${polynomial([
+            [d.k ?? 1, 3],
+            [3 * (d.k ?? 1) * d.a, 2],
+            [d.offset ?? 0, 0],
+          ])},\quad x\in\mathbb R`}
         />
         . K ist ihr Graph.
       </p>
@@ -33,25 +36,32 @@ export const exercise21300: Exercise<DATA> = {
   ),
   solution: ({ data: d }) => {
     const k = d.k ?? 1,
-      h = d.shift ?? 0,
       c = d.offset ?? 0,
-      p = [h - 2 * d.a, c + 4 * k * d.a ** 3],
-      q = [h, c],
+      p = [-2 * d.a, c + 4 * k * d.a ** 3],
+      q = [0, c],
       high = k > 0 ? p : q,
       low = k > 0 ? q : p
     return (
       <>
         <p>
-          Mit <InlineMath math={String.raw`u=x-(${h})`} /> gilt{' '}
+          Mit der Potenzregel erhält man{' '}
           <InlineMath
-            math={String.raw`f'(x)=${3 * k}u(u+${2 * d.a}),\quad f''(x)=${6 * k}(u+${d.a})`}
+            math={String.raw`f'(x)=${polynomial([
+              [3 * k, 2],
+              [6 * k * d.a, 1],
+            ])},\quad f''(x)=${polynomial([
+              [6 * k, 1],
+              [6 * k * d.a, 0],
+            ])}`}
           />
           .
         </p>
         <p>
-          Die stationären Stellen sind{' '}
-          <InlineMath math={String.raw`x=${h - 2 * d.a},\quad x=${h}`} />. Die
-          zweite Ableitung hat dort die Werte{' '}
+          Ausklammern in <InlineMath math="f'(x)=0" /> liefert{' '}
+          <InlineMath math={String.raw`${3 * k}x(x+${2 * d.a})=0`} />. Nach dem
+          Satz vom Nullprodukt sind die stationären Stellen{' '}
+          <InlineMath math={String.raw`x=${-2 * d.a},\quad x=0`} />. Die zweite
+          Ableitung hat dort die Werte{' '}
           <InlineMath math={String.raw`${-6 * k * d.a},\quad ${6 * k * d.a}`} />
           : Ein negativer Wert kennzeichnet den Hochpunkt, ein positiver den
           Tiefpunkt.
@@ -64,13 +74,10 @@ export const exercise21300: Exercise<DATA> = {
         </p>
         <p>
           Die zweite Ableitung ist null für{' '}
-          <InlineMath math={String.raw`x_W=${h - d.a}`} />; die dritte Ableitung{' '}
+          <InlineMath math={String.raw`x_W=${-d.a}`} />; die dritte Ableitung{' '}
           <InlineMath math={String.raw`f'''(x)=${6 * k}\ne0`} /> bestätigt den
           Wendepunkt. Die Steigung ist{' '}
-          <InlineMath
-            math={String.raw`m=f'(${h - d.a})=${-3 * k * d.a ** 2}`}
-          />
-          .
+          <InlineMath math={String.raw`m=f'(${-d.a})=${-3 * k * d.a ** 2}`} />.
         </p>
       </>
     )

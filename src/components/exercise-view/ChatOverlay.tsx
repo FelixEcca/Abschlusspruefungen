@@ -31,6 +31,7 @@ import {
 import { exercisesData } from '@/content/exercises'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import { htmlToPromptText } from '@/helper/ai-context'
+import { normalizeMathForMarkdown } from '@/helper/markdown-math'
 import { extractor } from './extractor/extractor'
 import { useTutorial } from '@/components/onboarding/TutorialProvider'
 import { GiselaAvatar } from '@/components/gisela/GiselaAvatar'
@@ -89,15 +90,6 @@ type StrokePoint = {
 
 type Stroke = {
   points: StrokePoint[]
-}
-
-function normalizeMathForMarkdown(text: string): string {
-  let t = text
-  t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
-  t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_m, inner) => `$$${inner}$$`)
-  t = t.replace(/\[([^\]\n]*\\frac[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-  t = t.replace(/\[([^\]\n]*\^[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-  return t
 }
 
 function stripInternalPromptMarkers(text: string) {

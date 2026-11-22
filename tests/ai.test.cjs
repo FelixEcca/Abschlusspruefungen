@@ -141,6 +141,42 @@ describe('Prompts and assessment', { concurrency: false }, () => {
     assert.ok(!markup.includes('katex-error'))
   })
 
+  test('chat normalization preserves square brackets inside complete formulas', async () => {
+    const { normalizeMathForMarkdown } = load('src/helper/markdown-math.ts')
+    const { default: ReactMarkdown } = await import('react-markdown')
+    const { default: remarkMath } = await import('remark-math')
+    const { default: rehypeKatex } = await import('rehype-katex')
+    const React = require('react')
+    const { renderToStaticMarkup } = require('react-dom/server')
+    for (const formula of [
+      String.raw`$f'(x)=\frac{d}{dx}[3(x^3-75x)]=9x^2-225$`,
+      String.raw`$f'(x)=\frac{d}{dx}\left[3(x^3-75x)\right]$`,
+      String.raw`$$\int_0^1 [x^2+\frac12] \, dx$$`,
+      String.raw`\(f'(x)=\frac{d}{dx}[3(x^3-75x)]\)`,
+      String.raw`\[f'(x)=\frac{d}{dx}[3(x^3-75x)]\]`,
+    ]) {
+      const normalized = normalizeMathForMarkdown(formula)
+      if (formula.startsWith('$')) assert.equal(normalized, formula)
+      assert.equal(normalizeMathForMarkdown(normalized), normalized)
+      const markup = renderToStaticMarkup(
+        React.createElement(ReactMarkdown, {
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
+          children: normalized,
+        }),
+      )
+      assert.equal((markup.match(/class="katex"/g) ?? []).length, 1, formula)
+      assert.ok(!markup.includes('katex-error'), formula)
+    }
+    for (const plain of [
+      '[x^2](https://example.test)',
+      'Werte in [0; 2]',
+      '[Text mit $x^2$]',
+    ]) {
+      assert.equal(normalizeMathForMarkdown(plain), plain)
+    }
+  })
+
   function review(overrides = {}) {
     return parseImageReview(
       JSON.stringify({

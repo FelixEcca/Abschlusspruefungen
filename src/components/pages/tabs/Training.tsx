@@ -18,16 +18,15 @@ import { exercisesData } from '@/content/exercises'
 import { setupExercise } from '@/components/exercise-view/state/actions'
 import { useProgress } from '../../../../store/progress-store'
 import { useTutorial } from '@/components/onboarding/TutorialProvider'
-
-type PageRef = { index: string; intro?: string[] }
+import { SkillExercisePage } from '@/data/types'
 type SkillExercise =
   | number
   | {
       id: number
-      pages?: PageRef[]
+      pages?: SkillExercisePage[]
     }
 
-type FlatExercise = { id: number; group?: string }
+type FlatExercise = { id: number; group?: string; pages?: SkillExercisePage[] }
 
 function flattenExercises(topic: any): FlatExercise[] {
   const groups = Array.isArray(topic?.skillGroups) ? topic.skillGroups : []
@@ -42,7 +41,7 @@ function flattenExercises(topic: any): FlatExercise[] {
         typeof sx === 'object' &&
         typeof (sx as any).id === 'number'
       ) {
-        out.push({ id: (sx as any).id, group: g?.name })
+        out.push({ id: sx.id, group: g?.name, pages: sx.pages })
       }
     })
   })
@@ -73,9 +72,10 @@ function ExerciseRow({
   onOpen,
 }: {
   ex: FlatExercise
-  onOpen: (idNum: number) => void
+  onOpen: (idNum: number, pages?: SkillExercisePage[]) => void
 }) {
   const st = useProgress(ex.id)
+  const trainerLabel = ex.group?.match(/^(\d{2}) · (Basis|Aufbau|Transfer): /)
   const cls = st?.reviewLater
     ? 'bg-red-100 border-red-400'
     : st?.flagged
@@ -89,8 +89,13 @@ function ExerciseRow({
       type="button"
       data-tutorial={`training-exercise-${ex.id}`}
       className={`my-2 w-full text-left cursor-pointer rounded-lg p-2 border hover:bg-gray-50 transition-colors ${cls}`}
-      onClick={() => onOpen(ex.id)}
+      onClick={() => onOpen(ex.id, ex.pages)}
     >
+      {trainerLabel && (
+        <div className="mb-1 text-xs font-medium text-sky-700">
+          {trainerLabel[1]} · {trainerLabel[2]}
+        </div>
+      )}
       <div className="text-md text-gray-800">
         {exercisesData[ex.id]?.title ?? ex.group ?? 'Aufgabe'}
       </div>
@@ -114,8 +119,8 @@ export function Training() {
     [allExercises],
   )
 
-  const openExercise = (idNum: number) => {
-    setupExercise(idNum)
+  const openExercise = (idNum: number, pages?: SkillExercisePage[]) => {
+    setupExercise(idNum, undefined, pages)
     history.push('/exercise/' + idNum)
   }
 
@@ -148,6 +153,44 @@ export function Training() {
             </div>
           </div>
         </div>
+
+        {exam === 15 && (
+          <aside
+            aria-labelledby="training-stages-title"
+            className="mx-3 mt-4 rounded-xl border border-gray-100 bg-sky-50 p-3 shadow-md text-sm text-gray-700"
+          >
+            <h2
+              id="training-stages-title"
+              className="mb-2 font-semibold text-gray-800"
+            >
+              Dein Weg zum Pflichtteil: drei Lernstufen
+            </h2>
+            <dl className="space-y-2">
+              <div>
+                <dt className="inline font-semibold">Basis: </dt>
+                <dd className="inline">
+                  Frische wichtige Grundlagen auf. Die Aufgaben bieten einen
+                  einfachen Einstieg, auch wenn das Thema länger zurückliegt.
+                </dd>
+              </div>
+              <div>
+                <dt className="inline font-semibold">Aufbau: </dt>
+                <dd className="inline">
+                  Vertiefe einzelne Kompetenzen und verbinde mehrere
+                  Rechenschritte miteinander.
+                </dd>
+              </div>
+              <div>
+                <dt className="inline font-semibold">Prüfungstransfer: </dt>
+                <dd className="inline">
+                  Wende dein Wissen auf prüfungsnahe Aufgaben an und wähle
+                  deinen Lösungsweg selbst. In der Liste sind sie mit „Transfer“
+                  gekennzeichnet.
+                </dd>
+              </div>
+            </dl>
+          </aside>
+        )}
 
         {/* Themen & direkte Aufgabenliste je Thema */}
         <div className="mx-3 mt-4 mb-6 bg-sky-50 rounded-md pt-2 px-2 pb-2">

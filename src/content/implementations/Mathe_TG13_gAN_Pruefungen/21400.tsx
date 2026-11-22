@@ -1,5 +1,6 @@
 import { Exercise } from '@/data/types'
 import { InlineMath } from 'react-katex'
+import { polynomial } from './math'
 interface DATA {
   a: number
   k?: number
@@ -13,15 +14,20 @@ export const exercise21400: Exercise<DATA> = {
   useCalculator: false,
   duration: 12,
   generator: rng => ({
-    a: rng.randomIntBetween(1, 5),
-    k: rng.randomItemFromArray([-3, -2, -1, 1, 2, 3, 4]),
+    a: rng.randomIntBetween(1, 3),
+    k: rng.randomItemFromArray([-2, -1, 1, 2]),
   }),
   originalData: { a: 1 },
   intro: ({ data: d }) => (
     <p>
       Der Graph der in <InlineMath math={String.raw`\mathbb R`} /> definierten
       Funktion{' '}
-      <InlineMath math={String.raw`f(x)=${d.k ?? 1}(x^3-${3 * d.a ** 2}x)`} />{' '}
+      <InlineMath
+        math={String.raw`f(x)=${polynomial([
+          [d.k ?? 1, 3],
+          [-3 * (d.k ?? 1) * d.a ** 2, 1],
+        ])}`}
+      />{' '}
       wird mit G bezeichnet.
     </p>
   ),
@@ -41,7 +47,10 @@ export const exercise21400: Exercise<DATA> = {
           <>
             <p>
               <InlineMath
-                math={String.raw`f'(x)=${3 * k}(x^2-${d.a ** 2}),\quad f''(x)=${6 * k}x`}
+                math={String.raw`f'(x)=${polynomial([
+                  [3 * k, 2],
+                  [-3 * k * d.a ** 2, 0],
+                ])},\quad f''(x)=${6 * k}x`}
               />
               .
             </p>

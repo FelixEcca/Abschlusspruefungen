@@ -25,6 +25,22 @@ export function binomial(n: number, p: number) {
     return coefficient * p ** k * (1 - p) ** (n - k)
   })
 }
+
+export function polynomial(
+  terms: [coefficient: number | string, power: number][],
+) {
+  let result = ''
+  for (const [coefficient, power] of terms) {
+    const value = String(coefficient)
+    if (value === '0') continue
+    const negative = value.startsWith('-')
+    const magnitude = negative ? value.slice(1) : value
+    const factor = power > 0 && magnitude === '1' ? '' : magnitude
+    const variable = power === 0 ? '' : power === 1 ? 'x' : `x^{${power}}`
+    result += `${negative ? '-' : result ? '+' : ''}${factor}${variable}`
+  }
+  return result || '0'
+}
 export const orthogonalPairs: { u: Vec; v: Vec }[] = [
   { u: [4, -2, -4], v: [-2, 4, -4] },
   { u: [2, 1, -2], v: [6, 4, 8] },

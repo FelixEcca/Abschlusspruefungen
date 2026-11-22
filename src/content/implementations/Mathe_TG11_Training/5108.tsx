@@ -50,15 +50,15 @@ export const exercise5108: Exercise<DATA> = {
     const degree = rng.randomIntBetween(1, 6)
 
     // 2 bis 4 Terme, Grad-Term ist sicher drin
-    const termCount = rng.randomIntBetween(2, 4)
-    const exps = new Set<number>()
-    exps.add(degree)
+    const termCount = rng.randomIntBetween(2, Math.min(4, degree + 1))
+    const exps = [
+      degree,
+      ...rng
+        .shuffleArray(Array.from({ length: degree }, (_, i) => i))
+        .slice(0, termCount - 1),
+    ]
 
-    while (exps.size < termCount) {
-      exps.add(rng.randomIntBetween(0, degree))
-    }
-
-    const terms: Term[] = Array.from(exps).map(exp => {
+    const terms: Term[] = exps.map(exp => {
       let coeff = rng.randomIntBetween(-6, 6)
       while (coeff === 0) coeff = rng.randomIntBetween(-6, 6)
       // führender Koeffizient nicht zu klein

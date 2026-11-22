@@ -625,14 +625,166 @@ import { exercise21106 } from './implementations/Mathe_TG13_gAN_Pruefungen/21106
 import { exercise21200 } from './implementations/Mathe_TG13_gAN_Pruefungen/21200'
 import { exercise21201 } from './implementations/Mathe_TG13_gAN_Pruefungen/21201'
 import { exercise21202 } from './implementations/Mathe_TG13_gAN_Pruefungen/21202'
+import { exercise21203 } from './implementations/Mathe_TG13_gAN_Pruefungen/21203'
+import { exercise21204 } from './implementations/Mathe_TG13_gAN_Pruefungen/21204'
+import { exercise21205 } from './implementations/Mathe_TG13_gAN_Pruefungen/21205'
+import { exercise21206 } from './implementations/Mathe_TG13_gAN_Pruefungen/21206'
+import { exercise21207 } from './implementations/Mathe_TG13_gAN_Pruefungen/21207'
 import { exercise21300 } from './implementations/Mathe_TG13_gAN_Pruefungen/21300'
 import { exercise21301 } from './implementations/Mathe_TG13_gAN_Pruefungen/21301'
 import { exercise21302 } from './implementations/Mathe_TG13_gAN_Pruefungen/21302'
+import { exercise21303 } from './implementations/Mathe_TG13_gAN_Pruefungen/21303'
+import { exercise21304 } from './implementations/Mathe_TG13_gAN_Pruefungen/21304'
+import { exercise21305 } from './implementations/Mathe_TG13_gAN_Pruefungen/21305'
+import { exercise21306 } from './implementations/Mathe_TG13_gAN_Pruefungen/21306'
+import { exercise21307 } from './implementations/Mathe_TG13_gAN_Pruefungen/21307'
 import { exercise21400 } from './implementations/Mathe_TG13_gAN_Pruefungen/21400'
 import { exercise21401 } from './implementations/Mathe_TG13_gAN_Pruefungen/21401'
 import { exercise21402 } from './implementations/Mathe_TG13_gAN_Pruefungen/21402'
+import { exercise21403 } from './implementations/Mathe_TG13_gAN_Pruefungen/21403'
+import { exercise21404 } from './implementations/Mathe_TG13_gAN_Pruefungen/21404'
+import { exercise21405 } from './implementations/Mathe_TG13_gAN_Pruefungen/21405'
+import { exercise21406 } from './implementations/Mathe_TG13_gAN_Pruefungen/21406'
+import { exercise21407 } from './implementations/Mathe_TG13_gAN_Pruefungen/21407'
+
+import { exercise22001 } from './implementations/Mathe_TG13_gAN_Training/22001'
+import { exercise22002 } from './implementations/Mathe_TG13_gAN_Training/22002'
+import { exercise22003 } from './implementations/Mathe_TG13_gAN_Training/22003'
+import { exercise22004 } from './implementations/Mathe_TG13_gAN_Training/22004'
+import { exercise22005 } from './implementations/Mathe_TG13_gAN_Training/22005'
+import { exercise22006 } from './implementations/Mathe_TG13_gAN_Training/22006'
+import { exercise22007 } from './implementations/Mathe_TG13_gAN_Training/22007'
+import { exercise22009 } from './implementations/Mathe_TG13_gAN_Training/22009'
+import { exercise22010 } from './implementations/Mathe_TG13_gAN_Training/22010'
+import { exercise22013 } from './implementations/Mathe_TG13_gAN_Training/22013'
+import { exercise22016 } from './implementations/Mathe_TG13_gAN_Training/22016'
+import { exercise22017 } from './implementations/Mathe_TG13_gAN_Training/22017'
+import { exercise22018 } from './implementations/Mathe_TG13_gAN_Training/22018'
+import { exercise22019 } from './implementations/Mathe_TG13_gAN_Training/22019'
+import { exercise22020 } from './implementations/Mathe_TG13_gAN_Training/22020'
+import { exercise22021 } from './implementations/Mathe_TG13_gAN_Training/22021'
+import { exercise22022 } from './implementations/Mathe_TG13_gAN_Training/22022'
+import { exercise22023 } from './implementations/Mathe_TG13_gAN_Training/22023'
+import { exercise22024 } from './implementations/Mathe_TG13_gAN_Training/22024'
+import { exercise22025 } from './implementations/Mathe_TG13_gAN_Training/22025'
+import { exercise22026 } from './implementations/Mathe_TG13_gAN_Training/22026'
+import { exercise22027 } from './implementations/Mathe_TG13_gAN_Training/22027'
+import { exercise22028 } from './implementations/Mathe_TG13_gAN_Training/22028'
+import { exercise22029 } from './implementations/Mathe_TG13_gAN_Training/22029'
+import { exercise22030 } from './implementations/Mathe_TG13_gAN_Training/22030'
+import { exercise22031 } from './implementations/Mathe_TG13_gAN_Training/22031'
+import { exercise22037 } from './implementations/Mathe_TG13_gAN_Training/22037'
+import { exercise22038 } from './implementations/Mathe_TG13_gAN_Training/22038'
+import { exercise22039 } from './implementations/Mathe_TG13_gAN_Training/22039'
+import { exercise22040 } from './implementations/Mathe_TG13_gAN_Training/22040'
+import { exercise22041 } from './implementations/Mathe_TG13_gAN_Training/22041'
+import { exercise22042 } from './implementations/Mathe_TG13_gAN_Training/22042'
+import { exercise22043 } from './implementations/Mathe_TG13_gAN_Training/22043'
+import { exercise22044 } from './implementations/Mathe_TG13_gAN_Training/22044'
+import { exercise22045 } from './implementations/Mathe_TG13_gAN_Training/22045'
+import { exercise22046 } from './implementations/Mathe_TG13_gAN_Training/22046'
+import { exercise22047 } from './implementations/Mathe_TG13_gAN_Training/22047'
+import { exercise22048 } from './implementations/Mathe_TG13_gAN_Training/22048'
+import { exercise22049 } from './implementations/Mathe_TG13_gAN_Training/22049'
+import { exercise22050 } from './implementations/Mathe_TG13_gAN_Training/22050'
+import { exercise22051 } from './implementations/Mathe_TG13_gAN_Training/22051'
+import { exercise22052 } from './implementations/Mathe_TG13_gAN_Training/22052'
+import { exercise22053 } from './implementations/Mathe_TG13_gAN_Training/22053'
+import { exercise22054 } from './implementations/Mathe_TG13_gAN_Training/22054'
+import { exercise22055 } from './implementations/Mathe_TG13_gAN_Training/22055'
+import { exercise22058 } from './implementations/Mathe_TG13_gAN_Training/22058'
+import { exercise22061 } from './implementations/Mathe_TG13_gAN_Training/22061'
+import { exercise22064 } from './implementations/Mathe_TG13_gAN_Training/22064'
+import { exercise22065 } from './implementations/Mathe_TG13_gAN_Training/22065'
+import { exercise22066 } from './implementations/Mathe_TG13_gAN_Training/22066'
+import { exercise22067 } from './implementations/Mathe_TG13_gAN_Training/22067'
+import { exercise22068 } from './implementations/Mathe_TG13_gAN_Training/22068'
+import { exercise22069 } from './implementations/Mathe_TG13_gAN_Training/22069'
+import { exercise22070 } from './implementations/Mathe_TG13_gAN_Training/22070'
+import { exercise22071 } from './implementations/Mathe_TG13_gAN_Training/22071'
+import { exercise22072 } from './implementations/Mathe_TG13_gAN_Training/22072'
+import { exercise22073 } from './implementations/Mathe_TG13_gAN_Training/22073'
+import { exercise22074 } from './implementations/Mathe_TG13_gAN_Training/22074'
+import { exercise22075 } from './implementations/Mathe_TG13_gAN_Training/22075'
+import { exercise22076 } from './implementations/Mathe_TG13_gAN_Training/22076'
+import { exercise22077 } from './implementations/Mathe_TG13_gAN_Training/22077'
+import { exercise22078 } from './implementations/Mathe_TG13_gAN_Training/22078'
+import { exercise22079 } from './implementations/Mathe_TG13_gAN_Training/22079'
+import { exercise22080 } from './implementations/Mathe_TG13_gAN_Training/22080'
+import { exercise22081 } from './implementations/Mathe_TG13_gAN_Training/22081'
+import { exercise22082 } from './implementations/Mathe_TG13_gAN_Training/22082'
+import { exercise22083 } from './implementations/Mathe_TG13_gAN_Training/22083'
+import { exercise22084 } from './implementations/Mathe_TG13_gAN_Training/22084'
 
 export const exercisesData: { [key: number]: Exercise<any> } = {
+  22001: exercise22001,
+  22002: exercise22002,
+  22003: exercise22003,
+  22004: exercise22004,
+  22005: exercise22005,
+  22006: exercise22006,
+  22007: exercise22007,
+  22009: exercise22009,
+  22010: exercise22010,
+  22013: exercise22013,
+  22016: exercise22016,
+  22017: exercise22017,
+  22018: exercise22018,
+  22019: exercise22019,
+  22020: exercise22020,
+  22021: exercise22021,
+  22022: exercise22022,
+  22023: exercise22023,
+  22024: exercise22024,
+  22025: exercise22025,
+  22026: exercise22026,
+  22027: exercise22027,
+  22028: exercise22028,
+  22029: exercise22029,
+  22030: exercise22030,
+  22031: exercise22031,
+  22037: exercise22037,
+  22038: exercise22038,
+  22039: exercise22039,
+  22040: exercise22040,
+  22041: exercise22041,
+  22042: exercise22042,
+  22043: exercise22043,
+  22044: exercise22044,
+  22045: exercise22045,
+  22046: exercise22046,
+  22047: exercise22047,
+  22048: exercise22048,
+  22049: exercise22049,
+  22050: exercise22050,
+  22051: exercise22051,
+  22052: exercise22052,
+  22053: exercise22053,
+  22054: exercise22054,
+  22055: exercise22055,
+  22058: exercise22058,
+  22061: exercise22061,
+  22064: exercise22064,
+  22065: exercise22065,
+  22066: exercise22066,
+  22067: exercise22067,
+  22068: exercise22068,
+  22069: exercise22069,
+  22070: exercise22070,
+  22071: exercise22071,
+  22072: exercise22072,
+  22073: exercise22073,
+  22074: exercise22074,
+  22075: exercise22075,
+  22076: exercise22076,
+  22077: exercise22077,
+  22078: exercise22078,
+  22079: exercise22079,
+  22080: exercise22080,
+  22081: exercise22081,
+  22082: exercise22082,
+  22083: exercise22083,
+  22084: exercise22084,
   21000: exercise21000,
   21001: exercise21001,
   21002: exercise21002,
@@ -648,12 +800,27 @@ export const exercisesData: { [key: number]: Exercise<any> } = {
   21200: exercise21200,
   21201: exercise21201,
   21202: exercise21202,
+  21203: exercise21203,
+  21204: exercise21204,
+  21205: exercise21205,
+  21206: exercise21206,
+  21207: exercise21207,
   21300: exercise21300,
   21301: exercise21301,
   21302: exercise21302,
+  21303: exercise21303,
+  21304: exercise21304,
+  21305: exercise21305,
+  21306: exercise21306,
+  21307: exercise21307,
   21400: exercise21400,
   21401: exercise21401,
   21402: exercise21402,
+  21403: exercise21403,
+  21404: exercise21404,
+  21405: exercise21405,
+  21406: exercise21406,
+  21407: exercise21407,
   200: exercise200,
   201: exercise201,
   202: exercise202,

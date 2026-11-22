@@ -29,6 +29,7 @@ import { getCoachExercises } from './learning-coach'
 import { Gisela } from './Gisela'
 import { GiselaAvatar } from './GiselaAvatar'
 import { getGiselaLook } from './gisela-looks'
+import { normalizeMathForMarkdown } from '@/helper/markdown-math'
 import styles from './LearningCoachChat.module.css'
 
 type Message = CoachTurn & { exerciseId?: number | null }
@@ -260,15 +261,7 @@ export function LearningCoachChat({
                     img: () => null,
                   }}
                 >
-                  {message.content
-                    .replace(
-                      /\\\(([\s\S]*?)\\\)/g,
-                      (_match, math) => `$${math}$`,
-                    )
-                    .replace(
-                      /\\\[([\s\S]*?)\\\]/g,
-                      (_match, math) => `$$${math}$$`,
-                    )}
+                  {normalizeMathForMarkdown(message.content)}
                 </ReactMarkdown>
                 {exercise && (
                   <button

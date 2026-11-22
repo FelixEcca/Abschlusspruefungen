@@ -532,6 +532,7 @@ describe('Learning coach dialogue', { concurrency: false }, () => {
           return respond(...args)
         },
       },
+      '@/helper/markdown-math': load('src/helper/markdown-math.ts'),
       './learning-coach': { getCoachExercises: () => entries },
       './Gisela': { Gisela: () => null },
       './GiselaAvatar': { GiselaAvatar: () => null },

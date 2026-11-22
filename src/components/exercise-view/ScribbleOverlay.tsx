@@ -12,6 +12,7 @@ import { exercisesData } from '@/content/exercises'
 import { extractor } from './extractor/extractor'
 import { makePost } from '@/helper/make-post'
 import { htmlToPromptText } from '@/helper/ai-context'
+import { normalizeMathForMarkdown } from '@/helper/markdown-math'
 import { PlayerProfileStore } from '../../../store/player-profile-store'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
@@ -34,15 +35,6 @@ type ScribbleApiMessage = {
 
 const scribbleStorage = new Map<string, Stroke[]>()
 const STORAGE_PREFIX = 'scribble-overlay-strokes:'
-
-function normalizeMathForMarkdown(text: string): string {
-  let t = text
-  t = t.replace(/\\\(([\s\S]*?)\\\)/g, (_m, inner) => `$${inner}$`)
-  t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_m, inner) => `$$${inner}$$`)
-  t = t.replace(/\[([^\]\n]*\\frac[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-  t = t.replace(/\[([^\]\n]*\^[^\]\n]*)\]/g, (_m, inner) => `$${inner}$`)
-  return t
-}
 
 function cloneStrokes(strokes: Stroke[]) {
   return strokes.map(stroke => ({

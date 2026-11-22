@@ -2004,9 +2004,7 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [
-          
-        ],
+        skillGroups: [],
       },
     ],
     mapHeight: 0,
@@ -2018,13 +2016,401 @@ export const navigationData: { [key: number]: Navigation } = {
     shortTitle: 'TG13 - Mathe gAN',
     topics: [
       {
-        title: 'Grundlagen',
+        title: 'Pflichtteiltrainer · 1. Rechnen auffrischen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
         skillGroups: [
           {
-            name: 'Testaufgabe',
-            skillExercises: [{ id: 1000 }],
+            name: '01 · Basis: Brüche mit einer Rechenart verrechnen',
+            skillExercises: [{ id: 22001 }],
+          },
+          {
+            name: '02 · Basis: Potenzen, Wurzeln und Vorzeichen unterscheiden',
+            skillExercises: [{ id: 22002 }],
+          },
+          {
+            name: '03 · Basis: Terme vereinfachen und typische Fehler korrigieren',
+            skillExercises: [{ id: 22003 }],
+          },
+          {
+            name: '04 · Basis: Lineare Gleichungen in kleinen Schritten lösen',
+            skillExercises: [{ id: 22004 }],
+          },
+          {
+            name: '05 · Basis: Den Satz vom Nullprodukt verstehen',
+            skillExercises: [{ id: 22005 }],
+          },
+          {
+            name: '06 · Aufbau: Das passende Verfahren für eine quadratische Gleichung wählen',
+            skillExercises: [{ id: 22006 }],
+          },
+          {
+            name: '07 · Basis: Einfache Gleichungen mit e lösen',
+            skillExercises: [{ id: 22007 }],
+          },
+          {
+            name: '08 · Basis: Lineare Gleichungssysteme auffrischen',
+            skillExercises: [{ id: 4800 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 2. Funktionen wiedererkennen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '09 · Basis: Funktionswerte mit Vorzeichen berechnen',
+            skillExercises: [{ id: 22009 }],
+          },
+          {
+            name: '10 · Basis: Funktionswert, Steigung und Stammfunktion unterscheiden',
+            skillExercises: [{ id: 22010 }],
+          },
+          {
+            name: '11 · Basis: Grad und Globalverhalten von Polynomen',
+            skillExercises: [{ id: 5108 }, { id: 5109 }],
+          },
+          {
+            name: '12 · Basis: Symmetrie erkennen und mit f(−x) prüfen',
+            skillExercises: [{ id: 5110 }, { id: 5111 }],
+          },
+          {
+            name: '13 · Basis: Markante Stellen in einem Graphen ablesen',
+            skillExercises: [{ id: 22013 }],
+          },
+          {
+            name: '14 · Basis: Einfache Potenzfunktionen ableiten',
+            skillExercises: [{ id: 4926, pages: [{ index: 'a' }] }],
+          },
+          {
+            name: '15 · Basis: Die Steigung an einer Stelle berechnen',
+            skillExercises: [{ id: 4927 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 3. Analysis aufbauen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '16 · Basis: Exponentialfunktionen mit einfacher Kettenregel ableiten',
+            skillExercises: [{ id: 22016 }],
+          },
+          {
+            name: '17 · Basis: Sinus und Cosinus mit Vorzeichen ableiten',
+            skillExercises: [{ id: 22017 }],
+          },
+          {
+            name: '18 · Aufbau: Die Produktregel an übersichtlichen Produkten anwenden',
+            skillExercises: [{ id: 22018 }],
+          },
+          {
+            name: '19 · Aufbau: Typische Ableitungsfehler erkennen und korrigieren',
+            skillExercises: [{ id: 22019 }],
+          },
+          {
+            name: '20 · Basis: Stationäre Stellen durch Ausklammern bestimmen',
+            skillExercises: [{ id: 22020 }],
+          },
+          {
+            name: '21 · Aufbau: Hochpunkt, Tiefpunkt oder waagerechte Wendestelle?',
+            skillExercises: [{ id: 22021 }],
+          },
+          {
+            name: '22 · Aufbau: Wendestelle und Wendepunktsteigung schrittweise berechnen',
+            skillExercises: [{ id: 22022 }],
+          },
+          {
+            name: '23 · Aufbau: Aus dem Ableitungsgraphen auf f schließen',
+            skillExercises: [{ id: 22023 }],
+          },
+          {
+            name: '24 · Basis: Einfache Stammfunktionen finden',
+            skillExercises: [{ id: 22024 }],
+          },
+          {
+            name: '25 · Aufbau: Eine Stammfunktion durch einen Punkt bestimmen',
+            skillExercises: [{ id: 22025 }],
+          },
+          {
+            name: '26 · Aufbau: Eine vorgegebene Stammfunktion überprüfen',
+            skillExercises: [{ id: 22026 }],
+          },
+          {
+            name: '27 · Basis: Bestimmte Integrale mit einfachen Grenzen berechnen',
+            skillExercises: [{ id: 22027 }],
+          },
+          {
+            name: '28 · Aufbau: Flächeninhalt und Integralwert unterscheiden',
+            skillExercises: [{ id: 22028 }],
+          },
+          {
+            name: '29 · Transfer: Ein Integral mit einem Rechteck abschätzen',
+            skillExercises: [{ id: 22029 }],
+          },
+          {
+            name: '30 · Transfer: Funktionswert, Ableitung und Integral exakt vergleichen',
+            skillExercises: [{ id: 22030 }],
+          },
+          {
+            name: '31 · Transfer: Eine Parabel aus Punkt und Tangentenbedingungen rekonstruieren',
+            skillExercises: [{ id: 22031 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 4. Trigonometrie reaktivieren',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '32 · Basis: Sin, −Sin, Cos oder −Cos?',
+            skillExercises: [{ id: 20007 }],
+          },
+          {
+            name: '33 · Basis: Amplitude, Mittellinie und Periode ablesen',
+            skillExercises: [{ id: 20001 }, { id: 20005 }],
+          },
+          {
+            name: '34 · Basis: Bogenmaß und besondere Sinuswerte auffrischen',
+            skillExercises: [{ id: 20003 }, { id: 20004 }],
+          },
+          {
+            name: '35 · Aufbau: Trigonometrische Gleichungen im Intervall lösen',
+            skillExercises: [{ id: 20008 }],
+          },
+          {
+            name: '36 · Transfer: Sinuskurven beschreiben und Funktionsterme bestimmen',
+            skillExercises: [{ id: 20006 }],
+          },
+          {
+            name: '37 · Transfer: Schnittpunkte und Berührpunkte eines Sinusprodukts unterscheiden',
+            skillExercises: [{ id: 22037 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 5. Stochastik aufbauen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '38 · Basis: Ergebnisse, Ereignisse und Laplace-Wahrscheinlichkeiten',
+            skillExercises: [{ id: 22038 }],
+          },
+          {
+            name: '39 · Basis: Ein Baumdiagramm mit Zurücklegen ergänzen',
+            skillExercises: [{ id: 22039 }],
+          },
+          {
+            name: '40 · Basis: Ziehen ohne Zurücklegen Schritt für Schritt',
+            skillExercises: [{ id: 22040 }],
+          },
+          {
+            name: '41 · Aufbau: Eine Abbruchregel vollständig beschreiben',
+            skillExercises: [{ id: 22041 }],
+          },
+          {
+            name: '42 · Basis: Genau, mindestens und höchstens übersetzen',
+            skillExercises: [{ id: 22042 }],
+          },
+          {
+            name: '43 · Aufbau: Zu einem Wahrscheinlichkeitsterm ein Ereignis formulieren',
+            skillExercises: [{ id: 22043 }],
+          },
+          {
+            name: '44 · Aufbau: Oder-Ereignisse mit Überschneidung berechnen',
+            skillExercises: [{ id: 22044 }],
+          },
+          {
+            name: '45 · Basis: Eine Binomialverteilung erkennen und ihre Parameter benennen',
+            skillExercises: [{ id: 22045 }],
+          },
+          {
+            name: '46 · Aufbau: Genau k Treffer mit der Binomialformel berechnen',
+            skillExercises: [{ id: 22046 }],
+          },
+          {
+            name: '47 · Aufbau: Eine Binomialverteilung aus einem Säulendiagramm erschließen',
+            skillExercises: [{ id: 22047 }],
+          },
+          {
+            name: '48 · Aufbau: Höchstens, mindestens und Bereiche aus einer Tabelle berechnen',
+            skillExercises: [{ id: 22048 }],
+          },
+          {
+            name: '49 · Aufbau: Den Erwartungswert bei einer Abbruchregel berechnen',
+            skillExercises: [{ id: 22049 }],
+          },
+          {
+            name: '50 · Aufbau: Fairen Einsatz, Auszahlung und Gewinn auseinanderhalten',
+            skillExercises: [{ id: 22050 }],
+          },
+          {
+            name: '51 · Basis: Bedingte Wahrscheinlichkeiten aus Häufigkeiten verstehen',
+            skillExercises: [{ id: 22051 }],
+          },
+          {
+            name: '52 · Transfer: Die Bedingung umkehren: Wer steckt hinter den verspäteten Sendungen?',
+            skillExercises: [{ id: 22052 }],
+          },
+          {
+            name: '53 · Transfer: Eine unbekannte Kugel- oder Jokerzahl aus einer Wahrscheinlichkeit bestimmen',
+            skillExercises: [{ id: 22053 }],
+          },
+          {
+            name: '54 · Transfer: Flächenanteile und Sektorwinkel als Wahrscheinlichkeiten deuten',
+            skillExercises: [{ id: 22054 }],
+          },
+          {
+            name: '55 · Aufbau: Typische Wahrscheinlichkeitsfehler prüfen und korrigieren',
+            skillExercises: [{ id: 22055 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 6. Vektoren auffrischen',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '56 · Basis: Punkte im Raum lesen und einzeichnen',
+            skillExercises: [{ id: 5000 }],
+          },
+          {
+            name: '57 · Basis: Punkte auf Achsen und Ebenen erkennen',
+            skillExercises: [{ id: 5001 }],
+          },
+          {
+            name: '58 · Basis: Projektion und Spiegelung an Koordinatenebenen unterscheiden',
+            skillExercises: [{ id: 22058 }],
+          },
+          {
+            name: '59 · Basis: Verbindungs- und Gegenvektoren bestimmen',
+            skillExercises: [{ id: 5003 }],
+          },
+          {
+            name: '60 · Basis: Mit Vektoren und Linearkombinationen rechnen',
+            skillExercises: [{ id: 5004 }],
+          },
+          {
+            name: '61 · Basis: Vektorlänge und Abstand zweier Punkte berechnen',
+            skillExercises: [{ id: 22061 }],
+          },
+          {
+            name: '62 · Basis: Mittelpunkte von Strecken bestimmen',
+            skillExercises: [{ id: 5006 }],
+          },
+          {
+            name: '63 · Basis: Vektoren auf Parallelität prüfen',
+            skillExercises: [{ id: 5005 }],
+          },
+          {
+            name: '64 · Basis: Mit dem Skalarprodukt auf Orthogonalität prüfen',
+            skillExercises: [{ id: 22064 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 7. Vektorgeometrie verbinden',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '65 · Aufbau: Eine Gerade durch zwei Punkte aufstellen und eine Punktprobe durchführen',
+            skillExercises: [{ id: 22065 }],
+          },
+          {
+            name: '66 · Aufbau: Innere und äußere Teilpunkte zu einem Streckenverhältnis finden',
+            skillExercises: [{ id: 22066 }],
+          },
+          {
+            name: '67 · Aufbau: Parallele und identische Geraden unterscheiden',
+            skillExercises: [{ id: 22067 }],
+          },
+          {
+            name: '68 · Aufbau: Eine Gerade mit einer Koordinatenebene vergleichen',
+            skillExercises: [{ id: 22068 }],
+          },
+          {
+            name: '69 · Transfer: Zwei Geraden auf einen Schnittpunkt untersuchen',
+            skillExercises: [{ id: 22069 }],
+          },
+          {
+            name: '70 · Aufbau: Einen rechten Winkel oder ein Rechteck mit Vektoren nachweisen',
+            skillExercises: [{ id: 22070 }],
+          },
+          {
+            name: '71 · Aufbau: Ein Parallelogramm ergänzen, das kein Rechteck ist',
+            skillExercises: [{ id: 22071 }],
+          },
+          {
+            name: '72 · Aufbau: Längenfaktor und Flächenfaktor unterscheiden',
+            skillExercises: [{ id: 22072 }],
+          },
+          {
+            name: '73 · Aufbau: Prismenvolumen oder Pyramidenhöhe aus einer Skizze bestimmen',
+            skillExercises: [{ id: 22073 }],
+          },
+          {
+            name: '74 · Transfer: Einen vorgegebenen Lotfußpunkt überprüfen',
+            skillExercises: [{ id: 22074 }],
+          },
+          {
+            name: '75 · Transfer: Einen Punkt mit gleichem Abstand oder ein gleichschenkliges Dreieck konstruieren',
+            skillExercises: [{ id: 22075 }],
+          },
+          {
+            name: '76 · Aufbau: Eine Ebene orthogonal zu einer Geraden angeben',
+            skillExercises: [{ id: 22076 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 8. Prüfungstransfer und PLA',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '77 · Transfer: Alle natürlichen Lösungen eines Gleichungssystems finden',
+            skillExercises: [{ id: 22077 }],
+          },
+          {
+            name: '78 · Transfer: Ein eindeutig lösbares Gleichungssystem zu einer Wunschlösung bauen',
+            skillExercises: [{ id: 22078 }],
+          },
+          {
+            name: '79 · Transfer: Funktionen konstruieren und jede Eigenschaft prüfen',
+            skillExercises: [{ id: 22079 }],
+          },
+          {
+            name: '80 · Transfer: Ein mehrstufiges Glücksspiel mit vorgegebenem Veranstaltergewinn entwerfen',
+            skillExercises: [{ id: 22080 }],
+          },
+          {
+            name: '81 · Transfer: Gemischter Pflichtteil-Check: Analysis, Stochastik und Vektoren',
+            skillExercises: [{ id: 22081 }],
+          },
+        ],
+      },
+      {
+        title: 'Pflichtteiltrainer · 9. Matrizen – optionales Zusatzmodul',
+        headerColor: 'medium',
+        twColor: 'bg-fuchsia-500',
+        skillGroups: [
+          {
+            name: '82 · Basis: Matrizenformate, Matrix-Vektor-Produkt und Linearität',
+            skillExercises: [{ id: 22082 }],
+          },
+          {
+            name: '83 · Aufbau: Eine inverse Matrix bestimmen und eine Matrixgleichung lösen',
+            skillExercises: [{ id: 22083 }],
+          },
+          {
+            name: '84 · Transfer: Mehrere LGS-Lösungen und eine nicht invertierbare Matrix erklären',
+            skillExercises: [{ id: 22084 }],
           },
         ],
       },
@@ -2659,10 +3045,12 @@ export const navigationData: { [key: number]: Navigation } = {
         title: 'Grundlagen',
         headerColor: 'medium',
         twColor: 'bg-fuchsia-500',
-        skillGroups: [{
+        skillGroups: [
+          {
             name: 'Wechselspannungsanalyse Drehstrommotor',
             skillExercises: [{ id: 26000 }],
-          },],
+          },
+        ],
       },
     ],
     mapHeight: 0,

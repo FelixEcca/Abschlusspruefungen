@@ -8,6 +8,7 @@ export function FunctionGraph({
   yMax,
   xStep = 1,
   yStep = 1,
+  xTickLabel,
 }: {
   fn: (x: number) => number
   xMin: number
@@ -16,13 +17,14 @@ export function FunctionGraph({
   yMax: number
   xStep?: number
   yStep?: number
+  xTickLabel?: (x: number) => string
 }) {
   const sx = (x: number) => 38 + (300 * (x - xMin)) / (xMax - xMin)
   const sy = (y: number) => 18 + (220 * (yMax - y)) / (yMax - yMin)
   const yAxisX = sx(Math.max(xMin, Math.min(xMax, 0)))
   const points = Array.from({ length: 601 }, (_, i) => {
     const x = xMin + ((xMax - xMin) * i) / 600
-    return `${sx(x)},${sy(Math.max(yMin, Math.min(yMax, fn(x))))}`
+    return `${sx(x)},${sy(fn(x))}`
   }).join(' ')
   return (
     <svg
@@ -46,7 +48,7 @@ export function FunctionGraph({
         <g key={x}>
           <line x1={sx(x)} x2={sx(x)} y1="18" y2="238" stroke="#cbd5e1" />
           <text x={sx(x)} y={sy(0) + 16} fontSize="11" textAnchor="middle">
-            {Number(x.toFixed(2))}
+            {xTickLabel ? xTickLabel(x) : Number(x.toFixed(2))}
           </text>
         </g>
       ))}
@@ -72,12 +74,21 @@ export function FunctionGraph({
       <text x={yAxisX + 8} y="14" fontSize="13">
         y
       </text>
-      <polyline
-        points={points}
-        fill="none"
-        stroke="#2563eb"
-        strokeWidth="2.5"
-      />
+      <svg
+        x="38"
+        y="18"
+        width="300"
+        height="220"
+        viewBox="38 18 300 220"
+        overflow="hidden"
+      >
+        <polyline
+          points={points}
+          fill="none"
+          stroke="#2563eb"
+          strokeWidth="2.5"
+        />
+      </svg>
     </svg>
   )
 }
@@ -331,5 +342,142 @@ export function ProbabilityTable({ values }: { values: number[] }) {
         </tbody>
       </table>
     </div>
+  )
+}
+
+export function ReflectionSketch({
+  x,
+  y,
+  z,
+}: {
+  x: number
+  y: number
+  z: number
+}) {
+  const scale = 95 / Math.max(Math.abs(x), Math.abs(y), Math.abs(z), 1)
+  const project = (a: number, b: number, c: number) => [
+    155 + scale * (b - 0.55 * a),
+    195 + scale * (0.4 * a - c),
+  ]
+  const a = project(x, y, z),
+    b = project(-x, y, z),
+    foot = project(0, y, z)
+  return (
+    <svg
+      viewBox="0 0 350 280"
+      className="my-4 w-full"
+      role="img"
+      aria-label="Spiegelung von A an der x2-x3-Ebene, schematisches räumliches Koordinatensystem"
+    >
+      <path
+        d="M45 215L155 195L310 195L200 215Z M155 195V20H310V195Z"
+        fill="#eff6ff"
+        stroke="#cbd5e1"
+      />
+      <path
+        d="M245 130L65 260 M25 195H330 M155 265V10"
+        stroke="#334155"
+        fill="none"
+      />
+      <text x="48" y="273" fontSize="13">
+        x₁
+      </text>
+      <text x="329" y="190" fontSize="13">
+        x₂
+      </text>
+      <text x="165" y="18" fontSize="13">
+        x₃
+      </text>
+      <text x="140" y="211" fontSize="12">
+        O
+      </text>
+      <line
+        x1={a[0]}
+        y1={a[1]}
+        x2={b[0]}
+        y2={b[1]}
+        stroke="#2563eb"
+        strokeDasharray="5 4"
+      />
+      <line
+        x1={foot[0]}
+        y1={foot[1]}
+        x2={foot[0]}
+        y2="195"
+        stroke="#94a3b8"
+        strokeDasharray="3 3"
+      />
+      {[
+        { p: a, label: 'A', dx: -15 },
+        { p: b, label: 'A′', dx: 8 },
+      ].map(({ p, label, dx }) => (
+        <g key={label}>
+          <circle cx={p[0]} cy={p[1]} r="4" fill="#2563eb" />
+          <text x={p[0] + dx} y={p[1] - 10} fontSize="14">
+            {label}
+          </text>
+        </g>
+      ))}
+      <text x="12" y="21" fontSize="11" fill="#64748b">
+        Schematische Darstellung
+      </text>
+    </svg>
+  )
+}
+
+export function Dartboard({ radii }: { radii: [number, number, number] }) {
+  const scale = 105 / radii[2]
+  return (
+    <svg
+      viewBox="0 0 320 255"
+      className="mx-auto my-4 w-full max-w-sm"
+      role="img"
+      aria-label={`Zielscheibe mit Radien ${radii.join(', ')} Längeneinheiten`}
+    >
+      {[2, 1, 0].map(i => (
+        <circle
+          key={i}
+          cx="145"
+          cy="120"
+          r={radii[i] * scale}
+          fill={['#fecaca', '#bfdbfe', '#bbf7d0'][i]}
+          stroke="#334155"
+        />
+      ))}
+      <path d="M145 120H270" stroke="#334155" />
+      <text x="140" y="139" fontSize="12">
+        0
+      </text>
+      {radii.map(r => (
+        <g key={r}>
+          <path d={`M${145 + r * scale} 116v8`} stroke="#334155" />
+          <text x={145 + r * scale} y="139" textAnchor="middle" fontSize="12">
+            {r}
+          </text>
+        </g>
+      ))}
+      <text x="143" y="112" fontSize="12" textAnchor="middle">
+        rot
+      </text>
+      <text
+        x="143"
+        y={120 - ((radii[0] + radii[1]) * scale) / 2}
+        fontSize="12"
+        textAnchor="middle"
+      >
+        blau
+      </text>
+      <text
+        x="143"
+        y={120 - ((radii[1] + radii[2]) * scale) / 2}
+        fontSize="12"
+        textAnchor="middle"
+      >
+        grün
+      </text>
+      <text x="145" y="249" textAnchor="middle" fontSize="12">
+        Radien in Längeneinheiten
+      </text>
+    </svg>
   )
 }

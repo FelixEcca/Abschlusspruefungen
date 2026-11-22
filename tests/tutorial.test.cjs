@@ -459,6 +459,7 @@ describe(
           },
         },
         '@/helper/ai-context': { htmlToPromptText: html => html },
+        '@/helper/markdown-math': { normalizeMathForMarkdown: text => text },
         '@/content/exercises': { exercisesData: { 11: {} } },
         '@/components/gisela/GiselaAvatar': { GiselaAvatar: () => null },
         '@/components/gisela/Gisela': { Gisela: () => null },
